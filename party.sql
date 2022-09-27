@@ -97,3 +97,13 @@ CREATE TABLE event_venues (
     updated_at timestamp not NULL,
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
+
+CREATE TABLE event_venues_votes (
+    id SERIAL primary key,
+    event_venues_id int not NULL,
+    user_id int not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_venues_id) REFERENCES event_venues(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
