@@ -85,3 +85,15 @@ CREATE TABLE comments (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
+
+CREATE TABLE event_venues (
+    id SERIAL primary key,
+    name varchar not NULL,
+    address_link varchar not NULL,
+    indoor boolean,
+    parking_slots int,
+    event_id int not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
