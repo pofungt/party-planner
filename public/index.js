@@ -1,6 +1,6 @@
 import { loadEvents } from "./loadEvent";
 
-loadMemos()
+loadEvents()
 
 window.addEventListener('load', () => {
 	loadEvents();
