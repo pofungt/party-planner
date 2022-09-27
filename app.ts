@@ -19,7 +19,7 @@ client.connect();
 const app = express();
 
 const sessionMiddleware = expressSession({
-  secret: process.env.SESSION_SECRET as string,
+  secret: process.env.SESSION_SECRET || "",
   resave: true,
   saveUninitialized: true,
   cookie: { secure: false },
