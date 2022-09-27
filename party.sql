@@ -25,3 +25,28 @@ CREATE TABLE events (
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
+CREATE TABLE participants (
+    id SERIAL primary key,
+    event_id int not NULL,
+    user_id int not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE items (
+    id SERIAL primary key,
+    name varchar not NULL,
+    purchased_on date,
+    type_name varchar not NULL,
+    event_id int not NULL,
+    user_id int not NULL,
+    quantity int,
+    price int,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
