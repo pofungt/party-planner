@@ -1,5 +1,3 @@
-CREATE DATABASE party;
-
 CREATE TABLE users (
     id SERIAL primary key,
     first_name varchar not NULL,

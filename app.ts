@@ -4,6 +4,7 @@ import path from "path";
 import pg from "pg";
 import dontenv from "dotenv";
 import grant from "grant";
+import { loginRoutes } from "./routes/loginRoutes"
 
 dontenv.config();
 
@@ -12,12 +13,13 @@ export const client = new pg.Client({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
 });
+
 client.connect();
 
 const app = express();
 
 const sessionMiddleware = expressSession({
-  secret: "Tecky Academy teaches typescript",
+  secret: process.env.SESSION_SECRET as string,
   resave: true,
   saveUninitialized: true,
   cookie: { secure: false },
@@ -48,6 +50,8 @@ app.use(express.json());
 app.use(sessionMiddleware, express.static("public"));
 
 app.use(grantExpress as express.RequestHandler);
+
+app.use('/login', loginRoutes);
 
 app.use((req, res) => {
   res.status(404);
