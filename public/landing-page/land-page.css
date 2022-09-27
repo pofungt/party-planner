@@ -2,29 +2,62 @@
 /* font-family: 'Lato', sans-serif;
    font-family: 'Pacifico', cursive; */
 
-.header{
-    background-color: #EFEFD0;
-}
-
-#logo-box{
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-
-#logo{
-    border-radius: 10px;
-    width: 70px;
-    height: auto;
-    margin: 20px;
-}
-
 #logo-name{
     font-size: 40px;
     font-family: 'Pacifico', cursive;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
 }
 
-.user-name{
+.introduction-box{
+    background-color: #EFEFD0;
+    border-radius: 20px;
+}
+
+.description-box{
+    background-color: #A6B7F4;
+}
+
+.description{
     font-size: 30px;
+    font-family:'Lato', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+}
+
+.description-details{
+    font-size: 18px;
+    font-family:'Lato', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    margin-top: 20px;
+}
+
+.login-button{
+    font-size: 20px;
+    color: #293241;
     font-family: 'Lato', sans-serif;
+    background-color: #F2D492;
+    padding: 10px 40px 10px 40px;
+    border-radius: 20px;
+    margin: 10px;
+}
+
+
+.signup-button{
+    font-size: 20px;
+    color: #293241;
+    font-family: 'Lato', sans-serif;
+    background-color: #F2D492;
+    padding: 10px 40px 10px 40px;
+    border-radius: 20px;
+    margin: 10px;
 }

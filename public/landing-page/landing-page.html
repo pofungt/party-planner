@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./land-page.css" />
     <title>Party Planner</title>
 </head>
@@ -18,33 +19,25 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-12 header">
-                <div class="col-sm-4">
-                    <div class="logo-box">
-                        <img id="logo" src="/public/landing-page/img-landing-page/party_icon.jpg"
-                            alt="This is a website logo" />
-                        <div class="logo-name">Party Planner</div>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div>
-                        <div class="user-name">Name</div>
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="Description-box">
-                    <div class="logo-name">Party Planner</div>
+            <div class="col-8">
+                <div class="introduction-box">
+                    <header id="logo-name">Party Planner</header>
+                    <div class="description-box">
+                        <div class="description">Description</div>
+                        <div class="description-details">
+                            Try using the Party Planner to manage your party agenda with friends!
+                        </div>
 
+                    </div>
                 </div>
+            </div>
+            <div class="col-4 buttons">
+                <button type="button" class="login-button">Log in</button>
+                <button type="button" class="signup-button">Sign up</button>
             </div>
         </div>
     </div>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="./land-page.js"></script>
