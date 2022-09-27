@@ -118,3 +118,13 @@ CREATE TABLE event_date_time (
     updated_at timestamp not NULL,
     FOREIGN KEY (event_id) REFERENCES events(id)
 );
+
+CREATE TABLE event_date_time_votes (
+    id SERIAL primary key,
+    event_date_time_id int not NULL,
+    user_id int not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_date_time_id) REFERENCES event_date_time(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
