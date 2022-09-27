@@ -1,0 +1,19 @@
+body {
+    font-family: 'Franklin Gothic Medium';
+    padding:10px;
+    background-color: #F2D492;
+
+}
+
+.table-header {
+    background-color: white;
+    border-radius: 10px 10px 0 0;
+}
+
+#add-new-party-button {
+    width: 500px;
+    background-color: #F2D492;
+    color: black;
+    border-radius: 10px;
+    text-align: left;
+}
