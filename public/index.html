@@ -17,70 +17,80 @@
     <div class="row">
         <div class="col-sm-9">
             <button class="btn btn-primary" id="add-new-party-button">
-                Add New Party 
+                Add New Party
             </button>
             <div class="parties-list-container">
                 <header>
                     Parties:
                 </header>
                 <div class="table-container">
-                    <table class="table">
+                    <table class="table" id="table-body">
                         <thead>
-                          <tr class="table-header">
-                            <th scope="col">ID</th>
-                            <th scope="col">PARTY NAME</th>
-                            <th scope="col">ADDRESS</th>
-                            <th scope="col">DATE</th>
-                            <th scope="col">TIME</th>
-                            <th scope="col">STATUS</th>
-                          </tr>
+                            <tr id="table-header">
+                                <th scope="col">ID</th>
+                                <th scope="col">PARTY NAME</th>
+                                <th scope="col">ADDRESS</th>
+                                <th scope="col">DATE</th>
+                                <th scope="col">TIME</th>
+                                <th scope="col">STATUS</th>
+                            </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">001</th>
-                            <td>Duncan's BD</td>
-                            <td>04 One Road, Markham</td>
-                            <td>06 Sep 2022</td>
-                            <td>9:00am - 12:00pm</td>
-                            <td>
-                                <div class="status-bar">Completed</div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">001</th>
-                            <td>Frankie's BD</td>
-                            <td>04 One Road, Markham</td>
-                            <td>06 Sep 2022</td>
-                            <td>9:00am - 12:00pm</td>
-                            <td>
-                                <div class="status-bar">Completed</div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <th scope="row">001</th>
-                            <td>Candace's BD</td>
-                            <td>04 One Road, Markham</td>
-                            <td>06 Sep 2022</td>
-                            <td>9:00am - 12:00pm</td>
-                            <td>
-                                <div class="status-bar">Completed</div>
-                            </td>
-                          </tr>
+                            <tr>
+                                <th scope="row">001</th>
+                                <td>Duncan's BD</td>
+                                <td>04 One Road, Markham</td>
+                                <td>06 Sep 2022</td>
+                                <td>9:00am - 12:00pm</td>
+                                <td>
+                                    <div class="status-bar">Completed</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">001</th>
+                                <td>Frankie's BD</td>
+                                <td>04 One Road, Markham</td>
+                                <td>06 Sep 2022</td>
+                                <td>9:00am - 12:00pm</td>
+                                <td>
+                                    <div class="status-bar">Completed</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">001</th>
+                                <td>Candace's BD</td>
+                                <td>04 One Road, Markham</td>
+                                <td>06 Sep 2022</td>
+                                <td>9:00am - 12:00pm</td>
+                                <td>
+                                    <div class="status-bar">Completed</div>
+                                </td>
+                            </tr>
                         </tbody>
-                      </table>
+                    </table>
+                    <span class="turn-page-button-container">
+                        <a href="#" class="previous round"><</a>
+                        <a href="#" class="next round">></a>
+                    </span>
+
                 </div>
             </div>
         </div>
 
         <div class="col-sm-3">
             <div class="calendar">
-                
+                <h4>Start Time:
+                    <input type="datetime-local" id="Start_DatetimeLocal">
+                </h4>
+                <h4>End Time:
+                    <input type="datetime-local" id="End_DatetimeLocal">
+                </h4>
             </div>
         </div>
 
- 
+
     </div>
-   
+
     <script src="/socket.io/socket.io.js"></script>
     <script type="module" src="./index.js"></script>
 </body>
