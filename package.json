@@ -7,6 +7,8 @@
     "start": "ts-node-dev app.ts",
     "format": "prettier --write .",
     "initDB": "ts-node ./util/initDB.ts",
+    "clearDB": "ts-node ./util/clearDB.ts",
+    "truncateDB": "ts-node ./util/truncateDB.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
