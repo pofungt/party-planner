@@ -50,3 +50,15 @@ CREATE TABLE items (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE TABLE time_blocks (
+    id SERIAL primary key,
+    description varchar not NULL,
+    event_id int not NULL,
+    user_id int not NULL,
+    start_time time not NULL,
+    end_time time not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (event_id) REFERENCES events(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
