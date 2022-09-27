@@ -108,3 +108,7 @@ public/uploads
 
 # memos.json file
 memos.json
+
+# Others
+.DS_Store
+.idea
