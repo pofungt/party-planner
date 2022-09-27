@@ -1,25 +1,32 @@
-import { client } from "../app";
+import pg from 'pg';
+import dotenv from 'dotenv';
 
-client.query(`
-TRUNCATE TABLE users;
+dotenv.config();
 
-TRUNCATE TABLE events;
+const client = new pg.Client({
+    database: process.env.DB_NAME,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+  });
 
-TRUNCATE TABLE participants;
+async function main() {
+    await client.connect();
 
-TRUNCATE TABLE items;
+    await client.query(`
+    DELETE FROM event_date_time_votes;
+    DELETE FROM event_date_time;
+    DELETE FROM event_venues_votes;
+    DELETE FROM event_venues;
+    DELETE FROM comments;
+    DELETE FROM time_block_item;
+    DELETE FROM time_blocks;
+    DELETE FROM items;
+    DELETE FROM participants;
+    DELETE FROM events;
+    DELETE FROM users;
+    `);    
 
-TRUNCATE TABLE time_blocks;
+    client.end();
+}
 
-TRUNCATE TABLE time_block_item;
-
-TRUNCATE TABLE comments;
-
-TRUNCATE TABLE event_venues;
-
-TRUNCATE TABLE event_venues_votes;
-
-TRUNCATE TABLE event_date_time;
-
-TRUNCATE TABLE event_date_time_votes;
-`);
+main();

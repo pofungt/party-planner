@@ -12,6 +12,7 @@ export const client = new pg.Client({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
 });
+
 client.connect();
 
 const app = express();
