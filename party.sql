@@ -72,3 +72,16 @@ CREATE TABLE time_block_item (
     FOREIGN KEY (item_id) REFERENCES items(id),
     FOREIGN KEY (time_block_id) REFERENCES time_blocks(id)
 );
+
+CREATE TABLE comments (
+    id SERIAL primary key,
+    user_id int not NULL,
+    event_id int not NULL,
+    category varchar not NULL,
+    content varchar not NULL,
+    anonymous boolean not NULL,
+    created_at timestamp not NULL,
+    updated_at timestamp not NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (event_id) REFERENCES events(id)
+);
