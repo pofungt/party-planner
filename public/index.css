@@ -1,4 +1,5 @@
 body {
+<<<<<<< HEAD
     font-family: 'Franklin Gothic Medium';
     padding:10px;
     background-color: #FDFDF4;
@@ -41,3 +42,22 @@ a:hover {
     background-color: #f1f1f1;
     color: grey;
   }
+=======
+  font-family: "Franklin Gothic Medium";
+  padding: 10px;
+  background-color: #f2d492;
+}
+
+.table-header {
+  background-color: white;
+  border-radius: 10px 10px 0 0;
+}
+
+#add-new-party-button {
+  width: 500px;
+  background-color: #f2d492;
+  color: black;
+  border-radius: 10px;
+  text-align: left;
+}
+>>>>>>> cb282f00eb10a2b208ee462993d1acad56ae729d
