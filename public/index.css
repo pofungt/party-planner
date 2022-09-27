@@ -1,5 +1,4 @@
 body {
-<<<<<<< HEAD
     font-family: 'Franklin Gothic Medium';
     padding:10px;
     background-color: #FDFDF4;
@@ -42,7 +41,6 @@ a:hover {
     background-color: #f1f1f1;
     color: grey;
   }
-=======
   font-family: "Franklin Gothic Medium";
   padding: 10px;
   background-color: #f2d492;
@@ -60,4 +58,3 @@ a:hover {
   border-radius: 10px;
   text-align: left;
 }
->>>>>>> cb282f00eb10a2b208ee462993d1acad56ae729d
