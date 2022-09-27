@@ -4,6 +4,7 @@ import path from "path";
 import pg from "pg";
 import dontenv from "dotenv";
 import grant from "grant";
+import { loginRoutes } from "./routes/loginRoutes"
 
 dontenv.config();
 
@@ -49,6 +50,8 @@ app.use(express.json());
 app.use(sessionMiddleware, express.static("public"));
 
 app.use(grantExpress as express.RequestHandler);
+
+app.use('/login', loginRoutes);
 
 app.use((req, res) => {
   res.status(404);
