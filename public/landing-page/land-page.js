@@ -4,15 +4,27 @@ document
         const userEmail = document.querySelector("#user-email").value
         const userPassword = document.querySelector("#user-password").value
     if (userEmail !== "" && userPassword !== ""){
+        const formObj = {
+            'email' : userEmail,
+            'password' : userPassword
+        }
         const res = await fetch ('/login', {
             method: 'POST',
+            headers: {
+                'content-Type': 'application/json'
+            },
+            body: JSON.stringify(formObj)
         })
-        const result = await res.
+        const loginResult = await res.json();
+        if(loginResult.status === true){
+            window.location = "/"
+        }
     }
-import { registerButtons } from "./registerButtons.js";
 
-document.querySelector(".login-button").addEventListener('click', function(event){
-    
-});
+
+
+
+
+import { registerButtons } from "./registerButtons.js";
 
 registerButtons();
