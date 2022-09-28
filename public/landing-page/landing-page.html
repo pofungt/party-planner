@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./land-page.css" />
     <title>Party Planner</title>
 </head>
@@ -32,23 +33,30 @@
             </div>
             <div class="col-4 buttons">
                 <button type="button" class="login-button">Log in</button>
-                <button type="button" class="signup-button" data-bs-toggle="modal" data-bs-target="#registerModal">Sign up</button>
+                <button type="button" class="signup-button" data-bs-toggle="modal" data-bs-target="#register-modal">Sign up</button>
             </div>
         </div>
     </div>
 
     
-    <div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="register-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
+              <h5 class="modal-title">CREATE ACCOUNT</h5>
+              <div class="exit-modal">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
             </div>
             <div class="modal-body">
-                Hello World
+                <div class="input-group">
+                    <div class="input-title">Your E-mail Address *</div>
+                    <div>
+                        <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
             <div class="modal-footer">
-              <button id="close_custom" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="submit_custom" type="button" class="btn btn-primary">Submit</button>
+              <button id="register-save" type="button" class="btn btn-primary">Save</button>
             </div>
           </div>
         </div>
