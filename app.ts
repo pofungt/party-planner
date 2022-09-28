@@ -6,6 +6,7 @@ import dontenv from "dotenv";
 import grant from "grant";
 import { loginRoutes } from "./routes/loginRoutes";
 import { registerRoutes } from "./routes/registerRoutes";
+import { eventsRoutes } from "./eventsRoutes";
 
 dontenv.config();
 
@@ -54,6 +55,7 @@ app.use(grantExpress as express.RequestHandler);
 
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
+app.use('/events', eventsRoutes);
 
 app.use((req, res) => {
   res.status(404);
