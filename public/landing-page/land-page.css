@@ -66,3 +66,8 @@
     box-shadow: 0px 1px 18px #F2D492;
 }
 
+.input-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
