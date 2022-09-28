@@ -82,4 +82,13 @@
 .form-label{
     color: #293241;
     font-family: 'Lato', sans-serif;
+
+.input-title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.password-detail {
+    font-size: 12px;
 }
