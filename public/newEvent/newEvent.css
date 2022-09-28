@@ -1,0 +1,21 @@
+.bi-chevron-left{
+    font-size: 40px;
+    position:absolute;
+    top: 80px;
+    left: 40px;
+    color: #444A58;
+}
+
+.box{
+    margin: 5px;
+}
+
+.title{
+    font-size: 20px;
+    font-family:'Lato', sans-serif;
+    padding: 3px;
+}
+
+.event-text-box{
+    width: 400px;
+}
