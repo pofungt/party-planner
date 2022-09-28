@@ -47,6 +47,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <div></div>
                     <h5 class="modal-title">LOG IN</h5>
                     <div class="exit-modal">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -56,19 +57,19 @@
                     <div class="input-group">
                         <div class="input-title">Welcome back! Please enter your details.</div>
                         <form>
-                            <div class="mb-3">
-                                <label for="inputEmail" class="form-label">Email address</label>
+                            <div class="user-email input-panel mb-3">
+                                <div class="form-label">Email address</div>
                                 <input type="email" class="form-control" id="user-email" aria-describedby="emailHelp">
                                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="inputPassword" class="form-label">Password</label>
+                            <div class="user-password input-panel mb-3">
+                                <label class="form-label">Password</label>
                                 <input type="password" class="form-control" id="user-password">
                             </div>
-                            <div class="mb-3 form-check">
+                            <div class="input-panel mb-3">
                                 <input type="checkbox" class="form-check-input" id="userLoginRememberCheck">
-                                <label class="form-check-label" for="rememberUserLoginID">Remember me.</label>
+                                <label class="form-check-label" for="rememberUserLoginID">Remember me</label>
                             </div>
                         </form>
                     </div>
@@ -85,6 +86,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <div></div>
                     <h5 class="modal-title">CREATE ACCOUNT</h5>
                     <div class="exit-modal">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -126,7 +128,7 @@
                                 <input type="password" class="form-control" name="password" aria-label="password"
                                     aria-describedby="basic-addon1">
                             </div>
-                            <div class="password-detail">Password must be 8-20 characters, including: at least one capital letter, at least one small letter, one number and one special character</div>
+                            <div class="form-text">Password must be 8-20 characters, including: at least one capital letter, at least one small letter, one number and one special character</div>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-title">Confirm Password *</div>
