@@ -66,8 +66,15 @@
     box-shadow: 0px 1px 18px #F2D492;
 }
 
-.input-title{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.modal-header > .modal-title{
+    font-size: 24px;
+    font-weight: bold;
+    color: #293241;
+    font-family: 'Lato', sans-serif;
+}
+
+.input-group > .input-title{
+    font-size: 20px;
+    color: #293241;
+    font-family: 'Lato', sans-serif;
 }
