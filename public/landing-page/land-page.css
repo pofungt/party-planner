@@ -72,18 +72,10 @@
 }
 
 .modal-title{
-    font-size: 30px;
+    font-size: 25px;
     font-weight: bold;
     color: #293241;
     font-family: 'Lato', sans-serif;
-}
-
-.input-title{
-    text-align: center;
-    font-size: 18px;
-    color: grey;
-    font-family: 'Lato', sans-serif;
-    margin: 10px;
 }
 
 .form-label{
@@ -95,6 +87,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.input-title {
+    text-align: center;
 }
 
 .form-control {
@@ -110,7 +106,7 @@
     border-color: #e1341e;
 }
 
-#login-form-submit {
+#login-form-submit, #register-submit {
     width: 100%;
 }
 
@@ -121,9 +117,17 @@
     background-color: white;
 }
 
-.input-panel {
+.form-header {
+    margin: 0 0 5px 0;
+}
+
+#login-modal .input-panel {
     margin: 20px 20px;
     position: relative;
+}
+
+#register-modal .input-panel {
+    margin: 0 20px;
 }
 
 .user-email .form-label {
@@ -133,3 +137,4 @@
 .user-password .form-label {
     color: #e1341e;
 }
+
