@@ -32,12 +32,33 @@
                 </div>
             </div>
             <div class="col-4 buttons">
-                <button type="button" class="login-button">Log in</button>
+                <button type="button" class="login-button" data-bs-toggle="modal" data-bs-target="#login-modal">Log in</button>
                 <button type="button" class="signup-button" data-bs-toggle="modal" data-bs-target="#register-modal">Sign up</button>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="login-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">LOG IN</h5>
+              <div class="exit-modal">
+                <i class="fa-solid fa-xmark"></i>
+              </div>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <div class="input-title">Welcome back! Please enter your details.</div>
+                    <div>
+                        <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            <div class="modal-footer">
+              <button id="register-save" type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
     
     <div class="modal fade" id="register-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -61,25 +82,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Register</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Hello World
-                    <div class="modal-footer">
-                        <button id="close_custom" type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button id="submit_custom" type="button" class="btn btn-primary">Submit</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
