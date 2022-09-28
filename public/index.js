@@ -1,4 +1,4 @@
-import { loadEvents } from "./loadEvent";
+import { loadEvents } from "./loadEvent.js";
 
 loadEvents()
 
