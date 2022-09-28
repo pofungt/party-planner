@@ -71,3 +71,7 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.password-detail {
+    font-size: 12px;
+}

@@ -12,8 +12,8 @@ async function registerUser(req: Request, res: Response) {
 		logger.debug('Before reading DB');
     
 		const loginUser = (await client.query(
-			`SELECT * FROM users WHERE email = $1 AND phone = $2`,
-			[req.body.email, req.body.phone]
+			`SELECT * FROM users WHERE email = $1`,
+			[req.body.email]
 		)).rows[0];
 
 		if (!loginUser) {
