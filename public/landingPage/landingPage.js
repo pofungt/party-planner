@@ -87,4 +87,4 @@ document.querySelector('.register-form')
             window.location.href = "./landing-page.html";
         }   
     }
-});
+}); 
