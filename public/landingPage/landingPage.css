@@ -88,15 +88,14 @@
     box-shadow: 0px 1px 12px #F2D492;
 }
 
-.modal-header > .modal-title{
-    font-size: 24px;
-    font-weight: bold;
-    color: #293241;
-    font-family: 'Lato', sans-serif;
+.modal-header {
+    display: flex;
+    justify-content: space-between;
 }
 
-.input-group > .input-title{
-    font-size: 20px;
+.modal-title{
+    font-size: 25px;
+    font-weight: bold;
     color: #293241;
     font-family: 'Lato', sans-serif;
 }
@@ -106,20 +105,58 @@
     font-family: 'Lato', sans-serif;
 }
 
-.input-title{
+.input-group {
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.password-detail {
-    font-size: 12px;
+.input-title {
+    text-align: center;
 }
 
+.form-control {
+    border-width: 2px;
+    border-radius: 10px;
+}
 
+#user-email {
+    border-color: #1ecbe1;
+}
 
+#user-password {
+    border-color: #e1341e;
+}
 
+#login-form-submit, #register-submit {
+    width: 100%;
+}
 
+.form-label {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    background-color: white;
+}
 
+.form-header {
+    margin: 0 0 5px 0;
+}
 
+#login-modal .input-panel {
+    margin: 20px 20px;
+    position: relative;
+}
+
+#register-modal .input-panel {
+    margin: 0 20px;
+}
+
+.user-email .form-label {
+    color: #1ecbe1;
+}
+
+.user-password .form-label {
+    color: #e1341e;
+}
 
