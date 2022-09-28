@@ -1,13 +1,13 @@
 .bi-chevron-left{
     font-size: 40px;
-    position:absolute;
-    top: 80px;
-    left: 40px;
+    position: fixed;
+    top: 90px;
+    left: 50px;
     color: #444A58;
 }
 
 .box{
-    margin: 5px;
+    margin:10px 10px;
 }
 
 .title{
@@ -18,4 +18,12 @@
 
 .event-text-box{
     width: 400px;
+}
+
+.venue-check{
+    display: flex;
+}
+
+.form-check{
+    margin: 10px;
 }
