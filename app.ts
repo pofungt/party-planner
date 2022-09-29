@@ -6,7 +6,7 @@ import dontenv from "dotenv";
 import grant from "grant";
 import { loginRoutes } from "./routes/loginRoutes";
 import { registerRoutes } from "./routes/registerRoutes";
-import { eventsRoutes } from "./eventsRoutes";
+import { eventsRoutes } from "./routes/eventsRoutes";
 import { isLoggedIn } from "./util/guard";
 
 dontenv.config();
@@ -58,6 +58,7 @@ app.use(
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/events', eventsRoutes);
+
 
 app.use(isLoggedIn, express.static("private"));
 
