@@ -7,6 +7,7 @@
     cursor: pointer;
 }
 
+
 #from-container{
     display: flex;
     justify-content: center;
@@ -69,17 +70,19 @@
     margin-left: 10px;
     width: 70px;
 }
-
-#event-submit{
+.submit-btn{
     display: flex;
     justify-content: center;
+    max-height: 50px;
 }
 
-.event-submit-btn{
-    cursor: pointer;
-    width: 130px;
-    margin-top: 20px;
+#event-submit{
+    border: none;
+    margin-top: 10px;
+    background-color: white;
 }
+
+
 
 .form-control{
     border-width: 2px;
