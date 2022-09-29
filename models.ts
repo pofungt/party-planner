@@ -9,6 +9,7 @@ export interface EventList {
     creator_id: Number;
     created_at?: String;
     updated_at?: String
+    status?: String
 }
 
 export interface Users {

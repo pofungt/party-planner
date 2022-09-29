@@ -26,5 +26,12 @@
         "email": "ironman@marvel.com",
         "phone": "212-203-6151",
         "password": "I am Ironman."
+    },
+    {
+        "firstName" : "ABCD",
+        "lastName": "EFGH",
+        "email": "test@test.com",
+        "phone": "1234",
+        "password": "test"
     }
 ]
