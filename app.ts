@@ -7,6 +7,7 @@ import grant from "grant";
 import { loginRoutes } from "./routes/loginRoutes";
 import { registerRoutes } from "./routes/registerRoutes";
 import { eventsRoutes } from "./eventsRoutes";
+import { isLoggedIn } from "./guard";
 
 dontenv.config();
 
@@ -49,7 +50,9 @@ const grantExpress = grant.express({
 
 app.use(express.json());
 
-app.use(sessionMiddleware, express.static("public"));
+app.use(sessionMiddleware, express.static("public", {index: "./landingPage/landingPage.html"}));
+
+app.use(isLoggedIn, express.static("private"));
 
 app.use(grantExpress as express.RequestHandler);
 
