@@ -1,11 +1,14 @@
 export interface EventList {
     id?: Number;
-    partyName : String;
-    address: String;
-    date: Date;
-    start_time: Date;
-    end_time: Date;
-    status: String;
+    name : String;
+    venue: String;
+    budget: Number;
+    date: String;
+    start_time: String;
+    end_time: String;
+    creator_id: Number;
+    created_at?: String;
+    updated_at?: String
 }
 
 export interface Users {
@@ -13,6 +16,8 @@ export interface Users {
     firstName : String;
     lastName: String;
     email: String;
-    phone?: String;
+    phone: String;
     password: String;
+    created_at?: String;
+    updated_at?: String
 }
