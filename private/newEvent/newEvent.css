@@ -6,18 +6,19 @@
     color: #444A58;
 }
 
+.from-container{
+    display: flex;
+    justify-content: center;
+}
+
 .box{
     margin:10px 10px;
 }
 
-.title{
+.form-header{
     font-size: 20px;
     font-family:'Lato', sans-serif;
     padding: 3px;
-}
-
-.event-text-box{
-    width: 400px;
 }
 
 .venue-check{
@@ -28,16 +29,38 @@
 
 .form-check{
     margin: 10px;
+    font-size: 16
+    px;
+    font-family:'Lato', sans-serif;
 }
 
 .event-time-label{
-    font-size: 18px;
+    font-size: 19px;
     font-family:'Lato', sans-serif;
+    margin: 4px 10px 4px 0px;
+}
+
+.eventdate-box{
+    display: flex;
+    flex-direction: row;
+}
+
+.event-time-label-box{
+    display: flex;
+    flex-direction: column;
+}
+
+.event-time-label-box > input{
+    color: #495871;
+}
+
+.clock{
     margin: 4px 10px 4px 0px;
 }
 
 .parking-box{
     display: flex;
+    margin: 5px 0px;
 }
 
 .parking-number-input{
@@ -45,7 +68,20 @@
     width: 70px;
 }
 
+#event-submit{
+    display: flex;
+    justify-content: center;
+}
+
 .event-submit-btn{
     cursor: pointer;
     width: 130px;
+    margin-top: 20px;
 }
+
+.form-control{
+    border-width: 2px;
+    border-radius: 10px;
+    width: 400px;
+}
+
