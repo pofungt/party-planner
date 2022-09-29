@@ -15,7 +15,7 @@
     margin:10px 10px;
 }
 
-.title{
+.form-header{
     font-size: 20px;
     font-family:'Lato', sans-serif;
     padding: 3px;
@@ -39,7 +39,7 @@
 }
 
 .event-time-label{
-    font-size: 18px;
+    font-size: 19px;
     font-family:'Lato', sans-serif;
     margin: 4px 10px 4px 0px;
 }
@@ -52,6 +52,10 @@
 .event-time-label-box{
     display: flex;
     flex-direction: column;
+}
+
+.event-time-label-box > input{
+    color: #495871;
 }
 
 .clock{
@@ -78,7 +82,5 @@
     margin-top: 20px;
 }
 
-input{
-    color: #495871;
-}
+
 
