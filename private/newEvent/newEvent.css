@@ -72,12 +72,12 @@
     display: flex;
     justify-content: center;
 }
+
 .event-submit-btn{
     cursor: pointer;
     width: 130px;
     margin-top: 20px;
 }
-
 
 .form-control{
     border-width: 2px;
