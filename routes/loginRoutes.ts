@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { logger } from '../util/logger';
 import { client } from '../app';
-import { checkPassword } from '../hash';
+import { checkPassword } from '../util/hash';
 
 export const loginRoutes = express.Router();
 

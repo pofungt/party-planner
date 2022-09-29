@@ -7,7 +7,7 @@ import grant from "grant";
 import { loginRoutes } from "./routes/loginRoutes";
 import { registerRoutes } from "./routes/registerRoutes";
 import { eventsRoutes } from "./eventsRoutes";
-import { isLoggedIn } from "./guard";
+import { isLoggedIn } from "./util/guard";
 
 dontenv.config();
 
