@@ -60,6 +60,7 @@
 
 .parking-box{
     display: flex;
+    margin: 5px 0px;
 }
 
 .parking-number-input{
