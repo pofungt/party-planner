@@ -48,17 +48,18 @@ const grantExpress = grant.express({
   },
 });
 
-app.use(express.json());
-
-app.use(sessionMiddleware, express.static("public", {index: "landingPage.html"}));
-
-app.use(isLoggedIn, express.static("private"));
-
-app.use(grantExpress as express.RequestHandler);
+app.use(
+  express.json(),
+  sessionMiddleware,
+  express.static("public", {index: "landingPage.html"}),
+  grantExpress as express.RequestHandler
+);
 
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/events', eventsRoutes);
+
+app.use(isLoggedIn, express.static("private"));
 
 app.use((req, res) => {
   res.status(404);

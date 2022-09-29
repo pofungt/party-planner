@@ -1,7 +1,6 @@
 document
     .querySelector("#login-form-submit")
     .addEventListener("click", async function (event) {
-        console.log("haha");
         const userEmail = document.querySelector("#user-email").value;
         const userPassword = document.querySelector("#user-password").value;
         if (userEmail !== "" && userPassword !== "") {
@@ -64,7 +63,7 @@ document.querySelector('.register-form')
         dataPass = false;
         alert("Invalid password format!");
     }
-
+    
     if (dataPass) {
         const res = await fetch('/register', {
             method: 'POST',
@@ -84,7 +83,7 @@ document.querySelector('.register-form')
             form.reset();
             alert("Unable to Register, please try again!");
         } else {
-            window.location.href = "./landing-page.html";
+            window.location.href = "./landingPage.html";
         }   
     }
 }); 
