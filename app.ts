@@ -62,8 +62,7 @@ app.use('/events', eventsRoutes);
 app.use(isLoggedIn, express.static("private"));
 
 app.use((req, res) => {
-  res.status(404);
-  res.sendFile(path.resolve("./public/404.html"));
+  res.status(404).sendFile(path.resolve("./public/404.html"));
 });
 
 const PORT = 8080;
