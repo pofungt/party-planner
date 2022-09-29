@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 
 export const isLoggedIn = (
 	req: express.Request,
@@ -10,6 +9,6 @@ export const isLoggedIn = (
 		//called Next here
 		next();
 	} else {
-		res.sendFile(path.resolve('./public/404.html'));
+		res.json({status: "Not Logged In"});
 	}
 };

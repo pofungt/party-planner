@@ -15,7 +15,6 @@ async function registerUser(req: Request, res: Response) {
 			`SELECT * FROM users WHERE email = $1`,
 			[req.body.email]
 		)).rows[0];
-
 		if (!loginUser) {
             const password = await hashPassword(req.body.password);
             await client.query(
