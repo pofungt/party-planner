@@ -17,7 +17,7 @@ document
             });
             const loginResult = await res.json();
             if (loginResult.status === true) {
-                window.location = "/";
+                window.location = "/index.html";
             }
         }
     });
@@ -73,17 +73,16 @@ document.querySelector('.register-form')
             body: JSON.stringify(formObj)
         });
         const registerResult = await res.json();
+        form.reset();
         if (registerResult.duplicate) {
-            form.reset();
             alert("Registered already!");
         } else if (registerResult.passwordNotMatch) {
-            form.reset();
             alert("Password not match!");
         } else if (!registerResult.status) {
-            form.reset();
             alert("Unable to Register, please try again!");
         } else {
-            window.location.href = "./landingPage.html";
+            const myModal = bootstrap.Modal.getInstance(document.getElementById('register-modal'))
+            myModal.hide();
         }   
     }
 }); 

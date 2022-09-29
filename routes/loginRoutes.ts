@@ -15,7 +15,6 @@ async function checkLogin(req: Request, res: Response) {
 			[req.body.email]
 		)).rows[0];
 
-
 		if (loginUser) {
 			const match = await checkPassword(req.body.password, loginUser.password);
 			if (match) {
