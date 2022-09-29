@@ -13,22 +13,26 @@ export async function loadEvents() {
 	eventsContainer.innerHTML = '';
 
 	for (let event of events) {
-		const today = new Date()
+		const date = new Date();
+		const today = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(),
+                date.getUTCDate(), date.getUTCHours(),
+                date.getUTCMinutes(), date.getUTCSeconds());
+		const eventDate = new Date(event.date);
 		let status = ""
-		if (today > event.date) {
-			status = "completed"
+		if (today > eventDate) {
+			status = "Completed"
 		} else {
 			status = "In Progress"
 		}
 		eventsContainer.innerHTML += `
         <tr id="table-header">
-            <th scope="col" id="ID_${event.ID}">${event.ID}</th>
-            <th scope="col" id="name_${event.ID}">${event.name}</th>
-            <th scope="col" id="address_${event.ID}">${event.address}</th>
-            <th scope="col" id="date_${event.ID}">${event.date}</th>
-            <th scope="col" id="start_time_${event.ID}">${event.start_time}</th>
-			<th scope="col" id="end_time_${event.ID}">${event.end_time}</th>
-            <th scope="col" id="event_status_${event.ID}">${status}</th>
+            <th scope="col" id="ID_${event.id}">${event.id}</th>
+            <th scope="col" id="name_${event.id}">${event.name}</th>
+            <th scope="col" id="address_${event.id}">${event.venue}</th>
+            <th scope="col" id="date_${event.id}">${eventDate.toDateString().slice(4)}</th>
+            <th scope="col" id="start_time_${event.id}">${event.start_time.slice(0,5)}</th>
+			<th scope="col" id="end_time_${event.id}">${event.end_time.slice(0,5)}</th>
+            <th scope="col" id="event_status_${event.id}">${status}</th>
         </tr>
         `;
     }
