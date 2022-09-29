@@ -42,5 +42,10 @@
 
 .parking-number-input{
     margin-left: 10px;
-    width: 30px;
+    width: 70px;
+}
+
+.event-submit-btn{
+    cursor: pointer;
+    width: 130px;
 }
