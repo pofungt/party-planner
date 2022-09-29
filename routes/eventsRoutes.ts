@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { client } from './app';
-import { EventList } from './models';
+import { client } from '../app';
+import { EventList } from '../models';
 
 export const eventsRoutes = express.Router();
 
@@ -15,3 +15,5 @@ async function getEventList (req: Request, res: Response) {
 
 		res.json(eventList);
 }
+
+eventsRoutes.post('/')
