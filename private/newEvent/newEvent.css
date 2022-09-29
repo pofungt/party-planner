@@ -21,10 +21,6 @@
     padding: 3px;
 }
 
-.event-text-box{
-    width: 400px;
-}
-
 .venue-check{
     display: flex;
     font-size: 16px;
@@ -72,7 +68,7 @@
     width: 70px;
 }
 
-.event-submit{
+#event-submit{
     display: flex;
     justify-content: center;
 }
@@ -83,4 +79,9 @@
 }
 
 
+.form-control{
+    border-width: 2px;
+    border-radius: 10px;
+    width: 400px;
+}
 
