@@ -2,6 +2,8 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import jsonfile from "jsonfile";
 import path from "path";
+import {Users} from "../models";
+import {Events} from "../models";
 
 dotenv.config();
 
@@ -14,8 +16,8 @@ const client = new pg.Client({
 async function main() {
     await client.connect();
 
-    let usersData = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
-    let eventsData = await jsonfile.readFile(path.join(__dirname,"/data/events.json"));
+    let usersData: Omit<Users, "id" | "created_at" | "updated_at">[] = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
+    let eventsData: Omit<Events,"id" | "creator_id" | "created_at" | "updated_at">[] = await jsonfile.readFile(path.join(__dirname,"/data/events.json"));
     for (const index in eventsData) {
         const user = (await client.query(`SELECT * FROM users WHERE email = $1;`,[usersData[index].email])).rows[0];
         await client.query(

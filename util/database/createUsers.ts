@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import jsonfile from "jsonfile";
 import path from "path";
 import {hashPassword} from "../../util/hash";
+import {Users} from "../models";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const client = new pg.Client({
 async function main() {
     await client.connect();
 
-    let usersData = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
+    let usersData: Omit<Users, "id" | "created_at" | "updated_at">[] = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
     for (const usersDatum of usersData) {
       const hashedPassword = await hashPassword(usersDatum.password);
       await client.query(

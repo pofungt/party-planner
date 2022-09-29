@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { client } from '../app';
-import { EventList } from '../models';
+import { EventList } from '../util/models';
 
 export const eventsRoutes = express.Router();
 
