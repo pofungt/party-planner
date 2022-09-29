@@ -14,10 +14,10 @@ const client = new pg.Client({
 async function main() {
     await client.connect();
 
+    let usersData = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
     let eventsData = await jsonfile.readFile(path.join(__dirname,"/data/events.json"));
-    const usersList = (await client.query(`SELECT * FROM users;`)).rows;
-    for (const index in usersList) {
-        const userId = usersList[index].id;
+    for (const index in eventsData) {
+        const user = (await client.query(`SELECT * FROM users WHERE email = $1;`,[usersData[index].email])).rows[0];
         await client.query(
             `INSERT INTO events 
             (name,venue,budget,date,start_time,end_time,creator_id,created_at,updated_at) 
@@ -29,7 +29,7 @@ async function main() {
                 eventsData[index].date,
                 eventsData[index].start_time,
                 eventsData[index].end_time,
-                userId
+                user.id
             ]
         );
     }
