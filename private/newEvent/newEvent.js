@@ -20,7 +20,7 @@ document
             eventVenue,
             indoor,
             outdoor,
-            eventDate
+            eventDate,
             startTime,
             endTime,
             eventRemark,
