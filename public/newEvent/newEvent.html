@@ -24,23 +24,23 @@
         <i class="bi bi-chevron-left"></i>
         <div class="row">
             <form>
-                <div class="event-name-box box">
+                <div class="event-name-box">
                     <div class="title">Name of the Event</div>
                     <input type="text" class="event-text-box">
                 </div>
-                <div class="Venue-box box">
+                <div class="Venue-box">
                     <div class="title">Venue of the party</div>
                     <input type="text" class="event-text-box">
                     <div class="venue-check">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="indoorCheck">
-                            <label class="form-check-label" for="indoorCheck">
+                            <input class="form-check-input" type="checkbox" value="" id="indoor-check">
+                            <label class="form-check-label" for="indoor-check">
                                 Indoor Venue
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="outdoorCheck">
-                            <label class="form-check-label" for="outdoorCheck">
+                            <input class="form-check-input" type="checkbox" value="" id="outdoor-check">
+                            <label class="form-check-label" for="outdoor-check">
                                 Outdoor Venue
                             </label>
                         </div>
@@ -48,9 +48,29 @@
                 </div>
                 <div class="start-date">
                     <div>
-                        <label for="meeting-time">Event start date:</label>
-                        <input type="datetime-local" id="meeting-time" name="meeting-time" value="2018-06-12T19:30"
-                            min="2018-06-07T00:00" max="2018-06-14T00:00">
+                        <label for="meeting-time" class="event-time-label">Event start date:</label>
+                        <input type="datetime-local" id="meeting-time-start" name="meeting-time" min="2020-06-07T00:00"
+                            max="2030-12-30T00:00">
+                    </div>
+                    <div>
+                        <label for="meeting-time" class="event-time-label">Event end date:</label>
+                        <input type="datetime-local" id="meeting-time-end" name="meeting-time" min="2020-12-12T00:00"
+                            max="2030-12-30T00:00">
+                    </div>
+                </div>
+                <div class="remark-box">
+                    <div class="title">Remark</div>
+                    <textarea class="event-text-box" placeholder="Leave a remark here" id="floatingTextarea"></textarea>
+                </div>
+                <div class="parking-box">
+                    <div class="parking-check">
+                        <input class="form-check-input" type="checkbox" value="" id="parking-check">
+                        <label class="form-check-label" for="parking-check">
+                            Parking lot
+                        </label>
+                    </div>
+                    <div class="parking-number-input">
+                        <input type="text">
                     </div>
                 </div>
             </form>
