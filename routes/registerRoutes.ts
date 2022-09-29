@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { logger } from '../util/logger';
 import { client } from '../app';
-import { hashPassword } from '../hash';
+import { hashPassword } from '../util/hash';
 
 export const registerRoutes = express.Router();
 

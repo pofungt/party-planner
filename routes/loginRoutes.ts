@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { logger } from '../util/logger';
 import { client } from '../app';
-import { checkPassword } from '../hash';
+import { checkPassword } from '../util/hash';
 
 export const loginRoutes = express.Router();
 
@@ -14,7 +14,6 @@ async function checkLogin(req: Request, res: Response) {
 			`SELECT * FROM users WHERE email = $1`,
 			[req.body.email]
 		)).rows[0];
-
 
 		if (loginUser) {
 			const match = await checkPassword(req.body.password, loginUser.password);

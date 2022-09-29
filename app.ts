@@ -7,7 +7,7 @@ import grant from "grant";
 import { loginRoutes } from "./routes/loginRoutes";
 import { registerRoutes } from "./routes/registerRoutes";
 import { eventsRoutes } from "./eventsRoutes";
-import { isLoggedIn } from "./guard";
+import { isLoggedIn } from "./util/guard";
 
 dontenv.config();
 
@@ -62,8 +62,7 @@ app.use('/events', eventsRoutes);
 app.use(isLoggedIn, express.static("private"));
 
 app.use((req, res) => {
-  res.status(404);
-  res.sendFile(path.resolve("./public/404.html"));
+  res.status(404).sendFile(path.resolve("./public/404.html"));
 });
 
 const PORT = 8080;
