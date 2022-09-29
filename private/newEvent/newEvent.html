@@ -21,9 +21,9 @@
 
 <body>
     <div class="container">
-        <i class="bi bi-chevron-left"></i>
+        <a href="/"><i class="bi bi-chevron-left"></i></a>
         <div class="row">
-            <form class="from-container">
+            <form id="from-container">
                 <div class="outer-container">
                     <div class="event-name-box">
                         <div class="form-header">Name of the Event *</div>
@@ -52,14 +52,17 @@
                     <div class="event-date">
                         <div class="eventdate-box">
                             <div class="event-time-label-box">
-                                <label for="meeting-time" class="event-time-label">Start date:</label>
-                                <label for="meeting-time" class="event-time-label">End date:</label>
+                                <label for="start" class="event-time-label">Event date:</label>
+                                <label for="meeting-time" class="event-time-label">Start time:</label>
+                                <label for="meeting-time" class="event-time-label">End time:</label>
                             </div>
                             <div class="event-time-label-box">
-                                <input class="clock" type="datetime-local" id="meeting-time-start"
-                                    name="event_time_start" min="2020-06-07T00:00" max="2035-12-30T00:00">
-                                <input class="clock" type="datetime-local" id="meeting-time-end" name="event_time_end"
-                                    min="2020-12-12T00:00" max="2035-12-30T00:00">
+                                <input class="clock" type="date" id="start" name="event_date" min="2020-06-07"
+                                    max="2035-12-30">
+                                <input class="clock" type="time" id="meeting-time-start" name="event_time_start"
+                                    min="09:00" max="18:00" required>
+                                <input class="clock" type="time" id="meeting-time-end" name="event_time_end" min="09:00"
+                                    max="18:00" required>
                             </div>
                         </div>
                     </div>
@@ -80,7 +83,7 @@
                             <input type="text" class="parking-number-input" name="lot_input" placeholder="number">
                         </div>
                     </div>
-                    <div id="event-submit">
+                    <button id="event-submit">
                         <svg class="event-submit-btn" xmlns="http://www.w3.org/2000/svg" width="161" height="72"
                             fill="none" viewBox="0 0 161 72">
                             <g filter="url(#a)" opacity=".482">
@@ -98,7 +101,7 @@
                                 </filter>
                             </defs>
                         </svg>
-                    </div>
+                    </button>
                 </div>
 
 
