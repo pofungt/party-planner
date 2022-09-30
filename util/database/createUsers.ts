@@ -1,5 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import jsonfile from "jsonfile";
 import path from "path";
 import crypto from "crypto";
@@ -16,6 +17,12 @@ const client = new pg.Client({
 
 let usersNewObjList: Omit<Users,"id"|"created_at"|"updated_at">[] = [];
 let counter = 0;
+
+async function newJsonFile() {
+  if (!fs.existsSync(path.join(__dirname,"/data/users.json"))) {
+    await jsonfile.writeFile(path.join(__dirname,"/data/users.json"), []);
+  }
+}
 
 async function test() {
   const [usersDB] = (await client.query(`SELECT * FROM users;`)).rows;
@@ -44,6 +51,9 @@ async function test() {
 async function main() {
   await client.connect();
   
+  // Create users.json file if not exist
+  await newJsonFile();
+
   // Insert test user when DB is empty
   await test();
 
