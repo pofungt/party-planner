@@ -14,7 +14,6 @@ async function getEventList(req: Request, res: Response) {
 }
 
 async function postEvent(req: Request, res: Response) {
-
 	await client.query (
 		`INSERT INTO  events (name, venue, indoor, outdoor, date, start_time,end_time) VALUES ($1,$2,$3,$4,$5)`,
 		[req.body.eventName, req.body.eventVenue, req.body.eventDate, req.body.indoor, req.body.outdoor, req.body.startTime. req.body.endTime]
