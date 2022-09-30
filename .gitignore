@@ -108,7 +108,6 @@ public/uploads
 
 # Json files
 users.json
-events.json
 
 # Others
 .DS_Store
