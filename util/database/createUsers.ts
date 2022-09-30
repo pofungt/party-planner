@@ -56,7 +56,7 @@ async function main() {
     const lastName: string = names["lastName"][Math.floor(Math.random() * names["lastName"].length)];
     // Email
     const emailHost: string = names["emailHost"][Math.floor(Math.random() * names["emailHost"].length)];
-    const email: string = `${firstName}${lastName}@${emailHost}`;
+    const email: string = `${firstName.toLowerCase()}${lastName.toLowerCase()}@${emailHost}`;
     // Phone
     const phoneAreaCode: string = names["phoneAreaCode"][Math.floor(Math.random() * names["phoneAreaCode"].length)];
     const phone: string = `${phoneAreaCode}-${Math.random().toString().concat("0".repeat(3)).substr(2,3)}-${Math.random().toString().concat("0".repeat(3)).substr(2,4)}`;
