@@ -4,9 +4,11 @@
     top: 90px;
     left: 50px;
     color: #444A58;
+    cursor: pointer;
 }
 
-.from-container{
+
+#from-container{
     display: flex;
     justify-content: center;
     margin: 30px 10px;
@@ -35,15 +37,15 @@
     font-family:'Lato', sans-serif;
 }
 
+.eventdate-box{
+    display: flex;
+    flex-direction: row;
+}
+
 .event-time-label{
     font-size: 19px;
     font-family:'Lato', sans-serif;
     margin: 4px 10px 4px 0px;
-}
-
-.eventdate-box{
-    display: flex;
-    flex-direction: row;
 }
 
 .event-time-label-box{
@@ -68,17 +70,19 @@
     margin-left: 10px;
     width: 70px;
 }
-
-#event-submit{
+.submit-btn{
     display: flex;
     justify-content: center;
+    max-height: 50px;
 }
 
-.event-submit-btn{
-    cursor: pointer;
-    width: 130px;
-    margin-top: 20px;
+#event-submit{
+    border: none;
+    margin-top: 10px;
+    background-color: white;
 }
+
+
 
 .form-control{
     border-width: 2px;

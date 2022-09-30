@@ -59,6 +59,7 @@ app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/events', eventsRoutes);
 
+
 app.use(isLoggedIn, express.static("private"));
 
 app.use((req, res) => {
