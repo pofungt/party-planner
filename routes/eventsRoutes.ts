@@ -8,7 +8,7 @@ eventsRoutes.get("/", getEventList);
 eventsRoutes.post("/", postEvent);
 
 async function getEventList(req: Request, res: Response) {
-	const result = await client.query("SELECT * FROM events;");
+	const result = await client.query("SELECT * FROM events WHERE creator_id = $1;", [req.session.user || 0]);
 	const eventList: Events[] = result.rows;
 	res.json(eventList);
 }
