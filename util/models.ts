@@ -27,5 +27,7 @@ export interface dataParts {
     firstName: string[];
     lastName: string[];
     emailHost: string[];
-    phoneAreaCode: string[]
+    phoneAreaCode: string[];
+    partyReason: string[];
+    streetName: string[]
 }
