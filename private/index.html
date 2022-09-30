@@ -21,9 +21,9 @@
             </button>
             <div class="parties-list-container">
                 <header>
-                    Parties:
+                    Created:
                 </header>
-                <div class="table-container">
+                <div class="create table-container">
                     <table class="table" id="table-body">
                         <thead>
                             <tr id="table-header">
@@ -46,6 +46,32 @@
                     </span>
                 </div>
             </div>
+            <header>
+                Participated:
+            </header>
+            <div class="participate table-container">
+                <table class="table" id="table-body">
+                    <thead>
+                        <tr id="table-header">
+                            <th scope="col">ID</th>
+                            <th scope="col">PARTY NAME</th>
+                            <th scope="col">ADDRESS</th>
+                            <th scope="col">DATE</th>
+                            <th scope="col">START TIME</th>
+                            <th scope="col">END TIME</th>
+                            <th scope="col">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="events-container">
+                        <!-- to be added by loadEvent.js -->
+                    </tbody>
+                </table>
+                <span class="turn-page-button-container">
+                    <a href="#" class="previous round"> < </a>
+                    <a href="#" class="next round"> > </a>
+                </span>
+            </div>
+        </div>
         </div>
         <div class="col-sm-3">
             <div class="date-picker">

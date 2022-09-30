@@ -8,9 +8,9 @@ export async function loadEvents() {
 	}
 	const events = await res.json();
 
-	const eventsContainer = document.querySelector('#events-container');
+	const eventsCreateContainer = document.querySelector('.create #events-container');
 
-	eventsContainer.innerHTML = '';
+	eventsCreateContainer.innerHTML = '';
 
 	for (let event of events) {
 		const date = new Date();
@@ -24,7 +24,7 @@ export async function loadEvents() {
 		} else {
 			status = "In Progress"
 		}
-		eventsContainer.innerHTML += `
+		eventsCreateContainer.innerHTML += `
         <tr id="table-header">
             <th scope="col" id="ID_${event.id}">${event.id}</th>
             <th scope="col" id="name_${event.id}">${event.name}</th>
