@@ -29,7 +29,7 @@ async function main() {
     `);    
 
     client.end();
+    jsonfile.writeFile(path.join(__dirname,"/data/users.json"), []);
 }
 
 main();
-jsonfile.writeFile(path.join(__dirname,"/data/users.json"), []);
