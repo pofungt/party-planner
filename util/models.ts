@@ -23,6 +23,8 @@ export interface Users {
     updated_at: string
 }
 
+export type UsersInput = Omit<Users,"id"|"created_at"|"updated_at">;
+
 export interface Participants {
     id: number;
     event_id: number;

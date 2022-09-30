@@ -5,7 +5,7 @@ import jsonfile from "jsonfile";
 import path from "path";
 import crypto from "crypto";
 import {hashPassword} from "../../util/hash";
-import {Users,DataParts} from "../../util/models";
+import {UsersInput,DataParts} from "../../util/models";
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ if (newUsersString) {
     newUsersNumber = parseInt(newUsersString);
   }
 }
-let usersNewObjList: Omit<Users,"id"|"created_at"|"updated_at">[] = [];
+let usersNewObjList: UsersInput[] = [];
 let counter = 0;
 
 async function newJsonFile() {
@@ -43,7 +43,7 @@ async function test() {
       VALUES ($1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
       [test,test,test,testPassword]);
     
-      const userObj: Omit<Users,"id"|"created_at"|"updated_at"> = {
+      const userObj: UsersInput = {
         first_name: "test",
         last_name: "test",
         email: "test",
@@ -89,7 +89,7 @@ async function main() {
         VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
         [first_name, last_name, email, phone, hashedPassword]
       );
-      const userObj: Omit<Users,"id"|"created_at"|"updated_at"> = {
+      const userObj: UsersInput = {
         first_name,
         last_name,
         email,
@@ -103,8 +103,8 @@ async function main() {
   }
   
   // Writing into users.json
-  let originalUsersList: Omit<Users,"id"|"created_at"|"updated_at">[] = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
-  const finalUsersList: Omit<Users,"id"|"created_at"|"updated_at">[] = originalUsersList.concat(usersNewObjList);
+  let originalUsersList: UsersInput[] = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
+  const finalUsersList: UsersInput[] = originalUsersList.concat(usersNewObjList);
   await jsonfile.writeFile(path.join(__dirname,"/data/users.json"), finalUsersList, {spaces:"\t"});
 
   client.end();
