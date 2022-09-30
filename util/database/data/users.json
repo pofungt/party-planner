@@ -1,1 +1,44 @@
-[]
+[
+	{
+		"firstName": "test",
+		"lastName": "test",
+		"email": "test",
+		"phone": null,
+		"password": "test"
+	},
+	{
+		"firstName": "Chester",
+		"lastName": "Perry",
+		"email": "chesterperry@gmail.com",
+		"phone": "289-701-2706",
+		"password": "7c00f335782d5357c5d986d4a8f0cd08c2f4af7d"
+	},
+	{
+		"firstName": "Oliver",
+		"lastName": "Graham",
+		"email": "olivergraham@yahoo.com",
+		"phone": "343-703-5306",
+		"password": "c4e83c450d62cfc2ead254f886fc5c4612d3c978"
+	},
+	{
+		"firstName": "Ralph",
+		"lastName": "Graham",
+		"email": "ralphgraham@gmail.com",
+		"phone": "647-642-4490",
+		"password": "37982433a9046701b105648fdfa7de296a36af5d"
+	},
+	{
+		"firstName": "Effie",
+		"lastName": "Moore",
+		"email": "effiemoore@gmail.com",
+		"phone": "647-455-8609",
+		"password": "d4f5981ae13f53dc20e026500bf2e0e421006774"
+	},
+	{
+		"firstName": "Howard",
+		"lastName": "Jenkins",
+		"email": "howardjenkins@gmail.com",
+		"phone": "519-054-9121",
+		"password": "ba3cff32caa3232a88e474b719708300cdbbc466"
+	}
+]
