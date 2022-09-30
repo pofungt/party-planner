@@ -28,7 +28,7 @@ document.querySelector('.register-form')
 
     const form = e.target;
     const emailRegex = /\S+@\S+\.\S+/;
-    const passwrodRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
 
     const first_name = form.first_name.value;
     const last_name = form.last_name.value;
@@ -59,7 +59,7 @@ document.querySelector('.register-form')
     } else if (password.length < 8 || password.length > 20) {
         dataPass = false;
         alert("Password length must be 8-20 characters!");
-    } else if (!passwrodRegex.test(password)) {
+    } else if (!passwordRegex.test(password)) {
         dataPass = false;
         alert("Invalid password format!");
     }
