@@ -1,5 +1,7 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
+import jsonfile from "jsonfile";
+import path from 'path';
 
 dotenv.config();
 
@@ -30,3 +32,4 @@ async function main() {
 }
 
 main();
+jsonfile.writeFile(path.join(__dirname,"/data/users.json"), []);
