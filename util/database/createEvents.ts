@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import jsonfile from "jsonfile";
 import path from "path";
 import { format } from 'date-fns';
-import {Users, dataParts} from "../models";
+import {Users, DataParts} from "../models";
 
 dotenv.config();
 
@@ -36,15 +36,15 @@ async function main() {
     await client.connect();
 
     // Read random data parts for data assembling
-    let parts: dataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
+    let parts: DataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
 
     // Obtain users info for event creation for each user
-    let users: Omit<Users, "id" | "created_at" | "updated_at">[] = await jsonfile.readFile(path.join(__dirname,"/data/users.json"));
+    let users: Users[] = (await client.query(`SELECT * FROM users;`)).rows;
     for (let i = 0; i < loopTimes; i++) {
         for (const user of users) {
             // Party name
             const partyReason: string = parts["partyReason"][Math.floor(Math.random() * parts["partyReason"].length)];
-            const name: string = `${user.firstName}'s ${partyReason} Party`;
+            const name: string = `${user.first_name}'s ${partyReason} Party`;
             // Party venue
             const venue: string = `${Math.floor(Math.random()*999)+1} ${parts["streetName"][Math.floor(Math.random() * parts["streetName"].length)]}`;
             // Budget

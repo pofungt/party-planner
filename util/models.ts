@@ -14,8 +14,8 @@ export interface Events {
 
 export interface Users {
     id: number;
-    firstName : string;
-    lastName: string;
+    first_name : string;
+    last_name: string;
     email: string;
     phone: string | null;
     password: string;
@@ -23,7 +23,15 @@ export interface Users {
     updated_at: string
 }
 
-export interface dataParts {
+export interface Participants {
+    id: number;
+    event_id: number;
+    user_id: number;
+    created_at: string;
+    updated_at: string
+}
+
+export interface DataParts {
     firstName: string[];
     lastName: string[];
     emailHost: string[];

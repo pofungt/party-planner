@@ -5,7 +5,7 @@ import jsonfile from "jsonfile";
 import path from "path";
 import crypto from "crypto";
 import {hashPassword} from "../../util/hash";
-import {Users,dataParts} from "../../util/models";
+import {Users,DataParts} from "../../util/models";
 
 dotenv.config();
 
@@ -44,8 +44,8 @@ async function test() {
       [test,test,test,testPassword]);
     
       const userObj: Omit<Users,"id"|"created_at"|"updated_at"> = {
-        firstName: "test",
-        lastName: "test",
+        first_name: "test",
+        last_name: "test",
         email: "test",
         phone: null,
         password: "test"
@@ -65,15 +65,15 @@ async function main() {
   await test();
 
   // Read random data parts for data assembling
-  let parts: dataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
+  let parts: DataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
 
   while (counter < newUsersNumber) {
     // Names
-    const firstName: string = parts["firstName"][Math.floor(Math.random() * parts["firstName"].length)];
-    const lastName: string = parts["lastName"][Math.floor(Math.random() * parts["lastName"].length)];
+    const first_name: string = parts["firstName"][Math.floor(Math.random() * parts["firstName"].length)];
+    const last_name: string = parts["lastName"][Math.floor(Math.random() * parts["lastName"].length)];
     // Email
     const emailHost: string = parts["emailHost"][Math.floor(Math.random() * parts["emailHost"].length)];
-    const email: string = `${firstName.toLowerCase()}${lastName.toLowerCase()}@${emailHost}`;
+    const email: string = `${first_name.toLowerCase()}${last_name.toLowerCase()}@${emailHost}`;
     // Phone
     const phoneAreaCode: string = parts["phoneAreaCode"][Math.floor(Math.random() * parts["phoneAreaCode"].length)];
     const phone: string = `${phoneAreaCode}-${Math.random().toString().concat("0".repeat(3)).substr(2,3)}-${Math.random().toString().concat("0".repeat(3)).substr(2,4)}`;
@@ -87,11 +87,11 @@ async function main() {
         `INSERT INTO users 
         (first_name,last_name,email,phone,password,created_at,updated_at) 
         VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-        [firstName, lastName, email, phone, hashedPassword]
+        [first_name, last_name, email, phone, hashedPassword]
       );
       const userObj: Omit<Users,"id"|"created_at"|"updated_at"> = {
-        firstName,
-        lastName,
+        first_name,
+        last_name,
         email,
         phone,
         password
