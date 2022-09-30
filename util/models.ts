@@ -22,3 +22,10 @@ export interface Users {
     created_at: string;
     updated_at: string
 }
+
+export interface dataParts {
+    firstName: string[];
+    lastName: string[];
+    emailHost: string[];
+    phoneAreaCode: string[]
+}
