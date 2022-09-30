@@ -15,6 +15,13 @@ const client = new pg.Client({
     password: process.env.DB_PASSWORD,
   });
 
+let newUsersNumber: number = 5;
+const newUsersString: string | undefined = process.argv[2];
+if (newUsersString) {
+  if (/^\d+$/.test(newUsersString)) {
+    newUsersNumber = parseInt(newUsersString);
+  }
+}
 let usersNewObjList: Omit<Users,"id"|"created_at"|"updated_at">[] = [];
 let counter = 0;
 
@@ -60,7 +67,7 @@ async function main() {
   // Read random data parts for data assembling
   let parts: dataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
 
-  while (counter < 5) {
+  while (counter < newUsersNumber) {
     // Names
     const firstName: string = parts["firstName"][Math.floor(Math.random() * parts["firstName"].length)];
     const lastName: string = parts["lastName"][Math.floor(Math.random() * parts["lastName"].length)];
