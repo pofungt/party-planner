@@ -29,6 +29,7 @@ document.querySelector('.register-form')
     const form = e.target;
     const emailRegex = /\S+@\S+\.\S+/;
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
+    const phoneRegex = /^\d{3}\-\d{3}\-\d{4}$/;
 
     const first_name = form.first_name.value;
     const last_name = form.last_name.value;
@@ -53,6 +54,9 @@ document.querySelector('.register-form')
     } else if (!emailRegex.test(email)) {
         dataPass = false;
         alert("Invalid email format!");
+    } else if (!phoneRegex.test(phone) && !!phone) {
+        dataPass = false;
+        alert("Invalid phone format!");
     } else if (!(password === confirm_password)) {
         dataPass = false;
         alert("Password and confirm password do not match!");
