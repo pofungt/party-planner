@@ -10,10 +10,10 @@ registerRoutes.post('/', registerUser);
 async function registerUser(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-    
+
 		const loginUser = (await client.query(
-			`SELECT * FROM users WHERE email = $1`,
-			[req.body.email]
+			`SELECT * FROM users WHERE email = $1 OR phone = $2`,
+			[req.body.email, !!req.body.phone ? req.body.phone : '0']
 		)).rows[0];
 		if (!loginUser) {
             const password = await hashPassword(req.body.password);
