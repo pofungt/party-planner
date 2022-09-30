@@ -1,7 +1,6 @@
-import { loadEvents } from "./loadEvent.js";
-
-loadEvents()
+import { loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
 
 window.addEventListener('load', () => {
-	loadEvents();
+	loadCreateEvents();
+	loadParticipateEvents();
 });
