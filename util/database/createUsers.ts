@@ -48,17 +48,17 @@ async function main() {
   await test();
 
   // Read random data parts for data assembling
-  let names: dataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
+  let parts: dataParts = await jsonfile.readFile(path.join(__dirname,"/data/dataParts.json"));
 
   while (counter < 5) {
     // Names
-    const firstName: string = names["firstName"][Math.floor(Math.random() * names["firstName"].length)];
-    const lastName: string = names["lastName"][Math.floor(Math.random() * names["lastName"].length)];
+    const firstName: string = parts["firstName"][Math.floor(Math.random() * parts["firstName"].length)];
+    const lastName: string = parts["lastName"][Math.floor(Math.random() * parts["lastName"].length)];
     // Email
-    const emailHost: string = names["emailHost"][Math.floor(Math.random() * names["emailHost"].length)];
+    const emailHost: string = parts["emailHost"][Math.floor(Math.random() * parts["emailHost"].length)];
     const email: string = `${firstName.toLowerCase()}${lastName.toLowerCase()}@${emailHost}`;
     // Phone
-    const phoneAreaCode: string = names["phoneAreaCode"][Math.floor(Math.random() * names["phoneAreaCode"].length)];
+    const phoneAreaCode: string = parts["phoneAreaCode"][Math.floor(Math.random() * parts["phoneAreaCode"].length)];
     const phone: string = `${phoneAreaCode}-${Math.random().toString().concat("0".repeat(3)).substr(2,3)}-${Math.random().toString().concat("0".repeat(3)).substr(2,4)}`;
     // Password
     const password: string = crypto.randomBytes(20).toString('hex');
