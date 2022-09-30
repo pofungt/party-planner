@@ -5,16 +5,13 @@ import { Events } from '../util/models';
 export const eventsRoutes = express.Router();
 
 eventsRoutes.get("/", getEventList);
+eventsRoutes.post("/", postEvent);
 
 async function getEventList(req: Request, res: Response) {
 	const result = await client.query("SELECT * FROM events;");
 	const eventList: Events[] = result.rows;
 	res.json(eventList);
 }
-
-
-// add new event page
-eventsRoutes.post("/", postEvent);
 
 async function postEvent(req: Request, res: Response) {
 
