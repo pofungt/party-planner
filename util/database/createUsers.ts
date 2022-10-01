@@ -1,9 +1,8 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import fs from 'fs';
 import jsonfile from "jsonfile";
 import path from "path";
-import crypto from "crypto";
+import { newJsonFile } from './functions/newJsonFile';
 import {hashPassword} from "../../util/hash";
 import {UsersInput,DataParts} from "../../util/models";
 
@@ -24,12 +23,6 @@ if (newUsersString) {
 }
 let usersNewObjList: UsersInput[] = [];
 let counter = 0;
-
-async function newJsonFile() {
-  if (!fs.existsSync(path.join(__dirname,"/data/users.json"))) {
-    await jsonfile.writeFile(path.join(__dirname,"/data/users.json"), []);
-  }
-}
 
 async function test() {
   const [usersDB] = (await client.query(`SELECT * FROM users;`)).rows;
@@ -78,7 +71,7 @@ async function main() {
     const phoneAreaCode: string = parts["phoneAreaCode"][Math.floor(Math.random() * parts["phoneAreaCode"].length)];
     const phone: string = `${phoneAreaCode}-${Math.random().toString().concat("0".repeat(3)).substr(2,3)}-${Math.random().toString().concat("0".repeat(3)).substr(2,4)}`;
     // Password
-    const password: string = crypto.randomBytes(20).toString('hex');
+    const password: string = "test";
     const hashedPassword = await hashPassword(password);
 
     const [checkUsers] = (await client.query(`SELECT * FROM users WHERE email = $1 OR phone = $2;`,[email,phone])).rows;
