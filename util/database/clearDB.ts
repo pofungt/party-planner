@@ -1,18 +1,18 @@
-import pg from 'pg';
-import dotenv from 'dotenv';
+import pg from "pg";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 const client = new pg.Client({
-    database: process.env.DB_NAME,
-    user: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-  });
+  database: process.env.DB_NAME,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+});
 
 async function main() {
-    await client.connect();
+  await client.connect();
 
-    await client.query(`
+  await client.query(`
     DROP TABLE event_date_time_votes;
     DROP TABLE event_date_time;
     DROP TABLE event_venues_votes;
@@ -26,7 +26,7 @@ async function main() {
     DROP TABLE users;
     `);
 
-    await client.end();
+  await client.end();
 }
 
 main();
