@@ -2,8 +2,8 @@ import pg from "pg";
 import dotenv from "dotenv";
 import jsonfile from "jsonfile";
 import path from "path";
-import { newJsonFile } from "./functions/newJsonFile";
-import { hashPassword } from "../../util/hash";
+import { newJsonFile } from "../functions/newJsonFile";
+import { hashPassword } from "../functions/hash";
 import { UsersInput, DataParts } from "../../util/models";
 
 dotenv.config();

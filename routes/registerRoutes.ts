@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import jsonfile from "jsonfile";
 import { logger } from "../util/logger";
 import { client } from "../app";
-import { hashPassword } from "../util/hash";
+import { hashPassword } from "../util/functions/hash";
 import { UsersInput } from "../util/models";
-import { newJsonFile } from "../util/database/functions/newJsonFile";
+import { newJsonFile } from "../util/functions/newJsonFile";
 
 export const registerRoutes = express.Router();
 
