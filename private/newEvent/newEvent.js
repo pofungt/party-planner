@@ -7,9 +7,8 @@ document
     const eventVenue = form.event_venue.value;
     const indoor = form.indoor_check.checked;
     const outdoor = form.outdoor_check.checked;
-    const eventDate = form.event_date.value;
-    const startTime = form.event_time_start.value;
-    const endTime = form.event_time_end.value;
+    const startTime = form.event_date_start.value;
+    const endTime = form.event_date_end.value;
     const eventRemark = form.event_remark.value;
     const parkingLot = form.parking_check.checked;
     const lotNumber = form.lot_input.value;
