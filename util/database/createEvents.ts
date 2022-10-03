@@ -77,14 +77,22 @@ async function main() {
       const start_datetime: string = new Date(`${date} ${start_time}`).toISOString();
       const end_datetime: string = new Date(`${date} ${end_time}`).toISOString();
 
+      // indoor or outdoor
+      const indoor: boolean = Math.random() > 0.5 ? true : false;
+      const outdoor: boolean = Math.random() > 0.5 ? true : false;
+
+      // parking lot
+      const parkingLot: boolean = Math.random() > 0.5 ? true : false;
+      const lotNumber: number = (Math.random()*10);
+
       // Creator id
       const creator_id: number  = userDetail.id;
 
       await client.query(
         `INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,creator_id,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-        [name, venue, budget, start_datetime, end_datetime, creator_id]
+                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,creator_id,created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+        [name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id]
       );
     }
   }
