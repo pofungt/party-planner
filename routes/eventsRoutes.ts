@@ -18,15 +18,22 @@ async function getCreateEventList(req: Request, res: Response) {
             : 0;
         const result = await client.query(
             `
-    SELECT * FROM events 
-    WHERE creator_id = $1 
-    ORDER BY start_datetime DESC, id DESC
-    LIMIT 10 OFFSET $2;
-    `,
+            SELECT * FROM events 
+            WHERE creator_id = $1 
+            ORDER BY start_datetime DESC, id DESC
+            LIMIT 10 OFFSET $2;
+            `,
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
-        res.json(eventList);
+        const [columnCount] = (await client.query(
+            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
+            [req.session.user || 0]
+        )).rows;
+        res.json({
+            object: eventList, 
+            page: Math.ceil(parseInt(columnCount.count) / 10)
+        });
     } catch (e) {
         logger.error(e);
         res.status(500).json({
@@ -43,13 +50,13 @@ async function getParticipateEventList(req: Request, res: Response) {
             : 0;
         const result = await client.query(
             `
-    SELECT events.* FROM events
-    INNER JOIN participants ON participants.event_id = events.id
-    INNER JOIN users ON participants.user_id = users.id
-    WHERE users.id = $1
-    ORDER BY events.start_datetime DESC, events.id DESC
-    LIMIT 10 OFFSET $2;;
-    `,
+            SELECT events.* FROM events
+            INNER JOIN participants ON participants.event_id = events.id
+            INNER JOIN users ON participants.user_id = users.id
+            WHERE users.id = $1
+            ORDER BY events.start_datetime DESC, events.id DESC
+            LIMIT 10 OFFSET $2;;
+            `,
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;

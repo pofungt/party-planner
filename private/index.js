@@ -1,10 +1,11 @@
-import { loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
+import { loadName, loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
 }
 
 window.addEventListener("load", () => {
+  loadName();
   const params = new URLSearchParams(window.location.search);
   let createPage = "1";
   let participatePage = "1";

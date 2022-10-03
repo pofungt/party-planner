@@ -1,5 +1,19 @@
 import {listenCreateButtons, listenParticipateButtons} from "./listenButtons.js";
 
+export async function loadName() {
+  const res = await fetch(`/login/name`);
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
+  const result = await res.json();
+  if (result.status) {
+    const greetingHTML = document.querySelector(".greeting");
+    greetingHTML.innerHTML = `Hi, ${result.user}!`;
+  }
+}
+
 export async function loadCreateEvents(page) {
   const res = await fetch(`/events/created?page=${page}`);
 
@@ -8,7 +22,9 @@ export async function loadCreateEvents(page) {
     alert(data.msg);
     return;
   }
-  const events = await res.json();
+  const result = await res.json();
+  const events = result.object;
+  const totalPage = result.page;
 
   const eventsCreateContainer = document.querySelector(
     ".create #events-container"
@@ -37,11 +53,12 @@ export async function loadCreateEvents(page) {
         </tr>
         `;
   }
+  const pageHTML = !totalPage ? "" : `Page ${page} / ${totalPage}`;
   eventsCreateContainer.innerHTML = eventsCreateHTML;
   pageCreateContainer.innerHTML = `
     <button type="button" class="previous-round btn btn-light">&lt;</button>
     <button type="button" class="next-round btn btn-light">&gt;</button>
-    Page ${page}
+    ${pageHTML}
   `;
   listenCreateButtons();
 }
