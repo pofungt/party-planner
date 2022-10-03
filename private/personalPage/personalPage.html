@@ -19,32 +19,36 @@
         <div class="mb-3 name_container">
             <span class="first_name_container">
                 <label for="first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" id="first_name" method="/personalPage/put">
+                <input type="text" class="form-control" id="first_name" method="/personalPage/put" placeholder="Input Your First Name" value="">
             </span>
             <span >
                 <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" id="last_name" method="/personalPage/put">
+                <input type="text" class="form-control" id="last_name" method="/personalPage/put" placeholder="Input Your Last Name">
             </span>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" method="/personalPage/put">
+            <input type="email" class="form-control" id="email" method="/personalPage/put" placeholder="Input Your Email">
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
-            <input type="number" class="form-control" id="phone" method="/personalPage/put">
+            <input type="number" class="form-control" id="phone" method="/personalPage/put" placeholder="Input Phone">
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Current Password</label>
-            <input type="password" class="form-control" id="password" method="/personalPage/put">
+            <label for="current_password" class="form-label">Current Password</label>
+            <input type="password" class="form-control" id="current_password" method="/personalPage/put" >
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">New Password</label>
-            <input type="password" class="form-control" id="password" method="/personalPage/put">
+            <label for="new_password" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="new_password" method="/personalPage/put" placeholder="Input your new password here">
+        </div>
+        <div class="mb-3">
+            <label for="new_confirmed_password" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="new_confirmed_password" method="/personalPage/put" placeholder="Type the new password again">
         </div>
         <div class="button-container mb-3">
-            <button type="submit" class="btn btn-primary update">Update</button>
-            <button type="submit" class="btn btn-primary cancel">Cancel</button>
+            <button type="submit" value="submit" method="/put" class="btn btn-primary update">Update</button>
+            <button type="submit" value="submit" class="btn btn-primary cancel">Cancel</button>
         </div>
 
     </form>

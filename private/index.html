@@ -8,11 +8,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./index.css" />
     <title>Dashboard</title>
 </head>
 
 <body>
+    <!-- login nav -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 header-nav">
+                <nav class="navbar">
+                    <a class="navbar-brand" href="#">
+                        <img src="/public/asset/party_icon.jpg" width="54" height="54" class="d-inline-block align-top"
+                            alt="party_planner_icon">
+                        Party Planner
+                    </a>
+                </nav>
+                <div class="login-part">
+                    <div class="user-login dropdown">
+                        <button type="button" class="btn landing-Page-login-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i>
+                            Name
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="/public/landingPage.html">Log out</a></li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login nav -->
+
     <header class="greeting"></header>
     <div class="row">
         <div class="col-sm-9">
