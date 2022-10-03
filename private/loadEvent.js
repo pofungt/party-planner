@@ -1,3 +1,5 @@
+import {listenCreateButtons, listenParticipateButtons} from "./listenButtons.js";
+
 export async function loadCreateEvents(page) {
   const res = await fetch(`/events/created?page=${page}`);
 
@@ -48,7 +50,12 @@ export async function loadCreateEvents(page) {
         </tr>
         `;
   }
-  pageCreateContainer.innerHTML += `Page ${page}`;
+  pageCreateContainer.innerHTML = `
+    <button type="button" class="previous-round btn btn-light">&lt;</button>
+    <button type="button" class="next-round btn btn-light">&gt;</button>
+    Page ${page}
+  `;
+  listenCreateButtons();
 }
 
 export async function loadParticipateEvents(page) {
@@ -101,5 +108,10 @@ export async function loadParticipateEvents(page) {
         </tr>
         `;
   }
-  pageParticipateContainer.innerHTML += `Page ${page}`;
+  pageParticipateContainer.innerHTML = `
+    <button type="button" class="previous-round btn btn-light">&lt;</button>
+    <button type="button" class="next-round btn btn-light">&gt;</button>
+    Page ${page}
+  `;
+  listenParticipateButtons();
 }
