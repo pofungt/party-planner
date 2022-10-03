@@ -1,220 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link rel="stylesheet" href="./newEvent.css" />
-    <title>Add New Party</title>
-  </head>
 
-  <body>
-    <div class="container">
-      <a href="/"><i class="bi bi-chevron-left"></i></a>
-      <div class="row">
-        <form id="from-container">
-          <div class="outer-container">
-            <div class="event-name-box">
-              <div class="form-header">Name of the Event *</div>
-              <input
-                id="event-name-input"
-                type="text"
-                class="form-control"
-                name="event_name"
-              />
-            </div>
-            <div class="Venue-box">
-              <div class="form-header">Venue of the party</div>
-              <input type="text" class="form-control" name="event_venue" />
-              <div class="venue-check">
-                <div class="form-check">
-                  <input
-                    id="indoor-check"
-                    name="indoor_check"
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                  />
-                  <label class="form-check-label" for="indoor-check">
-                    Indoor Venue
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input
-                    id="outdoor-check"
-                    name="outdoor_check"
-                    class="form-check-input"
-                    type="checkbox"
-                    value=""
-                  />
-                  <label class="form-check-label" for="outdoor-check">
-                    Outdoor Venue
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div class="event-date">
-              <div class="eventdate-box">
-                <div class="event-time-label-box">
-                  <label for="start" class="event-time-label"
-                    >Event date:</label
-                  >
-                  <label for="meeting-time" class="event-time-label"
-                    >Start time:</label
-                  >
-                  <label for="meeting-time" class="event-time-label"
-                    >End time:</label
-                  >
-                </div>
-                <div class="event-time-label-box">
-                  <input
-                    class="clock"
-                    type="date"
-                    id="start"
-                    name="event_date"
-                    min="2020-06-07"
-                    max="2035-12-30"
-                  />
-                  <input
-                    class="clock"
-                    type="time"
-                    id="meeting-time-start"
-                    name="event_time_start"
-                    min="09:00"
-                    max="18:00"
-                    required
-                  />
-                  <input
-                    class="clock"
-                    type="time"
-                    id="meeting-time-end"
-                    name="event_time_end"
-                    min="09:00"
-                    max="18:00"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="remark-box">
-              <div class="form-header">Remark</div>
-              <textarea
-                class="form-control"
-                placeholder="Leave a remark here"
-                id="floatingTextarea"
-                name="event_remark"
-              ></textarea>
-            </div>
-            <div class="parking-box">
-              <div class="parking-check">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  name="parking_check"
-                  value=""
-                  id="parking-check"
-                />
-                <label class="form-check-label" for="parking-check">
-                  Parking lot
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./newEvent.css" />
+  <title>Add New Party</title>
+</head>
+
+<body>
+  <div class="container">
+    <a href="/"><i class="bi bi-chevron-left"></i></a>
+    <div class="row">
+      <form id="from-container">
+        <div class="outer-container">
+          <div class="event-name-box">
+            <div class="form-header">Name of the Event *</div>
+            <input id="event-name-input" type="text" class="form-control" name="event_name" />
+          </div>
+          <div class="Venue-box">
+            <div class="form-header">Venue of the party</div>
+            <input type="text" class="form-control" name="event_venue" />
+            <div class="venue-check">
+              <div class="form-check">
+                <input id="indoor-check" name="indoor_check" class="form-check-input" type="checkbox" value="" />
+                <label class="form-check-label" for="indoor-check">
+                  Indoor Venue
                 </label>
               </div>
-              <div>
-                <input
-                  type="text"
-                  class="parking-number-input"
-                  name="lot_input"
-                  placeholder="number"
-                />
+              <div class="form-check">
+                <input id="outdoor-check" name="outdoor_check" class="form-check-input" type="checkbox" value="" />
+                <label class="form-check-label" for="outdoor-check">
+                  Outdoor Venue
+                </label>
               </div>
             </div>
-            <div class="submit-btn">
-              <button id="event-submit">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="161"
-                  height="72"
-                  fill="none"
-                  viewBox="0 0 161 72"
-                >
-                  <g filter="url(#a)" opacity=".482">
-                    <rect
-                      width="56.047"
-                      height="7.606"
-                      x="52.31"
-                      y="47.698"
-                      fill="#F29559"
-                      rx="2"
-                    />
-                  </g>
-                  <rect
-                    width="160.667"
-                    height="51.718"
-                    y=".543"
-                    fill="#F29559"
-                    rx="6"
-                  />
-                  <path
-                    fill="#fff"
-                    d="M33.651 32.18c-1.32 0-2.454-.264-3.402-.792a5.468 5.468 0 0 1-2.16-2.268c-.504-.984-.756-2.142-.756-3.474 0-1.332.252-2.484.756-3.456a5.354 5.354 0 0 1 2.16-2.25c.948-.54 2.082-.81 3.402-.81.852 0 1.656.132 2.412.396.768.264 1.398.642 1.89 1.134l-.756 1.836c-.54-.456-1.092-.786-1.656-.99a5.04 5.04 0 0 0-1.818-.324c-1.284 0-2.262.39-2.934 1.17-.672.768-1.008 1.866-1.008 3.294s.336 2.532 1.008 3.312c.672.78 1.65 1.17 2.934 1.17.648 0 1.254-.102 1.818-.306.564-.216 1.116-.552 1.656-1.008l.756 1.836c-.492.48-1.122.858-1.89 1.134a7.264 7.264 0 0 1-2.412.396Zm6.097-.18v-8.802h2.196v1.548c.432-1.044 1.356-1.62 2.772-1.728l.684-.054.144 1.908-1.296.126c-1.476.144-2.214.9-2.214 2.268V32h-2.286Zm11.246.18c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594Zm8.64 7.632c-.636 0-1.206-.12-1.71-.36a3.1 3.1 0 0 1-1.17-1.008 2.532 2.532 0 0 1-.414-1.422c0-.648.168-1.158.504-1.53.336-.384.882-.66 1.638-.828.756-.168 1.77-.252 3.042-.252h.63v-.378c0-.6-.132-1.032-.396-1.296s-.708-.396-1.332-.396a5.21 5.21 0 0 0-1.512.234 6.547 6.547 0 0 0-1.566.684l-.648-1.53a4.948 4.948 0 0 1 1.098-.558 7.248 7.248 0 0 1 1.35-.378c.48-.096.93-.144 1.35-.144 1.284 0 2.238.3 2.862.9.624.588.936 1.506.936 2.754V32h-2.106v-1.404a2.508 2.508 0 0 1-.972 1.17c-.444.276-.972.414-1.584.414Zm.468-1.548c.588 0 1.074-.204 1.458-.612.396-.408.594-.924.594-1.548v-.396h-.612c-1.128 0-1.914.09-2.358.27-.432.168-.648.48-.648.936 0 .396.138.72.414.972.276.252.66.378 1.152.378Zm10.51 1.548c-2.328 0-3.492-1.152-3.492-3.456V24.89h-1.692v-1.692h1.692V20.57h2.25v2.628h2.664v1.692h-2.664v3.708c0 .576.126 1.008.378 1.296.252.288.66.432 1.224.432.168 0 .342-.018.522-.054.18-.048.366-.096.558-.144l.342 1.656c-.216.12-.492.216-.828.288a4.39 4.39 0 0 1-.954.108Zm7.126 0c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594Zm14.932 7.632c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594ZM99.89 32l-3.816-8.802h2.394l2.448 6.156 2.538-6.156h2.25L101.835 32h-1.944Zm11.062.18c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594ZM116.371 32v-8.802h2.196v1.368c.3-.504.702-.888 1.206-1.152a3.738 3.738 0 0 1 1.728-.396c2.076 0 3.114 1.206 3.114 3.618V32h-2.25v-5.256c0-.684-.132-1.182-.396-1.494-.252-.312-.648-.468-1.188-.468-.66 0-1.188.21-1.584.63-.384.408-.576.954-.576 1.638V32h-2.25Zm14.561.18c-2.328 0-3.492-1.152-3.492-3.456V24.89h-1.692v-1.692h1.692V20.57h2.25v2.628h2.664v1.692h-2.664v3.708c0 .576.126 1.008.378 1.296.252.288.66.432 1.224.432.168 0 .342-.018.522-.054.18-.048.366-.096.558-.144l.342 1.656c-.216.12-.492.216-.828.288a4.39 4.39 0 0 1-.954.108Z"
-                  />
-                  <defs>
-                    <filter
-                      id="a"
-                      width="88.666"
-                      height="40.225"
-                      x="36.001"
-                      y="31.388"
-                      color-interpolation-filters="sRGB"
-                      filterUnits="userSpaceOnUse"
-                    >
-                      <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                      <feBlend
-                        in="SourceGraphic"
-                        in2="BackgroundImageFix"
-                        result="shape"
-                      />
-                      <feGaussianBlur
-                        result="effect1_foregroundBlur_38_26948"
-                        stdDeviation="8.155"
-                      />
-                    </filter>
-                  </defs>
-                </svg>
-              </button>
+          </div>
+          <div class="event-date">
+            <div class="eventdate-box">
+              <div class="event-time-label-box">
+                <label for="meeting-time-start" class="event-time-label">Start date & time:</label>
+                <label for="meeting-time-end" class="event-time-label">End date & time:</label>
+              </div>
+              <div class="event-time-label-box">
+                <input class="clock" type="datetime-local" id="meeting-time-start" name="event_date_start"
+                  min="2021-06-07T00:00" max="2035-12-30T00:00" required />
+                <input class="clock" type="datetime-local" id="meeting-time-end" name="event_date_end"
+                  min="2021-06-07T00:00" max="2035-12-30T00:00" required />
+              </div>
             </div>
           </div>
-        </form>
-      </div>
+          <div class="remark-box">
+            <div class="form-header">Remark</div>
+            <textarea class="form-control" placeholder="Leave a remark here" id="floatingTextarea"
+              name="event_remark"></textarea>
+          </div>
+          <div class="parking-box">
+            <div class="parking-check">
+              <input class="form-check-input" type="checkbox" name="parking_check" value="" id="parking-check" />
+              <label class="form-check-label" for="parking-check">
+                Parking lot
+              </label>
+            </div>
+            <div>
+              <input type="text" class="parking-number-input" name="lot_input" placeholder="number" />
+            </div>
+          </div>
+          <div class="submit-btn">
+            <button id="event-submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="161" height="72" fill="none" viewBox="0 0 161 72">
+                <g filter="url(#a)" opacity=".482">
+                  <rect width="56.047" height="7.606" x="52.31" y="47.698" fill="#F29559" rx="2" />
+                </g>
+                <rect width="160.667" height="51.718" y=".543" fill="#F29559" rx="6" />
+                <path fill="#fff"
+                  d="M33.651 32.18c-1.32 0-2.454-.264-3.402-.792a5.468 5.468 0 0 1-2.16-2.268c-.504-.984-.756-2.142-.756-3.474 0-1.332.252-2.484.756-3.456a5.354 5.354 0 0 1 2.16-2.25c.948-.54 2.082-.81 3.402-.81.852 0 1.656.132 2.412.396.768.264 1.398.642 1.89 1.134l-.756 1.836c-.54-.456-1.092-.786-1.656-.99a5.04 5.04 0 0 0-1.818-.324c-1.284 0-2.262.39-2.934 1.17-.672.768-1.008 1.866-1.008 3.294s.336 2.532 1.008 3.312c.672.78 1.65 1.17 2.934 1.17.648 0 1.254-.102 1.818-.306.564-.216 1.116-.552 1.656-1.008l.756 1.836c-.492.48-1.122.858-1.89 1.134a7.264 7.264 0 0 1-2.412.396Zm6.097-.18v-8.802h2.196v1.548c.432-1.044 1.356-1.62 2.772-1.728l.684-.054.144 1.908-1.296.126c-1.476.144-2.214.9-2.214 2.268V32h-2.286Zm11.246.18c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594Zm8.64 7.632c-.636 0-1.206-.12-1.71-.36a3.1 3.1 0 0 1-1.17-1.008 2.532 2.532 0 0 1-.414-1.422c0-.648.168-1.158.504-1.53.336-.384.882-.66 1.638-.828.756-.168 1.77-.252 3.042-.252h.63v-.378c0-.6-.132-1.032-.396-1.296s-.708-.396-1.332-.396a5.21 5.21 0 0 0-1.512.234 6.547 6.547 0 0 0-1.566.684l-.648-1.53a4.948 4.948 0 0 1 1.098-.558 7.248 7.248 0 0 1 1.35-.378c.48-.096.93-.144 1.35-.144 1.284 0 2.238.3 2.862.9.624.588.936 1.506.936 2.754V32h-2.106v-1.404a2.508 2.508 0 0 1-.972 1.17c-.444.276-.972.414-1.584.414Zm.468-1.548c.588 0 1.074-.204 1.458-.612.396-.408.594-.924.594-1.548v-.396h-.612c-1.128 0-1.914.09-2.358.27-.432.168-.648.48-.648.936 0 .396.138.72.414.972.276.252.66.378 1.152.378Zm10.51 1.548c-2.328 0-3.492-1.152-3.492-3.456V24.89h-1.692v-1.692h1.692V20.57h2.25v2.628h2.664v1.692h-2.664v3.708c0 .576.126 1.008.378 1.296.252.288.66.432 1.224.432.168 0 .342-.018.522-.054.18-.048.366-.096.558-.144l.342 1.656c-.216.12-.492.216-.828.288a4.39 4.39 0 0 1-.954.108Zm7.126 0c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594Zm14.932 7.632c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594ZM99.89 32l-3.816-8.802h2.394l2.448 6.156 2.538-6.156h2.25L101.835 32h-1.944Zm11.062.18c-.996 0-1.854-.186-2.574-.558a4.024 4.024 0 0 1-1.674-1.584c-.384-.684-.576-1.494-.576-2.43 0-.912.186-1.71.558-2.394a4.186 4.186 0 0 1 1.566-1.602c.672-.396 1.434-.594 2.286-.594 1.248 0 2.232.396 2.952 1.188.732.792 1.098 1.872 1.098 3.24v.666h-6.3c.168 1.572 1.068 2.358 2.7 2.358.492 0 .984-.072 1.476-.216a4.19 4.19 0 0 0 1.35-.72l.63 1.512c-.42.348-.948.624-1.584.828a6.216 6.216 0 0 1-1.908.306Zm-.324-7.632c-.66 0-1.194.204-1.602.612-.408.408-.654.96-.738 1.656h4.428c-.048-.732-.252-1.29-.612-1.674-.348-.396-.84-.594-1.476-.594ZM116.371 32v-8.802h2.196v1.368c.3-.504.702-.888 1.206-1.152a3.738 3.738 0 0 1 1.728-.396c2.076 0 3.114 1.206 3.114 3.618V32h-2.25v-5.256c0-.684-.132-1.182-.396-1.494-.252-.312-.648-.468-1.188-.468-.66 0-1.188.21-1.584.63-.384.408-.576.954-.576 1.638V32h-2.25Zm14.561.18c-2.328 0-3.492-1.152-3.492-3.456V24.89h-1.692v-1.692h1.692V20.57h2.25v2.628h2.664v1.692h-2.664v3.708c0 .576.126 1.008.378 1.296.252.288.66.432 1.224.432.168 0 .342-.018.522-.054.18-.048.366-.096.558-.144l.342 1.656c-.216.12-.492.216-.828.288a4.39 4.39 0 0 1-.954.108Z" />
+                <defs>
+                  <filter id="a" width="88.666" height="40.225" x="36.001" y="31.388" color-interpolation-filters="sRGB"
+                    filterUnits="userSpaceOnUse">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape" />
+                    <feGaussianBlur result="effect1_foregroundBlur_38_26948" stdDeviation="8.155" />
+                  </filter>
+                </defs>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="./newEvent.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <script type="module" src="./newEvent.js"></script>
+</body>
+
 </html>
