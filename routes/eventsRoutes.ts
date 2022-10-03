@@ -61,7 +61,10 @@ async function getParticipateEventList(req: Request, res: Response) {
         );
         const eventList: Events[] = result.rows;
         const [columnCount] = (await client.query(
-            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
+            `SELECT COUNT(events.*) FROM events
+            INNER JOIN participants ON participants.event_id = events.id
+            INNER JOIN users ON participants.user_id = users.id
+            WHERE users.id = $1;`,
             [req.session.user || 0]
         )).rows;
         res.json({
