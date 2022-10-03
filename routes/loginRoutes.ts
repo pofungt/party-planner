@@ -13,6 +13,7 @@ async function checkLogin(req: Request, res: Response) {
     const loginUser = (
       await client.query(`SELECT * FROM users WHERE email = $1`, [
         req.body.email,
+        
       ])
     ).rows[0];
 

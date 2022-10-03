@@ -78,7 +78,7 @@ async function main() {
       const end_datetime: string = new Date(`${date} ${end_time}`).toISOString();
 
       // Creator id
-      const creator_id: number = userDetail.id;
+      const creator_id: number  = userDetail.id;
 
       await client.query(
         `INSERT INTO events 

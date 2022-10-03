@@ -20,12 +20,13 @@ async function getCreateEventList(req: Request, res: Response) {
             `
     SELECT * FROM events 
     WHERE creator_id = $1 
-    ORDER BY date DESC, start_time DESC, id DESC
+    ORDER BY start_datetime DESC, id DESC
     LIMIT 10 OFFSET $2;
     `,
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
+        console.log(eventList)
         res.json(eventList);
     } catch (e) {
         logger.error(e);
@@ -47,7 +48,7 @@ async function getParticipateEventList(req: Request, res: Response) {
     INNER JOIN participants ON participants.event_id = events.id
     INNER JOIN users ON participants.user_id = users.id
     WHERE users.id = $1
-    ORDER BY events.date DESC, events.start_time DESC, events.id DESC
+    ORDER BY events.start_datetime DESC, events.id DESC
     LIMIT 10 OFFSET $2;;
     `,
             [req.session.user || 0, offset]
