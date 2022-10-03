@@ -1,5 +1,5 @@
-export async function loadCreateEvents() {
-  const res = await fetch("/events/created");
+export async function loadCreateEvents(page) {
+  const res = await fetch(`/events/created?page=${page}`);
 
   if (res.status !== 200) {
     const data = await res.json();
@@ -11,6 +11,7 @@ export async function loadCreateEvents() {
   const eventsCreateContainer = document.querySelector(
     ".create #events-container"
   );
+  const pageCreateContainer = document.querySelector(".create .turn-page-button-container");
 
   eventsCreateContainer.innerHTML = "";
 
@@ -47,10 +48,11 @@ export async function loadCreateEvents() {
         </tr>
         `;
   }
+  pageCreateContainer.innerHTML += `Page ${page}`;
 }
 
-export async function loadParticipateEvents() {
-  const res = await fetch("/events/participated");
+export async function loadParticipateEvents(page) {
+  const res = await fetch(`/events/participated?page=${page}`);
 
   if (res.status !== 200) {
     const data = await res.json();
@@ -59,11 +61,12 @@ export async function loadParticipateEvents() {
   }
   const events = await res.json();
 
-  const eventsCreateContainer = document.querySelector(
+  const eventsParticipateContainer = document.querySelector(
     ".participate #events-container"
   );
+  const pageParticipateContainer = document.querySelector(".participate .turn-page-button-container");
 
-  eventsCreateContainer.innerHTML = "";
+  eventsParticipateContainer.innerHTML = "";
 
   for (let event of events) {
     const date = new Date();
@@ -82,7 +85,7 @@ export async function loadParticipateEvents() {
     } else {
       status = "In Progress";
     }
-    eventsCreateContainer.innerHTML += `
+    eventsParticipateContainer.innerHTML += `
         <tr id="table-header">
             <th scope="col" id="ID_${event.id}">${event.id}</th>
             <th scope="col" id="name_${event.id}">${event.name}</th>
@@ -98,4 +101,5 @@ export async function loadParticipateEvents() {
         </tr>
         `;
   }
+  pageParticipateContainer.innerHTML += `Page ${page}`;
 }
