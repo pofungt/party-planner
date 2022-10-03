@@ -2,8 +2,24 @@
 /* font-family: 'Lato', sans-serif;
    font-family: 'Pacifico', cursive; */
 
+
+
+.navbar > .navbar-brand{
+    font-size: 30px;
+    font-family: 'Pacifico', cursive;
+    margin: 5px;
+
+}
+
+.navbar > .btn{
+    font-size: 20px;
+    font-family:'Lato', sans-serif;
+    color: #293241;
+}
+
 #logo-name{
     font-size: 60px;
+    color: #293241;
     font-family: 'Pacifico', cursive;
     display: flex;
     justify-content: center;
