@@ -248,11 +248,11 @@
 }
 
 #user-email {
-    border-color: #1ecbe1;
+    border-color: #495871;
 }
 
 #user-password {
-    border-color: #e1341e;
+    border-color: #EE6C4D;
 }
 
 #login-form-submit,
@@ -281,9 +281,9 @@
 }
 
 .user-email .form-label {
-    color: #1ecbe1;
+    color: #495871;
 }
 
 .user-password .form-label {
-    color: #e1341e;
+    color: #EE6C4D;
 }
