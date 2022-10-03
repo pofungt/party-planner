@@ -77,8 +77,8 @@ async function main() {
 
       await client.query(
         `INSERT INTO events 
-                (name,venue,budget,date,start_time,end_time,creator_id,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+                (name,venue,budget,start_datetime,end_datetime,creator_id,created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
         [name, venue, budget, date, start_time, end_time, creator_id]
       );
     }
