@@ -5,8 +5,8 @@ body {
 
 }
 
-#table-body {
-    border-radius: 10px;
+.table-body {
+  border-radius: 10px;
 }
 
 #table-header {
@@ -24,17 +24,6 @@ body {
     border-radius: 10px;
     text-align: left;
 }
-
-a {
-    text-decoration: none;
-    display: inline-block;
-    padding: 8px 16px;
-  }
-  
-a:hover {
-    background-color: #ddd;
-    color: black;
-  }
   
 .round {
     border-radius: 50%;
@@ -53,4 +42,8 @@ a:hover {
   color: black;
   border-radius: 10px;
   text-align: left;
+}
+
+th {
+  text-align: center!important;
 }
