@@ -36,7 +36,7 @@ export function listenCreateButtons() {
         listenCreateButtons();
       });
 
-    document.querySelector(".create .previous-round").addEventListener("click", () => {
+    document.querySelector(".create .previous-round").addEventListener("click", async () => {
         const params = new URLSearchParams(window.location.search);
         let page = "1";
 
@@ -46,7 +46,7 @@ export function listenCreateButtons() {
             if (onlyNumbers(params.get('createPage'))) {
                 if (parseInt(params.get('createPage')) >= 2) {
                     page = (parseInt(params.get('createPage')) - 1).toString();
-                    loadCreateEvents(page);
+                    page = await loadCreateEvents(page);
                 } else {
                     page = "1";
                     loadCreateEvents(page);
@@ -100,7 +100,7 @@ export function listenParticipateButtons() {
         listenParticipateButtons();
       });
 
-    document.querySelector(".participate .previous-round").addEventListener("click", () => {
+    document.querySelector(".participate .previous-round").addEventListener("click", async () => {
         const params = new URLSearchParams(window.location.search);
         let page = "1";
 
@@ -110,7 +110,7 @@ export function listenParticipateButtons() {
             if (onlyNumbers(params.get('participatePage'))) {
                 if (parseInt(params.get('participatePage')) >= 2) {
                     page = (parseInt(params.get('participatePage')) - 1).toString();
-                    loadParticipateEvents(page);
+                    page = await loadParticipateEvents(page);
                 } else {
                     page = "1";
                     loadParticipateEvents(page);
