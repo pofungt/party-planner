@@ -70,10 +70,10 @@ async function postEvent(req: Request, res: Response) {
             [
                 req.body.eventName,
                 req.body.eventVenue,
-                req.body.eventDate,
                 req.body.indoor,
                 req.body.outdoor,
-                req.body.startTime.req.body.endTime,
+                req.body.startTime,
+				req.body.endTime,
             ]
         );
     } catch (e) {
