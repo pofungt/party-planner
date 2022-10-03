@@ -24,6 +24,7 @@ export async function loadCreateEvents(page) {
   }
   const result = await res.json();
   const events = result.object;
+  const currentPage = result.currentPage;
   const totalPage = result.page;
 
   const eventsCreateContainer = document.querySelector(
@@ -53,7 +54,7 @@ export async function loadCreateEvents(page) {
         </tr>
         `;
   }
-  const pageHTML = !totalPage ? "" : `Page ${page} / ${totalPage}`;
+  const pageHTML = !totalPage ? "" : `Page ${currentPage} / ${totalPage}`;
   eventsCreateContainer.innerHTML = eventsCreateHTML;
   pageCreateContainer.innerHTML = `
     <button type="button" class="previous-round btn btn-light">&lt;</button>
@@ -61,6 +62,7 @@ export async function loadCreateEvents(page) {
     ${pageHTML}
   `;
   listenCreateButtons();
+  return currentPage;
 }
 
 export async function loadParticipateEvents(page) {
@@ -73,6 +75,7 @@ export async function loadParticipateEvents(page) {
   }
   const result = await res.json();
   const events = result.object;
+  const currentPage = result.currentPage;
   const totalPage = result.page;
 
   const eventsParticipateContainer = document.querySelector(
@@ -102,7 +105,7 @@ export async function loadParticipateEvents(page) {
         </tr>
         `;
   }
-  const pageHTML = !totalPage ? "" : `Page ${page} / ${totalPage}`;
+  const pageHTML = !totalPage ? "" : `Page ${currentPage} / ${totalPage}`;
   eventsParticipateContainer.innerHTML = eventsParticipateHTML;
   pageParticipateContainer.innerHTML = `
     <button type="button" class="previous-round btn btn-light">&lt;</button>
@@ -110,4 +113,5 @@ export async function loadParticipateEvents(page) {
     ${pageHTML}
   `;
   listenParticipateButtons();
+  return currentPage;
 }

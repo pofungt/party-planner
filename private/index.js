@@ -4,7 +4,7 @@ function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
 }
 
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
   loadName();
   const params = new URLSearchParams(window.location.search);
   let createPage = "1";
@@ -16,12 +16,12 @@ window.addEventListener("load", () => {
     if (onlyNumbers(params.get('createPage'))) {
       if (parseInt(params.get('createPage')) >= 1) {
         createPage = params.get('createPage');
-        loadCreateEvents(createPage);
+        createPage = await loadCreateEvents(createPage);
       } else {
-          loadCreateEvents(createPage);
+        loadCreateEvents(createPage);
       }
     } else {
-        loadCreateEvents(createPage);
+      loadCreateEvents(createPage);
     }
   }
   
@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
     if (onlyNumbers(params.get('participatePage'))) {
       if (parseInt(params.get('participatePage')) >= 1) {
         participatePage = params.get('participatePage');
-        loadParticipateEvents(participatePage);
+        participatePage = await loadParticipateEvents(participatePage);
       } else {
         loadParticipateEvents(participatePage);
       }

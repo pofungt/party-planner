@@ -5,24 +5,24 @@ function onlyNumbers(str) {
 }
 
 export function listenCreateButtons() {
-    document.querySelector(".create .next-round").addEventListener("click", () => {
+    document.querySelector(".create .next-round").addEventListener("click", async () => {
         const params = new URLSearchParams(window.location.search);
         let page = "2";
       
         if (!params.has('createPage')) {
-          loadCreateEvents(page);
+            await loadCreateEvents(page);
         } else {
             if (onlyNumbers(params.get('createPage'))) {
                 if (parseInt(params.get('createPage')) >= 1) {
                     page = (parseInt(params.get('createPage')) + 1).toString();
-                    loadCreateEvents(page);
+                    page = await loadCreateEvents(page);
                 } else {
                     page = "1";
-                    loadCreateEvents(page);
+                    await loadCreateEvents(page);
                 }
             } else {
                 page = "1";
-                loadCreateEvents(page);
+                await loadCreateEvents(page);
             }
         }
         
@@ -69,7 +69,7 @@ export function listenCreateButtons() {
 }
 
 export function listenParticipateButtons() {
-    document.querySelector(".participate .next-round").addEventListener("click", () => {
+    document.querySelector(".participate .next-round").addEventListener("click", async () => {
         const params = new URLSearchParams(window.location.search);
         let page = "2";
       
@@ -79,7 +79,7 @@ export function listenParticipateButtons() {
             if (onlyNumbers(params.get('participatePage'))) {
                 if (parseInt(params.get('participatePage')) >= 1) {
                     page = (parseInt(params.get('participatePage')) + 1).toString();
-                    loadParticipateEvents(page);
+                    page = await loadParticipateEvents(page);
                 } else {
                     page = "1";
                     loadParticipateEvents(page);

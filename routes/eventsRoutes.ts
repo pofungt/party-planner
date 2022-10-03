@@ -13,9 +13,19 @@ eventsRoutes.post("/", postEvent);
 async function getCreateEventList(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        const offset: number = onlyNumbers(req.query.page as string)
-            ? (parseInt(req.query.page as string) - 1) * 10
-            : 0;
+        const [columnCountObject] = (await client.query(
+            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
+            [req.session.user || 0]
+        )).rows;
+        const columnCount = parseInt(columnCountObject.count);
+        let currentPage = req.query.page as string;
+        let offset: number = onlyNumbers(currentPage)
+        ? (parseInt(currentPage) - 1) * 10
+        : 0;
+        if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
+            currentPage = Math.ceil(columnCount / 10).toString();
+            offset = (Math.ceil(columnCount / 10) - 1) * 10;
+        }
         const result = await client.query(
             `
             SELECT * FROM events 
@@ -26,13 +36,10 @@ async function getCreateEventList(req: Request, res: Response) {
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
-        const [columnCount] = (await client.query(
-            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
-            [req.session.user || 0]
-        )).rows;
         res.json({
-            object: eventList, 
-            page: Math.ceil(parseInt(columnCount.count) / 10)
+            object: eventList,
+            currentPage: currentPage,
+            page: Math.ceil(columnCount / 10)
         });
     } catch (e) {
         logger.error(e);
@@ -45,9 +52,22 @@ async function getCreateEventList(req: Request, res: Response) {
 async function getParticipateEventList(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        const offset: number = onlyNumbers(req.query.page as string)
-            ? (parseInt(req.query.page as string) - 1) * 10
-            : 0;
+        const [columnCountObject] = (await client.query(
+            `SELECT COUNT(events.*) FROM events
+            INNER JOIN participants ON participants.event_id = events.id
+            INNER JOIN users ON participants.user_id = users.id
+            WHERE users.id = $1;`,
+            [req.session.user || 0]
+        )).rows;
+        const columnCount = parseInt(columnCountObject.count);
+        let currentPage = req.query.page as string;
+        let offset: number = onlyNumbers(currentPage)
+        ? (parseInt(currentPage) - 1) * 10
+        : 0;
+        if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
+            currentPage = Math.ceil(columnCount / 10).toString();
+            offset = (Math.ceil(columnCount / 10) - 1) * 10;
+        }
         const result = await client.query(
             `
             SELECT events.* FROM events
@@ -60,16 +80,10 @@ async function getParticipateEventList(req: Request, res: Response) {
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
-        const [columnCount] = (await client.query(
-            `SELECT COUNT(events.*) FROM events
-            INNER JOIN participants ON participants.event_id = events.id
-            INNER JOIN users ON participants.user_id = users.id
-            WHERE users.id = $1;`,
-            [req.session.user || 0]
-        )).rows;
         res.json({
-            object: eventList, 
-            page: Math.ceil(parseInt(columnCount.count) / 10)
+            object: eventList,
+            currentPage: currentPage,
+            page: Math.ceil(columnCount / 10)
         });
     } catch (e) {
         logger.error(e);
