@@ -71,14 +71,16 @@ export async function loadParticipateEvents(page) {
     alert(data.msg);
     return;
   }
-  const events = await res.json();
+  const result = await res.json();
+  const events = result.object;
+  const totalPage = result.page;
 
   const eventsParticipateContainer = document.querySelector(
     ".participate #events-container"
   );
   const pageParticipateContainer = document.querySelector(".participate .turn-page-button-container");
 
-  eventsParticipateContainer.innerHTML = "";
+  let eventsParticipateHTML = "";
 
   for (let event of events) {
     const today = (new Date()).getTime();
@@ -89,7 +91,7 @@ export async function loadParticipateEvents(page) {
     } else {
       status = "In Progress";
     }
-    eventsParticipateContainer.innerHTML += `
+    eventsParticipateHTML += `
         <tr id="table-header">
             <th scope="col" class="ID_${event.id}">${event.id}</th>
             <th scope="col" class="name_${event.id}">${event.name}</th>
@@ -100,10 +102,12 @@ export async function loadParticipateEvents(page) {
         </tr>
         `;
   }
+  const pageHTML = !totalPage ? "" : `Page ${page} / ${totalPage}`;
+  eventsParticipateContainer.innerHTML = eventsParticipateHTML;
   pageParticipateContainer.innerHTML = `
     <button type="button" class="previous-round btn btn-light">&lt;</button>
     <button type="button" class="next-round btn btn-light">&gt;</button>
-    Page ${page}
+    ${pageHTML}
   `;
   listenParticipateButtons();
 }

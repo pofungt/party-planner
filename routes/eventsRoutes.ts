@@ -60,7 +60,14 @@ async function getParticipateEventList(req: Request, res: Response) {
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
-        res.json(eventList);
+        const [columnCount] = (await client.query(
+            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
+            [req.session.user || 0]
+        )).rows;
+        res.json({
+            object: eventList, 
+            page: Math.ceil(parseInt(columnCount.count) / 10)
+        });
     } catch (e) {
         logger.error(e);
         res.status(500).json({
