@@ -1,19 +1,43 @@
 import { loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
 
+function onlyNumbers(str) {
+  return /^[0-9]+$/.test(str);
+}
+
 window.addEventListener("load", () => {
   const params = new URLSearchParams(window.location.search);
+  let createPage = "1";
+  let participatePage = "1";
 
   if (!params.has('createPage')) {
-    loadCreateEvents("1");
+    loadCreateEvents(createPage);
   } else {
-    const page = params.get('createPage');
-    loadCreateEvents(page);
+    if (onlyNumbers(params.get('createPage'))) {
+      if (parseInt(params.get('createPage')) >= 1) {
+        createPage = params.get('createPage');
+        loadCreateEvents(createPage);
+      } else {
+          loadCreateEvents(createPage);
+      }
+    } else {
+        loadCreateEvents(createPage);
+    }
   }
   
   if (!params.has('participatePage')) {
-    loadParticipateEvents("1");
+    loadParticipateEvents(participatePage);
   } else {
-    const page = params.get('participatePage');
-    loadParticipateEvents(page);
+    if (onlyNumbers(params.get('participatePage'))) {
+      if (parseInt(params.get('participatePage')) >= 1) {
+        participatePage = params.get('participatePage');
+        loadParticipateEvents(participatePage);
+      } else {
+        loadParticipateEvents(participatePage);
+      }
+    } else {
+      loadParticipateEvents(participatePage);
+    }
   }
+
+  history.pushState({}, "Dashboard", `http://localhost:8080/index.html?createPage=${createPage}&participatePage=${participatePage}`);
 });
