@@ -18,7 +18,6 @@ document
       eventVenue,
       indoor,
       outdoor,
-      eventDate,
       startTime,
       endTime,
       eventRemark,

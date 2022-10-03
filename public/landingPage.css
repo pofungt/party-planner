@@ -2,13 +2,14 @@
 /* font-family: 'Lato', sans-serif;
    font-family: 'Pacifico', cursive; */
 
-
+.navbar{
+  background-color: #EFEFD0;
+}
 
 .navbar > .navbar-brand{
     font-size: 30px;
     font-family: 'Pacifico', cursive;
     margin: 5px;
-
 }
 
 .navbar > .btn{
@@ -24,6 +25,18 @@
     display: flex;
     justify-content: center;
     padding: 30px;
+}
+
+.user-login{
+    background-color: #EFEFD0;
+    min-height: 80px;
+    display: flex;
+    align-content: center;
+}
+
+.landing-Page-login-btn{
+  font-size: 20px;
+  color: #495871;
 }
 
 .introduction-box{
@@ -83,7 +96,6 @@
     box-shadow: 0px 1px 14px #F2D492;
     touch-action: manipulation;
 }
-
 
 .modal-footer{
     display: flex;
