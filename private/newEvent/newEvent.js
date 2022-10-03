@@ -20,9 +20,9 @@ document
       outdoor,
       startTime,
       endTime,
-      eventRemark,
       parkingLot,
       lotNumber,
+      eventRemark,
     };
 
     let dataPass = true;
@@ -30,6 +30,11 @@ document
     if (!eventName) {
       dataPass = false;
       alert("Please fill in the event name!");
+    }
+
+    if (lotNumber) {
+        !Number;
+        alert("Please fill number only!");
     }
 
     if (dataPass) {
