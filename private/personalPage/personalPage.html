@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./personalPage.css" />
+    <title>Personal Page</title>
+</head>
+
+<body>
+    <header>For Nav Bar input</header>
+    <header id="accout-info">Account Info</header>
+    <form>
+        <div class="mb-3 name_container">
+            <span class="first_name_container">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="first_name" method="/personalPage/put">
+            </span>
+            <span >
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="last_name" method="/personalPage/put">
+            </span>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" method="/personalPage/put">
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="number" class="form-control" id="phone" method="/personalPage/put">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Current Password</label>
+            <input type="password" class="form-control" id="password" method="/personalPage/put">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="password" method="/personalPage/put">
+        </div>
+        <div class="button-container mb-3">
+            <button type="submit" class="btn btn-primary update">Update</button>
+            <button type="submit" class="btn btn-primary cancel">Cancel</button>
+        </div>
+
+    </form>
+    <script type="module" src="./personalPage.js"></script>
+</body>
+
+</html>
