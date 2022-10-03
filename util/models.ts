@@ -5,6 +5,10 @@ export interface Events {
   budget: number | null;
   start_datetime: string | null;
   end_datetime: string | null;
+  indoor: boolean | null;
+  outdoor: boolean | null;
+  parking_lot: boolean | null;
+  lot_number: number | null;
   creator_id: number;
   created_at: string;
   updated_at: string;

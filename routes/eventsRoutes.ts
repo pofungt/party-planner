@@ -26,7 +26,6 @@ async function getCreateEventList(req: Request, res: Response) {
             [req.session.user || 0, offset]
         );
         const eventList: Events[] = result.rows;
-        console.log(eventList)
         res.json(eventList);
     } catch (e) {
         logger.error(e);

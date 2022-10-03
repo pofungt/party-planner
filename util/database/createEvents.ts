@@ -83,7 +83,7 @@ async function main() {
 
       // parking lot
       const parkingLot: boolean = Math.random() > 0.5 ? true : false;
-      const lotNumber: number = (Math.random()*10);
+      const lotNumber: number = parkingLot ? Math.floor(Math.random() * 10) : 0;
 
       // Creator id
       const creator_id: number  = userDetail.id;
