@@ -15,7 +15,7 @@ export async function loadCreateEvents(page) {
   );
   const pageCreateContainer = document.querySelector(".create .turn-page-button-container");
 
-  eventsCreateContainer.innerHTML = "";
+  let eventsCreateHTML = "";
 
   for (let event of events) {
     const today = (new Date()).getTime();
@@ -26,17 +26,18 @@ export async function loadCreateEvents(page) {
     } else {
       status = "In Progress";
     }
-    eventsCreateContainer.innerHTML += `
+    eventsCreateHTML += `
         <tr id="table-header">
-            <th scope="col" id="ID_${event.id}">${event.id}</th>
-            <th scope="col" id="name_${event.id}">${event.name}</th>
-            <th scope="col" id="address_${event.id}">${event.venue}</th>
-            <th scope="col" id="start_datetime_${event.id}">${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,})}</th>
-			      <th scope="col" id="end_datetime_${event.id}">${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,})}</th>
-            <th scope="col" id="event_status_${event.id}">${status}</th>
+            <th scope="col" class="ID_${event.id}">${event.id}</th>
+            <th scope="col" class="name_${event.id}">${event.name}</th>
+            <th scope="col" class="address_${event.id}">${event.venue}</th>
+            <th scope="col" class="start_datetime_${event.id}">${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ','<br>').slice(0, -3)}</th>
+			      <th scope="col" class="end_datetime_${event.id}">${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ','<br>').slice(0, -3)}</th>
+            <th scope="col" class="event_status_${event.id}">${status}</th>
         </tr>
         `;
   }
+  eventsCreateContainer.innerHTML = eventsCreateHTML;
   pageCreateContainer.innerHTML = `
     <button type="button" class="previous-round btn btn-light">&lt;</button>
     <button type="button" class="next-round btn btn-light">&gt;</button>
@@ -73,12 +74,12 @@ export async function loadParticipateEvents(page) {
     }
     eventsParticipateContainer.innerHTML += `
         <tr id="table-header">
-            <th scope="col" id="ID_${event.id}">${event.id}</th>
-            <th scope="col" id="name_${event.id}">${event.name}</th>
-            <th scope="col" id="address_${event.id}">${event.venue}</th>
-            <th scope="col" id="start_datetime_${event.id}">${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,})}</th>
-			      <th scope="col" id="end_datetime_${event.id}">${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,})}</th>
-            <th scope="col" id="event_status_${event.id}">${status}</th>
+            <th scope="col" class="ID_${event.id}">${event.id}</th>
+            <th scope="col" class="name_${event.id}">${event.name}</th>
+            <th scope="col" class="address_${event.id}">${event.venue}</th>
+            <th scope="col" class="start_datetime_${event.id}">${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ','<br>').slice(0, -3)}</th>
+			      <th scope="col" class="end_datetime_${event.id}">${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ','<br>').slice(0, -3)}</th>
+            <th scope="col" class="event_status_${event.id}">${status}</th>
         </tr>
         `;
   }
