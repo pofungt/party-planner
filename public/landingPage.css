@@ -2,7 +2,9 @@
 /* font-family: 'Lato', sans-serif;
    font-family: 'Pacifico', cursive; */
 
-
+.navbar{
+  background-color: #EFEFD0;
+}
 
 .navbar > .navbar-brand{
     font-size: 30px;
@@ -23,6 +25,18 @@
     display: flex;
     justify-content: center;
     padding: 30px;
+}
+
+.user-login{
+    background-color: #EFEFD0;
+    min-height: 80px;
+    display: flex;
+    align-content: center;
+}
+
+.landing-Page-login-btn{
+  font-size: 20px;
+  color: #495871;
 }
 
 .introduction-box{
