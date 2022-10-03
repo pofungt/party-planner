@@ -45,5 +45,6 @@ body {
 }
 
 th {
-  text-align: center!important;
+  text-align: center;
+  max-width: 150px;
 }
