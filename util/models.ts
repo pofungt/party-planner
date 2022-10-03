@@ -3,9 +3,8 @@ export interface Events {
   name: string;
   venue: string | null;
   budget: number | null;
-  date: string | null;
-  start_time: string | null;
-  end_time: string | null;
+  start_datetime: string | null;
+  end_datetime: string | null;
   creator_id: number;
   created_at: string;
   updated_at: string;
