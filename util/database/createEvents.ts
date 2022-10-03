@@ -58,6 +58,7 @@ async function main() {
       }`;
       // Budget
       const budget: number = (Math.floor(Math.random() * 10) + 1) * 1000;
+
       // Date
       const date: string = format(randomDate(new Date(), 100), "yyyy/MM/dd");
       const userDetail = (
@@ -66,20 +67,24 @@ async function main() {
         ])
       ).rows[0];
       // Time
-      const start_time = `${randomIntFromInterval(12, 17)}:${
+      const start_time: string = `${randomIntFromInterval(12, 17)}:${
         Math.random() > 0.5 ? "00" : "30"
       }`;
-      const end_time = `${randomIntFromInterval(18, 23)}:${
+      const end_time: string = `${randomIntFromInterval(18, 23)}:${
         Math.random() > 0.5 ? "00" : "30"
       }`;
+      // DateTime
+      const start_datetime: string = new Date(`${date} ${start_time}`).toISOString();
+      const end_datetime: string = new Date(`${date} ${end_time}`).toISOString();
+
       // Creator id
-      const creator_id = userDetail.id;
+      const creator_id: number = userDetail.id;
 
       await client.query(
         `INSERT INTO events 
                 (name,venue,budget,start_datetime,end_datetime,creator_id,created_at,updated_at) 
                 VALUES ($1,$2,$3,$4,$5,$6,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-        [name, venue, budget, date, start_time, end_time, creator_id]
+        [name, venue, budget, start_datetime, end_datetime, creator_id]
       );
     }
   }
