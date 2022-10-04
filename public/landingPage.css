@@ -112,9 +112,7 @@
 }
 
 .modal-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-content: center;
 }
 
 .modal-login {
@@ -286,4 +284,24 @@
 
 .user-password .form-label {
     color: #EE6C4D;
+}
+
+.google-login {
+    background: url("./asset/btn_google_signin_light_normal_web.png");
+    border: none;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-width: 200px;
+    min-height: 55px;
+    padding-bottom: 2px;
+}
+
+#or-separator {
+    position: absolute;
+    top: -18px;
+    background-color: white;
+}
+
+#google-separator {
+    position: relative;
 }

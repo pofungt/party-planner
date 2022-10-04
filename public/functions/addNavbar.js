@@ -1,6 +1,8 @@
 export function addNavbar() {
     
     document.querySelector("head").innerHTML += `
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
+        rel="stylesheet" />
         <link rel="stylesheet" href="/addNavbar.css" />
     `;
 
