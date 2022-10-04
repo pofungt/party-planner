@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { logger } from "../util/logger";
 import { client } from "../app";
 import { checkPassword } from "../util/functions/hash";
-// import fetch from 'cross-fetch'
+import fetch from 'cross-fetch'
 
 export const loginRoutes = express.Router();
 
@@ -104,25 +104,25 @@ async function loginGoogle(req:express.Request,res:express.Response) {
   const accessToken = req.session?.['grant'].response.access_token;
   console.log(accessToken)
 
-  // const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-  //   method: "get",
-  //   headers: {
-  //     "Authorization": `Bearer ${accessToken}`
-  //   }
-  // });
-  // const result = await fetchRes.json();
-  // console.log(result)
-  // const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
-  // let user = users[0];
-
-  // if (!user) {
-  //   user = (await client.query(`INSERT INTO users (id, first_name, last_name, password, phone, email, created_at, updated_at) 
-  //             VALUES ($1,$2,$3,$4,$5,$6,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
-  //     [req.session.id, result.given_name, result.family_name, "", "", result.email])).rows[0]
-  // }
-  // if (req.session) {
-  //   req.session.user = user.id
-  // };
-  // return res.redirect('/')
+  const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+    method: "get",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    }
+  });
+  const result = await fetchRes.json();
+  console.log(result)
+  const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
+  let user = users[0];
+  if (!user) {
+    user = (await client.query(`INSERT INTO users (first_name, last_name, password, phone, email, created_at, updated_at) 
+              VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
+      [result.given_name, result.family_name, "", "", result.email])).rows[0]
+  }
+  console.log(user)
+  if (req.session) {
+    req.session.user = user.id
+  };
+  return res.redirect('/')
 }
 
