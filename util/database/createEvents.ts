@@ -90,8 +90,8 @@ async function main() {
 
       await client.query(
         `INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,creator_id,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
         [name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id]
       );
     }
