@@ -22,6 +22,24 @@
     background-color: #fff;
 }
 
+/* edit btn */
+.shopping-edit {
+    border-radius: 40px;
+    background-color: #F29559;
+    position: relative;
+    top: -1px;
+    left: 200px;
+}
+
+.item-category-title {
+    display: flex;
+    justify-content: space-between;
+}
+.category-edit {
+    border-radius: 40px;
+    background-color: #F29559;
+}
+
 .item-category {
     background-color: #FEFDE2;
     height: 338px;
@@ -37,6 +55,7 @@
     width: 350px;
     background-color: #fff;
 }
+
 
 
 
