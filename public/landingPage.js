@@ -13,7 +13,7 @@ window.addEventListener('load', async () => {
     addLoginNavbar();
   }
 
-  setTimeout(()=>{document.body.style.display = "block";},100)
+  document.body.style.display = "block";
 })
 
 document

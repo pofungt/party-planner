@@ -4,7 +4,7 @@ import { loadName } from "/functions/loadEvent.js";
 window.addEventListener("load", () => {
     addNavbar();
     loadName();
-    setTimeout(()=>{document.body.style.display = "block";},100)
+    document.body.style.display = "block";
 });
 
 document
