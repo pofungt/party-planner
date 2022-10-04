@@ -1,4 +1,4 @@
-const { getTime } = require("date-fns");
+
 
 document
     .querySelector("#from-container")
@@ -43,9 +43,10 @@ document
         const endTimeValue = new Date(endTime).getTime();
 
         // check time validity
-        if (startTimeValue <= endTimeValue) {
+        if (startTimeValue >= endTimeValue) {
             dataPass = false;
             alert("Start time cannot equals or later than end time!");
+        }
 
         if (dataPass) {
             const res = await fetch("/events", {
