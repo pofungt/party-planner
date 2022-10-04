@@ -60,12 +60,8 @@ app.use(
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 app.use("/events", eventsRoutes);
-<<<<<<< HEAD
 app.use("/personalPage", personalInfoRoutes);
-=======
-app.use("/personal", personalInfoRoutes);
 app.use("/items", itemsRoutes);
->>>>>>> e66b65bf1ad9f4cc21ade08b4f0996d2a1a45c2e
 
 app.use(isLoggedIn, express.static("private"));
 
