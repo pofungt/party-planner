@@ -27,7 +27,6 @@ async function getItem(req: Request, res: Response) {
             `,
             [req.query.eventID]
         );
-        TypeName.Food;
 
         const itemObj = {
             [TypeName.Food]: [],
