@@ -1,9 +1,12 @@
 import express, { Request, Response } from "express";
 import { logger } from "../util/logger";
+import {}
 
 export const itemsRoutes = express.Router();
 
-async function getCreatItem (req: Request, res: Response) {
+itemsRoutes.get("/participated", getParticipateEventList);
+
+async function getItem (req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
 
