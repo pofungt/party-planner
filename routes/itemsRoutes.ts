@@ -15,7 +15,7 @@ async function getItem (req: Request, res: Response) {
 
     } catch(e) {
         logger.error(e);
-        res.status(500).json({ msg: "[ITM]: Failed to post Item" });
+        res.status(500).json({ msg: "[ITM001]: Failed to post Item" });
     }
 }
 
