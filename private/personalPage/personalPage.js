@@ -1,24 +1,23 @@
 
 window.addEventListener('load', loadInfo())
 
-document.querySelector('.update').addEventListener('submit', updateInfo())
+let userID = ""
 
 async function getUserID (req, res) {
     const res = await fetch ('/')
     const result = res.json();
+    userID = result
 }
 
+async function loadInfo() {
 
-
-async function loadInfo(userID) {
-
+    const res = await fetch(`/personalPage`);
+    
     if (res.status !== 200) {
         const data = await res.json();
         alert(data.msg);
         return;
     }
-
-    const res = await fetch(`/personalPage/?${userID}`);
 
     const firstName = document.querySelector("#first_name")
     const lastName = document.querySelector("#last_name")
@@ -35,9 +34,7 @@ async function loadInfo(userID) {
 }
 
 
-
-async function updateInfo(event) {
-    event.preventDefault()
+document.querySelector('.update').addEventListener('submit', async function updateInfo(event) {
 
     const form = event.target;
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
@@ -51,8 +48,6 @@ async function updateInfo(event) {
 
 
     let dataPass = true;
-
-    // Checking data validity
 
     if (!lastName || !firstName || !currentPassword || !newPassword) {
         dataPass = false;
@@ -80,7 +75,7 @@ async function updateInfo(event) {
         formObject['password'] = newPassword
         formObject['current_password'] = currentPassword
 
-        const res = await fetch(`/personalPage/update/?${userID}`, {
+        const res = await fetch(`/personalPage/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,9 +83,10 @@ async function updateInfo(event) {
             body: JSON.stringify(formObject),
         })
     }
-    const result = await res.json()
 
     if (res.status = 400) {
         window.alert("Your current password is incorrect!")
+    } else {
+        const result = await res.json()
     }
-}
+})

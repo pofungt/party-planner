@@ -4,13 +4,13 @@ import { checkPassword, hashPassword } from "../util/functions/hash";
 import { logger } from "../util/logger";
 import { Users, UsersInput } from "../util/models";
 import jsonfile from "jsonfile";
-import { isLoggedIn } from "../util/guard";
+import { isLoggedInAPI } from "../util/guard";
 
 export const personalInfoRoutes = express.Router();
 
-personalInfoRoutes.get("/", isLoggedIn, getUserID)
-personalInfoRoutes.get("/personalPage/?id", isLoggedIn, getPersonalInfo);
-personalInfoRoutes.put("/personalPage/update/?id", isLoggedIn, updatePersonalInfo);
+personalInfoRoutes.get("/", getUserID)
+personalInfoRoutes.get("/personalPage", isLoggedInAPI, getPersonalInfo);
+personalInfoRoutes.put("/personalPage/update", isLoggedInAPI, updatePersonalInfo);
 
 async function getUserID(req :Request, res: Response) {
     const result = req.session.user
