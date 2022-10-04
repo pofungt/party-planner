@@ -3,12 +3,13 @@ import { client } from "../app";
 import { Events } from "../util/models";
 import { onlyNumbers } from "../util/functions/onlyNumbers";
 import { logger } from "../util/logger";
+import { isLoggedInAPI } from "../util/guard";
 
 export const eventsRoutes = express.Router();
 
-eventsRoutes.get("/created", getCreateEventList);
-eventsRoutes.get("/participated", getParticipateEventList);
-eventsRoutes.post("/", postEvent);
+eventsRoutes.get("/created", isLoggedInAPI, getCreateEventList);
+eventsRoutes.get("/participated", isLoggedInAPI, getParticipateEventList);
+eventsRoutes.post("/", isLoggedInAPI, postEvent);
 
 async function getCreateEventList(req: Request, res: Response) {
     try {
