@@ -296,12 +296,12 @@
     padding-bottom: 2px;
 }
 
-#or-seperator {
+#or-separator {
     position: absolute;
     top: -18px;
     background-color: white;
 }
 
-#google-seperator {
+#google-separator {
     position: relative;
 }
