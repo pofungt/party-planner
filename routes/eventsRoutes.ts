@@ -14,15 +14,17 @@ eventsRoutes.post("/", isLoggedInAPI, postEvent);
 async function getCreateEventList(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        const [columnCountObject] = (await client.query(
-            `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
-            [req.session.user || 0]
-        )).rows;
+        const [columnCountObject] = (
+            await client.query(
+                `SELECT COUNT(*) FROM events WHERE creator_id = $1 `,
+                [req.session.user || 0]
+            )
+        ).rows;
         const columnCount = parseInt(columnCountObject.count);
         let currentPage = req.query.page as string;
         let offset: number = onlyNumbers(currentPage)
-        ? (parseInt(currentPage) - 1) * 10
-        : 0;
+            ? (parseInt(currentPage) - 1) * 10
+            : 0;
         if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
             currentPage = Math.ceil(columnCount / 10).toString();
             offset = (Math.ceil(columnCount / 10) - 1) * 10;
@@ -40,7 +42,7 @@ async function getCreateEventList(req: Request, res: Response) {
         res.json({
             object: eventList,
             currentPage: currentPage,
-            page: Math.ceil(columnCount / 10)
+            page: Math.ceil(columnCount / 10),
         });
     } catch (e) {
         logger.error(e);
@@ -53,18 +55,20 @@ async function getCreateEventList(req: Request, res: Response) {
 async function getParticipateEventList(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        const [columnCountObject] = (await client.query(
-            `SELECT COUNT(events.*) FROM events
+        const [columnCountObject] = (
+            await client.query(
+                `SELECT COUNT(events.*) FROM events
             INNER JOIN participants ON participants.event_id = events.id
             INNER JOIN users ON participants.user_id = users.id
             WHERE users.id = $1;`,
-            [req.session.user || 0]
-        )).rows;
+                [req.session.user || 0]
+            )
+        ).rows;
         const columnCount = parseInt(columnCountObject.count);
         let currentPage = req.query.page as string;
         let offset: number = onlyNumbers(currentPage)
-        ? (parseInt(currentPage) - 1) * 10
-        : 0;
+            ? (parseInt(currentPage) - 1) * 10
+            : 0;
         if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
             currentPage = Math.ceil(columnCount / 10).toString();
             offset = (Math.ceil(columnCount / 10) - 1) * 10;
@@ -84,7 +88,7 @@ async function getParticipateEventList(req: Request, res: Response) {
         res.json({
             object: eventList,
             currentPage: currentPage,
-            page: Math.ceil(columnCount / 10)
+            page: Math.ceil(columnCount / 10),
         });
     } catch (e) {
         logger.error(e);
@@ -98,8 +102,11 @@ async function postEvent(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
         await client.query(
-            `INSERT INTO  events (name, venue, indoor, outdoor, parking_lot, lot_number, remark, start_datetime, end_datetime, budget) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+            `INSERT INTO  events 
+                (name, venue, indoor, outdoor, parking_lot, 
+                lot_number, remark, start_datetime, end_datetime, budget, 
+                creator_id, created_at, updated_at) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
             [
                 req.body.eventName,
                 req.body.eventVenue,
@@ -109,8 +116,11 @@ async function postEvent(req: Request, res: Response) {
                 req.body.lotNumber,
                 req.body.eventRemark,
                 req.body.startTime,
-				req.body.endTime,
+                req.body.endTime,
                 req.body.eventBudget,
+                req.session.user,
+                "now()",
+                "now()",
             ]
         );
     } catch (e) {
