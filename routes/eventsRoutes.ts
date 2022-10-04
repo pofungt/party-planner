@@ -10,6 +10,7 @@ export const eventsRoutes = express.Router();
 eventsRoutes.get("/created", isLoggedInAPI, getCreateEventList);
 eventsRoutes.get("/participated", isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post("/", isLoggedInAPI, postEvent);
+eventsRoutes.get("/:id", isLoggedInAPI, getEventDetail);
 
 async function getCreateEventList(req: Request, res: Response) {
     try {
@@ -126,5 +127,15 @@ async function postEvent(req: Request, res: Response) {
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[EVT003]: Failed to post Event" });
+    }
+}
+
+async function getEventDetail(req: Request, res: Response) {
+    try {
+        logger.debug("Before reading DB");
+
+    } catch (e) {
+        logger.error(e);
+        res.status(500).json({ msg: "[EVT004]: Failed to get Event Details" });
     }
 }
