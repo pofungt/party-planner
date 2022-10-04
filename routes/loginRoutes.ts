@@ -111,7 +111,7 @@ async function loginGoogle(req:express.Request,res:express.Response) {
     }
   });
   const result = await fetchRes.json();
-  console.log(result)
+  
   const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
   let user = users[0];
   if (!user) {
@@ -119,7 +119,7 @@ async function loginGoogle(req:express.Request,res:express.Response) {
               VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
       [result.given_name, result.family_name, "", "", result.email])).rows[0]
   }
-  console.log(user)
+
   if (req.session) {
     req.session.user = user.id
   };
