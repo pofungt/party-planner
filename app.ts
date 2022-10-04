@@ -59,7 +59,7 @@ app.use(
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 app.use("/events", eventsRoutes);
-app.use("/personal", personalInfoRoutes);
+app.use("/personalPage", personalInfoRoutes);
 
 app.use(isLoggedIn, express.static("private"));
 

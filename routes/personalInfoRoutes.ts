@@ -8,87 +8,90 @@ import { isLoggedInAPI } from "../util/guard";
 
 export const personalInfoRoutes = express.Router();
 
-personalInfoRoutes.get("/", getUserID)
-personalInfoRoutes.get("/personalPage", isLoggedInAPI, getPersonalInfo);
-personalInfoRoutes.put("/personalPage/update", isLoggedInAPI, updatePersonalInfo);
 
-async function getUserID(req :Request, res: Response) {
-    const result = req.session.user
-    res.json(result)
+personalInfoRoutes.get("/", isLoggedInAPI, getPersonalInfo);
+personalInfoRoutes.put("/", isLoggedInAPI, updatePersonalInfo);
+
+async function getPersonalInfo(req: Request, res: Response) {
+  try {
+    logger.debug("Before reading DB");
+
+    const result = await client.query(
+      `SELECT * FROM users
+            WHERE id = $1
+            `,
+      [req.session.user])
+
+    const user: Users = result.rows[0];
+    res.json(user);
+
+  } catch (e) {
+    logger.error(e);
+    res.status(500).json({
+      msg: "[ERR001]: Failed to get information",
+    });
+  }
 }
 
+async function updatePersonalInfo(req: Request, res: Response) {
+  try {
+    logger.debug("Before reading DB");
 
-async function getPersonalInfo (req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
+    const hashedPassword = await client.query(
+      `SELECT password FROM users 
+            WHERE id = $1`,
+      [req.session.user])
 
-        const result = await client.query(
-            `SELECT * FROM users
-            WHERE user_id = $1
-            `, 
-            [req.session.user])
 
-        const user : Users[] = result.rows;
-        res.json(user);
-
-    } catch(e) {
-        logger.error(e);
-        res.status(500).json({
-            msg: "[ERR001]: Failed to get information",
-        });
+    if (!(await checkPassword(req.body.current_password, hashedPassword.rows[0].password))) {
+      res.status(400)
+      throw new Error (`Failed login attempt from user ${req.session.user}`)
     }
-}
+    
+    //Updating DB
+    const password = await hashPassword(req.body.password);
+    await client.query(
+      `UPDATE users 
+          SET first_name = $1, last_name = $2, phone = $3, password = $4 
+          WHERE id = $5`,
+      [
+        req.body.first_name,
+        req.body.last_name,
+        req.body.phone,
+        password,
+        req.session.user
+      ]
+    );
 
-async function updatePersonalInfo (req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-        
-        const hashedPassword :string  = (await client.query(
-            `SELECT password FROM users 
-            WHERE email = $1`, 
-            [req.body.email])).rows[0]
+    // Writing into users.json
+    const usersUpdateObj: UsersInput = {
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      phone: req.body.phone,
+      password: req.body.password,
+    };
 
-        if (!checkPassword(req.body.currentPassword, hashedPassword)) {
-            res.status(400)
-            throw new Error ("the current password is incorrect")
-        }
-        //Updating DB
-        const password = await hashPassword(req.body.password);
-        await client.query(
-          `UPDATE users 
-          SET first_name = $1, last_name = $2, phone = $4, password = $5 
-          WHERE email = $3;`,
-          [
-            req.body.first_name,
-            req.body.last_name,
-            req.body.email,
-            req.body.phone,
-            password,
-          ]
-        );
-  
-        // Writing into users.json
-        const usersUpdateObj: UsersInput = {
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
-          email: req.body.email,
-          phone: req.body.phone,
-          password: req.body.password,
-        };
-  
-        let UsersList: UsersInput[] = await jsonfile.readFile(
-          "../util/database/data/users.json"
-        );
-        UsersList.push(usersUpdateObj);
-        await jsonfile.writeFile("../util/database/data/users.json", UsersList, {
-          spaces: "\t",
-        });
-  
-        res.json({ status: true });
-      }  catch (e) {
-        logger.error(e);
-        res.status(400).json({
-            msg: "[UPD001]: Failed to update information",
-        });
-    }
+    let UsersList: UsersInput[] = await jsonfile.readFile(
+      "./util/database/data/users.json"
+    );
+
+    const newUsersList = UsersList.filter((user) => {
+      return user.email !== req.body.email;
+    });
+
+    newUsersList.push(usersUpdateObj);
+
+    await jsonfile.writeFile("./util/database/data/users.json", newUsersList, {
+      spaces: "\t",
+    });
+
+    res.json({ status: true });
+
+  } catch (e) {
+    logger.error(e);
+    res.status(400).json({
+      msg: "[UPD001]: Failed to update information",
+    });
+  }
 }

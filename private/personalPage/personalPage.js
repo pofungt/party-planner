@@ -1,23 +1,10 @@
-
 window.addEventListener('load', loadInfo())
 
-let userID = ""
-
-async function getUserID (req, res) {
-    const res = await fetch ('/')
-    const result = res.json();
-    userID = result
-}
 
 async function loadInfo() {
 
     const res = await fetch(`/personalPage`);
-    
-    if (res.status !== 200) {
-        const data = await res.json();
-        alert(data.msg);
-        return;
-    }
+
 
     const firstName = document.querySelector("#first_name")
     const lastName = document.querySelector("#last_name")
@@ -26,15 +13,19 @@ async function loadInfo() {
 
 
     const result = await res.json()
-    firstName.value = result.firstName
-    lastName.value = result.lastName
+
+    console.log(result)
+
+    firstName.value = result.first_name
+    lastName.value = result.last_name
     email.value = result.email
-    email.readonly = true
     phone.value = result.phone
 }
 
 
-document.querySelector('.update').addEventListener('submit', async function updateInfo(event) {
+document.querySelector('#personal-page-form').addEventListener('submit', async function updateInfo(event) {
+    event.preventDefault()
+
 
     const form = event.target;
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
@@ -42,51 +33,66 @@ document.querySelector('.update').addEventListener('submit', async function upda
 
     const lastName = form.last_name.value
     const firstName = form.first_name.value
+    const phone = form.phone.value
+    const email = form.email.value
     const currentPassword = form.current_password.value
     const newPassword = form.new_password.value
-    const confirmedNewPassword = form.confirm_new_password.value
+    const newConfirmedPassword = form.new_confirmed_password.value
 
 
     let dataPass = true;
 
-    if (!lastName || !firstName || !currentPassword || !newPassword) {
+    if (newPassword || newConfirmedPassword) {
+        if (newPassword.length < 8 || newPassword.length > 20) {
+            dataPass = false;
+            alert("Password length must be 8-20 characters!");
+        } else if (!passwordRegex.test(newPassword)) {
+            dataPass = false;
+            alert("Invalid password format!");
+        } else if (!(newPassword === newConfirmedPassword)) {
+            dataPass = false;
+            alert("Password and confirm password do not match!");
+        }
+    }
+    if (!lastName || !firstName || !phone) {
         dataPass = false;
         alert("Please check if fields are inputted correctly!");
+    } else if (!currentPassword) {
+        alert("Please input your password again if you wish to update your person info");
     } else if (!phoneRegex.test(phone) && !!phone) {
         dataPass = false;
         alert("Invalid phone format!");
-    } else if (!(newPassword === confirmedNewPassword)) {
-        dataPass = false;
-        alert("Password and confirm password do not match!");
-    } else if (newPassword.length < 8 || newPassword.length > 20) {
-        dataPass = false;
-        alert("Password length must be 8-20 characters!");
-    } else if (!passwordRegex.test(newPassword)) {
-        dataPass = false;
-        alert("Invalid password format!");
     }
 
     if (dataPass) {
+
         const formObject = {}
         formObject['first_name'] = firstName
         formObject['last_name'] = lastName
         formObject['email'] = email
         formObject['phone'] = phone
-        formObject['password'] = newPassword
         formObject['current_password'] = currentPassword
+        if (newPassword) {
+            formObject['password'] = newPassword
+        } else {
+            formObject['password'] = currentPassword
+        }
 
-        const res = await fetch(`/personalPage/update`, {
+        const res = await fetch(`/personalPage`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formObject),
+            body: JSON.stringify(formObject)
         })
-    }
 
-    if (res.status = 400) {
-        window.alert("Your current password is incorrect!")
-    } else {
-        const result = await res.json()
+        console.log(res.status)
+        if (res.status === 400) {
+            window.alert("Incorrect Password Input!")
+        } else {
+            const result = await res.json()
+            alert("Update successful!")
+            location.reload()
+        }
     }
 })
