@@ -31,14 +31,14 @@
                 </nav>
                 <div class="login-part">
                     <div class="user-login dropdown">
-                        <button type="button" class="btn landing-Page-login-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn landing-Page-login-btn dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle"></i>
-                            Name
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Edit Profile</a></li>
                             <li><a class="dropdown-item" href="/public/landingPage.html">Log out</a></li>
-                          </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -46,71 +46,69 @@
     </div>
     <!-- login nav -->
 
-    <header class="greeting"></header>
-    <div class="row">
-        <div class="col-sm-9">
-            <button class="btn btn-primary" id="add-new-party-button">
-                Add New Party
-            </button>
-            <div class="parties-list-container">
-                <header>
-                    Created:
-                </header>
-                <div class="create table-container">
-                    <table class="table table-body">
-                        <thead>
-                            <tr id="table-header">
-                                <th scope="col">ID</th>
-                                <th scope="col">PARTY NAME</th>
-                                <th scope="col">ADDRESS</th>
-                                <th scope="col">START TIME</th>
-                                <th scope="col">END TIME</th>
-                                <th scope="col">STATUS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="events-container">
-                            <!-- to be added by loadEvent.js -->
-                        </tbody>
-                    </table>
-                    <span class="turn-page-button-container">
-                        <button type="button" class="previous-round btn btn-light">&lt;</button>
-                        <button type="button" class="next-round btn btn-light">&gt;</button>
-                    </span>
-                </div>
-            </div>
+    <div class="container">
+        <button class="btn btn-primary" id="add-new-party-button">
+            <div class="text">Add New Party</div>
+            <div class="plus"><div>+</div></div>
+        </button>
+        <div class="parties-list-container">
             <header>
-                Participated:
+                Created:
             </header>
-            <div class="participate table-container">
-                <table class="table table-body">
+            <div class="create table-container">
+                <table class="table table-body table-hover">
                     <thead>
-                        <tr id="table-header">
+                        <tr class="table-header">
                             <th scope="col">ID</th>
                             <th scope="col">PARTY NAME</th>
                             <th scope="col">ADDRESS</th>
                             <th scope="col">START TIME</th>
                             <th scope="col">END TIME</th>
                             <th scope="col">STATUS</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody id="events-container">
+                    <tbody class="events-container">
                         <!-- to be added by loadEvent.js -->
                     </tbody>
                 </table>
                 <span class="turn-page-button-container">
-                    <button type="button" class="previous-round btn btn-light">&lt;</button>
-                    <button type="button" class="next-round btn btn-light">&gt;</button>
+                    <button type="button" class="previous-round btn btn-light">
+                        <i class="fa-sharp fa-solid fa-less-than"></i>
+                    </button>
+                    <button type="button" class="next-round btn btn-light">
+                        <i class="fa-sharp fa-solid fa-greater-than"></i>
+                    </button>
                 </span>
             </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="date-picker">
-                <h6>Start Time:
-                    <input type="datetime-local" id="Start_DatetimeLocal">
-                </h6>
-                <h6>End Time:
-                    <input type="datetime-local" id="End_DatetimeLocal">
-                </h6>
+            <header>
+                Participated:
+            </header>
+            <div class="participate table-container">
+                <table class="table table-body table-hover">
+                    <thead>
+                        <tr class="table-header">
+                            <th scope="col">ID</th>
+                            <th scope="col">PARTY NAME</th>
+                            <th scope="col">ADDRESS</th>
+                            <th scope="col">START TIME</th>
+                            <th scope="col">END TIME</th>
+                            <th scope="col">STATUS</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="events-container">
+                        <!-- to be added by loadEvent.js -->
+                    </tbody>
+                </table>
+                <span class="turn-page-button-container">
+                    <button type="button" class="previous-round btn btn-light">
+                        <i class="fa-sharp fa-solid fa-less-than"></i>
+                    </button>
+                    <button type="button" class="next-round btn btn-light">
+                        <i class="fa-sharp fa-solid fa-greater-than"></i>
+                    </button>
+                </span>
             </div>
         </div>
     </div>
