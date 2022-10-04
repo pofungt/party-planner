@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { logger } from "../util/logger";
 import { client } from "../app";
 import { checkPassword } from "../util/functions/hash";
+import fetch from 'cross-fetch'
 
 export const loginRoutes = express.Router();
 
@@ -9,7 +10,7 @@ loginRoutes.get("/", checkSessionLogin);
 loginRoutes.post("/", login);
 loginRoutes.get("/name", getName);
 loginRoutes.post("/logout", logout);
-// loginRoutes.get("/google", loginGoogle);
+loginRoutes.get("/google", loginGoogle);
 
 async function checkSessionLogin(req: Request, res: Response) {
   try {
@@ -40,7 +41,7 @@ async function login(req: Request, res: Response) {
     const loginUser = (
       await client.query(`SELECT * FROM users WHERE email = $1`, [
         req.body.email,
-        
+
       ])
     ).rows[0];
 
@@ -92,34 +93,36 @@ async function logout(req: Request, res: Response) {
     logger.debug("Before logging out");
     req.session.user = undefined;
     res.json({ status: true });
-  } catch(e) {
+  } catch (e) {
     logger.error(e);
     res.status(500).json({ msg: "[LOG004]: Failed to Logout" })
   }
 }
 
 
-// async function loginGoogle (req:express.Request,res:express.Response){
-//   const accessToken = req.session?.['grant'].response.access_token;
-//   const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo',{
-//       method:"get",
-//       headers:{
-//           "Authorization":`Bearer ${accessToken}`
-//       }
-//   });
-//   const result = await fetchRes.json();
-//   const users = (await client.query(`SELECT * FROM users WHERE users.username = $1`,[result.email])).rows;
-//   let user = users[0];
-//   if(!user){
-//       // Create the user when the user does not exist
-//       user = (await client.query(`INSERT INTO users (first_name, last_name, password) 
-//               VALUES ($1,$2) RETURNING *`,
-//           [first_name, last_name ,password])).rows[0]
-//   }
-//   if(req.session){
-//       req.session['user'] = {
-//           id: user.id
-//       };    
-//   }
-//   return res.redirect('/')
-// }
+async function loginGoogle(req:express.Request,res:express.Response) {
+  const accessToken = req.session?.['grant'].response.access_token;
+  console.log(accessToken)
+
+  const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+    method: "get",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    }
+  });
+  const result = await fetchRes.json();
+  console.log(result)
+  const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
+  let user = users[0];
+  if (!user) {
+    user = (await client.query(`INSERT INTO users (first_name, last_name, password, phone, email, created_at, updated_at) 
+              VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
+      [result.given_name, result.family_name, "", "", result.email])).rows[0]
+  }
+  console.log(user)
+  if (req.session) {
+    req.session.user = user.id
+  };
+  return res.redirect('/')
+}
+
