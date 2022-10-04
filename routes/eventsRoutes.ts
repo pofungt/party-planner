@@ -98,8 +98,8 @@ async function postEvent(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
         await client.query(
-            `INSERT INTO  events (name, venue, indoor, outdoor, parking_lot, lot_number, remark, start_datetime, end_datetime) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            `INSERT INTO  events (name, venue, indoor, outdoor, parking_lot, lot_number, remark, start_datetime, end_datetime, budget) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
             [
                 req.body.eventName,
                 req.body.eventVenue,
@@ -110,6 +110,7 @@ async function postEvent(req: Request, res: Response) {
                 req.body.eventRemark,
                 req.body.startTime,
 				req.body.endTime,
+                req.body.eventBudget,
             ]
         );
     } catch (e) {
