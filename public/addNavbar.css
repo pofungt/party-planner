@@ -42,3 +42,7 @@
     color: #495871;
     font-family: "Lato", sans-serif;
   }
+
+  .logout {
+    cursor: pointer;
+  }
