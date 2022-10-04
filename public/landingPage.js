@@ -12,6 +12,8 @@ window.addEventListener('load', async () => {
   } else {
     addLoginNavbar();
   }
+
+  setTimeout(()=>{document.body.style.display = "block";},100)
 })
 
 document

@@ -3,7 +3,9 @@ body {
     background-color: #FFFFFF;
 }
 
-/* nav css */
+.initial-hide {
+  display: none;
+}
 
 .table-header {
     background-color: white;
