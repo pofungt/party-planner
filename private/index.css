@@ -1,6 +1,5 @@
 body {
     font-family: 'Calibri';
-    padding: 10px;
     background-color: #FFFFFF;
 }
 
@@ -72,8 +71,7 @@ th > div {
 }
 
 .container {
-  width: 80%;
-  padding: 10px;
+  padding: 0 0 20px 0;
 }
 
 .table-content-row {
