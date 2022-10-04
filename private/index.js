@@ -1,10 +1,12 @@
-import { loadName, loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
+import { loadName, loadCreateEvents, loadParticipateEvents } from "/functions/loadEvent.js";
+import { addNavbar } from "/functions/addNavbar.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
 }
 
 window.addEventListener("load", async () => {
+  addNavbar();
   loadName();
   const params = new URLSearchParams(window.location.search);
   let createPage = "1";
@@ -41,4 +43,6 @@ window.addEventListener("load", async () => {
   }
 
   history.pushState({}, "Dashboard", `http://localhost:8080/index.html?createPage=${createPage}&participatePage=${participatePage}`);
+
+  setTimeout(()=>{document.body.style.display = "block";},100)
 });

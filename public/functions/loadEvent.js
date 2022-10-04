@@ -1,4 +1,4 @@
-import {listenCreateButtons, listenParticipateButtons} from "./listenButtons.js";
+import {listenCreateButtons, listenParticipateButtons} from "/functions/listenButtons.js";
 
 export async function loadName() {
   const res = await fetch(`/login/name`);

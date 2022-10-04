@@ -17,40 +17,16 @@
     <title>Dashboard</title>
 </head>
 
-<body>
-    <!-- login nav -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12 header-nav">
-                <nav class="navbar">
-                    <a class="navbar-brand" href="#">
-                        <img src="/public/asset/party_icon.jpg" width="54" height="54" class="d-inline-block align-top"
-                            alt="party_planner_icon">
-                        Party Planner
-                    </a>
-                </nav>
-                <div class="login-part">
-                    <div class="user-login dropdown">
-                        <button type="button" class="btn landing-Page-login-btn dropdown-toggle"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-person-circle"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="/public/landingPage.html">Log out</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+<body style="display:none">
+    <div class="navbar-container container">
+        <!-- NAVBAR: to be loaded with js -->
     </div>
-    <!-- login nav -->
 
     <div class="container">
-        <button class="btn btn-primary" id="add-new-party-button">
+        <a href="/newEvent/newEvent.html" class="btn btn-primary" id="add-new-party-button">
             <div class="text">Add New Party</div>
             <div class="plus"><div>+</div></div>
-        </button>
+        </a>
         <div class="parties-list-container">
             <header>
                 Created:
@@ -112,6 +88,9 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
     <script type="module" src="./index.js"></script>
 </body>
 

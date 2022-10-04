@@ -1,64 +1,11 @@
 body {
     font-family: 'Calibri';
-    padding: 10px;
     background-color: #FFFFFF;
 }
 
-/* login nav css */
-
-.header-nav{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  background-color: #efefd0;
+.initial-hide {
+  display: none;
 }
-
-
-.navbar-brand > img {
-  border-radius: 10px;
-}
-
-.navbar > .navbar-brand {
-  font-size: 30px;
-  font-family: "Pacifico", cursive;
-  margin: 5px;
-}
-
-.navbar > .btn {
-  font-size: 20px;
-  color: #293241;
-}
-
-#logo-name {
-  font-size: 60px;
-  color: #293241;
-  font-family: "Pacifico", cursive;
-  display: flex;
-  justify-content: center;
-  padding: 30px;
-}
-
-.login-part {
-  display: flex;
-  justify-items: center;
-}
-
-.user-login {
-  display: flex;
-  align-content: center;
-}
-
-.landing-Page-login-btn {
-  font-size: 20px;
-  color: #495871;
-  font-family: "Lato", sans-serif;
-}
-
-.landing-Page-login-btn > .bi {
-  margin: 0px 10px 0px 2px;
-}
-
-/* nav css */
 
 .table-header {
     background-color: white;
@@ -126,8 +73,7 @@ th > div {
 }
 
 .container {
-  width: 80%;
-  padding: 10px;
+  padding: 0 0 20px 0;
 }
 
 .table-content-row {

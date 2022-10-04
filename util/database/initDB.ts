@@ -34,6 +34,7 @@ async function main() {
         outdoor boolean,
         parking_lot boolean,
         lot_number int,
+        remark varchar,
         creator_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,

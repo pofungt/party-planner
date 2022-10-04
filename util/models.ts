@@ -9,6 +9,7 @@ export interface Events {
   outdoor: boolean | null;
   parking_lot: boolean | null;
   lot_number: number | null;
+  remark: string | null;
   creator_id: number;
   created_at: string;
   updated_at: string;
