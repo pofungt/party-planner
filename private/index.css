@@ -11,6 +11,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   background-color: #efefd0;
+  align-items: center;
 }
 
 
@@ -39,13 +40,7 @@ body {
 }
 
 .login-part {
-  display: flex;
-  justify-items: center;
-}
-
-.user-login {
-  display: flex;
-  align-content: center;
+  height: 50%;
 }
 
 .landing-Page-login-btn {
@@ -56,6 +51,11 @@ body {
 
 .landing-Page-login-btn > .bi {
   margin: 0px 10px 0px 2px;
+}
+
+.login-part .dropdown-menu {
+  color: #495871;
+  font-family: "Lato", sans-serif;
 }
 
 /* nav css */
