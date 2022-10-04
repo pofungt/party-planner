@@ -1,5 +1,3 @@
-
-
 document
     .querySelector("#from-container")
     .addEventListener("submit", async function (e) {
