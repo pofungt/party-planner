@@ -131,3 +131,16 @@ export function listenParticipateButtons() {
         listenParticipateButtons();
     });
 }
+
+export function listenEditButtons() {
+    const editButtons = document.querySelectorAll("[class^='detail_']");
+    
+    for (let editButton of editButtons) {
+        editButton.addEventListener('click', () => {
+            const className = editButton.className;
+            const eventId = className.replace("detail_","");
+            window.location.replace(`/eventSummary/event.html/${eventId}`);
+        });
+    }
+
+}
