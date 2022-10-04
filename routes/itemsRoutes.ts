@@ -24,7 +24,8 @@ async function getItem(req: Request, res: Response) {
             SELECT item.type_name, item.name, item.quantity, item.price
             FROM items
             WHERE event_id = $1
-            `
+            `,
+            [req.query.eventID]
         );
         TypeName.Food;
 
