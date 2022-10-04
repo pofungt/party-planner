@@ -1,9 +1,17 @@
 import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
+import { addLoginNavbar } from "/functions/addLoginNavbar.js";
 
-window.addEventListener('load', () => {
-  addNavbar();
-  loadName();
+window.addEventListener('load', async () => {
+  const res = await fetch("/login");
+  const result = await res.json();
+  
+  if (result.status) {
+    addNavbar();
+    loadName();
+  } else {
+    addLoginNavbar();
+  }
 })
 
 document
