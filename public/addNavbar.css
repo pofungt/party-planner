@@ -1,0 +1,44 @@
+/* login nav css */
+
+.header-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #efefd0;
+    align-items: center;
+  }
+  
+  
+  .navbar-brand > img {
+    border-radius: 10px;
+  }
+  
+  .navbar > .navbar-brand {
+    font-size: 30px;
+    font-family: "Pacifico", cursive;
+    margin: 5px;
+  }
+  
+  .navbar > .btn {
+    font-size: 20px;
+    color: #293241;
+  }
+  
+  .login-part {
+    height: 50%;
+  }
+  
+  .landing-Page-login-btn {
+    font-size: 20px;
+    color: #495871;
+    font-family: "Lato", sans-serif;
+  }
+  
+  .landing-Page-login-btn > .bi {
+    margin: 0px 10px 0px 2px;
+  }
+  
+  .login-part .dropdown-menu {
+    color: #495871;
+    font-family: "Lato", sans-serif;
+  }

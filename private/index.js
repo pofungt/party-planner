@@ -1,10 +1,12 @@
 import { loadName, loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
+import { addNavbar } from "/addNavbar.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
 }
 
 window.addEventListener("load", async () => {
+  addNavbar();
   loadName();
   const params = new URLSearchParams(window.location.search);
   let createPage = "1";
