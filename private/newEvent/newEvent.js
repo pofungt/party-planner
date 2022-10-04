@@ -12,6 +12,7 @@ document
         const eventRemark = form.event_remark.value;
         const parkingLot = form.parking_check.checked;
         const lotNumber = form.lot_input.value;
+        const eventBudget = form.event_budget.value;
 
         let formObj = {
             eventName,
@@ -23,6 +24,7 @@ document
             parkingLot,
             lotNumber,
             eventRemark,
+            eventBudget,
         };
 
         let dataPass = true;
@@ -45,6 +47,13 @@ document
             dataPass = false;
             alert("Start time cannot equals or later than end time!");
         }
+
+        // check budget validity
+        if (eventBudget == !Number) {
+            dataPass = false;
+            alert("Please fill number only!");
+        }
+
 
         if (dataPass) {
             const res = await fetch("/events", {
