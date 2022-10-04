@@ -44,5 +44,5 @@ window.addEventListener("load", async () => {
 
   history.pushState({}, "Dashboard", `http://localhost:8080/index.html?createPage=${createPage}&participatePage=${participatePage}`);
 
-  setTimeout(()=>{document.body.style.display = "block";},100)
+  document.body.style.display = "block";
 });

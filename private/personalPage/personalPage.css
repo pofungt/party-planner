@@ -1,11 +1,11 @@
-@media (min-width: 1200px){
-    body {
+@media (min-width: 1200px) {
+    .form-container {
         padding: 0px 400px !important;
-    
+
     }
 }
 
-body {
+.form-container {
     padding: 0px 50px;
     align-items: center;
     align-content: center;
@@ -30,12 +30,12 @@ body {
     border-radius: 20px;
     color: black;
     background-color: #9BAFD0;
-    border:none;
+    border: none;
 }
 
 .btn {
     min-width: 120px;
-    font-size: 15px;    
+    font-size: 15px;
 }
 
 .mb-3 {
@@ -49,6 +49,6 @@ body {
 
 }
 
-#accout-info {
+#account-info {
     padding: 50px 0px;
 }

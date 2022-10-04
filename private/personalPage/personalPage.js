@@ -1,5 +1,12 @@
-window.addEventListener('load', loadInfo())
+import { addNavbar } from "/functions/addNavbar.js";
+import { loadName } from "/functions/loadEvent.js";
 
+window.addEventListener("load", async () => {
+    await loadInfo()
+    addNavbar();
+    loadName();
+    document.body.style.display = "block";
+});
 
 async function loadInfo() {
 
