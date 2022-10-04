@@ -1,5 +1,4 @@
 import { loadName, loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
-import {listenAddEventsButton} from "./listenButtons.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
@@ -7,7 +6,6 @@ function onlyNumbers(str) {
 
 window.addEventListener("load", async () => {
   loadName();
-  listenAddEventsButton();
   const params = new URLSearchParams(window.location.search);
   let createPage = "1";
   let participatePage = "1";

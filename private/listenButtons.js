@@ -131,9 +131,3 @@ export function listenParticipateButtons() {
         listenParticipateButtons();
     });
 }
-
-export function listenAddEventsButton() {
-    document.querySelector("#add-new-party-button").addEventListener('click', () => {
-        window.location.href = "./newEvent/newEvent.html"
-    })
-}
