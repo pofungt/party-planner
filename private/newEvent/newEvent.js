@@ -42,8 +42,11 @@ document
     // check time
     const startTimeValue = (new Date (startTime)).getTime();
     const endTimeValue = (new Date (endTime)).getTime(); 
+    
+    let timeCorrect = true;
 
     if ( startTimeValue == endTimeValue ) {
+      
       alert("Start time equals end time.")
     }
 
