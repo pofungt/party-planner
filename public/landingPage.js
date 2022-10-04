@@ -1,3 +1,11 @@
+import { addNavbar } from "/functions/addNavbar.js";
+import { loadName } from "/functions/loadEvent.js";
+
+window.addEventListener('load', () => {
+  addNavbar();
+  loadName();
+})
+
 document
   .querySelector("#login-form-submit")
   .addEventListener("click", async function (event) {

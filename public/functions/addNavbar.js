@@ -20,8 +20,8 @@ export function addNavbar() {
                             <i class="bi bi-person-circle"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/private/personalPage/personalPage.html">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="/public/landingPage.html">Log out</a></li>
+                            <li><a class="dropdown-item" href="/personalPage/personalPage.html">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="/landingPage.html">Log out</a></li>
                         </ul>
                     </div>
                 </div>

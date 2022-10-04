@@ -1,5 +1,5 @@
-import { loadName, loadCreateEvents, loadParticipateEvents } from "./loadEvent.js";
-import { addNavbar } from "/addNavbar.js";
+import { loadName, loadCreateEvents, loadParticipateEvents } from "/functions/loadEvent.js";
+import { addNavbar } from "/functions/addNavbar.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
