@@ -21,11 +21,31 @@ export function addNavbar() {
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/personalPage/personalPage.html">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="/landingPage.html">Log out</a></li>
+                            <li><a class="dropdown-item logout">Log out</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     `;
+
+    document.querySelector(".logout").addEventListener("click", async () => {
+        const res = await fetch("/login/logout", {
+            method: "POST"
+        });
+
+        if (res.status !== 200) {
+            const data = await res.json();
+            alert(data.msg);
+            return;
+        }
+
+        const result = await res.json();
+
+        if (result.status) {
+            window.location.href = "/landingPage.html";
+        } else {
+            alert("Unable to log out!");
+        }
+    })
 }
