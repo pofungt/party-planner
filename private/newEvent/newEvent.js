@@ -1,3 +1,5 @@
+const { getTime } = require("date-fns");
+
 document
   .querySelector("#from-container")
   .addEventListener("submit", async function (e) {
@@ -36,6 +38,19 @@ document
         !Number;
         alert("Please fill number only!");
     }
+    
+    // check time
+    const startTimeValue = (new Date (startTime)).getTime();
+    const endTimeValue = (new Date (endTime)).getTime(); 
+
+    if ( startTimeValue == endTimeValue ) {
+      alert("Start time equals end time.")
+    }
+
+    if ( endTimeValue < startTimeValue ) {
+      alert ("End time could later than start time.")
+    }
+    // 
 
     if (dataPass) {
       const res = await fetch("/events", {
