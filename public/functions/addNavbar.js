@@ -43,7 +43,7 @@ export function addNavbar() {
         const result = await res.json();
 
         if (result.status) {
-            window.location.href = "/landingPage.html";
+            window.location.href = "/";
         } else {
             alert("Unable to log out!");
         }
