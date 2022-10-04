@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
 import { logger } from "../util/logger";
-import {}
 
 export const itemsRoutes = express.Router();
 
 itemsRoutes.get("/participated", getParticipateEventList);
+itemsRoutes.get("/", getUserID);
+itemsRoutes.get("/events",getEventList);
 
 async function getItem (req: Request, res: Response) {
     try {
