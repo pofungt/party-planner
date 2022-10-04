@@ -9,6 +9,7 @@ loginRoutes.get("/", checkSessionLogin);
 loginRoutes.post("/", login);
 loginRoutes.get("/name", getName);
 loginRoutes.post("/logout", logout);
+// loginRoutes.get("/google", loginGoogle);
 
 async function checkSessionLogin(req: Request, res: Response) {
   try {
@@ -96,3 +97,29 @@ async function logout(req: Request, res: Response) {
     res.status(500).json({ msg: "[LOG004]: Failed to Logout" })
   }
 }
+
+
+// async function loginGoogle (req:express.Request,res:express.Response){
+//   const accessToken = req.session?.['grant'].response.access_token;
+//   const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo',{
+//       method:"get",
+//       headers:{
+//           "Authorization":`Bearer ${accessToken}`
+//       }
+//   });
+//   const result = await fetchRes.json();
+//   const users = (await client.query(`SELECT * FROM users WHERE users.username = $1`,[result.email])).rows;
+//   let user = users[0];
+//   if(!user){
+//       // Create the user when the user does not exist
+//       user = (await client.query(`INSERT INTO users (first_name, last_name, password) 
+//               VALUES ($1,$2) RETURNING *`,
+//           [first_name, last_name ,password])).rows[0]
+//   }
+//   if(req.session){
+//       req.session['user'] = {
+//           id: user.id
+//       };    
+//   }
+//   return res.redirect('/')
+// }
