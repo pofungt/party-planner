@@ -11,9 +11,7 @@ window.addEventListener("load", async () => {
 });
 
 function addTimeBlock() {
-
     let rundown = document.querySelector("#rundown")
-
     for (let i = 0; i < 24; i++) {
         rundown.innerHTML +=
             `
@@ -21,59 +19,66 @@ function addTimeBlock() {
                     <span id="time-stamp-box" class="time-stamp-container col-2">
                         <div id="stamp_${i}" class="time-stamp">${i}:00</div>
                     </span>
-                    <span name="time-block_${i}" class="time-block col-10"></span>
+                    <span name="time-block_${i}" class="time-block col-10">title</span>
                 </div>    
             `
-
     }
-
-
-    //loop the scroll
-    let rundownContainer = document.querySelector("#rundown-container")
-    rundownContainer.addEventListener("scroll", function () {
-        let max_scroll = this.scrollHeight - this.clientHeight;
-        let current_scroll = this.scrollTop;
-        let bottom = 100;
-        if (current_scroll + bottom >= max_scroll) {
-            let outerDiv = document.querySelectorAll(".rundown")[0]
-            let current = parseInt(outerDiv.dataset.current, 10);
-            let timeBlock = document.querySelectorAll(".individual-time-block")[current]
-            let new_div = timeBlock.cloneNode(true);
-            outerDiv.appendChild(new_div);
-            outerDiv.dataset.current = current + 1;
-        }
-    });
-
 }
+
+ //loop the scroll
+
+let rundownContainer = document.querySelector("#rundown-container")
+rundownContainer.addEventListener("scroll", function () {
+    let max_scroll = this.scrollHeight - this.clientHeight;
+    let current_scroll = this.scrollTop;
+    let bottom = 100;
+    if (current_scroll + bottom >= max_scroll) {
+        let outerDiv = document.querySelectorAll(".rundown")[0]
+        let current = parseInt(outerDiv.dataset.current, 10);
+        let timeBlock = document.querySelectorAll(".individual-time-block")[current]
+        let new_div = timeBlock.cloneNode(true);
+        outerDiv.appendChild(new_div);
+        outerDiv.dataset.current = current + 1;
+        showMemo ()
+    }
+});
 
 function showMemo () {
     const timeBlocks = document.querySelectorAll(".time-block")
     const memoContainer = document.querySelector("#time-block-memo-container")
     timeBlocks.forEach((block)=>{
         block.addEventListener("click", (e)=>{
+            const blockNum = block.getAttribute("name").match(/(\d+)/)[0]
+            console.log(blockNum)
             resetTimeBlockColor(timeBlocks)
             block.style.backgroundColor = "#EFEFD0"
             memoContainer.innerHTML = `
-            <label for="memo" id="memo-tag">This is memo label</label>
-            <div name="memo" id="memo" class="time-block-memo"></div>
+            <label for="memo" id="memo-tag">${blockNum}:00 to :00</label>
+            <div name="memo" id="memo" class="time-block-memo">
+                <div id="memo-item-cluster">
+                    <div class="memo-item-container">
+                        <label class="memo-item-label" for="activity">ACTIVITY DETAIL:</label>
+                        <div class="modal-footer" id="separator"></div>
+                        <div name="activity" id="activity-detail">here put activity detail</div>
+                    </div> 
+                    
+                    <div class="memo-item-container">
+                        <label class="memo-item-label" for="item">ITEM DETAIL:</label>
+                        <div class="modal-footer" id="separator"></div>
+                        <div name="item" id="item-detail">here put items detail</div>
+                    </div> 
+
+                    <div class="memo-item-container">
+                        <label class="memo-item-label" for="remark">REMARKs:</label>
+                        <div class="modal-footer" id="separator"></div>
+                        <div name="remark" id="remark">here put remarks</div>
+                    </div> 
+                </div> 
+
+            </div>
             `
-            // const memo = document.querySelector("#memo")
-
-            // const x1 = getOffset(block).left
-            // const y1 = getOffset(block).top
-            // const x2 = getOffset(memo).left
-            // const y2 = getOffset(memo).top
-
-            // console.log (x1,x2,y1,y2)
-
-            // const lineContainer = document.querySelector("#line-container")
-
-            // lineContainer.innerHTML += `
-            // <svg id="line" width="100%" height="100%"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="black"/></svg>
-            // `
         })
     })
-
 }
 
 function resetTimeBlockColor(timeBlocks){
