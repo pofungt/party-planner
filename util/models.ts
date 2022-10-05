@@ -45,3 +45,14 @@ export interface DataParts {
   partyReason: string[];
   streetName: string[];
 }
+
+export interface Items {
+  event_id: number;
+  user_id: number;
+  name: string;
+  type_name:string;
+  quantity: number;
+  price:number | null; 
+  created_at: string;
+  updated_at: string;
+}
