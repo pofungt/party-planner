@@ -66,7 +66,7 @@ export async function loadCreateEvents(page) {
       <th scope="col" class="event_status_${event.id}">
         <div><div class="${statusClass}">${status}</div></div>
       </th>
-      <th scope="col" class="detail_${event.id}">
+      <th scope="col" class="created_detail_${event.id}">
         <div>
           <a class="edit-button">
             <i class="fa-regular fa-pen-to-square"></i>
@@ -144,7 +144,7 @@ export async function loadParticipateEvents(page) {
             <th scope="col" class="event_status_${event.id}">
               <div><div class="${statusClass}">${status}</div></div>
             </th>
-            <th scope="col" class="detail_${event.id}">
+            <th scope="col" class="participated_detail_${event.id}">
             <div>
               <a class="edit-button">
                 <i class="fa-regular fa-pen-to-square"></i>
@@ -168,4 +168,18 @@ export async function loadParticipateEvents(page) {
   listenParticipateButtons();
   listenEditButtons();
   return currentPage;
+}
+
+export async function loadEventDetails() {
+  const params = new URLSearchParams(window.location.search);
+  const isCreator = parseInt(params.get('isCreator'));
+  const eventId = params.get('eventId');
+  const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
+  const result = await res.json();
+  console.log(result);
 }

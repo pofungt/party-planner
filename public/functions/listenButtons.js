@@ -133,13 +133,21 @@ export function listenParticipateButtons() {
 }
 
 export function listenEditButtons() {
-    const editButtons = document.querySelectorAll("[class^='detail_']");
-    
-    for (let editButton of editButtons) {
+    const editCreatedButtons = document.querySelectorAll("[class^='created_detail_']");
+    for (let editButton of editCreatedButtons) {
         editButton.addEventListener('click', async () => {
             const className = editButton.className;
-            const eventId = className.replace("detail_","");
-            window.location.replace(`/eventSummary/event.html?eventId=${eventId}`);
+            const eventId = className.replace("created_detail_","");
+            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=1`);
+        });
+    }
+
+    const editParticipatedButtons = document.querySelectorAll("[class^='participated_detail_']");
+    for (let editButton of editParticipatedButtons) {
+        editButton.addEventListener('click', async () => {
+            const className = editButton.className;
+            const eventId = className.replace("participated_detail_","");
+            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=0`);
         });
     }
 
