@@ -1,14 +1,22 @@
-@media (min-width: 1200px) {
+#account-info{
+    text-align: center;
+}
+
+#personal-page-form {
+    max-width: 400px;
+}
+
+/* @media (min-width: 1200px) {
     .form-container {
         padding: 0px 400px !important;
 
     }
-}
+} */
 
 .form-container {
     padding: 0px 50px;
-    align-items: center;
-    align-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .name_container {

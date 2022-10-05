@@ -4,12 +4,14 @@ import { Events } from "../util/models";
 import { onlyNumbers } from "../util/functions/onlyNumbers";
 import { logger } from "../util/logger";
 import { isLoggedInAPI } from "../util/guard";
+import { eventDetailsRoutes } from "./eventDetails";
 
 export const eventsRoutes = express.Router();
 
 eventsRoutes.get("/created", isLoggedInAPI, getCreateEventList);
 eventsRoutes.get("/participated", isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post("/", isLoggedInAPI, postEvent);
+eventsRoutes.use("/detail", eventDetailsRoutes);
 
 async function getCreateEventList(req: Request, res: Response) {
     try {
@@ -80,7 +82,7 @@ async function getParticipateEventList(req: Request, res: Response) {
             INNER JOIN users ON participants.user_id = users.id
             WHERE users.id = $1
             ORDER BY events.start_datetime DESC, events.id DESC
-            LIMIT 10 OFFSET $2;;
+            LIMIT 10 OFFSET $2;
             `,
             [req.session.user || 0, offset]
         );

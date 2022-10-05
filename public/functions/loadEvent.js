@@ -1,4 +1,4 @@
-import {listenCreateButtons, listenParticipateButtons} from "/functions/listenButtons.js";
+import {listenCreateButtons, listenParticipateButtons,listenEditButtons} from "/functions/listenButtons.js";
 
 export async function loadName() {
   const res = await fetch(`/login/name`);
@@ -66,11 +66,11 @@ export async function loadCreateEvents(page) {
       <th scope="col" class="event_status_${event.id}">
         <div><div class="${statusClass}">${status}</div></div>
       </th>
-      <th scope="col" class="detail_${event.id}">
+      <th scope="col" class="created_detail_${event.id}">
         <div>
-          <div class="edit-button">
+          <a class="edit-button">
             <i class="fa-regular fa-pen-to-square"></i>
-          </div>
+          </a>
         </div>
       </th>
     </tr>
@@ -88,6 +88,7 @@ export async function loadCreateEvents(page) {
     </button>
   `;
   listenCreateButtons();
+  listenEditButtons();
   return currentPage;
 }
 
@@ -143,11 +144,11 @@ export async function loadParticipateEvents(page) {
             <th scope="col" class="event_status_${event.id}">
               <div><div class="${statusClass}">${status}</div></div>
             </th>
-            <th scope="col" class="detail_${event.id}">
+            <th scope="col" class="participated_detail_${event.id}">
             <div>
-              <div class="edit-button">
+              <a class="edit-button">
                 <i class="fa-regular fa-pen-to-square"></i>
-              </div>
+              </a>
             </div>
           </th>
         </tr>
@@ -165,5 +166,20 @@ export async function loadParticipateEvents(page) {
     </button>
   `;
   listenParticipateButtons();
+  listenEditButtons();
   return currentPage;
+}
+
+export async function loadEventDetails() {
+  const params = new URLSearchParams(window.location.search);
+  const isCreator = parseInt(params.get('isCreator'));
+  const eventId = params.get('eventId');
+  const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
+  const result = await res.json();
+  console.log(result);
 }
