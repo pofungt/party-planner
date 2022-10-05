@@ -22,11 +22,11 @@ body {
 }
 
 .line1 {
-    height: 20vh;
+    height: 15vh;
 }
 
 .line2 {
-    height: 60vh;
+    height: 65vh;
     display: flex;
     flex-direction: column;
 }
@@ -43,6 +43,11 @@ body {
     padding: 10px 0 10px 0;
 }
 
+.frame-title {
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .eventname {
     font-size: 30px;
     font-weight: bold;
@@ -52,4 +57,19 @@ body {
 
 .eventname .emoji {
     font-size: 50px;
+}
+
+.date-time .background-frame div:first-child {
+    width: 40%;
+}
+
+.date-time .background-frame div:nth-child(2) {
+    width: 60%;
+}
+
+.date-time .background-frame {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
 }

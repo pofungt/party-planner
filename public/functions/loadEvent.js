@@ -184,6 +184,28 @@ export async function loadEventDetails() {
   if (result.status) {
     // Load Event Name into Page
     const eventName = document.querySelector(".eventname .background-frame");
-    eventName.innerHTML = `<div class="emoji">🎉</div> <div>${result.detail.name}</div>`;
+    eventName.innerHTML = `
+      <div class="emoji">
+        🎉
+      </div>
+      <div>
+        ${result.detail.name}
+      </div>
+    `;
+
+    // Load Date Time into Page
+    let dateTimeString = "";
+    if (result.detail.start_datetime) {
+      dateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
+    }
+    const dateTime = document.querySelector(".date-time .background-frame");
+    dateTime.innerHTML = `
+      <div class="frame-title">
+        Date & Time
+      </div>
+      <div>
+        ${dateTimeString}
+      </div>
+    `;
   }
 }
