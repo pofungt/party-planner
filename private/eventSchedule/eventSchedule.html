@@ -13,32 +13,27 @@
 </head>
 
 <body>
+    
     <div class="navbar-container container">
         <!-- NAVBAR: to be loaded with js -->
     </div>
+
+    <span id="line-container">
+        <!-- Line to be loaded with js -->
+    </span>
+
     <header> Schedule </header>
     <div class="container" id="page">
-        <svg id="line" width="500" height="500"><line x1="10" y1="10" x2="300" y2="350" stroke="black"/></svg>
+
         <div id="time-block-page-container" class="container row">
             <div id="time-block-memo-container" class="col-sm-5">
-                <label for="memo">This is memo label</label>
-                <div name="memo" id="memo" class="time-block-memo"></div>
+                
             </div>
-    
-            <div id="rundown-container" class="container col-sm-7 overflow-auto">
-                <div class="individual-time-block row">
-                    <span id="time-stamp-box" class="time-stamp-container col-2">
-                        <div id="8am" class="time-stamp">8:00 am</div>
-                    </span>
-                    <span class="time-block col-10"></span>
+            
+            <div id="rundown-container" class="col-sm-7 overflow-auto" >
+                <div id="rundown" class="rundown" data-current="0">
+                    <!-- Add Time Block and Time-stamp on window load -->
                 </div>
-                <div class="individual-time-block row">
-                    <span id="time-stamp-box" class="time-stamp-container col-2">
-                        <div id="8am" class="time-stamp">8:00 am</div>
-                    </span>
-                    <span class="time-block col-10"></span>
-                </div>
-    
             </div>
         </div>
     </div>

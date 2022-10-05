@@ -10,6 +10,7 @@ import { eventsRoutes } from "./routes/eventsRoutes";
 import { isLoggedIn } from "./util/guard";
 import { personalInfoRoutes } from "./routes/personalInfoRoutes";
 import { itemsRoutes } from "./routes/itemsRoutes";
+import { scheduleRoutes } from "./routes/scheduleRoutes";
 
 dontenv.config();
 
@@ -62,6 +63,7 @@ app.use("/register", registerRoutes);
 app.use("/events", eventsRoutes);
 app.use("/personalPage", personalInfoRoutes);
 app.use("/items", itemsRoutes);
+app.use("/schedule", scheduleRoutes)
 
 app.use(isLoggedIn, express.static("private"));
 
