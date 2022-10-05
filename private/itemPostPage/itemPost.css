@@ -94,6 +94,10 @@ tr {
     color: #293241;
 }
 
+.bi-trash{
+    color: #EE6C4D;
+}
+
 /* modal - footer */
 .format {
     display: flex;
