@@ -207,5 +207,10 @@ export async function loadEventDetails() {
         ${dateTimeString}
       </div>
     `;
+
+    // Load Participants into Page
+
+    // Load Venue into Page
+    
   }
 }

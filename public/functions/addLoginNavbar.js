@@ -18,6 +18,7 @@ export function addLoginNavbar() {
                 <div class="login-part">
                     <div class="user-login">
                         <button type="button" class="btn landing-Page-login-btn" data-bs-toggle="modal" data-bs-target="#login-modal">
+                            <i class="bi bi-person-circle"></i>    
                             Login
                         </button>
                     </div>

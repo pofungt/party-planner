@@ -1,6 +1,7 @@
 body {
     font-family: 'Calibri';
     background-color: #FFFFFF;
+    font-size: 16px;
 }
 
 .content {
@@ -44,7 +45,7 @@ body {
 }
 
 .frame-title {
-    font-size: 15px;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -57,6 +58,13 @@ body {
 
 .eventname .emoji {
     font-size: 50px;
+}
+
+.date-time .background-frame div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .date-time .background-frame div:first-child {
