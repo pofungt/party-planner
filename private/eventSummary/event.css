@@ -104,6 +104,12 @@ a {
     text-align: center;
 }
 
+.participant .frame-content-container {
+    width: 100%;
+    max-height: 70%;
+    overflow-y:auto;
+}
+
 #number-of-participants {
     margin: 0 20px;
     display: flex;
