@@ -142,6 +142,6 @@ async function loginGoogle(req:express.Request,res:express.Response) {
   if (req.session) {
     req.session.user = user.id
   };
-  res.redirect('/')
+  res.redirect('/index.html')
 }
 

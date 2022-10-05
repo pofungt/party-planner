@@ -1,0 +1,63 @@
+body{
+
+}
+
+header{
+    text-align: center;
+}
+
+#time-block-memo-container{
+    height: 100%;
+}
+
+#time-block-page-container {
+    max-width: 1000px;
+    max-height: 800px;
+    height: 600px;
+    background-color: grey;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+#memo {
+
+    background-color: aqua;
+    height: 90%;
+}
+
+#page {
+    display:flex;
+    justify-content: center;
+}
+
+#line {
+    position: absolute;
+}
+
+#rundown-container {
+    background-color: aqua;
+    padding: 30px
+}
+
+.time-stamp-container {
+    background-color: none;
+    position: relative;
+}
+
+.individual-time-block {
+    height: 50px
+}
+
+.time-block {
+    height: 100%;
+    background-color: white;
+    padding: 10px;
+    
+    border-radius: 10px;
+}
+
+.time-stamp {
+    position: absolute;
+    top: -5px;
+    font-size: 10px;
+}
