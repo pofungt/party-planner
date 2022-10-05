@@ -7,7 +7,7 @@ body {
 a {
     color: inherit;
     text-decoration: none;
-} 
+}
 
 .content {
     height: calc(100vh - 115px);
@@ -16,8 +16,8 @@ a {
 
 .vertical-flex {
     flex-direction: column;
-    justify-content: flex-start!important;
-    align-items: flex-start!important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
 }
 
 .background-frame:not(.eventname .background-frame) {
@@ -72,14 +72,14 @@ a {
 }
 
 .eventname {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
     line-height: 100%;
 }
 
 .eventname .emoji {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .date-time .background-frame div {
@@ -104,6 +104,12 @@ a {
     text-align: center;
 }
 
+.participant .frame-content-container {
+    width: 100%;
+    max-height: 70%;
+    overflow-y: auto;
+}
+
 #number-of-participants {
     margin: 0 20px;
     display: flex;
@@ -115,3 +121,28 @@ a {
     height: 30px;
     border-radius: 5px;
 }
+
+
+/* ↓↓ Scroll bar ↓↓ */
+
+.participant .frame-content-container::-webkit-scrollbar {
+    width: 15px;
+}
+
+.participant .frame-content-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 5px;
+    height: 200px;
+}
+
+.participant .frame-content-container::-webkit-scrollbar-thumb {
+    background: #EFEFD0;
+    border-radius: 5px;
+    min-height: 250px;
+}
+
+.participant .frame-content-container::-webkit-scrollbar-thumb:hover {
+    background: white;
+}
+
+/* ↑↑ Scroll bar ↑↑ */

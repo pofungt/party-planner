@@ -13,11 +13,11 @@ document
         e.preventDefault();
         const form = e.target;
         const eventName = form.event_name.value;
-        const eventVenue = form.event_venue.value;
+        const eventVenue = form.event_venue.value || null;
         const indoor = form.indoor_check.checked;
         const outdoor = form.outdoor_check.checked;
-        const startTime = form.event_date_start.value;
-        const endTime = form.event_date_end.value;
+        const startTime = form.event_date_start.value || null;
+        const endTime = form.event_date_end.value || null;
         const eventRemark = form.event_remark.value;
         const parkingLot = form.parking_check.checked;
         const lotNumber = form.lot_input.value || null;
@@ -52,7 +52,8 @@ document
         const endTimeValue = new Date(endTime).getTime();
 
         // check time validity
-        if (startTimeValue >= endTimeValue) {
+        
+        if (startTimeValue >= endTimeValue && startTimeValue !== null ) {
             dataPass = false;
             alert("Start time cannot equals or later than end time!");
         }
