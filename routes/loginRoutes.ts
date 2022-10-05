@@ -3,6 +3,9 @@ import { logger } from "../util/logger";
 import { client } from "../app";
 import { checkPassword } from "../util/functions/hash";
 import fetch from 'cross-fetch'
+import { UsersInput } from "../util/models";
+import jsonfile from "jsonfile";
+import crypto from "crypto"
 
 export const loginRoutes = express.Router();
 
@@ -102,7 +105,6 @@ async function logout(req: Request, res: Response) {
 
 async function loginGoogle(req:express.Request,res:express.Response) {
   const accessToken = req.session?.['grant'].response.access_token;
-  console.log(accessToken)
 
   const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
     method: "get",
@@ -111,18 +113,35 @@ async function loginGoogle(req:express.Request,res:express.Response) {
     }
   });
   const result = await fetchRes.json();
-  
+  const password = `google_user_` + crypto.randomBytes(20).toString('hex')
+
   const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
   let user = users[0];
   if (!user) {
     user = (await client.query(`INSERT INTO users (first_name, last_name, password, phone, email, created_at, updated_at) 
               VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
-      [result.given_name, result.family_name, "", "", result.email])).rows[0]
+      [result.given_name, result.family_name, password,"", result.email])).rows[0]
+
+    console.log(`User with id ${user.id} is created`)
+
+    let UsersList: UsersInput[] = await jsonfile.readFile(
+      "./util/database/data/users.json"
+    );
+
+    const newUsersList = UsersList.filter((old) => {
+      return old.email !== user.email;
+    });
+
+    newUsersList.push(user);
+
+    await jsonfile.writeFile("./util/database/data/users.json", newUsersList, {
+      spaces: "\t",
+    });
   }
 
   if (req.session) {
     req.session.user = user.id
   };
-  return res.redirect('/')
+  res.redirect('/')
 }
 

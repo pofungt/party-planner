@@ -93,7 +93,6 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
             body: JSON.stringify(formObject)
         })
 
-        console.log(res.status)
         if (res.status === 400) {
             window.alert("Incorrect Password Input!")
         } else {
