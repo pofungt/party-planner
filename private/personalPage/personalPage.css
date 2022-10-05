@@ -6,12 +6,12 @@
     max-width: 400px;
 }
 
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
     .form-container {
         padding: 0px 400px !important;
 
     }
-}
+} */
 
 .form-container {
     padding: 0px 50px;

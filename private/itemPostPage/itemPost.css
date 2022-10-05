@@ -34,14 +34,24 @@
 }
 
 /* item category */
-.item-category-title {
+.category-text-items{
+    font-size: 20px;
+    font-family: "Lato", sans-serif;
+    position: relative;
+    top: 20px;
+    left: 30px;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    width: 330px;
 }
+
 .category-edit {
-    border-radius: 30px;
-    background-color: #F29559;
+    border-radius: 20px;
     border: none;
+    background-color: #F29559;
+    color: #fff;
+
 }
 
 .item-category {

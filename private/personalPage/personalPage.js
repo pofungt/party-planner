@@ -3,36 +3,62 @@ import { loadName } from "/functions/loadEvent.js";
 
 window.addEventListener("load", async () => {
     await loadInfo()
+    await hideInfo();
     addNavbar();
     loadName();
+
     document.body.style.display = "block";
 });
+
+async function isGoogleUser(password) {
+    if (password.substring(0, 11) === "google_user"){
+        return true
+    } else {
+        return false
+    }
+}
+
+async function hideInfo() {
+    const res = await fetch(`/personalPage`);
+    const result = await res.json()
+    const divCluster = document.querySelectorAll(".google-user")
+
+    if (await isGoogleUser(result.password)) {
+        divCluster.forEach((div) => {
+            div.style.display = 'none';
+        })
+    } else {
+        divCluster.forEach((div) => {
+            div.style.display = 'block';
+        })
+    }
+}
 
 async function loadInfo() {
 
     const res = await fetch(`/personalPage`);
-
+    const result = await res.json()
 
     const firstName = document.querySelector("#first_name")
     const lastName = document.querySelector("#last_name")
     const email = document.querySelector("#email")
     const phone = document.querySelector("#phone")
-
-
-    const result = await res.json()
-
-    console.log(result)
+    const currentPassword = document.querySelector("#current_password")
+    const newPassword = document.querySelector("#new_password")
+    const newConfirmedPassword = document.querySelector("#new_confirmed_password")
 
     firstName.value = result.first_name
     lastName.value = result.last_name
     email.value = result.email
     phone.value = result.phone
+    currentPassword.value = ""
+    newPassword.value = ""
+    newConfirmedPassword.value = ""
 }
 
 
 document.querySelector('#personal-page-form').addEventListener('submit', async function updateInfo(event) {
     event.preventDefault()
-
 
     const form = event.target;
     const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
@@ -46,7 +72,6 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
     const newPassword = form.new_password.value
     const newConfirmedPassword = form.new_confirmed_password.value
 
-
     let dataPass = true;
 
     if (newPassword || newConfirmedPassword) {
@@ -59,17 +84,22 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
         } else if (!(newPassword === newConfirmedPassword)) {
             dataPass = false;
             alert("Password and confirm password do not match!");
+        }  else if (newPassword === currentPassword) {
+            dataPass = false;
+            alert("Your current password and the new password are the same!");
+        } else if (!currentPassword) {
+            dataPass = false;
+            alert("Please input your current password if you wish to update your password");
         }
-    }
+    } 
+
     if (!lastName || !firstName || !phone) {
         dataPass = false;
         alert("Please check if fields are inputted correctly!");
-    } else if (!currentPassword) {
-        alert("Please input your password again if you wish to update your person info");
-    } else if (!phoneRegex.test(phone) && !!phone) {
+    }  else if (!phoneRegex.test(phone) && !!phone) {
         dataPass = false;
         alert("Invalid phone format!");
-    }
+    } 
 
     if (dataPass) {
 
@@ -79,11 +109,13 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
         formObject['email'] = email
         formObject['phone'] = phone
         formObject['current_password'] = currentPassword
+        formObject['new_password'] = newPassword
         if (newPassword) {
             formObject['password'] = newPassword
         } else {
             formObject['password'] = currentPassword
         }
+
 
         const res = await fetch(`/personalPage`, {
             method: 'PUT',
@@ -92,11 +124,12 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
             },
             body: JSON.stringify(formObject)
         })
+        const result = await res.json()
+        console.log(result)
 
         if (res.status === 400) {
-            window.alert("Incorrect Password Input!")
+            alert("Something wrong, please check if you have the correct password")
         } else {
-            const result = await res.json()
             alert("Update successful!")
             location.reload()
         }
