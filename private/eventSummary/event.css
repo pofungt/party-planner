@@ -1,0 +1,105 @@
+.bi-chevron-left {
+    font-size: 30px;
+    position: fixed;
+    top: 90px;
+    left: 50px;
+    color: #444a58;
+    cursor: pointer;
+}
+
+/* event body CSS */
+#from-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 10px;
+}
+
+.box {
+    margin: 10px 10px;
+}
+
+.form-header {
+    font-size: 20px;
+    font-family: "Lato", sans-serif;
+    padding: 3px;
+}
+
+.venue-check {
+    display: flex;
+    font-size: 16px;
+    font-family: "Lato", sans-serif;
+}
+
+.form-check {
+    margin: 10px;
+    font-size: 16 px;
+    font-family: "Lato", sans-serif;
+}
+
+/* Date part */
+.eventDate-box {
+    display: flex;
+    flex-direction: row;
+}
+
+.event-time-label {
+    font-size: 19px;
+    font-family: "Lato", sans-serif;
+    margin: 4px 10px 4px 0px;
+}
+
+.event-time-label-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-time-label-box > input {
+    color: #495871;
+}
+
+.clock {
+    margin: 4px 10px 4px 0px;
+}
+
+/* parking */
+.parking-box {
+    display: flex;
+    margin: 15px 0px 5px 0px;
+    color: #495871;
+}
+
+.parking-number-input {
+    margin-left: 10px;
+    width: 70px;
+}
+
+/* budget */
+.budget-box {
+    color: #495871;
+    font-family: "Lato", sans-serif;
+    margin: 5px 0px;
+}
+
+.budget-box span {
+  margin-left: 5px;
+}
+
+/* submit btn */
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    max-height: 50px;
+}
+
+#event-submit {
+    border: none;
+    margin-top: 10px;
+    background-color: white;
+}
+
+/* Remark Css */
+.form-control {
+    border-width: 2px;
+    border-radius: 10px;
+    width: 400px;
+}

@@ -133,7 +133,7 @@ async function postEvent(req: Request, res: Response) {
 async function getEventDetail(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-
+        
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[EVT004]: Failed to get Event Details" });
