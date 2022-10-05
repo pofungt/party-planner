@@ -1,0 +1,12 @@
+.content-container {
+    height: calc(100vh - 115px);
+    margin-top: 20px;
+}
+
+.first-row {
+    height: 20%;
+}
+
+.second-row {
+    height: 60%;
+}
