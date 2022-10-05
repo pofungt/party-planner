@@ -7,4 +7,3 @@ window.addEventListener("load", () => {
     loadEventDetails();
     document.body.style.display = "block";
 });
-

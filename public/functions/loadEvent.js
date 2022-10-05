@@ -181,5 +181,9 @@ export async function loadEventDetails() {
     return;
   }
   const result = await res.json();
-  console.log(result);
+  if (result.status) {
+    // Load Event Name into Page
+    const eventName = document.querySelector(".eventname .background-frame");
+    eventName.innerHTML = `<div class="emoji">🎉</div> <div>${result.detail.name}</div>`;
+  }
 }
