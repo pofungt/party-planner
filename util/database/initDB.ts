@@ -68,11 +68,13 @@ async function main() {
     
     CREATE TABLE time_blocks (
         id SERIAL primary key,
-        description varchar not NULL,
+        title varchar not NULL,
+        description varchar,
         event_id int not NULL,
         user_id int not NULL,
         start_time time not NULL,
         end_time time not NULL,
+        remark varchar,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (event_id) REFERENCES events(id),
