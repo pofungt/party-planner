@@ -52,7 +52,8 @@ document
         const endTimeValue = new Date(endTime).getTime();
 
         // check time validity
-        if (startTimeValue >= endTimeValue) {
+        
+        if (startTimeValue >= endTimeValue && startTimeValue !== null ) {
             dataPass = false;
             alert("Start time cannot equals or later than end time!");
         }
