@@ -125,6 +125,7 @@ async function postEvent(req: Request, res: Response) {
                 "now()",
             ]
         );
+        res.json({msg: "Posted to DB"})
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[EVT003]: Failed to post Event" });

@@ -20,8 +20,8 @@ document
         const endTime = form.event_date_end.value;
         const eventRemark = form.event_remark.value;
         const parkingLot = form.parking_check.checked;
-        const lotNumber = form.lot_input.value;
-        const eventBudget = form.event_budget.value;
+        const lotNumber = form.lot_input.value || null;
+        const eventBudget = form.event_budget.value || null;
 
         let formObj = {
             eventName,
