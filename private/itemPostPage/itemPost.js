@@ -21,12 +21,14 @@ document
         const itemName = form.item_name.value;
         const itemQuantity = form.item_quantity.value;
         const itemPrice = form.item_price.value || null ;
+        const itemPIC = form.item_user.value || null ;
 
         let formObj = {
             typeName,
             itemName,
             itemQuantity,
             itemPrice,
+            itemPIC,
         }
 
         let dataPass = true;
