@@ -62,7 +62,11 @@ a {
     text-align: left;
 }
 
-.frame-content {
+.frame-title-container {
+    display: flex;
+}
+
+.frame-content-container {
     display: flex;
     padding: 10px 0;
 }
@@ -98,4 +102,16 @@ a {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+}
+
+#number-of-participants {
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F2D492;
+    color: #EE6C4D;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
 }

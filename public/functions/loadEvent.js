@@ -210,34 +210,54 @@ export async function loadEventDetails() {
     `;
 
     // Load Participants into Page
+    let participantListHTML = "";
+    if (result.participants.length) {
+      const userList = result.participants;
+      participantListHTML += "<div>";
+      for (let user of userList) {
+        participantListHTML += `
+        <div class="user_${user.id}">
+          <i class="fa-solid fa-user"></i>
+          &nbsp; &nbsp;
+          ${user.first_name} ${user.last_name}
+        </div>
+        `;
+      }
+      participantListHTML += "</div>";
+    }
     const participant = document.querySelector(".participant .background-frame");
     participant.innerHTML = `
-      <div class="frame-title">
-        <div>
+      <div class="frame-title-container">
+        <div class="frame-title">
           Participants
         </div>
-        <div class="number-of-participants">
-        
+        <div id="number-of-participants">
+          ${result.participants.length}
         </div>
       </div>
 
-      <div class="frame-content">
-        
+      <div class="frame-content-container">
+        ${participantListHTML}
       </div>
     `;
 
     // Load Venue into Page
     const venue = document.querySelector(".venue .background-frame");
     venue.innerHTML = `
-        <div class="frame-title">
-          Venue
+        <div class="frame-title-container">
+          <div class="frame-title">
+            Venue
+          </div>
         </div>
-        <div class="frame-content">
+        <div class="frame-content-container">
           <i class="fa-solid fa-location-dot"></i>
+          &nbsp; &nbsp;
           <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(" ","+")}/" target="_blank">
             ${result.detail.venue || ""}
           </a>
         </div>
     `;
+
+    console.log(result)
   }
 }

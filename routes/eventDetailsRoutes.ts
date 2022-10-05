@@ -19,10 +19,20 @@ async function getCreatedEventDetails(req:Request, res:Response) {
         `,
         [parseInt(eventId), req.session.user]
         )).rows;
+
         if (event) {
+            const participantList = (await client.query(`
+                SELECT users.id, users.first_name, users.last_name FROM users
+                INNER JOIN participants ON participants.user_id = users.id
+                INNER JOIN events ON participants.event_id = events.id
+                WHERE events.id = $1;
+            `,
+            [parseInt(eventId)]
+            )).rows;
             res.json({
                 status: true,
-                detail: event
+                detail: event,
+                participants: participantList
             })
         } else {
             res.json({
@@ -49,10 +59,21 @@ async function getParticipatedEventDetails(req:Request, res:Response) {
         `,
         [parseInt(eventId), req.session.user]
         )).rows;
+
         if (event) {
+            const participantList = (await client.query(`
+                SELECT users.id, users.first_name, users.last_name FROM users
+                INNER JOIN participants ON participants.user_id = users.id
+                INNER JOIN events ON participants.event_id = events.id
+                WHERE events.id = $1;
+            `,
+            [parseInt(eventId)]
+            )).rows;
+            
             res.json({
                 status: true,
-                detail: event
+                detail: event,
+                participants: participantList
             })
         } else {
             res.json({
