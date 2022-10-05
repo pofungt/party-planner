@@ -4,7 +4,7 @@ import { Events } from "../util/models";
 import { onlyNumbers } from "../util/functions/onlyNumbers";
 import { logger } from "../util/logger";
 import { isLoggedInAPI } from "../util/guard";
-import { eventDetailsRoutes } from "./eventDetails";
+import { eventDetailsRoutes } from "./eventDetailsRoutes";
 
 export const eventsRoutes = express.Router();
 
