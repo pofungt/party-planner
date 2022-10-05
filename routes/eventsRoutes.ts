@@ -27,7 +27,10 @@ async function getCreateEventList(req: Request, res: Response) {
         let offset: number = onlyNumbers(currentPage)
             ? (parseInt(currentPage) - 1) * 10
             : 0;
-        if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
+        if (!columnCount) {
+            currentPage = "1";
+            offset = 0;
+        } else if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
             currentPage = Math.ceil(columnCount / 10).toString();
             offset = (Math.ceil(columnCount / 10) - 1) * 10;
         }
@@ -44,7 +47,7 @@ async function getCreateEventList(req: Request, res: Response) {
         res.json({
             object: eventList,
             currentPage: currentPage,
-            page: Math.ceil(columnCount / 10),
+            page: columnCount ? Math.ceil(columnCount / 10) : 1,
         });
     } catch (e) {
         logger.error(e);
@@ -71,7 +74,10 @@ async function getParticipateEventList(req: Request, res: Response) {
         let offset: number = onlyNumbers(currentPage)
             ? (parseInt(currentPage) - 1) * 10
             : 0;
-        if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
+        if (!columnCount) {
+            currentPage = "1";
+            offset = 0;
+        } else if (Math.ceil(columnCount / 10) < parseInt(currentPage)) {
             currentPage = Math.ceil(columnCount / 10).toString();
             offset = (Math.ceil(columnCount / 10) - 1) * 10;
         }
@@ -90,7 +96,7 @@ async function getParticipateEventList(req: Request, res: Response) {
         res.json({
             object: eventList,
             currentPage: currentPage,
-            page: Math.ceil(columnCount / 10),
+            page: columnCount ? Math.ceil(columnCount / 10) : 1,
         });
     } catch (e) {
         logger.error(e);
