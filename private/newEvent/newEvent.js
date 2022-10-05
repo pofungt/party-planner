@@ -58,11 +58,10 @@ document
         }
 
         // check budget validity
-        if (eventBudget == !Number) {
+        if (eventBudget < 0) {
             dataPass = false;
-            alert("Please fill number only!");
+            alert("Please fill positive number!");
         }
-
 
         if (dataPass) {
             const res = await fetch("/events", {
