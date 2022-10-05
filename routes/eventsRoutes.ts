@@ -4,13 +4,14 @@ import { Events } from "../util/models";
 import { onlyNumbers } from "../util/functions/onlyNumbers";
 import { logger } from "../util/logger";
 import { isLoggedInAPI } from "../util/guard";
+import { eventDetailsRoutes } from "./eventDetails";
 
 export const eventsRoutes = express.Router();
 
 eventsRoutes.get("/created", isLoggedInAPI, getCreateEventList);
 eventsRoutes.get("/participated", isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post("/", isLoggedInAPI, postEvent);
-eventsRoutes.get("/:id", isLoggedInAPI, getEventDetail);
+eventsRoutes.use("/detail", eventDetailsRoutes);
 
 async function getCreateEventList(req: Request, res: Response) {
     try {
@@ -81,7 +82,7 @@ async function getParticipateEventList(req: Request, res: Response) {
             INNER JOIN users ON participants.user_id = users.id
             WHERE users.id = $1
             ORDER BY events.start_datetime DESC, events.id DESC
-            LIMIT 10 OFFSET $2;;
+            LIMIT 10 OFFSET $2;
             `,
             [req.session.user || 0, offset]
         );
@@ -127,15 +128,5 @@ async function postEvent(req: Request, res: Response) {
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[EVT003]: Failed to post Event" });
-    }
-}
-
-async function getEventDetail(req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({ msg: "[EVT004]: Failed to get Event Details" });
     }
 }
