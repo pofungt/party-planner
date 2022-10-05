@@ -4,9 +4,20 @@ body {
     font-size: 16px;
 }
 
+a {
+    color: inherit;
+    text-decoration: none;
+} 
+
 .content {
     height: calc(100vh - 115px);
     margin-top: 10px;
+}
+
+.vertical-flex {
+    flex-direction: column;
+    justify-content: flex-start!important;
+    align-items: flex-start!important;
 }
 
 .background-frame:not(.eventname .background-frame) {
@@ -20,6 +31,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 .line1 {
@@ -47,6 +59,16 @@ body {
 .frame-title {
     font-size: 20px;
     font-weight: bold;
+    text-align: left;
+}
+
+.frame-title-container {
+    display: flex;
+}
+
+.frame-content-container {
+    display: flex;
+    padding: 10px 0;
 }
 
 .eventname {
@@ -80,4 +102,16 @@ body {
     justify-content: space-between;
     align-items: center;
     text-align: center;
+}
+
+#number-of-participants {
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #F2D492;
+    color: #EE6C4D;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
 }
