@@ -203,14 +203,41 @@ export async function loadEventDetails() {
       <div class="frame-title">
         Date & Time
       </div>
-      <div>
+
+      <div class="frame-content">
         ${dateTimeString}
       </div>
     `;
 
     // Load Participants into Page
+    const participant = document.querySelector(".participant .background-frame");
+    participant.innerHTML = `
+      <div class="frame-title">
+        <div>
+          Participants
+        </div>
+        <div class="number-of-participants">
+        
+        </div>
+      </div>
+
+      <div class="frame-content">
+        
+      </div>
+    `;
 
     // Load Venue into Page
-    
+    const venue = document.querySelector(".venue .background-frame");
+    venue.innerHTML = `
+        <div class="frame-title">
+          Venue
+        </div>
+        <div class="frame-content">
+          <i class="fa-solid fa-location-dot"></i>
+          <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(" ","+")}/" target="_blank">
+            ${result.detail.venue || ""}
+          </a>
+        </div>
+    `;
   }
 }
