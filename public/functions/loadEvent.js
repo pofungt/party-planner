@@ -258,6 +258,31 @@ export async function loadEventDetails() {
         </div>
     `;
 
-    console.log(result)
+      // Load schedule into Page
+      const schedule = document.querySelector(".schedule .background-frame");
+      schedule.innerHTML = `
+          <div class="frame-title-container">
+            <div class="frame-title">
+              Schedule
+            </div>
+          </div>
+          <div class="frame-content-container">
+
+          </div>
+      `;
+
+      // Load item into Page
+      const item = document.querySelector(".item .background-frame");
+      item.innerHTML = `
+          <div class="frame-title-container">
+            <div class="frame-title">
+              Item
+            </div>
+          </div>
+          <div class="frame-content-container">
+
+          </div>
+      `;
+    
   }
 }

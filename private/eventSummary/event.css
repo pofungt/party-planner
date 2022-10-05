@@ -72,14 +72,14 @@ a {
 }
 
 .eventname {
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
     line-height: 100%;
 }
 
 .eventname .emoji {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .date-time .background-frame div {
@@ -122,24 +122,27 @@ a {
     border-radius: 5px;
 }
 
-/* Scroll bar */
 
-::-webkit-scrollbar {
+/* ↓↓ Scroll bar ↓↓ */
+
+.participant .frame-content-container::-webkit-scrollbar {
     width: 15px;
 }
 
-::-webkit-scrollbar-track {
+.participant .frame-content-container::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px grey;
     border-radius: 5px;
     height: 200px;
 }
 
-::-webkit-scrollbar-thumb {
+.participant .frame-content-container::-webkit-scrollbar-thumb {
     background: #EFEFD0;
     border-radius: 5px;
     min-height: 250px;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.participant .frame-content-container::-webkit-scrollbar-thumb:hover {
     background: white;
 }
+
+/* ↑↑ Scroll bar ↑↑ */
