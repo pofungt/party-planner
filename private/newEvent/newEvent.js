@@ -71,5 +71,10 @@ document
                 },
                 body: JSON.stringify(formObj),
             });
+
+            const eventsResult = await res.json();
+            if (eventsResult.status === true) {
+                window.location = "/";  //
+            }
         }
     });
