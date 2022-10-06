@@ -16,8 +16,12 @@ document
         const eventVenue = form.event_venue.value || null;
         const indoor = form.indoor_check.checked;
         const outdoor = form.outdoor_check.checked;
-        const startTime = form.event_date_start.value || null;
-        const endTime = form.event_date_end.value || null;
+        const startTime = form.event_date_start.value
+            ? new Date(form.event_date_start.value).toISOString()
+            : null;
+        const endTime = form.event_date_end.value
+            ? new Date(form.event_date_end.value).toISOString()
+            : null;
         const eventRemark = form.event_remark.value;
         const parkingLot = form.parking_check.checked;
         const lotNumber = form.lot_input.value || null;
@@ -79,7 +83,7 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status === true) {
-                window.location = "/";  //
+                window.location = "/"; //
             }
         }
     });
