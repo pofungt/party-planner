@@ -41,6 +41,8 @@ async function getItem(req: Request, res: Response) {
         for (const items of itemResult.rows) {
             itemObj[items.type_name].push(items);
         }
+        res.json({ itemObj, status: true, msg: "get item from DB" });
+
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM001]: Failed to post Item" });
@@ -94,7 +96,7 @@ async function postItem(req: Request, res: Response) {
                 "now()",
             ]
         );
-            
+
         res.json({ status: true, msg: "Posted to DB" });
     } catch (e) {
         logger.error(e);
@@ -102,7 +104,7 @@ async function postItem(req: Request, res: Response) {
     }
 }
 
-async function deleteItem (req: Request, res: Response) {
+async function deleteItem(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
 
@@ -110,15 +112,12 @@ async function deleteItem (req: Request, res: Response) {
             `
             DELETE FROM items where item.id = $1
             `,
-            [
-                req.params.id,
-            ]
-        )
+            [req.params.id]
+        );
 
-        res.json({ status: true, msg: "successfully delete"});
+        res.json({ status: true, msg: "successfully delete" });
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
     }
-    
 }

@@ -13,8 +13,8 @@ scheduleRoutes.delete("/", isLoggedInAPI)
 async function getEventSchedule(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        const eventId = req.query.event_id;
-        const creator = req.query.is_creator
+        const eventId = req.query["event-id"];
+        const creator = req.query["is-creator"];
         
         let event
         
