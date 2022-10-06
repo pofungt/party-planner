@@ -1,4 +1,4 @@
-import {listenCreateButtons, listenParticipateButtons,listenEditButtons} from "/functions/listenButtons.js";
+import {listenCreateButtons, listenParticipateButtons, listenEditButtons, listenToSchedulePage} from "/functions/listenButtons.js";
 
 export async function loadName() {
   const res = await fetch(`/login/name`);
@@ -283,6 +283,8 @@ export async function loadEventDetails() {
 
           </div>
       `;
+
+      listenToSchedulePage()
     
   }
 }
