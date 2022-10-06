@@ -72,6 +72,88 @@
       </div>
     </div>
 
+    <!-- Modal Parts -->
+    <div class="modal fade" id="datetime-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div></div>
+            <h5 class="modal-title">Date & Time</h5>
+            <div class="exit-modal">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <div class="input-title">
+                Please edit your date & time below.
+              </div>
+              <form>
+                <div class="datetime-start input-panel mb-3">
+                  <div class="form-label">Start date and time</div>
+                  <input class="clock" type="datetime-local" id="datetime-start" name="event_date_end"
+                  min="2021-06-07T00:00" max="2035-12-30T00:00"/>
+                </div>
+                <div class="datetime-end input-panel mb-3">
+                  <div class="form-label">End date and time</div>
+                  <input class="clock" type="datetime-local" id="datetime-end" name="event_date_start"
+                  min="2021-06-07T00:00" max="2035-12-30T00:00"/>
+                </div>
+                <div class="reminder-text">
+                  Please fill in both start and end date/time.
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button id="datetime-submit" type="button" class="modal-submit-button">
+                Edit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="venue-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h5 class="modal-title">Venue</h5>
+          <div class="exit-modal">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <div class="input-title">
+              Please edit your date & time below.
+            </div>
+            <form>
+              <div class="venue-start input-panel mb-3">
+                <div class="form-label">Start date and time</div>
+                <!--change here-->
+                <input class="clock" type="datetime-local" id="datetime-start" name="event_date_end"
+                min="2021-06-07T00:00" max="2035-12-30T00:00"/>
+
+              </div>
+              <div class="reminder-text">
+                Please fill in both start and end date/time.
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button id="venue-submit" type="button" class="modal-submit-button">
+              Edit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
       crossorigin="anonymous"></script>

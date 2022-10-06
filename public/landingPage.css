@@ -111,23 +111,6 @@
     touch-action: manipulation;
 }
 
-.modal-footer {
-    align-content: center;
-}
-
-.modal-login {
-    font-size: 14px;
-    color: #293241;
-    font-family: "Lato", sans-serif;
-    background-color: #f2d492;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin: 18px;
-    width: 110px;
-    border: none;
-    box-shadow: 0px 1px 12px #f2d492;
-}
-
 #logo-name {
     font-size: 60px;
     font-family: "Pacifico", cursive;
@@ -194,10 +177,26 @@
     touch-action: manipulation;
 }
 
+/* Modal */
+
+.modal-login {
+    font-size: 14px;
+    color: #293241;
+    font-family: "Lato", sans-serif;
+    background-color: #f2d492;
+    padding: 10px 20px 10px 20px;
+    border-radius: 20px;
+    margin: 18px;
+    width: 110px;
+    border: none;
+    box-shadow: 0px 1px 12px #f2d492;
+}
+
 .modal-footer {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-content: center;
 }
 
 .modal-login {
