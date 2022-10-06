@@ -37,6 +37,7 @@ header{
 
     #time-block-memo-container{
         max-height: 300px;
+        overflow: auto;
         max-width: 100%;
     }
 }
@@ -66,6 +67,7 @@ header{
 
 #rundown-container {
     max-height: 100%;
+    position: relative;
 }
 
 
@@ -110,6 +112,7 @@ header{
 }
 
 .memo-item-container {
+    position: relative;
     background-color: rgba(255, 255, 255, 0.522);
     border-radius: 10px;
     width:100%;
@@ -165,4 +168,24 @@ header{
   @keyframes animate-fade {
     0% { opacity: 0; }
     100% { opacity: 1; }
+  }
+
+
+  .creator-function {
+    border-radius: 100px;
+    background-color: #f2965985;
+    color: white;
+    text-align: center;
+    min-width:22px !important;
+    min-height: 22px !important;
+    padding: 3px;
+    font-size: 10px;
+    position:absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  #event-name {
+    font-size: large;
+    padding-top: 20px;
   }
