@@ -317,12 +317,21 @@ export async function loadEventDetails() {
     `;
 
       // Load schedule into Page
+      let editScheduleButton = "";
+      if (isCreator) {
+        editScheduleButton = `
+          <a class="edit-button">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+        `
+      }
       const schedule = document.querySelector(".schedule .background-frame");
       schedule.innerHTML = `
           <div class="frame-title-container">
             <div id="frame-content-container" class="frame-title btn btn-primary">
               Schedule
             </div>
+            ${editScheduleButton}
           </div>
           <div class="frame-content-container">
 

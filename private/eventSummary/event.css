@@ -111,8 +111,9 @@ a {
     overflow-y: auto;
 }
 
-.venue .frame-title-container {
+.venue .frame-title-container, .schedule .frame-title-container {
     justify-content: space-between;
+    align-items: center;
 }
 
 #number-of-participants {
