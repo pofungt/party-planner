@@ -16,7 +16,7 @@ function getPresetTimeBlock(startHour, endHour) {
     for (let i = 0; i < 24; i++) {
         rundown.innerHTML +=
             `
-                <div class="individual-time-block row">
+                <div id="time-block-container-${i}" class="individual-time-block row">
                     <span id="time-stamp-box" class="time-stamp-container col-2">
                         <div id="stamp-${i}" class="time-stamp">${i}:00</div>
                     </span>
@@ -52,15 +52,40 @@ function getPresetTimeBlock(startHour, endHour) {
             let new_div = timeBlock.cloneNode(true);
             outerDiv.appendChild(new_div);
             outerDiv.dataset.current = current + 1;
-            getMemo(startHour, endHour)
         }
     });
+}
+
+function getSavedTimeBlocks (activitiesArr) {
+    activitiesArr.forEach((activity)=>{
+        const start = activity.start_time
+        const end = activity.end_time
+        const title = activity.title
+        const startId = start.slice(0,2)
+        const endId = end.slice(0,2)
+
+        document.querySelector(`#time-block-${startId}`).innerHTML = title
+
+        document.querySelector(`time-block-container-${startId}`).innerHTML = `
+                <span id="time-stamp-box" class="time-stamp-container col-2">
+                    <div id="stamp-${startId}" class="time-stamp">${startId}:00</div>
+                </span>
+                <span id="time-block-${startId}" class="time-block save-time-block col-10"></span>
+        `
+        //adjust div height
+
+        
+        //delete redundant div
+        for (let i = startId+1; i < endId; i++){
+            document.querySelector(`time-block-container-${i}`).innerHTML = ""
+        }
+    })
 }
 
 
 
 function getMemo(startHour, endHour) {
-    const timeBlocks = document.querySelectorAll(".time-block")
+    const timeBlocks = document.querySelectorAll(".save-time-block")
     const memoContainer = document.querySelector("#time-block-memo-container")
 
     timeBlocks.forEach((block) => {
@@ -149,6 +174,19 @@ function addTimeInput(startHour, startMin, endHour, endMin) {
         `
     }
 
+    if (startMin !== 0 && endMin === 0) {
+        timeContainer.innerHTML = `
+    <div class="input-panel mb-3">
+        <div class="form-header">Start Time *</div>
+        <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" required>
+    </div>
+    <div class="input-panel mb-3">
+        <div class="form-header">End Time *</div>
+        <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" required>
+    </div>
+        `
+    }
+
 }
 
 function hideAllDivClass(divId) {
@@ -186,6 +224,7 @@ async function getEventSchedule() {
     const eventName = result.detail.name
     const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
     const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
+    const activitiesArr = result.activities
 
     const startTime = startDateTime.slice(-5)
     const endTime = endDateTime.slice(-5)
@@ -202,7 +241,7 @@ async function getEventSchedule() {
     getPresetTimeBlock(startHour, endHour)
     getMemo(startHour, endHour)
     addTimeInput(startHour, startMin, endHour, endMin)
-
+    getSavedTimeBlocks (activitiesArr)
     if (isCreator) {
         hideAllDivClass(".creator-function")
     }
@@ -211,9 +250,13 @@ async function getEventSchedule() {
 
 
 document
-    .querySelector("submit-new-activity")
+    .querySelector("#activity-form")
     .addEventListener("submit", async function(e) {
     e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('event-id');
+    const isCreator = params.get('is-creator');
 
     const form = e.target
     const title = form["activity-name"].value
@@ -230,7 +273,9 @@ document
         endTime,
     };
 
-    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`, {
+    console.log(formObj)
+
+    const res = await fetch(`/eventSchedule/activity/?event-id=${eventId}&is-creator=${isCreator}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -238,11 +283,16 @@ document
         body: JSON.stringify(formObj)
     });
 
-    console.log(formObj)
-
     if (res.status !== 200) {
         const data = await res.json();
         alert(data.msg);
         return;
     }
+
+    const result = await res.json();
+            if (result.status === true) {
+                alert("Activity successfully added!")
+                location.reload()
+            }
+
 })

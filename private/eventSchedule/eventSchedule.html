@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="input-group">
-                        <form class="register-form">
+                        <form id="activity-form" class="register-form">
                             <div class="input-panel mb-3">
                                 <div class="form-header">Activity Name *</div>
                                 <input type="text" class="form-control" name="activity-name" aria-label="first-name"
@@ -73,12 +73,12 @@
 
                             <div class="input-panel mb-3">
                                 <div class="form-header">Remarks</div>
-                                <textarea id="description" class="form-control" name="remark" rows="5" cols="50">
+                                <textarea id="remark" class="form-control" name="remark" rows="5" cols="50">
                                 </textarea>
                             </div>
                     
                             <div class="modal-footer">
-                                <button id="submit-new-activity" METHOD="POST" type="submit" class="btn btn-primary">
+                                <button id="submit-new-activity" type="submit" class="btn btn-primary">
                                     Submit
                                 </button>
                             </div>

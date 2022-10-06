@@ -6,7 +6,7 @@ import { logger } from "../util/logger";
 export const scheduleRoutes = express.Router();
 
 scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule)
-scheduleRoutes.post("/", isLoggedInAPI, postEventSchedule)
+scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule)
 scheduleRoutes.put("/", isLoggedInAPI)
 scheduleRoutes.delete("/", isLoggedInAPI)
 
@@ -15,7 +15,6 @@ async function getEventSchedule(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const eventId = req.query["event-id"];
         const creator = req.query["is-creator"];
-        
         let event
         
         if (creator === "1") {
@@ -38,11 +37,17 @@ async function getEventSchedule(req: Request, res: Response) {
             )).rows[0];
         }
 
-        console.log(event)
+        const activitiesArr = (await client.query(`
+            SELECT * FROM time_blocks
+            WHERE event_id = $1
+        `,[eventId])).rows
+
+        console.log(activitiesArr)
 
         res.json({
             status: true,
             detail: event,
+            activities: activitiesArr,
         })
 
 
@@ -60,11 +65,35 @@ async function postEventSchedule (req: Request, res: Response) {
         const eventId = req.query["event-id"];
         const creator = req.query["is-creator"];
 
-        console.log(req.body, eventId, creator)
+    if (creator){
+        await client.query(`
+        INSERT INTO time_blocks 
+            (title, description, event_id, user_id, start_time, 
+                end_time, remark, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+        [
+            req.body.title,
+            req.body.description,
+            eventId,
+            req.session.user,
+            req.body.startTime,
+            req.body.endTime,
+            req.body.remark,
+            "now()",
+            "now()"
+        ]
+        )
 
         res.json({
             status: true,
+            msg: "save success"
             })
+    } else {
+        res.status(400).json({
+            msg: "[EER001]: Bad Request",
+        });
+    }
+        
 
     } catch(e){
         logger.error(e);

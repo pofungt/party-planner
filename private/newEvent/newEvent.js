@@ -1,6 +1,10 @@
 import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
 
+function onlyNumbers(str) {
+    return /^[0-9]+$/.test(str);
+}
+
 window.addEventListener("load", () => {
     addNavbar();
     loadName();
@@ -11,6 +15,7 @@ document
     .querySelector("#from-container")
     .addEventListener("submit", async function (e) {
         e.preventDefault();
+
         const form = e.target;
         const eventName = form.event_name.value;
         const eventVenue = form.event_venue.value || null;
@@ -27,19 +32,6 @@ document
         const lotNumber = form.lot_input.value || null;
         const eventBudget = form.event_budget.value || null;
 
-        let formObj = {
-            eventName,
-            eventVenue,
-            indoor,
-            outdoor,
-            startTime,
-            endTime,
-            parkingLot,
-            lotNumber,
-            eventRemark,
-            eventBudget,
-        };
-
         let dataPass = true;
 
         if (!eventName) {
@@ -47,9 +39,29 @@ document
             alert("Please fill in the event name!");
         }
 
-        if (lotNumber) {
-            !Number;
-            alert("Please fill number only!");
+        if (parkingLot) {
+            if (lotNumber) {
+                if (onlyNumbers(lotNumber)) {
+                    if (!parseInt(lotNumber)) {
+                        dataPass = false;
+                        alert("Please enter a valid lot number!");
+                    }
+                } else {
+                    dataPass = false;
+                    alert("Please enter numbers only!");
+                }
+            }
+        } else {
+            if (lotNumber) {
+                if (onlyNumbers(lotNumber)) {
+                    if (parseInt(lotNumber)) {
+                        parkingLot = true;
+                    }
+                } else {
+                    dataPass = false;
+                    alert("Please enter numbers only!");
+                }
+            }
         }
 
         const startTimeValue = new Date(startTime).getTime();
@@ -67,12 +79,27 @@ document
         }
 
         // check budget validity
-        if (eventBudget < 0) {
-            dataPass = false;
-            alert("Please fill positive number!");
+        if (eventBudget) {
+            if (!onlyNumbers(eventBudget)) {
+                alert("Please enter integers only!");
+            }
         }
 
         if (dataPass) {
+
+            let formObj = {
+                eventName,
+                eventVenue,
+                indoor,
+                outdoor,
+                startTime,
+                endTime,
+                parkingLot,
+                lotNumber: parseInt(lotNumber),
+                eventRemark,
+                eventBudget: parseInt(eventBudget),
+            };
+
             const res = await fetch("/events", {
                 method: "POST",
                 headers: {
@@ -83,7 +110,7 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status === true) {
-                window.location = "/"; //
+                window.location.href = "/"; //
             }
         }
     });
