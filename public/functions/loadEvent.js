@@ -328,7 +328,7 @@ export async function loadEventDetails() {
       const schedule = document.querySelector(".schedule .background-frame");
       schedule.innerHTML = `
           <div class="frame-title-container">
-            <div id="frame-content-container" class="frame-title btn btn-primary">
+            <div id="frame-content-container" class="frame-title">
               Schedule
             </div>
             ${editScheduleButton}

@@ -150,16 +150,14 @@ export function listenEditButtons() {
             window.location.replace(`/eventSummary/event.html?event-id=${eventId}&is-creator=0`);
         });
     }
-
 }
 
 export function listenToSchedulePage() {
-    const toScheduleDiv = document.querySelector("#frame-content-container")
+    const toScheduleDiv = document.querySelector(".schedule .edit-button");
     const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event-id')
+    const eventId = params.get('event-id');
     const isCreator = params.get('is-creator');
     toScheduleDiv.addEventListener("click", ()=>{
         window.location.replace(`/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}`)
     })
-
 }
