@@ -2,15 +2,16 @@ import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
 
 window.addEventListener("load", async () => {
-    addTimeBlock();
+    getTimeBlock();
     addNavbar();
     loadName();
-    showMemo ();
+    getMemo ();
+    getEventSchedule();
 
     document.body.style.display = "block";
 });
 
-function addTimeBlock() {
+function getTimeBlock() {
     let rundown = document.querySelector("#rundown")
     for (let i = 0; i < 24; i++) {
         rundown.innerHTML +=
@@ -39,11 +40,11 @@ rundownContainer.addEventListener("scroll", function () {
         let new_div = timeBlock.cloneNode(true);
         outerDiv.appendChild(new_div);
         outerDiv.dataset.current = current + 1;
-        showMemo ()
+        getMemo ()
     }
 });
 
-function showMemo () {
+function getMemo () {
     const timeBlocks = document.querySelectorAll(".time-block")
     const memoContainer = document.querySelector("#time-block-memo-container")
     timeBlocks.forEach((block)=>{
@@ -87,14 +88,24 @@ function resetTimeBlockColor(timeBlocks){
     })
 }
 
-async function addEventSchedule(eventId) {
-    const res = await fetch(`schedule/event?event_id=${eventId}`);
-    const result = await res.json()
+async function getEventSchedule() {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = parseInt(params.get('event-id'));
+    const isCreator = parseInt(params.get('is-creator'));
+
+    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`);
 
     if (res.status !== 200) {
         const data = await res.json();
         alert(data.msg);
         return;
+    }
+
+    const result = await res.json()
+    console.log(result)
+
+    if (isCreator) {
+        
     }
 
 }

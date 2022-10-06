@@ -1,4 +1,4 @@
-import {listenCreateButtons, listenParticipateButtons,listenEditButtons} from "/functions/listenButtons.js";
+import {listenCreateButtons, listenParticipateButtons, listenEditButtons, listenToSchedulePage} from "/functions/listenButtons.js";
 
 export async function loadName() {
   const res = await fetch(`/login/name`);
@@ -172,8 +172,8 @@ export async function loadParticipateEvents(page) {
 
 export async function loadEventDetails() {
   const params = new URLSearchParams(window.location.search);
-  const isCreator = parseInt(params.get('isCreator'));
-  const eventId = params.get('eventId');
+  const isCreator = parseInt(params.get('is-creator'));
+  const eventId = params.get('event-id');
   const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
   if (res.status !== 200) {
     const data = await res.json();
@@ -262,7 +262,7 @@ export async function loadEventDetails() {
       const schedule = document.querySelector(".schedule .background-frame");
       schedule.innerHTML = `
           <div class="frame-title-container">
-            <div class="frame-title">
+            <div id="frame-content-container" class="frame-title btn btn-primary">
               Schedule
             </div>
           </div>
@@ -283,6 +283,8 @@ export async function loadEventDetails() {
 
           </div>
       `;
+
+      listenToSchedulePage()
     
   }
 }

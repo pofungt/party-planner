@@ -12,12 +12,12 @@ window.addEventListener("load", async () => {
   let createPage = "1";
   let participatePage = "1";
 
-  if (!params.has('createPage')) {
+  if (!params.has('create-page')) {
     loadCreateEvents(createPage);
   } else {
-    if (onlyNumbers(params.get('createPage'))) {
-      if (parseInt(params.get('createPage')) >= 1) {
-        createPage = params.get('createPage');
+    if (onlyNumbers(params.get('create-page'))) {
+      if (parseInt(params.get('create-page')) >= 1) {
+        createPage = params.get('create-page');
         createPage = await loadCreateEvents(createPage);
       } else {
         loadCreateEvents(createPage);
@@ -27,12 +27,12 @@ window.addEventListener("load", async () => {
     }
   }
   
-  if (!params.has('participatePage')) {
+  if (!params.has('participate-page')) {
     loadParticipateEvents(participatePage);
   } else {
-    if (onlyNumbers(params.get('participatePage'))) {
-      if (parseInt(params.get('participatePage')) >= 1) {
-        participatePage = params.get('participatePage');
+    if (onlyNumbers(params.get('participate-page'))) {
+      if (parseInt(params.get('participate-page')) >= 1) {
+        participatePage = params.get('participate-page');
         participatePage = await loadParticipateEvents(participatePage);
       } else {
         loadParticipateEvents(participatePage);
@@ -42,7 +42,7 @@ window.addEventListener("load", async () => {
     }
   }
 
-  history.pushState({}, "Dashboard", `http://localhost:8080/index.html?createPage=${createPage}&participatePage=${participatePage}`);
+  history.pushState({}, "Dashboard", `http://localhost:8080/index.html?create-page=${createPage}&participate-page=${participatePage}`);
 
   document.body.style.display = "block";
 });

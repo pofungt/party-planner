@@ -138,7 +138,7 @@ export function listenEditButtons() {
         editButton.addEventListener('click', async () => {
             const className = editButton.className;
             const eventId = className.replace("created_detail_","");
-            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=1`);
+            window.location.replace(`/eventSummary/event.html?event-id=${eventId}&is-creator=1`);
         });
     }
 
@@ -147,8 +147,19 @@ export function listenEditButtons() {
         editButton.addEventListener('click', async () => {
             const className = editButton.className;
             const eventId = className.replace("participated_detail_","");
-            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=0`);
+            window.location.replace(`/eventSummary/event.html?event-id=${eventId}&is-creator=0`);
         });
     }
+
+}
+
+export function listenToSchedulePage() {
+    const toScheduleDiv = document.querySelector("#frame-content-container")
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('event-id')
+    const isCreator = params.get('is-creator');
+    toScheduleDiv.addEventListener("click", ()=>{
+        window.location.replace(`/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}`)
+    })
 
 }
