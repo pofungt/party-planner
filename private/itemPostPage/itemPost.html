@@ -156,43 +156,8 @@
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr id="item-id">
-                                    <td>item name</td>
-                                    <td>11</td>
-                                    <td>11</td>
-                                    <td>@User</td>
-                                    <td><button itemDelete="button" class="delete-btn"><i
-                                                class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>item name</td>
-                                    <td>11</td>
-                                    <td>11</td>
-                                    <td>@User</td>
-                                    <td><button itemDelete="button" class="delete-btn"><i
-                                                class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>item name</td>
-                                    <td>11</td>
-                                    <td>11</td>
-                                    <td>@User</td>
-                                    <td><button itemDelete="button" class="delete-btn"><i
-                                                class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>item name</td>
-                                    <td>11</td>
-                                    <td>11</td>
-                                    <td>@User</td>
-                                    <td><button itemDelete="delete" class="delete-btn"><i
-                                                class="bi bi-trash"></i></button>
-                                    </td>
-                                </tr>
+                            <tbody id="edit-item-list">
+                                <!-- loaded with js -->
                             </tbody>
                         </table>
                     </div>
@@ -220,11 +185,8 @@
                                             <i class="bi bi-person-fill"></i>
                                             PIC
                                         </label>
-                                        <select class="form-select">
-                                            <option selected>Select</option>
-                                            <option value="1">participant name</option>
-                                            <option value="2">participant name</option>
-                                            <option value="3">participant name</option>
+                                        <select id="select-participant" class="form-select">
+                                            <!-- loaded with js -->
                                         </select>
                                     </div>
                                     <button class="save-submit">Add</button>
@@ -241,7 +203,6 @@
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
     <script type="module" src="./itemPost.js"></script>
-    <script type="module" src="./itemList.js"></script>
 </body>
 
 </html>

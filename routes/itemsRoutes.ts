@@ -51,6 +51,19 @@ async function getItem(req: Request, res: Response) {
 async function getParticipateEventList(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
+        const participateResult = await client.query(
+            `
+            SELECT users.first_name, users.last_name
+            FROM participants
+            INNER JOIN users ON users.id = participants.user_id
+            WHERE event_id =$1
+            `,
+            [req.query.eventID]
+        );
+
+        
+        res.json ({  user:participateResult.rows , status: true, msg: "get participant from DB" })
+
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM002]: Failed to post Item" });
@@ -112,3 +125,5 @@ async function deleteItem(req: Request, res: Response) {
         res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
     }
 }
+
+
