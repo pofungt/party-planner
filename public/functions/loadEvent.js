@@ -23,6 +23,7 @@ export async function loadCreateEvents(page) {
     return;
   }
   const result = await res.json();
+
   const events = result.object;
   const currentPage = result.currentPage;
   const totalPage = result.page;
@@ -117,6 +118,7 @@ export async function loadParticipateEvents(page) {
     return;
   }
   const result = await res.json();
+
   const events = result.object;
   const currentPage = result.currentPage;
   const totalPage = result.page;
@@ -230,6 +232,14 @@ export async function loadEventDetails() {
     if (result.detail.start_datetime) {
       dateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
     }
+    let editTimeButton = "";
+    if (isCreator) {
+      editTimeButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#datetime-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `
+    }
     const dateTime = document.querySelector(".date-time .background-frame");
     dateTime.innerHTML = `
       <div class="frame-title">
@@ -239,6 +249,7 @@ export async function loadEventDetails() {
       <div class="frame-content">
         ${dateTimeString}
       </div>
+      ${editTimeButton}
     `;
 
     // Load Participants into Page
@@ -282,12 +293,21 @@ export async function loadEventDetails() {
         </a>
       `
     }
+    let editVenueButton = "";
+    if (isCreator) {
+      editVenueButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#venue-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `
+    }
     const venue = document.querySelector(".venue .background-frame");
     venue.innerHTML = `
         <div class="frame-title-container">
           <div class="frame-title">
             Venue
           </div>
+          ${editVenueButton}
         </div>
         <div class="frame-content-container">
           <i class="fa-solid fa-location-dot"></i>
@@ -297,12 +317,21 @@ export async function loadEventDetails() {
     `;
 
       // Load schedule into Page
+      let editScheduleButton = "";
+      if (isCreator) {
+        editScheduleButton = `
+          <a class="edit-button">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+        `
+      }
       const schedule = document.querySelector(".schedule .background-frame");
       schedule.innerHTML = `
           <div class="frame-title-container">
-            <div id="frame-content-container" class="frame-title btn btn-primary">
+            <div id="frame-content-container" class="frame-title">
               Schedule
             </div>
+            ${editScheduleButton}
           </div>
           <div class="frame-content-container">
 
@@ -323,6 +352,8 @@ export async function loadEventDetails() {
       `;
 
       listenToSchedulePage()
-    
+  } else {
+    const roleName = isCreator ? "creator" : "participant";
+    alert(`You are not ${roleName} of the event!`);
   }
 }
