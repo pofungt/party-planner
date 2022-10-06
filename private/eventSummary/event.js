@@ -51,7 +51,12 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status) {
-                window.location.reload;
+                alert("Date & Time successfully updated!");
+                const myModal = bootstrap.Modal.getInstance(
+                    document.getElementById("datetime-modal")
+                );
+                myModal.hide();
+                loadEventDetails();
             } else {
                 alert("Unable to update.");
             }

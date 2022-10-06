@@ -103,9 +103,11 @@ async function updateDateTime(req:Request, res:Response) {
 
         if (event) {
             await client.query(`
-                UPDATE events SET start_datetime = $1, end_datetime = $2, updated_at = CURRENT_TIMESTAMP;
+                UPDATE events
+                SET start_datetime = $1, end_datetime = $2, updated_at = CURRENT_TIMESTAMP
+                WHERE id = $3;
             `,
-            [req.body.startTime, req.body.endTime]
+            [req.body.startTime, req.body.endTime, parseInt(eventId)]
             );
             res.json({status: true});
         } else {
