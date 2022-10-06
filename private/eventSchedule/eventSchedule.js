@@ -90,10 +90,10 @@ function resetTimeBlockColor(timeBlocks){
 
 async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event_id');
-    const isCreator = params.get('is_creator');
+    const eventId = parseInt(params.get('event-id'));
+    const isCreator = parseInt(params.get('is-creator'));
 
-    const res = await fetch(`/eventSchedule/?event_id=${eventId}&is_creator=${isCreator}`);
+    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`);
 
     if (res.status !== 200) {
         const data = await res.json();
@@ -103,5 +103,9 @@ async function getEventSchedule() {
 
     const result = await res.json()
     console.log(result)
+
+    if (isCreator) {
+        
+    }
 
 }

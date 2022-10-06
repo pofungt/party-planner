@@ -18,13 +18,8 @@ header{
 
 @media (max-width: 1000px) {
 
-    #rundown-container {
-        max-height: 30%;
-        max-width: 100%;
-    }
 
     #time-block-page-container {
-        height: 100%;
         padding-top: 10px;
         padding-bottom: 10px;
     }
@@ -34,6 +29,7 @@ header{
     }
 
     #memo {
+        font-size: small;
         max-height: 300px;
         height: 300px;
         max-width: 100%;
