@@ -9,54 +9,21 @@ window.addEventListener("load", () => {
 });
 
 document
-    .querySelector("#from-container")
+    .querySelector("#datetime-form")
     .addEventListener("submit", async function (e) {
         e.preventDefault();
         const form = e.target;
-        const eventName = form.event_name.value;
-        const eventVenue = form.event_venue.value || null;
-        const indoor = form.indoor_check.checked;
-        const outdoor = form.outdoor_check.checked;
-        const startTime = form.event_date_start.value
-            ? new Date(form.event_date_start.value).toISOString()
+        const startTime = form.datetime_start.value
+            ? new Date(form.datetime_start.value).toISOString()
             : null;
-        const endTime = form.event_date_end.value
-            ? new Date(form.event_date_end.value).toISOString()
+        const endTime = form.datetime_end.value
+            ? new Date(form.datetime_end.value).toISOString()
             : null;
-        const eventRemark = form.event_remark.value;
-        const parkingLot = form.parking_check.checked;
-        const lotNumber = form.lot_input.value || null;
-        const eventBudget = form.event_budget.value || null;
-
-        let formObj = {
-            eventName,
-            eventVenue,
-            indoor,
-            outdoor,
-            startTime,
-            endTime,
-            parkingLot,
-            lotNumber,
-            eventRemark,
-            eventBudget,
-        };
-
-        let dataPass = true;
-
-        if (!eventName) {
-            dataPass = false;
-            alert("Please fill in the event name!");
-        }
-
-        if (lotNumber) {
-            !Number;
-            alert("Please fill number only!");
-        }
-
         const startTimeValue = new Date(startTime).getTime();
         const endTimeValue = new Date(endTime).getTime();
 
-        // check time validity
+        let dataPass = true;
+
         if (startTimeValue && endTimeValue) {
             if (startTimeValue >= endTimeValue) {
                 dataPass = false;
@@ -67,15 +34,15 @@ document
             alert("You cannot only leave 1 time blank!");
         }
 
-        // check budget validity
-        if (eventBudget < 0) {
-            dataPass = false;
-            alert("Please fill positive number!");
-        }
-
         if (dataPass) {
-            const res = await fetch("/events", {
-                method: "POST",
+            const formObj = {
+                startTime,
+                endTime
+            }
+            const params = new URLSearchParams(window.location.search);
+            const eventId = params.get("event-id");
+            const res = await fetch(`/events/detail/datetime/${eventId}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -83,8 +50,10 @@ document
             });
 
             const eventsResult = await res.json();
-            if (eventsResult.status === true) {
-                window.location = "/"; //
-            }
+            // if (eventsResult.status === true) {
+            //     window.location = "/";
+            // }
+
         }
+        console.log(startTimeValue);
     });
