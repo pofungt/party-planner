@@ -293,12 +293,21 @@ export async function loadEventDetails() {
         </a>
       `
     }
+    let editVenueButton = "";
+    if (isCreator) {
+      editVenueButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#venue-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `
+    }
     const venue = document.querySelector(".venue .background-frame");
     venue.innerHTML = `
         <div class="frame-title-container">
           <div class="frame-title">
             Venue
           </div>
+          ${editVenueButton}
         </div>
         <div class="frame-content-container">
           <i class="fa-solid fa-location-dot"></i>
