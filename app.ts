@@ -63,7 +63,7 @@ app.use("/register", registerRoutes);
 app.use("/events", eventsRoutes);
 app.use("/personalPage", personalInfoRoutes);
 app.use("/items", itemsRoutes);
-app.use("/schedule", scheduleRoutes)
+app.use("/eventSchedule", scheduleRoutes)
 
 app.use(isLoggedIn, express.static("private"));
 

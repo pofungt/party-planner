@@ -156,9 +156,10 @@ export function listenEditButtons() {
 export function listenToSchedulePage() {
     const toScheduleDiv = document.querySelector("#frame-content-container")
     const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('eventId');
+    const eventId = params.get('eventId')
+    const isCreator = params.get('isCreator');
     toScheduleDiv.addEventListener("click", ()=>{
-        window.location.replace(`/eventsSchedule/eventSchedule.html?event_id=${eventId}`)
+        window.location.replace(`/eventSchedule/eventSchedule.html?event_id=${eventId}&is_creator=${isCreator}`)
     })
 
 }

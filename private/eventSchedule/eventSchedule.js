@@ -2,15 +2,16 @@ import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
 
 window.addEventListener("load", async () => {
-    postTimeBlock();
+    getTimeBlock();
     addNavbar();
     loadName();
     getMemo ();
+    getEventSchedule();
 
     document.body.style.display = "block";
 });
 
-function postTimeBlock() {
+function getTimeBlock() {
     let rundown = document.querySelector("#rundown")
     for (let i = 0; i < 24; i++) {
         rundown.innerHTML +=
@@ -39,7 +40,7 @@ rundownContainer.addEventListener("scroll", function () {
         let new_div = timeBlock.cloneNode(true);
         outerDiv.appendChild(new_div);
         outerDiv.dataset.current = current + 1;
-        showMemo ()
+        getMemo ()
     }
 });
 
@@ -90,8 +91,9 @@ function resetTimeBlockColor(timeBlocks){
 async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event_id');
+    const isCreator = params.get('is_creator');
 
-    const res = await fetch(`eventSchedule/eventSchedule?event_id=${eventId}`);
+    const res = await fetch(`/eventSchedule/?event_id=${eventId}&is_creator=${isCreator}`);
 
     if (res.status !== 200) {
         const data = await res.json();
@@ -101,6 +103,5 @@ async function getEventSchedule() {
 
     const result = await res.json()
     console.log(result)
-
 
 }
