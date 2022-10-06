@@ -6,7 +6,7 @@ import { logger } from "../util/logger";
 export const scheduleRoutes = express.Router();
 
 scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule)
-scheduleRoutes.post("/", isLoggedInAPI)
+scheduleRoutes.post("/", isLoggedInAPI, postEventSchedule)
 scheduleRoutes.put("/", isLoggedInAPI)
 scheduleRoutes.delete("/", isLoggedInAPI)
 
@@ -53,3 +53,23 @@ async function getEventSchedule(req: Request, res: Response) {
         });
     }
 }
+
+async function postEventSchedule (req: Request, res: Response) {
+    try{
+        logger.debug("Before reading DB");
+        const eventId = req.query["event-id"];
+        const creator = req.query["is-creator"];
+
+        console.log(req.body, eventId, creator)
+
+        res.json({
+            status: true,
+            })
+
+    } catch(e){
+        logger.error(e);
+        res.status(500).json({
+            msg: "[ETS002]: Failed to Post Event Schedule",
+        });      
+    }
+} 
