@@ -124,7 +124,6 @@ a {
 
 
 /* ↓↓ Scroll bar ↓↓ */
-
 .participant .frame-content-container::-webkit-scrollbar {
     width: 15px;
 }
@@ -144,5 +143,20 @@ a {
 .participant .frame-content-container::-webkit-scrollbar-thumb:hover {
     background: white;
 }
-
 /* ↑↑ Scroll bar ↑↑ */
+
+
+/* ↓↓ Edit button ↓↓ */
+.edit-button {
+    border-radius: 100px;
+    background-color: #F29559;
+    color: white;
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+/* ↑↑ Edit button ↑↑ */

@@ -232,6 +232,14 @@ export async function loadEventDetails() {
     if (result.detail.start_datetime) {
       dateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
     }
+    let editTimeButton = "";
+    if (isCreator) {
+      editTimeButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#datetime-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `
+    }
     const dateTime = document.querySelector(".date-time .background-frame");
     dateTime.innerHTML = `
       <div class="frame-title">
@@ -241,6 +249,7 @@ export async function loadEventDetails() {
       <div class="frame-content">
         ${dateTimeString}
       </div>
+      ${editTimeButton}
     `;
 
     // Load Participants into Page
