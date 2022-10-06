@@ -172,8 +172,8 @@ export async function loadParticipateEvents(page) {
 
 export async function loadEventDetails() {
   const params = new URLSearchParams(window.location.search);
-  const isCreator = parseInt(params.get('isCreator'));
-  const eventId = params.get('eventId');
+  const isCreator = parseInt(params.get('is-creator'));
+  const eventId = params.get('event-id');
   const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
   if (res.status !== 200) {
     const data = await res.json();

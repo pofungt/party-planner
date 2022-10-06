@@ -138,7 +138,7 @@ export function listenEditButtons() {
         editButton.addEventListener('click', async () => {
             const className = editButton.className;
             const eventId = className.replace("created_detail_","");
-            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=1`);
+            window.location.replace(`/eventSummary/event.html?event-id=${eventId}&is-creator=1`);
         });
     }
 
@@ -147,7 +147,7 @@ export function listenEditButtons() {
         editButton.addEventListener('click', async () => {
             const className = editButton.className;
             const eventId = className.replace("participated_detail_","");
-            window.location.replace(`/eventSummary/event.html?eventId=${eventId}&isCreator=0`);
+            window.location.replace(`/eventSummary/event.html?event-id=${eventId}&is-creator=0`);
         });
     }
 
