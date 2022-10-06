@@ -52,10 +52,14 @@ document
         const endTimeValue = new Date(endTime).getTime();
 
         // check time validity
-        
-        if (startTimeValue >= endTimeValue && startTimeValue !== null ) {
+        if (startTimeValue && endTimeValue) {
+            if (startTimeValue >= endTimeValue) {
+                dataPass = false;
+                alert("Start time cannot equals or later than end time!");
+            }
+        } else if (!!startTimeValue + !!endTimeValue) {
             dataPass = false;
-            alert("Start time cannot equals or later than end time!");
+            alert("You cannot only leave 1 time blank!");
         }
 
         // check budget validity
