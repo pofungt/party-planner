@@ -2,6 +2,7 @@ import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
 
 let editingType = null;
+let deleteButton =  null;
 
 window.addEventListener("load", () => {
     addNavbar();
@@ -48,3 +49,6 @@ document
             }
         }
     });
+
+document 
+    .querySelectorAll(".delete-btn").forEach
