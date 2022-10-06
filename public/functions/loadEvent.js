@@ -43,14 +43,14 @@ export async function loadCreateEvents(page) {
       const eventStartDate = (new Date(event.start_datetime)).getTime();
       if (today > eventStartDate) {
         status = "Completed";
-        statusClass = "completedStatus"
+        statusClass = "completedStatus";
       } else {
         status = "Processing";
-        statusClass = "progressStatus"
+        statusClass = "progressStatus";
       }
     } else {
       status = "Processing";
-      statusClass = "progressStatus"
+      statusClass = "progressStatus";
     }
     eventsCreateHTML += `
     <tr class="table-content-row">
@@ -137,14 +137,14 @@ export async function loadParticipateEvents(page) {
       const eventStartDate = (new Date(event.start_datetime)).getTime();
       if (today > eventStartDate) {
         status = "Completed";
-        statusClass = "completedStatus"
+        statusClass = "completedStatus";
       } else {
         status = "Processing";
-        statusClass = "progressStatus"
+        statusClass = "progressStatus";
       }
     } else {
       status = "Processing";
-      statusClass = "progressStatus"
+      statusClass = "progressStatus";
     }
     eventsParticipateHTML += `
         <tr class="table-content-row">
