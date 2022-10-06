@@ -228,10 +228,13 @@ export async function loadEventDetails() {
     `;
 
     // Load Date Time into Page
-    let dateTimeString = "";
-    if (result.detail.start_datetime) {
-      dateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
+    let startDateTimeString = "";
+    let endDateTimeString = "";
+    if (result.detail.start_datetime && result.detail.end_datetime) {
+      startDateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
+      endDateTimeString = (new Date(result.detail.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
     }
+
     let editTimeButton = "";
     if (isCreator) {
       editTimeButton = `
@@ -245,11 +248,17 @@ export async function loadEventDetails() {
       <div class="frame-title">
         Date & Time
       </div>
-
-      <div class="frame-content">
-        ${dateTimeString}
+      <div>
+        <div class="frame-content-label">
+          <div>Start:</div>
+          <div>End:</div>
+        </div>
+        <div class="frame-content">
+          <div>${startDateTimeString}</div>
+          <div>${endDateTimeString}</div>        
+        </div>
+        ${editTimeButton}
       </div>
-      ${editTimeButton}
     `;
 
     // Load Participants into Page
