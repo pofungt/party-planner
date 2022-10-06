@@ -64,10 +64,20 @@ export async function loadCreateEvents(page) {
         <div>${!event.venue ? "" : event.venue}</div>
       </th>
       <th scope="col" class="start_datetime_${event.id}">
-        <div>${!event.start_datetime ? "" : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+        <div>
+          ${!event.start_datetime 
+            ? "" 
+            : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+          }
+        </div>
       </th>
       <th scope="col" class="end_datetime_${event.id}">
-        <div>${!event.end_datetime ? "" : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+        <div>
+          ${!event.end_datetime 
+            ? "" 
+            : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+          }
+        </div>
       </th>
       <th scope="col" class="event_status_${event.id}">
         <div><div class="${statusClass}">${status}</div></div>
@@ -148,10 +158,20 @@ export async function loadParticipateEvents(page) {
               <div>${!event.venue ? "" : event.venue}</div>
             </th>
             <th scope="col" class="start_datetime_${event.id}">
-              <div>${!event.start_datetime ? "" : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+              <div>
+                ${!event.start_datetime 
+                  ? "" 
+                  : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+                }
+              </div>
             </th>
 			      <th scope="col" class="end_datetime_${event.id}">
-              <div>${!event.end_datetime ? "" : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+              <div>
+                ${!event.end_datetime 
+                  ? "" 
+                  : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+                }
+              </div>
             </th>
             <th scope="col" class="event_status_${event.id}">
               <div><div class="${statusClass}">${status}</div></div>
@@ -254,6 +274,14 @@ export async function loadEventDetails() {
     `;
 
     // Load Venue into Page
+    let venueString = "";
+    if (result.detail.venue) {
+      venueString = `
+        <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(" ","+")}/" target="_blank">
+          ${result.detail.venue || ""}
+        </a>
+      `
+    }
     const venue = document.querySelector(".venue .background-frame");
     venue.innerHTML = `
         <div class="frame-title-container">
@@ -264,9 +292,7 @@ export async function loadEventDetails() {
         <div class="frame-content-container">
           <i class="fa-solid fa-location-dot"></i>
           &nbsp; &nbsp;
-          <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(" ","+")}/" target="_blank">
-            ${result.detail.venue || ""}
-          </a>
+          ${venueString}
         </div>
     `;
 
