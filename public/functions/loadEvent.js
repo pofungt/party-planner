@@ -266,7 +266,7 @@ export async function loadEventDetails() {
               Schedule
             </div>
           </div>
-          <div class="frame-content-container">
+          <div id="frame-content-container" class="frame-content-container">
 
           </div>
       `;

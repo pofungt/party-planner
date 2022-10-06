@@ -152,3 +152,13 @@ export function listenEditButtons() {
     }
 
 }
+
+export function listenToSchedulePage() {
+    const toScheduleDiv = document.querySelector("#frame-content-container")
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('eventId');
+    toScheduleDiv.addEventListener("click", ()=>{
+        window.location.replace(`/eventsSchedule/eventSchedule.html?event_id=${eventId}`)
+    })
+
+}

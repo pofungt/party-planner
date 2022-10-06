@@ -2,15 +2,15 @@ import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadEvent.js";
 
 window.addEventListener("load", async () => {
-    addTimeBlock();
+    postTimeBlock();
     addNavbar();
     loadName();
-    showMemo ();
+    getMemo ();
 
     document.body.style.display = "block";
 });
 
-function addTimeBlock() {
+function postTimeBlock() {
     let rundown = document.querySelector("#rundown")
     for (let i = 0; i < 24; i++) {
         rundown.innerHTML +=
@@ -43,7 +43,7 @@ rundownContainer.addEventListener("scroll", function () {
     }
 });
 
-function showMemo () {
+function getMemo () {
     const timeBlocks = document.querySelectorAll(".time-block")
     const memoContainer = document.querySelector("#time-block-memo-container")
     timeBlocks.forEach((block)=>{
@@ -87,14 +87,20 @@ function resetTimeBlockColor(timeBlocks){
     })
 }
 
-async function addEventSchedule(eventId) {
-    const res = await fetch(`schedule/event?event_id=${eventId}`);
-    const result = await res.json()
+async function getEventSchedule() {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get('event_id');
+
+    const res = await fetch(`eventSchedule/eventSchedule?event_id=${eventId}`);
 
     if (res.status !== 200) {
         const data = await res.json();
         alert(data.msg);
         return;
     }
+
+    const result = await res.json()
+    console.log(result)
+
 
 }
