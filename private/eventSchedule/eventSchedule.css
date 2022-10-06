@@ -105,7 +105,16 @@ textarea {
     transition: background-color 50ms ease-out 50ms
 }
 
-.time-block:hover {
+.save-time-block {
+    height: 100%;
+    background-color: #EFEFD0;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 50ms ease-out 50ms
+}
+
+.save-time-block:hover {
     background-color: #EFEFD0 !important;
     transform: scale(1.01)
 }
