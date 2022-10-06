@@ -79,9 +79,9 @@ async function postItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         await client.query(
             `INSERT INTO items
-                (type_name, name, quantity, price, user_id,
-                 created_at, updated_at)
-            VALUES ($1,$2,$3,$4,$5,$6,$7)
+                (type_name, name, quantity, price, user_id, event_id,
+                 created_at, updated_at )
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
             `,
             [
                 req.body.typeName,
@@ -89,12 +89,13 @@ async function postItem(req: Request, res: Response) {
                 req.body.itemQuantity,
                 req.body.itemPrice,
                 req.session.user,
+                req.params.id,
                 "now()",
                 "now()",
             ]
         );
-
-        res.json({ msg: "Posted to DB" });
+            
+        res.json({ status: true, msg: "Posted to DB" });
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM005]: Failed to post Item" });
@@ -107,11 +108,14 @@ async function deleteItem (req: Request, res: Response) {
 
         await client.query(
             `
-            DELETE FROM items where item.id
+            DELETE FROM items where item.id = $1
             `,
+            [
+                req.params.id,
+            ]
         )
 
-        res.json({ msg: "successfully delete"});
+        res.json({ status: true, msg: "successfully delete"});
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
