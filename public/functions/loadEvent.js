@@ -35,13 +35,19 @@ export async function loadCreateEvents(page) {
   let eventsCreateHTML = "";
 
   for (let event of events) {
-    const today = (new Date()).getTime();
-    const eventStartDate = (new Date(event.start_datetime)).getTime();
     let status = "";
     let statusClass = "";
-    if (today > eventStartDate) {
-      status = "Completed";
-      statusClass = "completedStatus"
+    // Check if start datetime is not null
+    if (event.start_datetime) {
+      const today = (new Date()).getTime();
+      const eventStartDate = (new Date(event.start_datetime)).getTime();
+      if (today > eventStartDate) {
+        status = "Completed";
+        statusClass = "completedStatus"
+      } else {
+        status = "Processing";
+        statusClass = "progressStatus"
+      }
     } else {
       status = "Processing";
       statusClass = "progressStatus"
@@ -55,13 +61,13 @@ export async function loadCreateEvents(page) {
         <div>${event.name}</div>
       </th>
       <th scope="col" class="address_${event.id}">
-        <div>${event.venue}</div>
+        <div>${!event.venue ? "" : event.venue}</div>
       </th>
       <th scope="col" class="start_datetime_${event.id}">
-        <div>${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+        <div>${!event.start_datetime ? "" : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
       </th>
       <th scope="col" class="end_datetime_${event.id}">
-        <div>${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+        <div>${!event.end_datetime ? "" : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
       </th>
       <th scope="col" class="event_status_${event.id}">
         <div><div class="${statusClass}">${status}</div></div>
@@ -113,13 +119,19 @@ export async function loadParticipateEvents(page) {
   let eventsParticipateHTML = "";
 
   for (let event of events) {
-    const today = (new Date()).getTime();
-    const eventStartDate = (new Date(event.start_datetime)).getTime();
     let status = "";
     let statusClass = "";
-    if (today > eventStartDate) {
-      status = "Completed";
-      statusClass = "completedStatus"
+    // Check if start datetime is not null
+    if (event.start_datetime) {
+      const today = (new Date()).getTime();
+      const eventStartDate = (new Date(event.start_datetime)).getTime();
+      if (today > eventStartDate) {
+        status = "Completed";
+        statusClass = "completedStatus"
+      } else {
+        status = "Processing";
+        statusClass = "progressStatus"
+      }
     } else {
       status = "Processing";
       statusClass = "progressStatus"
@@ -133,13 +145,13 @@ export async function loadParticipateEvents(page) {
               <div>${event.name}</div>
             </th>
             <th scope="col" class="address_${event.id}">
-              <div>${event.venue}</div>
+              <div>${!event.venue ? "" : event.venue}</div>
             </th>
             <th scope="col" class="start_datetime_${event.id}">
-              <div>${(new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+              <div>${!event.start_datetime ? "" : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
             </th>
 			      <th scope="col" class="end_datetime_${event.id}">
-              <div>${(new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
+              <div>${!event.end_datetime ? "" : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)}</div>
             </th>
             <th scope="col" class="event_status_${event.id}">
               <div><div class="${statusClass}">${status}</div></div>
