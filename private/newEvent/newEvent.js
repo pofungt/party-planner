@@ -16,8 +16,12 @@ document
         const eventVenue = form.event_venue.value || null;
         const indoor = form.indoor_check.checked;
         const outdoor = form.outdoor_check.checked;
-        const startTime = form.event_date_start.value || null;
-        const endTime = form.event_date_end.value || null;
+        const startTime = form.event_date_start.value
+            ? new Date(form.event_date_start.value).toISOString()
+            : null;
+        const endTime = form.event_date_end.value
+            ? new Date(form.event_date_end.value).toISOString()
+            : null;
         const eventRemark = form.event_remark.value;
         const parkingLot = form.parking_check.checked;
         const lotNumber = form.lot_input.value || null;
@@ -52,10 +56,14 @@ document
         const endTimeValue = new Date(endTime).getTime();
 
         // check time validity
-        
-        if (startTimeValue >= endTimeValue && startTimeValue !== null ) {
+        if (startTimeValue && endTimeValue) {
+            if (startTimeValue >= endTimeValue) {
+                dataPass = false;
+                alert("Start time cannot equals or later than end time!");
+            }
+        } else if (!!startTimeValue + !!endTimeValue) {
             dataPass = false;
-            alert("Start time cannot equals or later than end time!");
+            alert("You cannot only leave 1 time blank!");
         }
 
         // check budget validity
@@ -75,7 +83,7 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status === true) {
-                window.location = "/";  //
+                window.location = "/"; //
             }
         }
     });

@@ -9,6 +9,7 @@ itemsRoutes.get("/", getUserID);
 itemsRoutes.get("/events", getEventList);
 itemsRoutes.get("/items", getItem);
 itemsRoutes.post("/eventId/:id", postItem);
+itemsRoutes.delete("/items/:id", deleteItem);
 
 enum TypeName {
     Food = "food",
@@ -22,8 +23,9 @@ async function getItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const itemResult = await client.query(
             `
-            SELECT item.type_name, item.name, item.quantity, item.price
+            SELECT item.type_name, item.name, item.quantity, item.price, item.id, users.first_name,
             FROM items
+            INNER JOIN users ON users.id = items.user_id
             WHERE event_id = $1
             `,
             [req.query.eventID]
@@ -50,7 +52,7 @@ async function getParticipateEventList(req: Request, res: Response) {
         logger.debug("Before reading DB");
     } catch (e) {
         logger.error(e);
-        res.status(500).json({ msg: "[ITM]: Failed to post Item" });
+        res.status(500).json({ msg: "[ITM002]: Failed to post Item" });
     }
 }
 
@@ -59,7 +61,7 @@ async function getUserID(req: Request, res: Response) {
         logger.debug("Before reading DB");
     } catch (e) {
         logger.error(e);
-        res.status(500).json({ msg: "[ITM]: Failed to post Item" });
+        res.status(500).json({ msg: "[ITM003]: Failed to post Item" });
     }
 }
 
@@ -68,7 +70,7 @@ async function getEventList(req: Request, res: Response) {
         logger.debug("Before reading DB");
     } catch (e) {
         logger.error(e);
-        res.status(500).json({ msg: "[ITM]: Failed to post Item" });
+        res.status(500).json({ msg: "[ITM004: Failed to post Item" });
     }
 }
 
@@ -77,9 +79,9 @@ async function postItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         await client.query(
             `INSERT INTO items
-                (type_name, name, quantity, price, user_id,
-                 created_at, updated_at)
-            VALUES ($1,$2,$3,$4,$5,$6,$7)
+                (type_name, name, quantity, price, user_id, event_id,
+                 created_at, updated_at )
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
             `,
             [
                 req.body.typeName,
@@ -87,14 +89,36 @@ async function postItem(req: Request, res: Response) {
                 req.body.itemQuantity,
                 req.body.itemPrice,
                 req.session.user,
+                req.params.id,
                 "now()",
                 "now()",
             ]
         );
-
-        res.json({ msg: "Posted to DB" });
+            
+        res.json({ status: true, msg: "Posted to DB" });
     } catch (e) {
         logger.error(e);
-        res.status(500).json({ msg: "[ITM]: Failed to post Item" });
+        res.status(500).json({ msg: "[ITM005]: Failed to post Item" });
     }
+}
+
+async function deleteItem (req: Request, res: Response) {
+    try {
+        logger.debug("Before reading DB");
+
+        await client.query(
+            `
+            DELETE FROM items where item.id = $1
+            `,
+            [
+                req.params.id,
+            ]
+        )
+
+        res.json({ status: true, msg: "successfully delete"});
+    } catch (e) {
+        logger.error(e);
+        res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
+    }
+    
 }

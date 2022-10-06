@@ -98,6 +98,12 @@ tr {
     color: #EE6C4D;
 }
 
+.delete-btn{
+    border-radius: 20px;
+    border: none;
+    background-color: #fff;
+}
+
 /* modal - footer */
 .format {
     display: flex;
