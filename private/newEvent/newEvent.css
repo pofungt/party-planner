@@ -97,6 +97,11 @@
     background-color: white;
 }
 
+.event-date-reminder {
+    color: grey;
+    font-size: 12px;
+}
+
 /* Remark Css */
 .form-control {
     border-width: 2px;

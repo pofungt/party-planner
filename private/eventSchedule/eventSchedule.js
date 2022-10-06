@@ -30,8 +30,8 @@ function getPresetTimeBlock(startHour, endHour) {
         document.querySelector(`#time-block-${s}`).style.backgroundColor = "#f2965985"
         if (s === startHour) {
             document.querySelector(`#time-block-${s}`).innerHTML = "Event Start Time"
-        } else if (s === endHour-1){
-            document.querySelector(`#time-block-${s}`).innerHTML = `Event End Time` 
+        } else if (s === endHour - 1) {
+            document.querySelector(`#time-block-${s}`).innerHTML = `Event End Time`
         }
     }
 
@@ -107,16 +107,59 @@ function getMemo(startHour, endHour) {
     })
 }
 
+function addTimeInput(startHour, startMin, endHour, endMin) {
+    const timeContainer = document.querySelector("#time-container")
+
+    if (startMin === 0 && endMin !== 0) {
+        timeContainer.innerHTML = `
+    <div class="input-panel mb-3">
+        <div class="form-header">Start Time *</div>
+        <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" required>
+    </div>
+    <div class="input-panel mb-3">
+        <div class="form-header">End Time *</div>
+        <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" required>
+    </div>
+        `
+    }
+
+    if (startMin === 0 && endMin === 0) {
+        timeContainer.innerHTML = `
+    <div class="input-panel mb-3">
+        <div class="form-header">Start Time *</div>
+        <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" required>
+    </div>
+    <div class="input-panel mb-3">
+        <div class="form-header">End Time *</div>
+        <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" required>
+    </div>
+        `
+    }
+
+    if (startMin !== 0 && endMin !== 0) {
+        timeContainer.innerHTML = `
+    <div class="input-panel mb-3">
+        <div class="form-header">Start Time *</div>
+        <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" required>
+    </div>
+    <div class="input-panel mb-3">
+        <div class="form-header">End Time *</div>
+        <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" required>
+    </div>
+        `
+    }
+
+}
+
 function hideAllDivClass(divId) {
     const creatorDiv = document.querySelectorAll(divId)
     creatorDiv.forEach((div) => {
         div.style.display = "none";
     })
-} 
+}
 
 function resetTimeBlockColor(timeBlocks, startHour, endHour) {
     timeBlocks.forEach((block) => {
-        console.log(parseInt(block.id.match(/(\d+)/)[0]))
         if (parseInt(block.id.match(/(\d+)/)[0]) >= startHour && parseInt(block.id.match(/(\d+)/)[0]) < endHour) {
             block.style.backgroundColor = "#f2965985"
         } else {
@@ -150,13 +193,15 @@ async function getEventSchedule() {
     // const endDate = endDateTime.slice(0,10)
     const startHour = parseInt(startTime.slice(0, 2))
     const endHour = parseInt(endTime.slice(0, 2))
-    console.log(startHour, endHour)
+    const startMin = parseInt(startTime.slice(3, 5))
+    const endMin = parseInt(endTime.slice(3, 5))
 
     let pageTitle = document.querySelector("#event-name")
-    pageTitle.innerHTML = eventName
+    pageTitle.innerHTML = eventName + "  " + `( ${startTime} - ${endTime} )`
 
     getPresetTimeBlock(startHour, endHour)
     getMemo(startHour, endHour)
+    addTimeInput(startHour, startMin, endHour, endMin)
 
     if (isCreator) {
         hideAllDivClass(".creator-function")
@@ -165,16 +210,39 @@ async function getEventSchedule() {
 }
 
 
-async function createTimeBlock {
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event-id');
-    const isCreator = params.get('is-creator');
+document
+    .querySelector("submit-new-activity")
+    .addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`);
+    const form = e.target
+    const title = form["activity-name"].value
+    const description = form.description.value
+    const remark = form.remark.value
+    const startTime = form.start.value
+    const endTime = form.end.value
+
+    let formObj = {
+        title,
+        description,
+        remark,
+        startTime,
+        endTime,
+    };
+
+    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formObj)
+    });
+
+    console.log(formObj)
 
     if (res.status !== 200) {
         const data = await res.json();
         alert(data.msg);
         return;
     }
-}
+})
