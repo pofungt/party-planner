@@ -23,6 +23,7 @@ export async function loadCreateEvents(page) {
     return;
   }
   const result = await res.json();
+
   const events = result.object;
   const currentPage = result.currentPage;
   const totalPage = result.page;
@@ -117,6 +118,7 @@ export async function loadParticipateEvents(page) {
     return;
   }
   const result = await res.json();
+
   const events = result.object;
   const currentPage = result.currentPage;
   const totalPage = result.page;
@@ -323,6 +325,8 @@ export async function loadEventDetails() {
       `;
 
       listenToSchedulePage()
-    
+  } else {
+    const roleName = isCreator ? "creator" : "participant";
+    alert(`You are not ${roleName} of the event!`);
   }
 }

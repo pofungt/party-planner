@@ -41,7 +41,7 @@ export function listenCreateButtons() {
         let page = "1";
 
         if (!params.has('createPage')) {
-            loadCreateEvents(page);
+            await loadCreateEvents(page);
         } else {
             if (onlyNumbers(params.get('createPage'))) {
                 if (parseInt(params.get('createPage')) >= 2) {
@@ -49,11 +49,11 @@ export function listenCreateButtons() {
                     page = await loadCreateEvents(page);
                 } else {
                     page = "1";
-                    loadCreateEvents(page);
+                    await loadCreateEvents(page);
                 }
             } else {
                 page = "1";
-                loadCreateEvents(page);
+                await loadCreateEvents(page);
             }
         }
         
@@ -74,7 +74,7 @@ export function listenParticipateButtons() {
         let page = "2";
       
         if (!params.has('participatePage')) {
-            loadParticipateEvents(page);
+            await loadParticipateEvents(page);
         } else {
             if (onlyNumbers(params.get('participatePage'))) {
                 if (parseInt(params.get('participatePage')) >= 1) {
@@ -82,11 +82,11 @@ export function listenParticipateButtons() {
                     page = await loadParticipateEvents(page);
                 } else {
                     page = "1";
-                    loadParticipateEvents(page);
+                    await loadParticipateEvents(page);
                 }
             } else {
                 page = "1";
-                loadParticipateEvents(page);
+                await loadParticipateEvents(page);
             }
         }
         
@@ -105,7 +105,7 @@ export function listenParticipateButtons() {
         let page = "1";
 
         if (!params.has('participatePage')) {
-            loadParticipateEvents(page);
+            await loadParticipateEvents(page);
         } else {
             if (onlyNumbers(params.get('participatePage'))) {
                 if (parseInt(params.get('participatePage')) >= 2) {
@@ -113,11 +113,11 @@ export function listenParticipateButtons() {
                     page = await loadParticipateEvents(page);
                 } else {
                     page = "1";
-                    loadParticipateEvents(page);
+                    await loadParticipateEvents(page);
                 }
             } else {
                 page = "1";
-                loadParticipateEvents(page);
+                await loadParticipateEvents(page);
             }
         }
         
