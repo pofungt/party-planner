@@ -50,9 +50,11 @@ document
             });
 
             const eventsResult = await res.json();
-            // if (eventsResult.status === true) {
-            //     window.location = "/";
-            // }
+            if (eventsResult.status) {
+                window.location.reload;
+            } else {
+                alert("Unable to update.");
+            }
 
         }
         console.log(startTimeValue);
