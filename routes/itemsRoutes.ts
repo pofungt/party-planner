@@ -5,9 +5,8 @@ import { client } from "../app";
 export const itemsRoutes = express.Router();
 
 itemsRoutes.get("/participated", getParticipateEventList);
-itemsRoutes.get("/", getUserID);
 itemsRoutes.get("/events", getEventList);
-itemsRoutes.get("/items", getItem);
+itemsRoutes.get("/", getItem);
 itemsRoutes.post("/eventId/:id", postItem);
 itemsRoutes.delete("/items/:id", deleteItem);
 
@@ -23,7 +22,7 @@ async function getItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const itemResult = await client.query(
             `
-            SELECT item.type_name, item.name, item.quantity, item.price, item.id, users.first_name,
+            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name
             FROM items
             INNER JOIN users ON users.id = items.user_id
             WHERE event_id = $1
@@ -58,14 +57,6 @@ async function getParticipateEventList(req: Request, res: Response) {
     }
 }
 
-async function getUserID(req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({ msg: "[ITM003]: Failed to post Item" });
-    }
-}
 
 async function getEventList(req: Request, res: Response) {
     try {
