@@ -13,11 +13,11 @@ document
     .addEventListener("submit", async function (e) {
         e.preventDefault();
         const form = e.target;
-        const startTime = form.datetime_start.value
-            ? new Date(form.datetime_start.value).toISOString()
+        const startTime = form.datetime - start.value
+            ? new Date(form.datetime - start.value).toISOString()
             : null;
-        const endTime = form.datetime_end.value
-            ? new Date(form.datetime_end.value).toISOString()
+        const endTime = form.datetime - end.value
+            ? new Date(form.datetime - end.value).toISOString()
             : null;
         const startTimeValue = new Date(startTime).getTime();
         const endTimeValue = new Date(endTime).getTime();
@@ -62,5 +62,46 @@ document
             }
 
         }
-        console.log(startTimeValue);
+    });
+
+document
+    .querySelector("#venue-form")
+    .addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const form = e.target;
+        const venue = form.venue.value;
+
+        let dataPass = true;
+
+        if (!venue) {
+            dataPass = false;
+            alert("Please enter new venue to update!");
+        }
+
+        if (dataPass) {
+            const formObj = {
+                venue
+            }
+            const params = new URLSearchParams(window.location.search);
+            const eventId = params.get("event-id");
+            const res = await fetch(`/events/detail/venue/${eventId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formObj),
+            });
+
+            const eventsResult = await res.json();
+            if (eventsResult.status) {
+                alert("Venue successfully updated!");
+                const myModal = bootstrap.Modal.getInstance(
+                    document.getElementById("venue-modal")
+                );
+                myModal.hide();
+                loadEventDetails();
+            } else {
+                alert("Unable to update.");
+            }
+        }
     });
