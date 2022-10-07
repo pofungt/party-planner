@@ -8,7 +8,7 @@ export const scheduleRoutes = express.Router();
 scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
 scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
 scheduleRoutes.put("/", isLoggedInAPI,);
-scheduleRoutes.delete("/timeBlock/:id", isLoggedInAPI, deleteTimeBlock);
+scheduleRoutes.delete("/timeBlock/", isLoggedInAPI, deleteTimeBlock);
 
 
 async function deleteTimeBlock(req: Request, res: Response) {
@@ -18,6 +18,7 @@ async function deleteTimeBlock(req: Request, res: Response) {
         const creator = req.query["is-creator"];
         const timeBlockId = req.query["id"];
 
+		
         if (creator) {
             await client.query(`
                 DELETE FROM time_blocks 
@@ -30,14 +31,19 @@ async function deleteTimeBlock(req: Request, res: Response) {
             )
             res.json({
                 status: true,
-                msg: "delete success"
+                msg: "Delete success"
             })
-        }
+        } else {
+			res.json({
+				status: false,
+				msg: "Unauthorized request"
+			})
+		}
 
     } catch (e) {
         logger.error(e);
         res.status(500).json({
-            msg: "[ETS002]: Failed to Post Event Schedule",
+            msg: "[TBD001]: Failed to Delete Time Block",
         });
     }
 }
