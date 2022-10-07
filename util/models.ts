@@ -5,9 +5,9 @@ export interface Events {
   budget: number | null;
   start_datetime: string | null;
   end_datetime: string | null;
-  indoor: boolean | null;
-  outdoor: boolean | null;
-  parking_lot: boolean | null;
+  indoor: boolean;
+  outdoor: boolean;
+  parking_lot: boolean;
   lot_number: number | null;
   remark: string | null;
   creator_id: number;
@@ -50,9 +50,9 @@ export interface Items {
   event_id: number;
   user_id: number;
   name: string;
-  type_name:string;
+  type_name: string;
   quantity: number;
-  price:number | null; 
+  price: number | null;
   created_at: string;
   updated_at: string;
 }

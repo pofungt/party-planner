@@ -8,7 +8,7 @@ window.addEventListener("load", async () => {
     deleteRedundantDiv()
     
 
-    document.body.style.display = "block";
+  document.body.style.display = "block";
 });
 
 function getPresetTimeBlock(startTime, endTime) {
@@ -31,6 +31,7 @@ function getPresetTimeBlock(startTime, endTime) {
             `
         document.querySelector(`#time-block-${start}`).style.height = `${height}px`
     }
+  }
 
     //change color for the event time
     for (let s = Math.floor(startTime / 60); s < Math.floor(endTime / 60); s++) {
@@ -156,13 +157,13 @@ async function getMemo(activitiesArr) {
                 </div> 
 
             </div>
-            `
-        })
-    })
+            `;
+    });
+  });
 }
 
 function addTimeInput(startHour, startMin, endHour, endMin) {
-    const timeContainer = document.querySelector("#time-container")
+  const timeContainer = document.querySelector("#time-container");
 
     if (startMin === 0 && endMin !== 0) {
         timeContainer.innerHTML = `
@@ -218,27 +219,29 @@ function addTimeInput(startHour, startMin, endHour, endMin) {
 }
 
 function hideAllDivClass(divId) {
-    const creatorDiv = document.querySelectorAll(divId)
-    creatorDiv.forEach((div) => {
-        div.style.display = "none";
-    })
+  const creatorDiv = document.querySelectorAll(divId);
+  creatorDiv.forEach((div) => {
+    div.style.display = "none";
+  });
 }
 
 
 async function getEventSchedule() {
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event-id');
-    const isCreator = params.get('is-creator');
+  const params = new URLSearchParams(window.location.search);
+  const eventId = params.get("event-id");
+  const isCreator = params.get("is-creator");
 
-    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`);
+  const res = await fetch(
+    `/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`
+  );
 
-    if (res.status !== 200) {
-        const data = await res.json();
-        alert(data.msg);
-        return;
-    }
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
 
-    const result = await res.json()
+  const result = await res.json();
 
     const eventName = result.detail.name
     const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
@@ -382,7 +385,6 @@ function minToTimeString(timeInMin) {
         return `0${hour}:${min}`
     }
 }
-
 
 document
     .querySelector("#activity-form")

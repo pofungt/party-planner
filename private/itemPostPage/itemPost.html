@@ -1,208 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./itemPost.css" />
     <title>Post Event Items</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="navbar-container container">
-        <!-- NAVBAR: to be loaded with js -->
+      <!-- NAVBAR: to be loaded with js -->
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-6 col-md-4">
-                <div class="shopping-list">
-                    <div class="category-text">
-                        Shopping list:
-                        <button type="button" class="shopping-edit">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </div>
-                    <div class="item-list border">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Pending Items:</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Item 1</td>
-                                </tr>
-                                <tr>
-                                    <td>Item 2</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+      <div class="row">
+        <div class="col-6 col-md-4">
+          <div class="shopping-list">
+            <div class="category-text">
+              Shopping list:
+              <button type="button" class="shopping-edit">
+                <i class="bi bi-pencil-square"></i>
+              </button>
             </div>
-            <!-- item category -->
-            <div class="col-6 col-md-4">
-                <div class="item-category">
-                    <div class="item-category-title">
-                        <div class="category-text-items">
-                            Food:
-                            <button type="button" class="category-edit" data-bs-toggle="modal"
-                                data-bs-target="#editModal" itemType="food">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="item-list border">
-                        <table id="food-table" class="table">
-                            <tbody>
-                                <!-- item list is loaded with js -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="item-category">
-                    <div class="category-text-items">
-                        Decoration:
-                        <button type="button" class="category-edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                            itemType="decoration">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </div>
-                    <div class="item-list border">
-                        <table id="decoration-table" class="table">
-                            <tbody>
-                                <tr>
-                                <!-- item list is loaded with js -->
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="item-list border">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Pending Items:</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Item 1</td>
+                  </tr>
+                  <tr>
+                    <td>Item 2</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="col-6 col-md-4">
-                <div class="item-category">
-                    <div class="category-text-items">
-                        Drink:
-                        <button type="button" class="category-edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                            itemType="drink">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </div>
-                    <div class="item-list border">
-                        <table id="drink-table" class="table">
-                            <tbody>
-                                <tr>
-                                <!-- item list is loaded with js -->
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="item-category">
-                    <div class="category-text-items">
-                        Others:
-                        <button type="button" class="category-edit" data-bs-toggle="modal" data-bs-target="#editModal"
-                            itemType="others">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </div>
-                    <div class="item-list border">
-                        <table id="other-table" class="table">
-                            <tbody>
-                                <tr>
-                                <!-- item list is loaded with js -->
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <!-- item category -->
+        <div class="col-6 col-md-4">
+          <div class="item-category">
+            <div class="item-category-title">
+              <div class="category-text-items">
+                Food:
+                <button
+                  type="button"
+                  class="category-edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                  itemtype="food"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </div>
+            </div>
+            <div class="item-list border">
+              <table id="food-table" class="table">
+                <tbody>
+                  <!-- item list is loaded with js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="item-category">
+            <div class="category-text-items">
+              Decoration:
+              <button
+                type="button"
+                class="category-edit"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                itemtype="decoration"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </div>
+            <div class="item-list border">
+              <table id="decoration-table" class="table">
+                <tbody>
+                  <tr>
+                    <!-- item list is loaded with js -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-md-4">
+          <div class="item-category">
+            <div class="category-text-items">
+              Drink:
+              <button
+                type="button"
+                class="category-edit"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                itemtype="drink"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </div>
+            <div class="item-list border">
+              <table id="drink-table" class="table">
+                <tbody>
+                  <tr>
+                    <!-- item list is loaded with js -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="item-category">
+            <div class="category-text-items">
+              Others:
+              <button
+                type="button"
+                class="category-edit"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+                itemtype="others"
+              >
+                <i class="bi bi-pencil-square"></i>
+              </button>
+            </div>
+            <div class="item-list border">
+              <table id="other-table" class="table">
+                <tbody>
+                  <tr>
+                    <!-- item list is loaded with js -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- modal UI -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div></div>
-                    <h1 class="modal-title fs-5" id="editModalTittle">Edit Item</h1>
-                    <div class="exit-modal"><button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="border">
-                        <table class="table">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col">Item description</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Price $</th>
-                                    <th scope="col"><i class="bi bi-person-fill"></i></th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="edit-item-list">
-                                <!-- loaded with js -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <form id="from-container">
-                                <div class="col-12 format">
-                                    <div class="col-5">
-                                        <label for="add-item" class="form-label">Item name</label>
-                                        <input type="text" class="form-control" id="add-item" name="item_name">
-                                    </div>
-                                    <div class="col-1">
-                                        <label for="add-quantity" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control" id="add-quantity"
-                                            name="item_quantity">
-                                    </div>
-                                    <div class="col-1">
-                                        <label for="add-price" class="form-label">Price</label>
-                                        <input type="number" class="form-control" id="add-price" name="item_price">
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="add-user" class="form-label">
-                                            <i class="bi bi-person-fill"></i>
-                                            PIC
-                                        </label>
-                                        <select id="select-participant" class="form-select">
-                                            <!-- loaded with js -->
-                                        </select>
-                                    </div>
-                                    <button class="save-submit">Add</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div></div>
+            <h1 class="modal-title fs-5" id="editModalTittle">Edit Item</h1>
+            <div class="exit-modal">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
+          </div>
+          <div class="modal-body">
+            <div class="border">
+              <table class="table">
+                <thead class="table-light">
+                  <tr>
+                    <th scope="col">Item description</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price $</th>
+                    <th scope="col"><i class="bi bi-person-fill"></i></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody id="edit-item-list">
+                  <!-- loaded with js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="container-fluid">
+              <div class="row">
+                <form id="from-container">
+                  <div class="col-12 format">
+                    <div class="col-5">
+                      <label for="add-item" class="form-label">Item name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="add-item"
+                        name="item_name"
+                      />
+                    </div>
+                    <div class="col-1">
+                      <label for="add-quantity" class="form-label"
+                        >Quantity</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="add-quantity"
+                        name="item_quantity"
+                      />
+                    </div>
+                    <div class="col-1">
+                      <label for="add-price" class="form-label">Price</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="add-price"
+                        name="item_price"
+                      />
+                    </div>
+                    <div class="col-2">
+                      <label for="add-user" class="form-label">
+                        <i class="bi bi-person-fill"></i>
+                        PIC
+                      </label>
+                      <select id="select-participant" class="form-select">
+                        <!-- loaded with js -->
+                      </select>
+                    </div>
+                    <button class="save-submit">Add</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="./itemPost.js"></script>
-</body>
-
+  </body>
 </html>

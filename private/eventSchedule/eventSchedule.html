@@ -1,45 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./eventSchedule.css" />
     <title>Event Schedule</title>
-</head>
+  </head>
 
 <body>
 
     <button type="button" id="creator-function" class="create-button" data-bs-toggle="modal" data-bs-target="#create-time-block-modal">
         Add Activity
     </button>
-    
+
     <div class="navbar-container container">
-        <!-- NAVBAR: to be loaded with js -->
+      <!-- NAVBAR: to be loaded with js -->
     </div>
-    
-    <header id="event-name"> Schedule </header>
-    
+
+    <header id="event-name">Schedule</header>
+
     <div class="container" id="page">
-        <div id="time-block-page-container" class="container row">
-            <div id="time-block-memo-container" class="col-sm-5"></div>
-            <div id="rundown-container" class="col-sm-7 overflow-auto" >
-                <div id="rundown" class="rundown" data-current="0">
-                    <!-- Add Time Block and Time-stamp on window load -->
-                </div>
-            </div>
+      <div id="time-block-page-container" class="container row">
+        <div id="time-block-memo-container" class="col-sm-5"></div>
+        <div id="rundown-container" class="col-sm-7 overflow-auto">
+          <div id="rundown" class="rundown" data-current="0">
+            <!-- Add Time Block and Time-stamp on window load -->
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- create time block modal -->
-    
 
     <div class="modal fade" id="create-time-block-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -87,14 +96,75 @@
                     </div>
                 </div>
             </div>
+          </div>
+          <div class="modal-body">
+            <div class="input-group">
+              <form id="activity-form" class="register-form">
+                <div class="input-panel mb-3">
+                  <div class="form-header">Activity Name *</div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="activity-name"
+                    aria-label="first-name"
+                    aria-describedby="basic-addon1"
+                  />
+                </div>
+
+                <div class="input-panel mb-3">
+                  <div class="form-header">Description</div>
+                  <textarea
+                    id="description"
+                    class="form-control"
+                    name="description"
+                    rows="5"
+                    cols="50"
+                  >
+                  </textarea>
+                </div>
+
+                <div id="time-container">
+                  <!-- input by js -->
+                </div>
+
+                <div class="input-panel mb-3">
+                  <div class="form-header">Remarks</div>
+                  <textarea
+                    id="remark"
+                    class="form-control"
+                    name="remark"
+                    rows="5"
+                    cols="50"
+                  >
+                  </textarea>
+                </div>
+
+                <div class="modal-footer">
+                  <button
+                    id="submit-new-activity"
+                    type="submit"
+                    class="btn btn-primary"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </form>
+              <div class="modal-footer" id="google-separator">
+                <span id="or-separator">or</span>
+                <a href="/connect/google" type="button" class="google-login">
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="./eventSchedule.js"></script>
-</body>
-
+  </body>
 </html>

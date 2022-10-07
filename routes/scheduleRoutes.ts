@@ -5,10 +5,10 @@ import { logger } from "../util/logger";
 
 export const scheduleRoutes = express.Router();
 
-scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule)
-scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule)
-scheduleRoutes.put("/", isLoggedInAPI)
-scheduleRoutes.delete("/", isLoggedInAPI)
+scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
+scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
+scheduleRoutes.put("/", isLoggedInAPI);
+scheduleRoutes.delete("/", isLoggedInAPI);
 
 
 
@@ -25,40 +25,43 @@ async function getEventSchedule(req: Request, res: Response) {
             WHERE events.id = $1
             AND events.creator_id = $2;
             `,
-                [eventId, req.session.user]
-            )).rows[0];
-
-        } else {
-            event = (await client.query(`
+          [eventId, req.session.user]
+        )
+      ).rows[0];
+    } else {
+      event = (
+        await client.query(
+          `
             SELECT * FROM events
             INNER JOIN participants ON participants.event_id = events.id
             WHERE events.id = $1
             AND participants.user_id = $2;
             `,
-                [eventId, req.session.user]
-            )).rows[0];
-        }
+          [eventId, req.session.user]
+        )
+      ).rows[0];
+    }
 
-        const activitiesArr = (await client.query(`
+    const activitiesArr = (
+      await client.query(
+        `
             SELECT * FROM time_blocks
             WHERE event_id = $1
         `, [eventId])).rows
 
-        console.log(activitiesArr)
+    console.log(activitiesArr);
 
-        res.json({
-            status: true,
-            detail: event,
-            activities: activitiesArr,
-        })
-
-
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({
-            msg: "[ETS001]: Failed to get Event Schedule",
-        });
-    }
+    res.json({
+      status: true,
+      detail: event,
+      activities: activitiesArr,
+    });
+  } catch (e) {
+    logger.error(e);
+    res.status(500).json({
+      msg: "[ETS001]: Failed to get Event Schedule",
+    });
+  }
 }
 
 function toMin(timeInput: String) {

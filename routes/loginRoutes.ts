@@ -2,10 +2,11 @@ import express, { Request, Response } from "express";
 import { logger } from "../util/logger";
 import { client } from "../app";
 import { checkPassword } from "../util/functions/hash";
-import fetch from 'cross-fetch'
+import fetch from "cross-fetch";
 import { UsersInput } from "../util/models";
 import jsonfile from "jsonfile";
-import crypto from "crypto"
+import crypto from "crypto";
+import { dev } from "../app";
 
 export const loginRoutes = express.Router();
 
@@ -18,10 +19,13 @@ loginRoutes.get("/google", loginGoogle);
 async function checkSessionLogin(req: Request, res: Response) {
   try {
     logger.debug("Before reading DB");
+    if (dev) {
+      req.session.user = -1;
+    }
     if (req.session.user) {
       const loginUser = (
         await client.query(`SELECT * FROM users WHERE id = $1`, [
-          req.session.user
+          req.session.user,
         ])
       ).rows[0];
       if (loginUser) {
@@ -44,7 +48,6 @@ async function login(req: Request, res: Response) {
     const loginUser = (
       await client.query(`SELECT * FROM users WHERE email = $1`, [
         req.body.email,
-
       ])
     ).rows[0];
 
@@ -73,7 +76,7 @@ async function getName(req: Request, res: Response) {
     logger.debug("Before reading DB");
     const userName = (
       await client.query(`SELECT * FROM users WHERE id = $1`, [
-        req.session.user
+        req.session.user,
       ])
     ).rows[0];
 
@@ -98,31 +101,39 @@ async function logout(req: Request, res: Response) {
     res.json({ status: true });
   } catch (e) {
     logger.error(e);
-    res.status(500).json({ msg: "[LOG004]: Failed to Logout" })
+    res.status(500).json({ msg: "[LOG004]: Failed to Logout" });
   }
 }
 
+async function loginGoogle(req: express.Request, res: express.Response) {
+  const accessToken = req.session?.["grant"].response.access_token;
 
-async function loginGoogle(req:express.Request,res:express.Response) {
-  const accessToken = req.session?.['grant'].response.access_token;
-
-  const fetchRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-    method: "get",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
+  const fetchRes = await fetch(
+    "https://www.googleapis.com/oauth2/v2/userinfo",
+    {
+      method: "get",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
     }
-  });
+  );
   const result = await fetchRes.json();
-  const password = `google_user_` + crypto.randomBytes(20).toString('hex')
+  const password = `google_user_` + crypto.randomBytes(20).toString("hex");
 
-  const users = (await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])).rows;
+  const users = (
+    await client.query(`SELECT * FROM users WHERE email = $1`, [result.email])
+  ).rows;
   let user = users[0];
   if (!user) {
-    user = (await client.query(`INSERT INTO users (first_name, last_name, password, phone, email, created_at, updated_at) 
+    user = (
+      await client.query(
+        `INSERT INTO users (first_name, last_name, password, phone, email, created_at, updated_at) 
               VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) RETURNING *`,
-      [result.given_name, result.family_name, password,"", result.email])).rows[0]
+        [result.given_name, result.family_name, password, "", result.email]
+      )
+    ).rows[0];
 
-    console.log(`User with id ${user.id} is created`)
+    console.log(`User with id ${user.id} is created`);
 
     let UsersList: UsersInput[] = await jsonfile.readFile(
       "./util/database/data/users.json"
@@ -140,8 +151,7 @@ async function loginGoogle(req:express.Request,res:express.Response) {
   }
 
   if (req.session) {
-    req.session.user = user.id
-  };
-  res.redirect('/index.html')
+    req.session.user = user.id;
+  }
+  res.redirect("/index.html");
 }
-

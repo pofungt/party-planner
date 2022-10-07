@@ -1,6 +1,6 @@
 body {
-    font-family: 'Calibri';
-    background-color: #FFFFFF;
+  font-family: "Calibri";
+  background-color: #ffffff;
 }
 
 .initial-hide {
@@ -8,27 +8,27 @@ body {
 }
 
 .table-header {
-    background-color: white;
+  background-color: white;
 }
 
 #add-new-party-button {
-    width: 500px;
-    background-color: #F2D492;
-    border-radius: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    border: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 15px;
+  width: 500px;
+  background-color: #f2d492;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
 }
-  
+
 .round {
-    border-radius: 50%;
-    background-color: #f1f1f1;
-    color: grey;
-  }
+  border-radius: 50%;
+  background-color: #f1f1f1;
+  color: grey;
+}
 
 #add-new-party-button {
   width: 500px;
@@ -48,7 +48,7 @@ body {
 }
 
 #add-new-party-button .plus div {
-  background-color: #F29559;
+  background-color: #f29559;
   border-radius: 100px;
   width: 20px;
   height: 20px;
@@ -66,7 +66,7 @@ th {
 
 th > div {
   height: 100%;
-  width:100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,12 +82,13 @@ th > div {
 }
 
 .turn-page-button-container {
-  display:flex;
+  display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.previous-round, .next-round {
+.previous-round,
+.next-round {
   margin: 0;
   padding: 10px 15px;
   width: 40px;
@@ -120,7 +121,7 @@ th > div {
 }
 
 .parties-list-container .table-container {
-  background-color: #FDFDF4;
+  background-color: #fdfdf4;
   padding: 20px;
   border-radius: 20px;
 }
@@ -132,16 +133,17 @@ th > div {
 }
 
 .completedStatus {
-  background-color: #CAEFE2;
-  color: #00B69B;
+  background-color: #caefe2;
+  color: #00b69b;
 }
 
 .progressStatus {
-  background-color: #DED2F3;
-  color: #6226EF;
+  background-color: #ded2f3;
+  color: #6226ef;
 }
 
-.completedStatus, .progressStatus {
+.completedStatus,
+.progressStatus {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -153,7 +155,7 @@ th > div {
 
 .edit-button {
   border-radius: 100px;
-  background-color: #F29559;
+  background-color: #f29559;
   color: white;
   width: 22px;
   height: 22px;

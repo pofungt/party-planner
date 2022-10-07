@@ -3,304 +3,305 @@
    font-family: 'Pacifico', cursive; */
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: #efefd0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #efefd0;
 }
 
 .navbar-brand > img {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .navbar > .navbar-brand {
-    font-size: 30px;
-    font-family: "Pacifico", cursive;
-    margin: 5px;
+  font-size: 30px;
+  font-family: "Pacifico", cursive;
+  margin: 5px;
 }
 
 .navbar > .btn {
-    font-size: 20px;
-    font-family: "Lato", sans-serif;
-    color: #293241;
+  font-size: 20px;
+  font-family: "Lato", sans-serif;
+  color: #293241;
 }
 
 #logo-name {
-    font-size: 60px;
-    color: #293241;
-    font-family: "Pacifico", cursive;
-    display: flex;
-    justify-content: center;
-    padding: 30px;
+  font-size: 60px;
+  color: #293241;
+  font-family: "Pacifico", cursive;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
 
 .login-part {
-    display: flex;
-    justify-items: center;
+  display: flex;
+  justify-items: center;
 }
 
 .user-login {
-    display: flex;
-    align-content: center;
+  display: flex;
+  align-content: center;
 }
 
 .landing-Page-login-btn {
-    font-size: 20px;
-    color: #495871;
+  font-size: 20px;
+  color: #495871;
 }
 
 .landing-Page-login-btn > .bi {
-    margin: 0px 10px 0px 2px;
+  margin: 0px 10px 0px 2px;
 }
 
 .introduction-box {
-    background-color: #efefd0;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 500px;
-    margin-top: 20px;
+  background-color: #efefd0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  margin-top: 20px;
 }
 
 .description-box {
-    background-color: #a6b7f4;
-    width: 400px;
-    border-radius: 20px;
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-color: #a6b7f4;
+  width: 400px;
+  border-radius: 20px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .description {
-    font-size: 30px;
-    font-family: "Lato", sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
+  font-size: 30px;
+  font-family: "Lato", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
 }
 
 .description-details {
-    font-size: 18px;
-    font-family: "Lato", sans-serif;
-    padding: 10px;
-    width: 320px;
+  font-size: 18px;
+  font-family: "Lato", sans-serif;
+  padding: 10px;
+  width: 320px;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .buttons > button {
-    font-size: 20px;
-    color: #293241;
-    font-family: "Lato", sans-serif;
-    background-color: #f2d492;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin: 18px;
-    width: 200px;
-    box-sizing: border-box;
-    border: none;
-    box-shadow: 0px 1px 14px #f2d492;
-    touch-action: manipulation;
+  font-size: 20px;
+  color: #293241;
+  font-family: "Lato", sans-serif;
+  background-color: #f2d492;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  margin: 18px;
+  width: 200px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: 0px 1px 14px #f2d492;
+  touch-action: manipulation;
 }
 
 #logo-name {
-    font-size: 60px;
-    font-family: "Pacifico", cursive;
-    display: flex;
-    justify-content: center;
-    padding: 30px;
+  font-size: 60px;
+  font-family: "Pacifico", cursive;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }
 
 .introduction-box {
-    background-color: #efefd0;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 500px;
-    margin-top: 20px;
+  background-color: #efefd0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  margin-top: 20px;
 }
 
 .description-box {
-    background-color: #a6b7f4;
-    width: 400px;
-    border-radius: 20px;
-    height: 220px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-color: #a6b7f4;
+  width: 400px;
+  border-radius: 20px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .description {
-    font-size: 30px;
-    font-family: "Lato", sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px;
+  font-size: 30px;
+  font-family: "Lato", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
 }
 
 .description-details {
-    font-size: 18px;
-    font-family: "Lato", sans-serif;
-    padding: 10px;
-    width: 320px;
+  font-size: 18px;
+  font-family: "Lato", sans-serif;
+  padding: 10px;
+  width: 320px;
 }
 
 .buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .buttons > button {
-    font-size: 20px;
-    color: #293241;
-    font-family: "Lato", sans-serif;
-    background-color: #f2d492;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin: 18px;
-    width: 200px;
-    box-sizing: border-box;
-    border: none;
-    box-shadow: 0px 1px 14px #f2d492;
-    touch-action: manipulation;
+  font-size: 20px;
+  color: #293241;
+  font-family: "Lato", sans-serif;
+  background-color: #f2d492;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  margin: 18px;
+  width: 200px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: 0px 1px 14px #f2d492;
+  touch-action: manipulation;
 }
 
 /* Modal */
 
 .modal-login {
-    font-size: 14px;
-    color: #293241;
-    font-family: "Lato", sans-serif;
-    background-color: #f2d492;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin: 18px;
-    width: 110px;
-    border: none;
-    box-shadow: 0px 1px 12px #f2d492;
+  font-size: 14px;
+  color: #293241;
+  font-family: "Lato", sans-serif;
+  background-color: #f2d492;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  margin: 18px;
+  width: 110px;
+  border: none;
+  box-shadow: 0px 1px 12px #f2d492;
 }
 
 .modal-footer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 }
 
 .modal-login {
-    font-size: 14px;
-    color: #293241;
-    font-family: "Lato", sans-serif;
-    background-color: #f2d492;
-    padding: 10px 20px 10px 20px;
-    border-radius: 20px;
-    margin: 18px;
-    width: 110px;
-    border: none;
-    box-shadow: 0px 1px 12px #f2d492;
+  font-size: 14px;
+  color: #293241;
+  font-family: "Lato", sans-serif;
+  background-color: #f2d492;
+  padding: 10px 20px 10px 20px;
+  border-radius: 20px;
+  margin: 18px;
+  width: 110px;
+  border: none;
+  box-shadow: 0px 1px 12px #f2d492;
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .modal-title {
-    font-size: 25px;
-    font-weight: bold;
-    color: #293241;
-    font-family: "Lato", sans-serif;
+  font-size: 25px;
+  font-weight: bold;
+  color: #293241;
+  font-family: "Lato", sans-serif;
 }
 
 .form-label {
-    color: #293241;
-    font-family: "Lato", sans-serif;
+  color: #293241;
+  font-family: "Lato", sans-serif;
 }
 
 .input-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .input-title {
-    text-align: center;
+  text-align: center;
 }
 
 .form-control {
-    border-width: 2px;
-    border-radius: 10px;
+  border-width: 2px;
+  border-radius: 10px;
 }
 
 #user-email {
-    border-color: #495871;
+  border-color: #495871;
 }
 
 #user-password {
-    border-color: #EE6C4D;
+  border-color: #ee6c4d;
 }
 
 #login-form-submit,
 #register-submit {
-    width: 100%;
+  width: 100%;
 }
 
 .form-label {
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background-color: white;
+  position: absolute;
+  top: -12px;
+  left: 20px;
+  background-color: white;
 }
 
 .form-header {
-    margin: 0 0 5px 0;
+  margin: 0 0 5px 0;
 }
 
 #login-modal .input-panel {
-    margin: 20px 20px;
-    position: relative;
+  margin: 20px 20px;
+  position: relative;
 }
 
 #register-modal .input-panel {
-    margin: 0 20px;
+  margin: 0 20px;
 }
 
 .user-email .form-label {
-    color: #495871;
+  color: #495871;
 }
 
 .user-password .form-label {
-    color: #EE6C4D;
+  color: #ee6c4d;
 }
 
 .google-login {
-    background: url("./asset/btn_google_signin_light_normal_web.png");
-    border: none;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    min-width: 200px;
-    min-height: 55px;
-    padding-bottom: 2px;
+  background: url("./asset/btn_google_signin_light_normal_web.png");
+  border: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  min-width: 200px;
+  min-height: 55px;
+  padding-bottom: 2px;
 }
 
 #or-separator {
-    position: absolute;
-    top: -18px;
-    background-color: white;
+  position: absolute;
+  top: -18px;
+  background-color: white;
 }
 
 #google-separator {
-    position: relative;
+  position: relative;
 }

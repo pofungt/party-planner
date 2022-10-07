@@ -12,6 +12,11 @@ import { personalInfoRoutes } from "./routes/personalInfoRoutes";
 import { itemsRoutes } from "./routes/itemsRoutes";
 import { scheduleRoutes } from "./routes/scheduleRoutes";
 
+export let dev = false;
+if (process.argv[2]) {
+  dev = true;
+}
+
 dontenv.config();
 
 export const client = new pg.Client({
@@ -63,7 +68,7 @@ app.use("/register", registerRoutes);
 app.use("/events", eventsRoutes);
 app.use("/personalPage", personalInfoRoutes);
 app.use("/items", itemsRoutes);
-app.use("/eventSchedule", scheduleRoutes)
+app.use("/eventSchedule", scheduleRoutes);
 
 app.use(isLoggedIn, express.static("private"));
 

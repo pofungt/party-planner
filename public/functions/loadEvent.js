@@ -1,4 +1,9 @@
-import {listenCreateButtons, listenParticipateButtons, listenEditButtons, listenToSchedulePage} from "/functions/listenButtons.js";
+import {
+  listenCreateButtons,
+  listenParticipateButtons,
+  listenEditButtons,
+  listenToSchedulePage,
+} from "/functions/listenButtons.js";
 
 export async function loadName() {
   const res = await fetch(`/login/name`);
@@ -31,24 +36,20 @@ export async function loadCreateEvents(page) {
   const eventsCreateContainer = document.querySelector(
     ".create .events-container"
   );
-  const pageCreateContainer = document.querySelector(".create .turn-page-button-container");
+  const pageCreateContainer = document.querySelector(
+    ".create .turn-page-button-container"
+  );
 
   let eventsCreateHTML = "";
 
   for (let event of events) {
     let status = "";
     let statusClass = "";
-    // Check if start datetime is not null
-    if (event.start_datetime) {
-      const today = (new Date()).getTime();
-      const eventStartDate = (new Date(event.start_datetime)).getTime();
-      if (today > eventStartDate) {
-        status = "Completed";
-        statusClass = "completedStatus";
-      } else {
-        status = "Processing";
-        statusClass = "progressStatus";
-      }
+    const today = new Date().getTime();
+    const eventStartDate = new Date(event.start_datetime).getTime();
+    if (today > eventStartDate && eventStartDate) {
+      status = "Completed";
+      statusClass = "completedStatus";
     } else {
       status = "Processing";
       statusClass = "progressStatus";
@@ -66,17 +67,25 @@ export async function loadCreateEvents(page) {
       </th>
       <th scope="col" class="start_datetime_${event.id}">
         <div>
-          ${!event.start_datetime 
-            ? "" 
-            : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+          ${
+            !event.start_datetime
+              ? ""
+              : new Date(event.start_datetime)
+                  .toLocaleString("en-US", { hour12: false })
+                  .replace(", ", " ")
+                  .slice(0, -3)
           }
         </div>
       </th>
       <th scope="col" class="end_datetime_${event.id}">
         <div>
-          ${!event.end_datetime 
-            ? "" 
-            : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+          ${
+            !event.end_datetime
+              ? ""
+              : new Date(event.end_datetime)
+                  .toLocaleString("en-US", { hour12: false })
+                  .replace(", ", " ")
+                  .slice(0, -3)
           }
         </div>
       </th>
@@ -126,24 +135,20 @@ export async function loadParticipateEvents(page) {
   const eventsParticipateContainer = document.querySelector(
     ".participate .events-container"
   );
-  const pageParticipateContainer = document.querySelector(".participate .turn-page-button-container");
+  const pageParticipateContainer = document.querySelector(
+    ".participate .turn-page-button-container"
+  );
 
   let eventsParticipateHTML = "";
 
   for (let event of events) {
     let status = "";
     let statusClass = "";
-    // Check if start datetime is not null
-    if (event.start_datetime) {
-      const today = (new Date()).getTime();
-      const eventStartDate = (new Date(event.start_datetime)).getTime();
-      if (today > eventStartDate) {
-        status = "Completed";
-        statusClass = "completedStatus";
-      } else {
-        status = "Processing";
-        statusClass = "progressStatus";
-      }
+    const today = new Date().getTime();
+    const eventStartDate = new Date(event.start_datetime).getTime();
+    if (today > eventStartDate && eventStartDate) {
+      status = "Completed";
+      statusClass = "completedStatus";
     } else {
       status = "Processing";
       statusClass = "progressStatus";
@@ -161,17 +166,25 @@ export async function loadParticipateEvents(page) {
             </th>
             <th scope="col" class="start_datetime_${event.id}">
               <div>
-                ${!event.start_datetime 
-                  ? "" 
-                  : (new Date(event.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+                ${
+                  !event.start_datetime
+                    ? ""
+                    : new Date(event.start_datetime)
+                        .toLocaleString("en-US", { hour12: false })
+                        .replace(", ", " ")
+                        .slice(0, -3)
                 }
               </div>
             </th>
 			      <th scope="col" class="end_datetime_${event.id}">
               <div>
-                ${!event.end_datetime 
-                  ? "" 
-                  : (new Date(event.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3)
+                ${
+                  !event.end_datetime
+                    ? ""
+                    : new Date(event.end_datetime)
+                        .toLocaleString("en-US", { hour12: false })
+                        .replace(", ", " ")
+                        .slice(0, -3)
                 }
               </div>
             </th>
@@ -206,16 +219,25 @@ export async function loadParticipateEvents(page) {
 
 export async function loadEventDetails() {
   const params = new URLSearchParams(window.location.search);
-  const isCreator = parseInt(params.get('is-creator'));
-  const eventId = params.get('event-id');
-  const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
+  const isCreator = parseInt(params.get("is-creator"));
+  const eventId = params.get("event-id");
+
+  const res = await fetch(
+    `/events/detail/${isCreator ? "created" : "participated"}/${eventId}`
+  );
   if (res.status !== 200) {
     const data = await res.json();
     alert(data.msg);
     return;
   }
   const result = await res.json();
+
   if (result.status) {
+    // Check if the event is processing
+    const today = new Date().getTime();
+    const eventStartDate = new Date(result.detail.start_datetime).getTime();
+    const processing = today <= eventStartDate || !eventStartDate;
+
     // Load Event Name into Page
     const eventName = document.querySelector(".eventname .background-frame");
     eventName.innerHTML = `
@@ -228,20 +250,31 @@ export async function loadEventDetails() {
     `;
 
     // Load Date Time into Page
+    let dateTimeLabel = "";
     let startDateTimeString = "";
     let endDateTimeString = "";
     if (result.detail.start_datetime && result.detail.end_datetime) {
-      startDateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
-      endDateTimeString = (new Date(result.detail.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
+      startDateTimeString = new Date(result.detail.start_datetime)
+        .toLocaleString("en-US", { hour12: false })
+        .replace(", ", " ")
+        .slice(0, -3);
+      endDateTimeString = new Date(result.detail.end_datetime)
+        .toLocaleString("en-US", { hour12: false })
+        .replace(", ", " ")
+        .slice(0, -3);
+      dateTimeLabel = `
+        <div>Start:</div>
+        <div>End:</div>
+      `;
     }
 
     let editTimeButton = "";
-    if (isCreator) {
+    if (isCreator && processing) {
       editTimeButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#datetime-modal">
           <i class="fa-regular fa-pen-to-square"></i>
         </a>
-      `
+      `;
     }
     const dateTime = document.querySelector(".date-time .background-frame");
     dateTime.innerHTML = `
@@ -250,8 +283,7 @@ export async function loadEventDetails() {
       </div>
       <div>
         <div class="frame-content-label">
-          <div>Start:</div>
-          <div>End:</div>
+          ${dateTimeLabel}
         </div>
         <div class="frame-content">
           <div>${startDateTimeString}</div>
@@ -277,38 +309,70 @@ export async function loadEventDetails() {
       }
       participantListHTML += "</div>";
     }
-    const participant = document.querySelector(".participant .background-frame");
+
+    let editParticipantsButton = "";
+    if (isCreator && processing) {
+      editParticipantsButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#participants-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `;
+    }
+
+    let inviteButton = "";
+    if (isCreator && processing) {
+      inviteButton = `
+        <div class="invite-button-container">
+          <div class="invite-button">
+            +
+          </div>
+          <div>
+            Invite more friends
+          </div>
+        </div>
+      `;
+    }
+    const participant = document.querySelector(
+      ".participant .background-frame"
+    );
     participant.innerHTML = `
       <div class="frame-title-container">
-        <div class="frame-title">
-          Participants
+        <div class="left">
+          <div class="frame-title">
+            Participants
+          </div>
+          <div id="number-of-participants">
+            ${result.participants.length}
+          </div>
         </div>
-        <div id="number-of-participants">
-          ${result.participants.length}
-        </div>
+        ${editParticipantsButton}
       </div>
 
       <div class="frame-content-container">
         ${participantListHTML}
       </div>
+      ${inviteButton}
     `;
 
     // Load Venue into Page
     let venueString = "";
     if (result.detail.venue) {
       venueString = `
-        <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(" ","+")}/" target="_blank">
+        <a href="https://www.google.com/maps/search/${result.detail.venue.replaceAll(
+          " ",
+          "+"
+        )}/" target="_blank">
           ${result.detail.venue || ""}
         </a>
-      `
+      `;
     }
     let editVenueButton = "";
-    if (isCreator) {
+    if (isCreator && processing) {
       editVenueButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#venue-modal">
           <i class="fa-regular fa-pen-to-square"></i>
         </a>
-      `
+      `;
     }
     const venue = document.querySelector(".venue .background-frame");
     venue.innerHTML = `
@@ -325,17 +389,17 @@ export async function loadEventDetails() {
         </div>
     `;
 
-      // Load schedule into Page
-      let editScheduleButton = "";
-      if (isCreator) {
-        editScheduleButton = `
+    // Load schedule into Page
+    let editScheduleButton = "";
+    if (isCreator && processing) {
+      editScheduleButton = `
           <a class="edit-button">
             <i class="fa-regular fa-pen-to-square"></i>
           </a>
-        `
-      }
-      const schedule = document.querySelector(".schedule .background-frame");
-      schedule.innerHTML = `
+        `;
+    }
+    const schedule = document.querySelector(".schedule .background-frame");
+    schedule.innerHTML = `
           <div class="frame-title-container">
             <div id="frame-content-container" class="frame-title">
               Schedule
@@ -347,9 +411,9 @@ export async function loadEventDetails() {
           </div>
       `;
 
-      // Load item into Page
-      const item = document.querySelector(".item .background-frame");
-      item.innerHTML = `
+    // Load item into Page
+    const item = document.querySelector(".item .background-frame");
+    item.innerHTML = `
           <div class="frame-title-container">
             <div class="frame-title">
               Item
@@ -360,7 +424,7 @@ export async function loadEventDetails() {
           </div>
       `;
 
-      listenToSchedulePage()
+    listenToSchedulePage();
   } else {
     const roleName = isCreator ? "creator" : "participant";
     alert(`You are not ${roleName} of the event!`);
