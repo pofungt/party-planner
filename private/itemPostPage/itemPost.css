@@ -23,11 +23,22 @@
     background-color: #fff;
 }
 
+.pending-item-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bi-filter-circle {
+  color: #495871;
+  width: 20px;
+  height: 20px;
+}
+
 .pending-item{
   display: flex;
   justify-content: space-between;
 }
-.confirm-btn {
+.btn-css {
   border: none;
   border-radius: 20px;
   background-color: #fff;

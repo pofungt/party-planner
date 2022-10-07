@@ -125,8 +125,9 @@ async function deleteItem(req: Request, res: Response) {
 async function getShoppingList(req: Request, res: Response) {
   try {
       logger.debug("Before reading DB");
+
   } catch (e) {
       logger.error(e);
-      res.status(500).json({ msg: "[ITM004: Failed to post Item" });
+      res.status(500).json({ msg: "[ITM007: Failed to remove item in shopping list" });
   }
 }
