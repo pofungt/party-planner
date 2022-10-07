@@ -1,5 +1,5 @@
 import { addNavbar } from "/functions/addNavbar.js";
-import { loadName, loadEventDetails } from "/functions/loadEvent.js";
+import { loadName, loadEventDetails } from "/loadEvent.js";
 
 window.addEventListener("load", () => {
   addNavbar();

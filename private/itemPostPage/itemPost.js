@@ -1,5 +1,5 @@
 import { addNavbar } from "/functions/addNavbar.js";
-import { loadName } from "/functions/loadEvent.js";
+import { loadName } from "/loadEvent.js";
 
 let editingType = null;
 let itemData = null;

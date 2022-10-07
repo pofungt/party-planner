@@ -1,7 +1,7 @@
 import {
   loadCreateEvents,
   loadParticipateEvents,
-} from "/functions/loadEvent.js";
+} from "/loadEvent.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
