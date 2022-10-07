@@ -8,7 +8,6 @@ import { isLoggedInAPI } from "../util/guard";
 
 export const personalInfoRoutes = express.Router();
 
-
 personalInfoRoutes.get("/", isLoggedInAPI, getPersonalInfo);
 personalInfoRoutes.put("/", isLoggedInAPI, updatePersonalInfo);
 
@@ -20,11 +19,11 @@ async function getPersonalInfo(req: Request, res: Response) {
       `SELECT * FROM users
             WHERE id = $1
             `,
-      [req.session.user])
+      [req.session.user]
+    );
 
     const user: Users = result.rows[0];
     res.json(user);
-
   } catch (e) {
     logger.error(e);
     res.status(500).json({
@@ -38,9 +37,8 @@ async function updatePersonalInfo(req: Request, res: Response) {
     logger.debug("Before reading DB");
 
     if (!req.body.current_password) {
-
       // update DB without new password
-      
+
       await client.query(
         `UPDATE users 
             SET first_name = $1, last_name = $2, phone = $3, updated_at = CURRENT_TIMESTAMP
@@ -49,7 +47,7 @@ async function updatePersonalInfo(req: Request, res: Response) {
           req.body.first_name,
           req.body.last_name,
           req.body.phone,
-          req.session.user
+          req.session.user,
         ]
       );
 
@@ -60,8 +58,8 @@ async function updatePersonalInfo(req: Request, res: Response) {
       );
 
       const currentPassword = usersList.filter((user) => {
-        return user.email === req.body.email
-      })[0].password
+        return user.email === req.body.email;
+      })[0].password;
 
       const newUsersList = usersList.filter((user) => {
         return user.email !== req.body.email;
@@ -77,24 +75,32 @@ async function updatePersonalInfo(req: Request, res: Response) {
 
       newUsersList.push(usersUpdateObj);
 
-      await jsonfile.writeFile("./util/database/data/users.json", newUsersList, {
-        spaces: "\t",
-      });
+      await jsonfile.writeFile(
+        "./util/database/data/users.json",
+        newUsersList,
+        {
+          spaces: "\t",
+        }
+      );
 
       res.json({ status: true });
-
     } else if (req.body.current_password) {
-
       //check if input password is correct
 
       const hashedPassword = await client.query(
         `SELECT password FROM users 
                 WHERE id = $1`,
-        [req.session.user])
+        [req.session.user]
+      );
 
-      if (!(await checkPassword(req.body.current_password, hashedPassword.rows[0].password))) {
-        res.status(400)
-        throw new Error(`Failed login attempt from user ${req.session.user}`)
+      if (
+        !(await checkPassword(
+          req.body.current_password,
+          hashedPassword.rows[0].password
+        ))
+      ) {
+        res.status(400);
+        throw new Error(`Failed login attempt from user ${req.session.user}`);
       }
 
       // update DB with new password
@@ -109,7 +115,7 @@ async function updatePersonalInfo(req: Request, res: Response) {
           req.body.last_name,
           req.body.phone,
           password,
-          req.session.user
+          req.session.user,
         ]
       );
 
@@ -133,13 +139,16 @@ async function updatePersonalInfo(req: Request, res: Response) {
 
       newUsersList.push(usersUpdateObj);
 
-      await jsonfile.writeFile("./util/database/data/users.json", newUsersList, {
-        spaces: "\t",
-      });
+      await jsonfile.writeFile(
+        "./util/database/data/users.json",
+        newUsersList,
+        {
+          spaces: "\t",
+        }
+      );
 
       res.json({ status: true });
     }
-
   } catch (e) {
     logger.error(e);
     res.status(400).json({

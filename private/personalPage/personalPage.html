@@ -1,83 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
     <link rel="stylesheet" href="./personalPage.css" />
     <title>Personal Page</title>
-</head>
+  </head>
 
-<body style="display:none">
+  <body style="display: none">
     <div class="navbar-container container">
-        <!-- NAVBAR: to be loaded with js -->
+      <!-- NAVBAR: to be loaded with js -->
     </div>
     <header id="account-info">Account Info</header>
     <div class="form-container">
-        <form action="/personalPage" method="PUT" id="personal-page-form">
-            <div class="mb-3 name_container">
-                <span class="first_name_container">
-                    <label for="first_name" class="form-label">First Name</label>
-                    <input type="text" class="form-control" name="first_name" id="first_name"
-                        placeholder="Input Your First Name" value="">
-                </span>
-                <span>
-                    <label for="last_name" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" name="last_name" id="last_name"
-                        placeholder="Input Your Last Name">
-                </span>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" id="email" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" name="phone" id="phone" placeholder="Input Phone">
-                <div class="form-text">
-                    Phone number must be in the following format: 
-                    e.g. 647-111-1111
-                </div>
-            </div>
-            <div class="mb-3 google-user">
-                <label for="current_password" class="form-label">Current Password</label>
-                <input type="password" class="form-control" name="current_password" id="current_password">
-                <div class="form-text">
-                    Enter your current password if you wish to update a new password
-                </div>
-            </div>
-            <div class="mb-3 google-user">
-                <label for="new_password" class="form-label">New Password</label>
-                <input type="password" class="form-control" name="new_password" id="new_password"
-                    placeholder="Input your new password here">
-                <div class="form-text">
-                    Password must be 8-20 characters, including: at least one
-                    capital letter, at least one small letter, one number and
-                    one special character
-                </div>
-            </div>
-            <div class="mb-3 google-user">
-                <label for="new_confirmed_password" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" name="new_confirmed_password" id="new_confirmed_password"
-                    placeholder="Type the new password again">
-            </div>
-            <div class="button-container mb-3">
-                <button type="submit" value="submit" class="btn btn-primary update">Update</button>
-                <button type="reset" value="cancel" class="btn btn-primary cancel">Cancel</button>
-            </div>
-
-        </form>
-
+      <form action="/personalPage" method="PUT" id="personal-page-form">
+        <div class="mb-3 name_container">
+          <span class="first_name_container">
+            <label for="first_name" class="form-label">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="first_name"
+              id="first_name"
+              placeholder="Input Your First Name"
+              value=""
+            />
+          </span>
+          <span>
+            <label for="last_name" class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              name="last_name"
+              id="last_name"
+              placeholder="Input Your Last Name"
+            />
+          </span>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            id="email"
+            readonly
+          />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phone"
+            id="phone"
+            placeholder="Input Phone"
+          />
+          <div class="form-text">
+            Phone number must be in the following format: e.g. 647-111-1111
+          </div>
+        </div>
+        <div class="mb-3 google-user">
+          <label for="current_password" class="form-label"
+            >Current Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            name="current_password"
+            id="current_password"
+          />
+          <div class="form-text">
+            Enter your current password if you wish to update a new password
+          </div>
+        </div>
+        <div class="mb-3 google-user">
+          <label for="new_password" class="form-label">New Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="new_password"
+            id="new_password"
+            placeholder="Input your new password here"
+          />
+          <div class="form-text">
+            Password must be 8-20 characters, including: at least one capital
+            letter, at least one small letter, one number and one special
+            character
+          </div>
+        </div>
+        <div class="mb-3 google-user">
+          <label for="new_confirmed_password" class="form-label"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            class="form-control"
+            name="new_confirmed_password"
+            id="new_confirmed_password"
+            placeholder="Type the new password again"
+          />
+        </div>
+        <div class="button-container mb-3">
+          <button type="submit" value="submit" class="btn btn-primary update">
+            Update
+          </button>
+          <button type="reset" value="cancel" class="btn btn-primary cancel">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-        crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
     <script type="module" src="./personalPage.js"></script>
-</body>
-
+  </body>
 </html>
