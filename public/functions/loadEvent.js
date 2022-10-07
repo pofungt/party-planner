@@ -309,6 +309,19 @@ export async function loadEventDetails() {
       }
       participantListHTML += "</div>";
     }
+    let inviteButton = "";
+    if (isCreator && processing) {
+      inviteButton = `
+        <div class="invite-button-container">
+          <div class="invite-button>
+            +
+          </div>
+          <div>
+            Invite more friends
+          </div>
+        </div>
+      `;
+    }
     const participant = document.querySelector(
       ".participant .background-frame"
     );
@@ -325,6 +338,7 @@ export async function loadEventDetails() {
       <div class="frame-content-container">
         ${participantListHTML}
       </div>
+      ${inviteButton}
     `;
 
     // Load Venue into Page
