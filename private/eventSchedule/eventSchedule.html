@@ -25,14 +25,10 @@
     <title>Event Schedule</title>
   </head>
 
-  <body>
-    <button
-      type="button"
-      class="create-button"
-      data-bs-toggle="modal"
-      data-bs-target="#create-time-block-modal"
-    >
-      Add Activity
+<body>
+
+    <button type="button" id="creator-function" class="create-button" data-bs-toggle="modal" data-bs-target="#create-time-block-modal">
+        Add Activity
     </button>
 
     <div class="navbar-container container">
@@ -54,27 +50,51 @@
 
     <!-- create time block modal -->
 
-    <div
-      class="modal fade"
-      id="create-time-block-modal"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div></div>
-            <h5 class="modal-title">CREATE ACTIVITY</h5>
-            <div class="exit-modal">
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+    <div class="modal fade" id="create-time-block-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div></div>
+                    <h5 class="modal-title">CREATE ACTIVITY</h5>
+                    <div class="exit-modal">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <form id="activity-form" class="register-form">
+                            <div class="input-panel mb-3">
+                                <div class="form-header">Activity Name *</div>
+                                <input type="text" class="form-control" name="activity-name" aria-label="first-name"
+                                    aria-describedby="basic-addon1" />
+                            </div>
+                            
+                            <div class="input-panel mb-3">
+                                <div class="form-header">Description</div>
+                                <textarea id="description" class="form-control" name="description" rows="5" cols="50">
+                                </textarea>
+                            </div>
+
+                            <div id="time-container">
+                                <!-- input by js -->
+                            </div>
+
+                            <div class="input-panel mb-3">
+                                <div class="form-header">Remarks</div>
+                                <textarea id="remark" class="form-control" name="remark" rows="5" cols="50">
+                                </textarea>
+                            </div>
+                    
+                            <div class="modal-footer">
+                                <button id="submit-new-activity" type="submit" class="btn btn-primary">
+                                    Submit
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
           </div>
           <div class="modal-body">
