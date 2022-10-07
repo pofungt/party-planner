@@ -9,6 +9,7 @@ window.addEventListener('load', () => {
 	document.body.style.display = 'block';
 });
 
+// Submit datetime form
 document.querySelector('#datetime-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
 	const form = e.target;
@@ -56,6 +57,7 @@ document.querySelector('#datetime-form').addEventListener('submit', async functi
 	}
 });
 
+// Submit venue form
 document.querySelector('#venue-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
 	const form = e.target;
@@ -93,3 +95,5 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 		}
 	}
 });
+
+// Submit participants form
