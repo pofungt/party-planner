@@ -219,6 +219,19 @@ a {
 	cursor: pointer;
 }
 
+.delete-button {
+	border-radius: 100px;
+	background-color: #C74B38;
+	color: white;
+	width: 22px;
+	height: 22px;
+	font-size: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
 /* ↑↑ Button ↑↑ */
 
 /* Modal */
@@ -354,4 +367,14 @@ a {
 
 #to-be-deleted-participants-list .participants-list-title {
 	color: #D02F3E;
+}
+
+.user-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#participants-modal .frame-content-container > div {
+	width: 100%;
 }
