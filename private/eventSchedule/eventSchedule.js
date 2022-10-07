@@ -11,23 +11,6 @@ window.addEventListener("load", async () => {
     document.body.style.display = "block";
 });
 
-const trashCans = document.querySelectorAll(".fa-solid")
-trashCans.forEach((trashcan) => {
-    trashcan.addEventListener("click", async (e) => {
-        e.preventDefault()
-
-        const id = e.target.getElementsByTagName[`value`];
-        const res = await fetch(`/eventSchedule/timeBlock/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
-            method: 'DELETE'
-        })
-        if (res.status !== 200){
-            alert("Unable to delete time block")
-        } else {
-            alert("Delete successful!")
-        }
-    });
-})
-
 
 function getPresetTimeBlock(startTime, endTime) {
     let rundown = document.querySelector("#rundown")
@@ -96,7 +79,7 @@ async function getSavedTimeBlocks(activitiesArr) {
 
         document.querySelector(`#time-block-container-${parseInt(startId) * 60}`).innerHTML = `
                 <span id="time-stamp-box" class="time-stamp-container col-2">
-                    <i value="${id}" type="button" class="btn fa-solid fa-trash"></i>
+                    <i value="${id}" id="trash-can" type="button" class="btn fa-solid fa-trash"></i>
                     <div id="stamp-${startTimeInMin}" class="time-stamp">${start}</div>
                 </span>
                 <span id="time-block-${startTimeInMin}" start="${startTimeInMin}" end="${endTimeInMin}" class="time-block save-time-block col-10">
@@ -116,8 +99,8 @@ function toMin(timeInput) {
 }
 
 async function getMemo(activitiesArr) {
-	const timeBlocks = document.querySelectorAll('.save-time-block');
-	const memoContainer = document.querySelector('#time-block-memo-container');
+    const timeBlocks = document.querySelectorAll('.save-time-block');
+    const memoContainer = document.querySelector('#time-block-memo-container');
 
     timeBlocks.forEach((block) => {
         const startTimeString = minToTimeString(parseInt(block.getAttribute('start')))
@@ -130,7 +113,6 @@ async function getMemo(activitiesArr) {
             let targetActivity = ""
 
             activitiesArr.forEach((activity) => {
-                console.log(activity.title)
                 if (activity.title === activityName) {
                     return targetActivity = activity
                 }
@@ -276,8 +258,8 @@ async function getEventSchedule() {
     const startTimeInMin = toMin(startTime)
     const endTimeInMin = toMin(endTime)
 
-	let pageTitle = document.querySelector('#event-name');
-	pageTitle.innerHTML = eventName + '  ' + `( ${startTime} - ${endTime} )`;
+    let pageTitle = document.querySelector('#event-name');
+    pageTitle.innerHTML = eventName + '  ' + `( ${startTime} - ${endTime} )`;
 
 
     getPresetTimeBlock(startTimeInMin, endTimeInMin)
@@ -292,6 +274,7 @@ async function getEventSchedule() {
     await getMemo(activitiesArr)
     deleteRedundantDiv()
     fixTimeStamp()
+    deleteTimeBlock()
 }
 
 function fixTimeStamp() {
@@ -479,3 +462,35 @@ function recoverEventColor(eventStart, eventEnd) {
         }
     })
 }
+
+async function deleteTimeBlock() {
+    const trashCans = document.querySelectorAll("#trash-can")
+    trashCans.forEach((trashcan) => {
+        trashcan.addEventListener("click", async (e) => {
+            e.preventDefault()
+
+            if (window.confirm("Do you really want to delete?")) {
+            } else {
+                return alert("Request cancelled")
+            }
+
+            const params = new URLSearchParams(window.location.search);
+            const eventId = params.get('event-id');
+            const isCreator = params.get('is-creator');
+
+            const id = e.target.getAttribute(`value`);
+            console.log("target ID ="+ id)
+
+            const res = await fetch(`/eventSchedule/timeBlock/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+                method: 'DELETE'
+            })
+            if (res.status !== 200) {
+                alert("Unable to delete time block")
+            } else {
+                alert("Delete successful!")
+                location.reload()
+            }
+        });
+    })
+}
+
