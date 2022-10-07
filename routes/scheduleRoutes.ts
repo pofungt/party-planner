@@ -138,7 +138,7 @@ async function postEventSchedule(req: Request, res: Response) {
 
         } else {
             res.status(400).json({
-                msg: "[EER001]: Something went wrong, please try relogging-in",
+                msg: "[EER001]: Something went wrong, please try re-logging-in",
             });
         }
 

@@ -6,9 +6,9 @@ window.addEventListener("load", async () => {
     loadName();
     await getEventSchedule();
     deleteRedundantDiv()
-    
 
-  document.body.style.display = "block";
+
+    document.body.style.display = "block";
 });
 
 function getPresetTimeBlock(startTime, endTime) {
@@ -31,36 +31,36 @@ function getPresetTimeBlock(startTime, endTime) {
             `
         document.querySelector(`#time-block-${start}`).style.height = `${height}px`
     }
-  }
-
-    //change color for the event time
-    for (let s = Math.floor(startTime / 60); s < Math.floor(endTime / 60); s++) {
-        document.querySelector(`#time-block-${s * 60}`).classList.add("event-schedule")
-        if (s === Math.floor(startTime / 60)) {
-            document.querySelector(`#time-block-${s * 60}`).innerHTML = "Event Start Time"
-        }
-    }
-
-    //set scroll bar top
-    const scrollBarDiv = document.querySelector("#rundown-container")
-    scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop
-
-    //loop the scroll
-    let rundownContainer = document.querySelector("#rundown-container")
-    rundownContainer.addEventListener("scroll", function () {
-        let max_scroll = this.scrollHeight - this.clientHeight;
-        let current_scroll = this.scrollTop;
-        let bottom = 100;
-        if (current_scroll + bottom >= max_scroll) {
-            let outerDiv = document.querySelectorAll(".rundown")[0]
-            let current = parseInt(outerDiv.dataset.current, 10);
-            let timeBlock = document.querySelectorAll(".individual-time-block")[current]
-            let new_div = timeBlock.cloneNode(true);
-            outerDiv.appendChild(new_div);
-            outerDiv.dataset.current = current + 1;
-        }
-    });
 }
+
+//change color for the event time
+for (let s = Math.floor(startTime / 60); s < Math.floor(endTime / 60); s++) {
+    document.querySelector(`#time-block-${s * 60}`).classList.add("event-schedule")
+    if (s === Math.floor(startTime / 60)) {
+        document.querySelector(`#time-block-${s * 60}`).innerHTML = "Event Start Time"
+    }
+}
+
+//set scroll bar top
+const scrollBarDiv = document.querySelector("#rundown-container")
+scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop
+
+//loop the scroll
+let rundownContainer = document.querySelector("#rundown-container")
+rundownContainer.addEventListener("scroll", function () {
+    let max_scroll = this.scrollHeight - this.clientHeight;
+    let current_scroll = this.scrollTop;
+    let bottom = 100;
+    if (current_scroll + bottom >= max_scroll) {
+        let outerDiv = document.querySelectorAll(".rundown")[0]
+        let current = parseInt(outerDiv.dataset.current, 10);
+        let timeBlock = document.querySelectorAll(".individual-time-block")[current]
+        let new_div = timeBlock.cloneNode(true);
+        outerDiv.appendChild(new_div);
+        outerDiv.dataset.current = current + 1;
+    }
+});
+
 
 async function getSavedTimeBlocks(activitiesArr) {
     activitiesArr.forEach((activity) => {
@@ -111,10 +111,10 @@ async function getMemo(activitiesArr) {
             const activityName = event.target.innerHTML
 
             let targetActivity = ""
-            
-            activitiesArr.forEach((activity)=>{
+
+            activitiesArr.forEach((activity) => {
                 console.log(activity.title)
-                if (activity.title === activityName){
+                if (activity.title === activityName) {
                     return targetActivity = activity
                 }
             })
@@ -158,12 +158,12 @@ async function getMemo(activitiesArr) {
 
             </div>
             `;
+        });
     });
-  });
 }
 
 function addTimeInput(startHour, startMin, endHour, endMin) {
-  const timeContainer = document.querySelector("#time-container");
+    const timeContainer = document.querySelector("#time-container");
 
     if (startMin === 0 && endMin !== 0) {
         timeContainer.innerHTML = `
@@ -219,29 +219,29 @@ function addTimeInput(startHour, startMin, endHour, endMin) {
 }
 
 function hideAllDivClass(divId) {
-  const creatorDiv = document.querySelectorAll(divId);
-  creatorDiv.forEach((div) => {
-    div.style.display = "none";
-  });
+    const creatorDiv = document.querySelectorAll(divId);
+    creatorDiv.forEach((div) => {
+        div.style.display = "none";
+    });
 }
 
 
 async function getEventSchedule() {
-  const params = new URLSearchParams(window.location.search);
-  const eventId = params.get("event-id");
-  const isCreator = params.get("is-creator");
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get("event-id");
+    const isCreator = params.get("is-creator");
 
-  const res = await fetch(
-    `/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`
-  );
+    const res = await fetch(
+        `/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`
+    );
 
-  if (res.status !== 200) {
-    const data = await res.json();
-    alert(data.msg);
-    return;
-  }
+    if (res.status !== 200) {
+        const data = await res.json();
+        alert(data.msg);
+        return;
+    }
 
-  const result = await res.json();
+    const result = await res.json();
 
     const eventName = result.detail.name
     const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
@@ -318,7 +318,7 @@ async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
             const nextStartTimeFormat = minToTimeString(nextStartTime)
 
             if (endTime < nextStartTime && startTime >= eventStartTimeInMin && startTime < eventEndTimeInMin) {
-               
+
                 divCluster[i].parentNode.insertAdjacentHTML('afterend',
                     `
                 <div id="time-block-container-${endTime}" class="individual-time-block row">
@@ -331,7 +331,7 @@ async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
                 );
                 document.querySelector(`#time-block-${endTime}`).style.height = `${newDivHeight}px`
             } else if (endTime < nextStartTime) {
-               
+
                 divCluster[i].parentNode.insertAdjacentHTML('afterend',
                     `
                 <div id="time-block-container-${endTime}" class="individual-time-block row">
@@ -454,9 +454,9 @@ document
         }
     })
 
-function recoverEventColor(eventStart, eventEnd){
+function recoverEventColor(eventStart, eventEnd) {
     const timeBlocks = document.querySelectorAll(".time-block")
-    timeBlocks.forEach((timeBlock)=>{
+    timeBlocks.forEach((timeBlock) => {
         const start = parseInt(timeBlock.getElementsByTagName["start"])
         const end = parseInt(timeBlock.getElementsByTagName['end'])
         if (start > eventStart && end < eventEnd) {
