@@ -109,7 +109,7 @@ document
             });
 
             const eventsResult = await res.json();
-            if (eventsResult.status === true) {
+            if (eventsResult.msg === "Posted to DB") {
                 window.location.href = "/"; //
             }
         }

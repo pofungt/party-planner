@@ -35,7 +35,9 @@ document
             });
             const loginResult = await res.json();
             if (loginResult.status === true) {
-                window.location = "/index.html";
+                window.location.href = "/index.html";
+            } else {
+                alert("Unable to login!");
             }
         }
     });

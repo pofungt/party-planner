@@ -5,7 +5,8 @@ import { checkPassword } from "../util/functions/hash";
 import fetch from 'cross-fetch'
 import { UsersInput } from "../util/models";
 import jsonfile from "jsonfile";
-import crypto from "crypto"
+import crypto from "crypto";
+import { dev } from "../app";
 
 export const loginRoutes = express.Router();
 
@@ -18,6 +19,9 @@ loginRoutes.get("/google", loginGoogle);
 async function checkSessionLogin(req: Request, res: Response) {
   try {
     logger.debug("Before reading DB");
+    if (dev) {
+      req.session.user = -1;
+    }
     if (req.session.user) {
       const loginUser = (
         await client.query(`SELECT * FROM users WHERE id = $1`, [
@@ -44,7 +48,6 @@ async function login(req: Request, res: Response) {
     const loginUser = (
       await client.query(`SELECT * FROM users WHERE email = $1`, [
         req.body.email,
-
       ])
     ).rows[0];
 

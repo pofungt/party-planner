@@ -33,7 +33,7 @@ async function test() {
     await client.query(
       `INSERT INTO users 
       (id,first_name,last_name,email,password,created_at,updated_at) 
-      VALUES (0,$1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+      VALUES (-1,$1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
       [test, test, test, testPassword]
     );
 

@@ -11,7 +11,7 @@ export const isLoggedIn = (
     next();
   } else {
 	if (dev) {
-		req.session.user = 0;
+		req.session.user = -1;
 		next();
 	} else {
 		res.status(404).redirect("/");
@@ -30,7 +30,7 @@ export const isLoggedInAPI = (
 		next();
 	} else {
 		if (dev) {
-			req.session.user = 0;
+			req.session.user = -1;
 			next();
 		} else {
 			// redirect to 404 page
