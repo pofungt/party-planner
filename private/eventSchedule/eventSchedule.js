@@ -1,5 +1,5 @@
-import { addNavbar } from "/functions/addNavbar.js";
-import { loadName } from "/functions/loadName.js";
+import { addNavbar } from '/functions/addNavbar.js';
+import { loadName } from '/functions/loadName.js';
 
 window.addEventListener("load", async () => {
     addNavbar();
@@ -109,19 +109,15 @@ async function getSavedTimeBlocks(activitiesArr) {
     })
 }
 
-
-
 function toMin(timeInput) {
     const hourInMin = parseInt(timeInput.slice(0, 2)) * 60
     const min = parseInt(timeInput.slice(3, 5))
     return hourInMin + min
 }
 
-
 async function getMemo(activitiesArr) {
-
-    const timeBlocks = document.querySelectorAll(".save-time-block")
-    const memoContainer = document.querySelector("#time-block-memo-container")
+	const timeBlocks = document.querySelectorAll('.save-time-block');
+	const memoContainer = document.querySelector('#time-block-memo-container');
 
     timeBlocks.forEach((block) => {
         const startTimeString = minToTimeString(parseInt(block.getAttribute('start')))
@@ -246,7 +242,6 @@ function hideAllDivClass(divId) {
     });
 }
 
-
 async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get("event-id");
@@ -281,9 +276,9 @@ async function getEventSchedule() {
     const startTimeInMin = toMin(startTime)
     const endTimeInMin = toMin(endTime)
 
+	let pageTitle = document.querySelector('#event-name');
+	pageTitle.innerHTML = eventName + '  ' + `( ${startTime} - ${endTime} )`;
 
-    let pageTitle = document.querySelector("#event-name")
-    pageTitle.innerHTML = eventName + "  " + `( ${startTime} - ${endTime} )`
 
     getPresetTimeBlock(startTimeInMin, endTimeInMin)
 
@@ -306,7 +301,6 @@ function fixTimeStamp() {
         stamp.innerHTML = time
     })
 }
-
 
 function deleteRedundantDiv() {
     const divCluster = document.querySelectorAll(`.time-block`)

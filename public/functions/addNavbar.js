@@ -1,11 +1,11 @@
 export function addNavbar() {
-  document.querySelector("head").innerHTML += `
+	document.querySelector('head').innerHTML += `
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
         rel="stylesheet" />
         <link rel="stylesheet" href="/addNavbar.css" />
     `;
 
-  document.querySelector(".navbar-container").innerHTML = `
+	document.querySelector('.navbar-container').innerHTML = `
         <div class="row">
             <div class="col-12 header-nav">
                 <nav class="navbar">
@@ -30,23 +30,23 @@ export function addNavbar() {
         </div>
     `;
 
-  document.querySelector(".logout").addEventListener("click", async () => {
-    const res = await fetch("/login/logout", {
-      method: "POST",
-    });
+	document.querySelector('.logout').addEventListener('click', async () => {
+		const res = await fetch('/login/logout', {
+			method: 'POST'
+		});
 
-    if (res.status !== 200) {
-      const data = await res.json();
-      alert(data.msg);
-      return;
-    }
+		if (res.status !== 200) {
+			const data = await res.json();
+			alert(data.msg);
+			return;
+		}
 
-    const result = await res.json();
+		const result = await res.json();
 
-    if (result.status) {
-      window.location.href = "/";
-    } else {
-      alert("Unable to log out!");
-    }
-  });
+		if (result.status) {
+			window.location.href = '/';
+		} else {
+			alert('Unable to log out!');
+		}
+	});
 }
