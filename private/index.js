@@ -1,9 +1,9 @@
 import {
-  loadName,
   loadCreateEvents,
   loadParticipateEvents,
-} from "/functions/loadEvent.js";
+} from "/loadEvent.js";
 import { addNavbar } from "/functions/addNavbar.js";
+import { loadName } from "/functions/loadName.js";
 
 function onlyNumbers(str) {
   return /^[0-9]+$/.test(str);
