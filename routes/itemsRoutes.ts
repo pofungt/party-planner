@@ -86,9 +86,9 @@ async function postItem(req: Request, res: Response) {
 
        const result = await client.query(
             `INSERT INTO items
-                (type_name, name, quantity, price, user_id, event_id,
+                (type_name, name, quantity, price, user_id, event_id, purchased, 
                  created_at, updated_at )
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) 
             RETURNING *
             `,
             [
@@ -98,6 +98,7 @@ async function postItem(req: Request, res: Response) {
                 req.body.itemPrice,
                 req.body.user_id,
                 req.params.id,
+                "false",
                 "now()",
                 "now()",
             ]
