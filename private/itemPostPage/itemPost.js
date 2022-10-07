@@ -137,4 +137,9 @@ async function fetchParticipant(eventID) {
     }
 }
 
-
+async function fetchPendingItems() {
+    const resShopList = await await (
+        await fetch(`/items?eventID=${eventID}`)
+    ).json();
+    
+}
