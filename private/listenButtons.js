@@ -1,4 +1,4 @@
-import { loadCreateEvents, loadParticipateEvents } from '/loadEvent.js';
+import { loadCreateEvents, loadParticipateEvents, currentParticipantsList, loadParticipantsModal } from '/loadEvent.js';
 
 function onlyNumbers(str) {
 	return /^[0-9]+$/.test(str);
@@ -189,5 +189,28 @@ export function listenToItemPage() {
 		toScheduleDiv.addEventListener('click', () => {
 			window.location.href = `/itemPostPage/itemPost.html?event-id=${eventId}&is-creator=${isCreator}`;
 		});
+	}
+}
+
+let deletedParticipantsList = [];
+export function listenToDeleteParticipants() {
+	const deleteButtonDivList = document.querySelectorAll('#participants-modal .delete-button');
+	// const params = new URLSearchParams(window.location.search);
+	// const eventId = params.get('event-id');
+	for (let deleteButtonDiv of deleteButtonDivList) {
+		deleteButtonDiv.addEventListener('click', (e)=>{
+			e.stopImmediatePropagation();
+			console.log(deleteButtonDiv)
+			const userId = parseInt(e.path[1].id.replace("delete_button_user_", ""));
+			for (let i = 0; i < currentParticipantsList.length; i++) {
+				if (currentParticipantsList[i].id === userId) {
+					const [deletedParticipant] = currentParticipantsList.splice(i,1);
+					deletedParticipantsList.push(deletedParticipant);
+					loadParticipantsModal(currentParticipantsList, deletedParticipantsList);
+				}
+			}
+			listenToDeleteParticipants();
+			// not yet done!!!
+		})
 	}
 }
