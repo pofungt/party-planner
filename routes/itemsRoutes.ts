@@ -5,10 +5,10 @@ import { client } from '../app';
 export const itemsRoutes = express.Router();
 
 itemsRoutes.get("/participated", getParticipateEventList);
-itemsRoutes.get("/events", getEventList);
 itemsRoutes.get("/", getItem);
 itemsRoutes.post("/eventId/:id", postItem);
 itemsRoutes.delete("/:id", deleteItem);
+itemsRoutes.get("/",getShoppingList);
 
 enum TypeName {
     Food = "food",
@@ -71,14 +71,6 @@ async function getParticipateEventList(req: Request, res: Response) {
     }
 }
 
-async function getEventList(req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({ msg: "[ITM004: Failed to post Item" });
-    }
-}
 
 async function postItem(req: Request, res: Response) {
     try {
@@ -127,4 +119,14 @@ async function deleteItem(req: Request, res: Response) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
     }
+}
+
+
+async function getShoppingList(req: Request, res: Response) {
+  try {
+      logger.debug("Before reading DB");
+  } catch (e) {
+      logger.error(e);
+      res.status(500).json({ msg: "[ITM004: Failed to post Item" });
+  }
 }
