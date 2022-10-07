@@ -83,11 +83,13 @@ async function getEventList(req: Request, res: Response) {
 async function postItem(req: Request, res: Response) {
     try {
         logger.debug("Before reading DB");
-        await client.query(
+
+       const result = await client.query(
             `INSERT INTO items
                 (type_name, name, quantity, price, user_id, event_id,
                  created_at, updated_at )
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+            RETURNING *
             `,
             [
                 req.body.typeName,
@@ -101,7 +103,7 @@ async function postItem(req: Request, res: Response) {
             ]
         );
 
-        res.json({ status: true, msg: "Posted to DB" });
+        res.json({ result: result.rows ,status: true, msg: "Posted to DB" });
     } catch (e) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM005]: Failed to post Item" });

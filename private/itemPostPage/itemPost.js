@@ -1,14 +1,17 @@
-import { addNavbar } from '/functions/addNavbar.js';
-import { loadName } from '/functions/loadName.js';
+import { addNavbar } from "/functions/addNavbar.js";
+import { loadName } from "/functions/loadName.js";
 
 let editingType = null;
 let itemData = null;
 
 window.addEventListener("load", async () => {
-    itemData = await (await fetch(`/items?eventID=1`)).json();
+    const query = new URLSearchParams(window.location.search);
+    const eventID = query.get("event-id");
+    itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
     addNavbar();
     loadName();
     fetchItem(itemData);
+    fetchParticipant(eventID);
     document.body.style.display = "block";
 });
 
@@ -16,13 +19,14 @@ document.querySelectorAll(".category-edit").forEach((button) => {
     button.addEventListener("click", function (e) {
         editingType = button.attributes.itemType.value;
         fetchEditItem(itemData);
-        fetchParticipant();
     });
 });
 
 document
     .querySelector("#from-container")
     .addEventListener("submit", async function (e) {
+      const query = new URLSearchParams(window.location.search);
+      const eventID = query.get("event-id");
         e.preventDefault();
         const form = e.target;
         const typeName = editingType;
@@ -42,7 +46,7 @@ document
         let dataPass = true;
 
         if (dataPass) {
-            const res = await fetch("/items/eventId/:${}", {
+            const res = await fetch(`/items/eventId/${eventID}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -52,7 +56,8 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status === true) {
-                window.location = "/"; //
+              const itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
+              fetchEditItem(itemData);
             }
         }
     });
@@ -78,7 +83,7 @@ async function fetchEditItem(data) {
     const resEditItem = data;
     if (resEditItem.status === true) {
         for (const itemsData of resEditItem.itemObj[editingType]) {
-            document.querySelector(`#edit-item-list`).innerHTML = `
+            document.querySelector(`#edit-item-list`).innerHTML += `
             <tr id="item-row-${itemsData.id}">
                 <td>${itemsData.name}</td>
                 <td>${itemsData.quantity}</td>
@@ -90,27 +95,31 @@ async function fetchEditItem(data) {
             </tr>
             `;
         }
-        addDeleteEventListener ();
+        addDeleteEventListener();
     }
 }
 
 function addDeleteEventListener() {
     document.querySelectorAll(".delete-btn").forEach((button) => {
         button.addEventListener("click", async function (e) {
-          const itemID = e.currentTarget.id.slice(5);
+            const itemID = e.currentTarget.id.slice(5);
             const res = await fetch(`/items/${itemID}`, {
                 method: "DELETE",
             });
             if ((await res.json()).status === true) {
-                const deleteResult = document.querySelector("#item-row-"+itemID);
+                const deleteResult = document.querySelector(
+                    "#item-row-" + itemID
+                );
                 deleteResult.remove();
             }
         });
     });
 }
 
-async function fetchParticipant() {
-    const resParticipant = await (await fetch(`/items/participated`)).json();
+async function fetchParticipant(eventID) {
+    const resParticipant = await (
+        await fetch(`/items/participated?eventID=${eventID}`)
+    ).json();
     if (resParticipant.status === true) {
         for (const participantData of resParticipant.user) {
             document.querySelector(`#select-participant`).innerHTML = `
