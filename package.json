@@ -12,6 +12,7 @@
     "createUsers": "ts-node ./util/database/createUsers.ts",
     "createEvents": "ts-node ./util/database/createEvents.ts",
     "createParticipants": "ts-node ./util/database/createParticipants.ts",
+    "addParticipant": "ts-node ./util/database/addParticipant.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
