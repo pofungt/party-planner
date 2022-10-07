@@ -309,6 +309,16 @@ export async function loadEventDetails() {
       }
       participantListHTML += "</div>";
     }
+
+    let editParticipantsButton = "";
+    if (isCreator && processing) {
+      editParticipantsButton = `
+        <a class="edit-button" data-bs-toggle="modal" data-bs-target="#participants-modal">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </a>
+      `;
+    }
+
     let inviteButton = "";
     if (isCreator && processing) {
       inviteButton = `
@@ -327,12 +337,15 @@ export async function loadEventDetails() {
     );
     participant.innerHTML = `
       <div class="frame-title-container">
-        <div class="frame-title">
-          Participants
+        <div class="left">
+          <div class="frame-title">
+            Participants
+          </div>
+          <div id="number-of-participants">
+            ${result.participants.length}
+          </div>
         </div>
-        <div id="number-of-participants">
-          ${result.participants.length}
-        </div>
+        ${editParticipantsButton}
       </div>
 
       <div class="frame-content-container">
@@ -340,7 +353,6 @@ export async function loadEventDetails() {
       </div>
       ${inviteButton}
     `;
-    console.log(participant.innerHTML)
 
     // Load Venue into Page
     let venueString = "";

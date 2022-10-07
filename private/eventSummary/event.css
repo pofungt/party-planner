@@ -66,6 +66,8 @@ a {
 .frame-title-container {
   width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .frame-content-container {
@@ -134,7 +136,7 @@ a {
 }
 
 #number-of-participants {
-  margin: 0 20px;
+  margin: 0 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -143,6 +145,11 @@ a {
   width: 30px;
   height: 30px;
   border-radius: 5px;
+}
+
+.participant .left {
+  display: flex;
+  align-items: center;
 }
 
 .datetime-form {
