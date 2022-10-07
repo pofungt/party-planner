@@ -313,7 +313,7 @@ export async function loadEventDetails() {
     if (isCreator && processing) {
       inviteButton = `
         <div class="invite-button-container">
-          <div class="invite-button>
+          <div class="invite-button">
             +
           </div>
           <div>
@@ -340,6 +340,7 @@ export async function loadEventDetails() {
       </div>
       ${inviteButton}
     `;
+    console.log(participant.innerHTML)
 
     // Load Venue into Page
     let venueString = "";
