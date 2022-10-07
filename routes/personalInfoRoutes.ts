@@ -43,7 +43,7 @@ async function updatePersonalInfo(req: Request, res: Response) {
       
       await client.query(
         `UPDATE users 
-            SET first_name = $1, last_name = $2, phone = $3 
+            SET first_name = $1, last_name = $2, phone = $3, updated_at = CURRENT_TIMESTAMP
             WHERE id = $4`,
         [
           req.body.first_name,
@@ -102,7 +102,7 @@ async function updatePersonalInfo(req: Request, res: Response) {
       const password = await hashPassword(req.body.password);
       await client.query(
         `UPDATE users 
-            SET first_name = $1, last_name = $2, phone = $3, password = $4 
+            SET first_name = $1, last_name = $2, phone = $3, password = $4, updated_at = CURRENT_TIMESTAMP
             WHERE id = $5`,
         [
           req.body.first_name,
