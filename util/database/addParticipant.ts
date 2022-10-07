@@ -1,5 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
+import { logger } from "../logger";
 
 dotenv.config();
 
@@ -26,14 +27,19 @@ if (participantAmountString) {
 }
 
 async function main() {
-    await client.connect();
-    
+  await client.connect();
+  try {
     // Get creator ID of the event (need to exclude)
     const [creatorUserObj] = (await client.query(`
         SELECT creator_id FROM events WHERE id = $1;
     `,
     [eventId]
     )).rows;
+
+    if (!creatorUserObj) {
+      throw new Error(`No such event (event id: ${eventId})!`);
+    }
+
     const creatorUser: number = creatorUserObj.creator_id;
 
     // Get participant ID of the event (need to exclude)
@@ -52,7 +58,7 @@ async function main() {
         SELECT id FROM users 
         WHERE id != $1;
     `,
-    [creatorUser || 0]
+    [creatorUser]
     )).rows;
 
     const userIdListRaw: number[] = userIdListRawObj.map((each) => {
@@ -75,8 +81,11 @@ async function main() {
           [eventId, userId]
         );
       }
-    client.end();
+  } catch(e) {
+    logger.error(e);
+  }
+  client.end();
 }
   
-  main();
+main();
   
