@@ -409,7 +409,7 @@ export async function loadEventDetails() {
 export function loadParticipantsModal(currentList, deletedList) {
   let currentParticipantListModalHTML = '';
   if (currentList.length) {
-    currentParticipantListModalHTML = '<div>';
+    currentParticipantListModalHTML += '<div>';
     for (let user of currentList) {
       currentParticipantListModalHTML += `
       <div class="user-wrapper current" id="wrapper_user_${user.id}">
@@ -428,6 +428,9 @@ export function loadParticipantsModal(currentList, deletedList) {
   }
   const currentParticipantModal = document.querySelector('#participants-modal #current-participants-list');
   currentParticipantModal.innerHTML = `
+    <div class="participants-list-title">
+      Current
+    </div>
     <div class="frame-content-container">
       ${currentParticipantListModalHTML}
     </div>
@@ -435,7 +438,7 @@ export function loadParticipantsModal(currentList, deletedList) {
 
   let deletedParticipantListModalHTML = '';
   if (deletedList.length) {
-    deletedParticipantListModalHTML = '<div>';
+    deletedParticipantListModalHTML += '<div>';
     for (let user of deletedList) {
       deletedParticipantListModalHTML += `
       <div class="user-wrapper current" id="wrapper_user_${user.id}">
@@ -451,6 +454,9 @@ export function loadParticipantsModal(currentList, deletedList) {
   }
   const deletedParticipantModal = document.querySelector('#participants-modal #deleted-participants-list');
   deletedParticipantModal.innerHTML = `
+    <div class="participants-list-title">
+      Deleted
+    </div>
     <div class="frame-content-container">
       ${deletedParticipantListModalHTML}
     </div>
