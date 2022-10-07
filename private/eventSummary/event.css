@@ -159,25 +159,9 @@ a {
 }
 
 /* ↓↓ Scroll bar ↓↓ */
-.participant .frame-content-container::-webkit-scrollbar {
-	width: 15px;
-}
-
-.participant .frame-content-container::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 5px grey;
-	border-radius: 5px;
-	height: 200px;
-}
-
-.participant .frame-content-container::-webkit-scrollbar-thumb {
-	background: #efefd0;
-	border-radius: 5px;
-	min-height: 250px;
-}
-
-.participant .frame-content-container::-webkit-scrollbar-thumb:hover {
-	background: white;
-}
+.frame-content-container::-webkit-scrollbar {
+	display: none;
+  }
 /* ↑↑ Scroll bar ↑↑ */
 
 /* ↓↓ Buttons ↓↓ */

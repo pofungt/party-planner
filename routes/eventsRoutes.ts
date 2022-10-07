@@ -11,6 +11,7 @@ export const eventsRoutes = express.Router();
 eventsRoutes.get('/created', isLoggedInAPI, getCreateEventList);
 eventsRoutes.get('/participated', isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post('/', isLoggedInAPI, postEvent);
+eventsRoutes.delete('/participants/:eventId', isLoggedInAPI, deleteParticipants);
 eventsRoutes.use('/detail', eventDetailsRoutes);
 
 async function getCreateEventList(req: Request, res: Response) {
@@ -128,5 +129,54 @@ async function postEvent(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({ msg: '[EVT003]: Failed to post Event' });
+	}
+}
+
+async function deleteParticipants(req: Request, res: Response) {
+	try {
+		logger.debug('Before reading DB');
+		const [eventDetail] = (await client.query(`
+			SELECT * FROM events
+			WHERE creator_id = $1
+			AND id = $2;
+		`,
+		[req.session.user, req.body.eventId]
+		)).rows;
+		if(eventDetail) {
+			let notDeletable = [];
+			for (let deletedParticipant of req.body.deletedParticipantsList) {
+				const itemInCharge = (await client.query(`
+					SELECT * FROM items
+					WHERE user_id = $1 AND event_id = $2 AND purchased = FALSE;
+				`,
+				[deletedParticipant.id, req.body.eventId]
+				)).rows;
+				if (itemInCharge.length) {
+					notDeletable.push(
+						{
+							deletedParticipant,
+							itemInCharge
+						}
+					);
+				} else {
+					await client.query(`
+					DELETE FROM participants WHERE user_id = $1 and event_id = $2;
+					`,
+					[deletedParticipant.id, req.body.eventId]
+					);
+				}
+			}
+			res.json({
+				status: true,
+				notDeletable
+			});
+		} else {
+			res.status(500).json({status: false});
+		}
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[EVT004]: Failed to delete Participants'
+		});
 	}
 }

@@ -1,6 +1,7 @@
 import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
 import { loadEventDetails } from '../loadEvent.js';
+import { deletedParticipantsList } from '../listenButtons.js';
 
 window.addEventListener('load', () => {
 	addNavbar();
@@ -97,3 +98,54 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 });
 
 // Submit participants form
+
+document.querySelector('#participants-submit').addEventListener('click', async ()=> {
+  const params = new URLSearchParams(window.location.search);
+	const eventId = parseInt(params.get('event-id'));
+    const reqBodyObj = {
+      eventId,
+      deletedParticipantsList
+    }
+  	const res = await fetch(`/events/participants/${eventId}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(reqBodyObj)
+	});
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
+  const result = await res.json();
+  if (result.status) {
+    if (result.notDeletable.length) {
+      let warnText = "Unable to remove following participant(s):";
+      for (let each of result.notDeletable) {
+        warnText += `
+    # ${each.deletedParticipant.id} ${each.deletedParticipant.first_name} ${each.deletedParticipant.last_name}
+    Unsettled Item(s):`;
+        for (let i = 0; i < each.itemInCharge.length; i++) {
+          warnText += `
+          [${each.itemInCharge[i].type_name}] ${each.itemInCharge[i].name}`;
+        }
+        warnText += `
+
+        `;
+      }
+      alert(warnText);
+      deletedParticipantsList.splice(0,deletedParticipantsList.length);
+      loadEventDetails();
+      //Warn
+    } else {
+      deletedParticipantsList.splice(0,deletedParticipantsList.length);
+      loadEventDetails();
+      alert("Successfully deleted all selected participants!");
+    }
+  } else {
+    alert("Unable to delete selected participants!");
+  }
+})
+
+

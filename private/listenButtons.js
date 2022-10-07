@@ -192,25 +192,21 @@ export function listenToItemPage() {
 	}
 }
 
-let deletedParticipantsList = [];
+export let deletedParticipantsList = [];
 export function listenToDeleteParticipants() {
 	const deleteButtonDivList = document.querySelectorAll('#participants-modal .delete-button');
-	// const params = new URLSearchParams(window.location.search);
-	// const eventId = params.get('event-id');
 	for (let deleteButtonDiv of deleteButtonDivList) {
-		deleteButtonDiv.addEventListener('click', (e)=>{
+		deleteButtonDiv.addEventListener('click', (e) => {
 			e.stopImmediatePropagation();
-			console.log(deleteButtonDiv)
 			const userId = parseInt(e.path[1].id.replace("delete_button_user_", ""));
 			for (let i = 0; i < currentParticipantsList.length; i++) {
 				if (currentParticipantsList[i].id === userId) {
-					const [deletedParticipant] = currentParticipantsList.splice(i,1);
+					const [deletedParticipant] = currentParticipantsList.splice(i, 1);
 					deletedParticipantsList.push(deletedParticipant);
 					loadParticipantsModal(currentParticipantsList, deletedParticipantsList);
 				}
 			}
 			listenToDeleteParticipants();
-			// not yet done!!!
 		})
 	}
 }
