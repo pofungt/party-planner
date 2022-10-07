@@ -98,7 +98,6 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 });
 
 // Submit participants form
-
 document.querySelector('#participants-submit').addEventListener('click', async ()=> {
   const params = new URLSearchParams(window.location.search);
 	const eventId = parseInt(params.get('event-id'));
@@ -148,4 +147,8 @@ document.querySelector('#participants-submit').addEventListener('click', async (
   }
 })
 
-
+// Reset participants form
+document.querySelector('#participants-reset').addEventListener('click', async ()=> {
+  deletedParticipantsList.splice(0,deletedParticipantsList.length);
+  loadEventDetails();
+})
