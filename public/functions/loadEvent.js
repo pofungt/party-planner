@@ -228,11 +228,16 @@ export async function loadEventDetails() {
     `;
 
     // Load Date Time into Page
+    let dateTimeLabel = "";
     let startDateTimeString = "";
     let endDateTimeString = "";
     if (result.detail.start_datetime && result.detail.end_datetime) {
       startDateTimeString = (new Date(result.detail.start_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
       endDateTimeString = (new Date(result.detail.end_datetime)).toLocaleString('en-US', {hour12: false,}).replace(', ',' ').slice(0, -3);
+      dateTimeLabel = `
+        <div>Start:</div>
+        <div>End:</div>
+      `;
     }
 
     let editTimeButton = "";
@@ -250,8 +255,7 @@ export async function loadEventDetails() {
       </div>
       <div>
         <div class="frame-content-label">
-          <div>Start:</div>
-          <div>End:</div>
+          ${dateTimeLabel}
         </div>
         <div class="frame-content">
           <div>${startDateTimeString}</div>
