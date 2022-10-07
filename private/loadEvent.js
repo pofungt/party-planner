@@ -2,7 +2,8 @@ import {
   listenCreateButtons,
   listenParticipateButtons,
   listenEditButtons,
-  listenToSchedulePage
+  listenToSchedulePage,
+  listenToItemPage
 } from './listenButtons.js';
 
 export async function loadCreateEvents(page) {
@@ -379,6 +380,9 @@ export async function loadEventDetails() {
             <div class="frame-title">
               Item
             </div>
+            <a class="info-button">
+              <i class="fa-solid fa-info"></i>
+            </a>
           </div>
           <div class="frame-content-container">
 
@@ -386,6 +390,7 @@ export async function loadEventDetails() {
       `;
 
     listenToSchedulePage();
+    listenToItemPage();
   } else {
     const roleName = isCreator ? 'creator' : 'participant';
     alert(`You are not ${roleName} of the event!`);

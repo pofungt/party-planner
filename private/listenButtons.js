@@ -179,3 +179,15 @@ export function listenToSchedulePage() {
 		});
 	}
 }
+
+export function listenToItemPage() {
+	const toScheduleDiv = document.querySelector('.item .info-button');
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const isCreator = params.get('is-creator');
+	if (toScheduleDiv) {
+		toScheduleDiv.addEventListener('click', () => {
+			window.location.href = `/itemPostPage/itemPost.html?event-id=${eventId}&is-creator=${isCreator}`;
+		});
+	}
+}
