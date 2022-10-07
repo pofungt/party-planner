@@ -1,4 +1,5 @@
 import express from "express";
+import { dev } from "../app";
 
 export const isLoggedIn = (
   req: express.Request,
@@ -9,7 +10,12 @@ export const isLoggedIn = (
     //called Next here
     next();
   } else {
-    res.status(404).redirect("/");
+	if (dev) {
+		req.session.user = 0;
+		next();
+	} else {
+		res.status(404).redirect("/");
+	}
   }
 };
 
@@ -23,7 +29,12 @@ export const isLoggedInAPI = (
 		// console.log('user name', req.session.user);
 		next();
 	} else {
-		// redirect to 404 page
-		res.status(400).json({ error: "You don't have the permission" });
+		if (dev) {
+			req.session.user = 0;
+			next();
+		} else {
+			// redirect to 404 page
+			res.status(400).json({ error: "You don't have the permission" });
+		}
 	}
 };

@@ -32,8 +32,8 @@ async function test() {
     const testPassword = await hashPassword(test);
     await client.query(
       `INSERT INTO users 
-      (first_name,last_name,email,password,created_at,updated_at) 
-      VALUES ($1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+      (id,first_name,last_name,email,password,created_at,updated_at) 
+      VALUES (0,$1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
       [test, test, test, testPassword]
     );
 
