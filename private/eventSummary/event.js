@@ -121,10 +121,22 @@ document.querySelector('#participants-submit').addEventListener('click', async (
   const result = await res.json();
   if (result.status) {
     if (result.notDeletable.length) {
-      let warnText = "";
+      let warnText = "Unable to remove following participant(s):";
       for (let each of result.notDeletable) {
-        
+        warnText += `
+    # ${each.deletedParticipant.id} ${each.deletedParticipant.first_name} ${each.deletedParticipant.last_name}
+    Unsettled Item(s):`;
+        for (let i = 0; i < each.itemInCharge.length; i++) {
+          warnText += `
+          [${each.itemInCharge[i].type_name}] ${each.itemInCharge[i].name}`;
+        }
+        warnText += `
+
+        `;
       }
+      alert(warnText);
+      deletedParticipantsList.splice(0,deletedParticipantsList.length);
+      loadEventDetails();
       //Warn
     } else {
       deletedParticipantsList.splice(0,deletedParticipantsList.length);
