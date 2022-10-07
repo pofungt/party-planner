@@ -325,6 +325,36 @@ export async function loadEventDetails() {
       ${inviteButton}
     `;
 
+    // Load Participants Modal
+    let participantListModalHTML = '';
+    if (result.participants.length) {
+      const userList = result.participants;
+      participantListModalHTML += '<div>';
+      for (let user of userList) {
+        participantListModalHTML += `
+        <div class="user-wrapper">
+          <div class="user_${user.id}">
+            <i class="fa-solid fa-user"></i>
+            &nbsp; &nbsp;
+            ${user.first_name} ${user.last_name}
+          </div>
+          <a class="delete-button">
+            <i class="fa-solid fa-trash-can"></i>
+          </a>
+        </div>
+        `;
+      }
+      participantListModalHTML += '</div>';
+    }
+    const participantModal = document.querySelector('#participants-modal #current-participants-list');
+    participantModal.innerHTML += `
+      <div class="frame-content-container">
+        ${participantListModalHTML}
+      </div>
+    `;
+    //////////////
+
+
     // Load Venue into Page
     let venueString = '';
     if (result.detail.venue) {

@@ -219,6 +219,19 @@ a {
 	cursor: pointer;
 }
 
+.delete-button {
+	border-radius: 100px;
+	background-color: #C74B38;
+	color: white;
+	width: 22px;
+	height: 22px;
+	font-size: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
 /* ↑↑ Button ↑↑ */
 
 /* Modal */
@@ -237,7 +250,6 @@ a {
 
 .modal-footer {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-content: center;
 }
@@ -322,4 +334,47 @@ a {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+#participants-list-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.participants-list {
+	height: 35vh;
+	padding: 10px;
+	margin-top: 18px;
+	border-radius: 10px;
+	border: solid grey 2px;
+	position: relative;
+}
+
+.participants-list-title {
+	position: absolute;
+	top: -3px;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: white;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#current-participants-list .participants-list-title {
+	color: #2fd0c1;
+}
+
+#to-be-deleted-participants-list .participants-list-title {
+	color: #D02F3E;
+}
+
+.user-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#participants-modal .frame-content-container > div {
+	width: 100%;
 }
