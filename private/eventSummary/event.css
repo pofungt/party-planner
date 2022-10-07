@@ -73,6 +73,8 @@ a {
 .frame-content-container {
 	display: flex;
 	padding: 10px 0;
+	height: 100%;
+	overflow-y: auto;
 }
 
 .eventname {
@@ -365,7 +367,7 @@ a {
 	color: #2fd0c1;
 }
 
-#to-be-deleted-participants-list .participants-list-title {
+#deleted-participants-list .participants-list-title {
 	color: #D02F3E;
 }
 

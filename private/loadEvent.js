@@ -3,8 +3,12 @@ import {
   listenParticipateButtons,
   listenEditButtons,
   listenToSchedulePage,
-  listenToItemPage
+  listenToItemPage,
+  listenToDeleteParticipants
 } from './listenButtons.js';
+
+export let currentParticipantsList = [];
+let deletedParticipantsList = [];
 
 export async function loadCreateEvents(page) {
   const res = await fetch(`/events/created?page=${page}`);
@@ -326,34 +330,8 @@ export async function loadEventDetails() {
     `;
 
     // Load Participants Modal
-    let participantListModalHTML = '';
-    if (result.participants.length) {
-      const userList = result.participants;
-      participantListModalHTML += '<div>';
-      for (let user of userList) {
-        participantListModalHTML += `
-        <div class="user-wrapper">
-          <div class="user_${user.id}">
-            <i class="fa-solid fa-user"></i>
-            &nbsp; &nbsp;
-            ${user.first_name} ${user.last_name}
-          </div>
-          <a class="delete-button">
-            <i class="fa-solid fa-trash-can"></i>
-          </a>
-        </div>
-        `;
-      }
-      participantListModalHTML += '</div>';
-    }
-    const participantModal = document.querySelector('#participants-modal #current-participants-list');
-    participantModal.innerHTML += `
-      <div class="frame-content-container">
-        ${participantListModalHTML}
-      </div>
-    `;
-    //////////////
-
+    currentParticipantsList = structuredClone(result.participants);
+    loadParticipantsModal(currentParticipantsList, deletedParticipantsList);
 
     // Load Venue into Page
     let venueString = '';
@@ -421,8 +399,66 @@ export async function loadEventDetails() {
 
     listenToSchedulePage();
     listenToItemPage();
+    listenToDeleteParticipants();
   } else {
     const roleName = isCreator ? 'creator' : 'participant';
     alert(`You are not ${roleName} of the event!`);
   }
+}
+
+export function loadParticipantsModal(currentList, deletedList) {
+  let currentParticipantListModalHTML = '';
+  if (currentList.length) {
+    currentParticipantListModalHTML += '<div>';
+    for (let user of currentList) {
+      currentParticipantListModalHTML += `
+      <div class="user-wrapper current" id="wrapper_user_${user.id}">
+        <div class="user_${user.id}">
+          <i class="fa-solid fa-user"></i>
+          &nbsp; &nbsp;
+          ${user.first_name} ${user.last_name}
+        </div>
+        <a class="delete-button" id="delete_button_user_${user.id}">
+          <i class="fa-solid fa-trash-can"></i>
+        </a>
+      </div>
+      `;
+    }
+    currentParticipantListModalHTML += '</div>';
+  }
+  const currentParticipantModal = document.querySelector('#participants-modal #current-participants-list');
+  currentParticipantModal.innerHTML = `
+    <div class="participants-list-title">
+      Current
+    </div>
+    <div class="frame-content-container">
+      ${currentParticipantListModalHTML}
+    </div>
+  `;
+
+  let deletedParticipantListModalHTML = '';
+  if (deletedList.length) {
+    deletedParticipantListModalHTML += '<div>';
+    for (let user of deletedList) {
+      deletedParticipantListModalHTML += `
+      <div class="user-wrapper current" id="wrapper_user_${user.id}">
+        <div class="user_${user.id}">
+          <i class="fa-solid fa-user"></i>
+          &nbsp; &nbsp;
+          ${user.first_name} ${user.last_name}
+        </div>
+      </div>
+      `;
+    }
+    deletedParticipantListModalHTML += '</div>';
+  }
+  const deletedParticipantModal = document.querySelector('#participants-modal #deleted-participants-list');
+  deletedParticipantModal.innerHTML = `
+    <div class="participants-list-title">
+      Deleted
+    </div>
+    <div class="frame-content-container">
+      ${deletedParticipantListModalHTML}
+    </div>
+  `;
 }
