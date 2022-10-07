@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
-import { logger } from "../util/logger";
-import { client } from "../app";
+import express, { Request, Response } from 'express';
+import { logger } from '../util/logger';
+import { client } from '../app';
 
 export const itemsRoutes = express.Router();
 
