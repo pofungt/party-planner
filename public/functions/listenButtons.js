@@ -157,7 +157,9 @@ export function listenToSchedulePage() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event-id');
     const isCreator = params.get('is-creator');
-    toScheduleDiv.addEventListener("click", ()=>{
-        window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}`;
-    })
+    if (toScheduleDiv) {
+        toScheduleDiv.addEventListener("click", ()=>{
+            window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}`;
+        })
+    }
 }

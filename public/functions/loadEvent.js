@@ -38,17 +38,11 @@ export async function loadCreateEvents(page) {
   for (let event of events) {
     let status = "";
     let statusClass = "";
-    // Check if start datetime is not null
-    if (event.start_datetime) {
-      const today = (new Date()).getTime();
-      const eventStartDate = (new Date(event.start_datetime)).getTime();
-      if (today > eventStartDate) {
-        status = "Completed";
-        statusClass = "completedStatus";
-      } else {
-        status = "Processing";
-        statusClass = "progressStatus";
-      }
+    const today = (new Date()).getTime();
+    const eventStartDate = (new Date(event.start_datetime)).getTime();
+    if (today > eventStartDate && eventStartDate) {
+      status = "Completed";
+      statusClass = "completedStatus";
     } else {
       status = "Processing";
       statusClass = "progressStatus";
@@ -208,6 +202,7 @@ export async function loadEventDetails() {
   const params = new URLSearchParams(window.location.search);
   const isCreator = parseInt(params.get('is-creator'));
   const eventId = params.get('event-id');
+
   const res = await fetch(`/events/detail/${isCreator ? "created" : "participated"}/${eventId}`);
   if (res.status !== 200) {
     const data = await res.json();
@@ -215,7 +210,13 @@ export async function loadEventDetails() {
     return;
   }
   const result = await res.json();
+
   if (result.status) {
+    // Check if the event is processing
+    const today = (new Date()).getTime();
+    const eventStartDate = (new Date(result.detail.start_datetime)).getTime();
+    const processing = today <= eventStartDate || !eventStartDate;
+
     // Load Event Name into Page
     const eventName = document.querySelector(".eventname .background-frame");
     eventName.innerHTML = `
@@ -241,7 +242,7 @@ export async function loadEventDetails() {
     }
 
     let editTimeButton = "";
-    if (isCreator) {
+    if (isCreator && processing) {
       editTimeButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#datetime-modal">
           <i class="fa-regular fa-pen-to-square"></i>
@@ -307,7 +308,7 @@ export async function loadEventDetails() {
       `
     }
     let editVenueButton = "";
-    if (isCreator) {
+    if (isCreator && processing) {
       editVenueButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#venue-modal">
           <i class="fa-regular fa-pen-to-square"></i>
@@ -331,7 +332,7 @@ export async function loadEventDetails() {
 
       // Load schedule into Page
       let editScheduleButton = "";
-      if (isCreator) {
+      if (isCreator && processing) {
         editScheduleButton = `
           <a class="edit-button">
             <i class="fa-regular fa-pen-to-square"></i>
