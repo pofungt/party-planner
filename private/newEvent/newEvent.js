@@ -110,7 +110,7 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.msg === "Posted to DB") {
-                window.location.href = "/"; //
+                window.location.href = "/index.html"; //
             }
         }
     });
