@@ -22,7 +22,7 @@ async function getItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const itemResult = await client.query(
             `
-            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name
+            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name
             FROM items
             INNER JOIN users ON users.id = items.user_id
             WHERE event_id = $1
@@ -52,7 +52,7 @@ async function getParticipateEventList(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const participateResult = await client.query(
             `
-            SELECT users.first_name, users.last_name
+            SELECT users.first_name, users.last_name, users.id
             FROM participants
             INNER JOIN users ON users.id = participants.user_id
             WHERE event_id =$1
@@ -96,7 +96,7 @@ async function postItem(req: Request, res: Response) {
                 req.body.itemName,
                 req.body.itemQuantity,
                 req.body.itemPrice,
-                req.session.user,
+                req.body.user_id,
                 req.params.id,
                 "now()",
                 "now()",
