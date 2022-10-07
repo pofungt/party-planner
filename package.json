@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev app.ts dev",
-    "start user": "ts-node-dev app.ts",
+    "start": "ts-node-dev app.ts",
+    "start dev": "ts-node-dev app.ts dev",
     "format": "prettier --write .",
     "initDB": "ts-node ./util/database/initDB.ts",
     "clearDB": "ts-node ./util/database/clearDB.ts",
