@@ -1,167 +1,167 @@
 body {
-  font-family: "Calibri";
-  background-color: #ffffff;
+	font-family: 'Calibri';
+	background-color: #ffffff;
 }
 
 .initial-hide {
-  display: none;
+	display: none;
 }
 
 .table-header {
-  background-color: white;
+	background-color: white;
 }
 
 #add-new-party-button {
-  width: 500px;
-  background-color: #f2d492;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  border: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 15px;
+	width: 500px;
+	background-color: #f2d492;
+	border-radius: 10px;
+	font-size: 20px;
+	font-weight: bold;
+	border: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 5px 15px;
 }
 
 .round {
-  border-radius: 50%;
-  background-color: #f1f1f1;
-  color: grey;
+	border-radius: 50%;
+	background-color: #f1f1f1;
+	color: grey;
 }
 
 #add-new-party-button {
-  width: 500px;
-  background-color: #f2d492;
+	width: 500px;
+	background-color: #f2d492;
 }
 
 #add-new-party-button .text {
-  color: black;
-  border-radius: 10px;
-  text-align: left;
+	color: black;
+	border-radius: 10px;
+	text-align: left;
 }
 
 #add-new-party-button .plus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #add-new-party-button .plus div {
-  background-color: #f29559;
-  border-radius: 100px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 15px;
-  font-weight: unset;
+	background-color: #f29559;
+	border-radius: 100px;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: unset;
 }
 
 th {
-  text-align: center;
-  height: 30px;
+	text-align: center;
+	height: 30px;
 }
 
 th > div {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .container {
-  padding: 0 0 20px 0;
+	padding: 0 0 20px 0;
 }
 
 .table-content-row {
-  font-size: 8px;
-  border-bottom: grey 1px solid;
+	font-size: 8px;
+	border-bottom: grey 1px solid;
 }
 
 .turn-page-button-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 .previous-round,
 .next-round {
-  margin: 0;
-  padding: 10px 15px;
-  width: 40px;
-  height: 25px;
-  font-size: 10px;
-  border: rgb(197, 197, 197) 1px solid;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+	margin: 0;
+	padding: 10px 15px;
+	width: 40px;
+	height: 25px;
+	font-size: 10px;
+	border: rgb(197, 197, 197) 1px solid;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .previous-round {
-  border-radius: 10px 0 0 10px;
+	border-radius: 10px 0 0 10px;
 }
 
 .next-round {
-  border-radius: 0 10px 10px 0;
+	border-radius: 0 10px 10px 0;
 }
 
 .page-number {
-  margin: 10px;
-  font-size: 8px;
-  color: grey;
+	margin: 10px;
+	font-size: 8px;
+	color: grey;
 }
 
 .parties-list-container header {
-  margin: 10px 0 0 0;
-  font-size: 20px;
-  font-weight: bold;
+	margin: 10px 0 0 0;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .parties-list-container .table-container {
-  background-color: #fdfdf4;
-  padding: 20px;
-  border-radius: 20px;
+	background-color: #fdfdf4;
+	padding: 20px;
+	border-radius: 20px;
 }
 
 .parties-list-container .table-header {
-  background-color: white;
-  border: rgba(191, 191, 191, 0.473) solid 1px;
-  font-size: 10px;
+	background-color: white;
+	border: rgba(191, 191, 191, 0.473) solid 1px;
+	font-size: 10px;
 }
 
 .completedStatus {
-  background-color: #caefe2;
-  color: #00b69b;
+	background-color: #caefe2;
+	color: #00b69b;
 }
 
 .progressStatus {
-  background-color: #ded2f3;
-  color: #6226ef;
+	background-color: #ded2f3;
+	color: #6226ef;
 }
 
 .completedStatus,
 .progressStatus {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 15px;
-  min-width: 55px;
-  height: 25px;
-  border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 15px;
+	min-width: 55px;
+	height: 25px;
+	border-radius: 5px;
 }
 
 .edit-button {
-  border-radius: 100px;
-  background-color: #f29559;
-  color: white;
-  width: 22px;
-  height: 22px;
-  font-size: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+	border-radius: 100px;
+	background-color: #f29559;
+	color: white;
+	width: 22px;
+	height: 22px;
+	font-size: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
 }

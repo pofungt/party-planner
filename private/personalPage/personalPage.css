@@ -1,9 +1,9 @@
 #account-info {
-  text-align: center;
+	text-align: center;
 }
 
 #personal-page-form {
-  max-width: 400px;
+	max-width: 400px;
 }
 
 /* @media (min-width: 1200px) {
@@ -14,48 +14,48 @@
 } */
 
 .form-container {
-  padding: 0px 50px;
-  display: flex;
-  justify-content: center;
+	padding: 0px 50px;
+	display: flex;
+	justify-content: center;
 }
 
 .name_container {
-  display: flex;
+	display: flex;
 }
 
 .first_name_container {
-  padding: 0px 20px 0px 0px;
+	padding: 0px 20px 0px 0px;
 }
 
 .update {
-  border-radius: 20px;
-  color: black;
-  background-color: #f29559;
-  border: none;
+	border-radius: 20px;
+	color: black;
+	background-color: #f29559;
+	border: none;
 }
 
 .cancel {
-  border-radius: 20px;
-  color: black;
-  background-color: #9bafd0;
-  border: none;
+	border-radius: 20px;
+	color: black;
+	background-color: #9bafd0;
+	border: none;
 }
 
 .btn {
-  min-width: 120px;
-  font-size: 15px;
+	min-width: 120px;
+	font-size: 15px;
 }
 
 .mb-3 {
-  max-width: 400px;
+	max-width: 400px;
 }
 
 .button-container {
-  padding: 30px;
-  display: flex;
-  justify-content: space-between;
+	padding: 30px;
+	display: flex;
+	justify-content: space-between;
 }
 
 #account-info {
-  padding: 50px 0px;
+	padding: 50px 0px;
 }
