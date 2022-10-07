@@ -4,7 +4,7 @@ import jsonfile from "jsonfile";
 import path from "path";
 import { newJsonFile } from "../functions/newJsonFile";
 import { hashPassword } from "../functions/hash";
-import { UsersInput, DataParts } from "../../util/models";
+import { UsersInput, DataParts } from "../models";
 
 dotenv.config();
 

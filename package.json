@@ -10,7 +10,7 @@
     "initDB": "ts-node ./util/database/initDB.ts",
     "clearDB": "ts-node ./util/database/clearDB.ts",
     "truncateDB": "ts-node ./util/database/truncateDB.ts",
-    "createUsers": "ts-node ./util/database/createUsers.ts",
+    "regUsers": "ts-node ./util/database/regUsers.ts",
     "createEvents": "ts-node ./util/database/createEvents.ts",
     "joinEvents": "ts-node ./util/database/joinEvents.ts",
     "addParticipants": "ts-node ./util/database/addParticipants.ts",
