@@ -5,10 +5,10 @@ import { client } from '../app';
 export const itemsRoutes = express.Router();
 
 itemsRoutes.get("/participated", getParticipateEventList);
-itemsRoutes.get("/events", getEventList);
 itemsRoutes.get("/", getItem);
 itemsRoutes.post("/eventId/:id", postItem);
 itemsRoutes.delete("/:id", deleteItem);
+itemsRoutes.get("/",getShoppingList);
 
 enum TypeName {
     Food = "food",
@@ -22,7 +22,7 @@ async function getItem(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const itemResult = await client.query(
             `
-            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name
+            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name
             FROM items
             INNER JOIN users ON users.id = items.user_id
             WHERE event_id = $1
@@ -52,7 +52,7 @@ async function getParticipateEventList(req: Request, res: Response) {
         logger.debug("Before reading DB");
         const participateResult = await client.query(
             `
-            SELECT users.first_name, users.last_name
+            SELECT users.first_name, users.last_name, users.id
             FROM participants
             INNER JOIN users ON users.id = participants.user_id
             WHERE event_id =$1
@@ -71,14 +71,6 @@ async function getParticipateEventList(req: Request, res: Response) {
     }
 }
 
-async function getEventList(req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({ msg: "[ITM004: Failed to post Item" });
-    }
-}
 
 async function postItem(req: Request, res: Response) {
     try {
@@ -86,9 +78,9 @@ async function postItem(req: Request, res: Response) {
 
        const result = await client.query(
             `INSERT INTO items
-                (type_name, name, quantity, price, user_id, event_id,
+                (type_name, name, quantity, price, user_id, event_id, purchased, 
                  created_at, updated_at )
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) 
             RETURNING *
             `,
             [
@@ -96,8 +88,9 @@ async function postItem(req: Request, res: Response) {
                 req.body.itemName,
                 req.body.itemQuantity,
                 req.body.itemPrice,
-                req.session.user,
+                req.body.user_id,
                 req.params.id,
+                "false",
                 "now()",
                 "now()",
             ]
@@ -126,4 +119,14 @@ async function deleteItem(req: Request, res: Response) {
         logger.error(e);
         res.status(500).json({ msg: "[ITM006]: Failed to post Item" });
     }
+}
+
+
+async function getShoppingList(req: Request, res: Response) {
+  try {
+      logger.debug("Before reading DB");
+  } catch (e) {
+      logger.error(e);
+      res.status(500).json({ msg: "[ITM004: Failed to post Item" });
+  }
 }

@@ -3,14 +3,15 @@ import { loadName } from "/functions/loadName.js";
 
 let editingType = null;
 let itemData = null;
+let eventID = null;
 
 window.addEventListener("load", async () => {
     const query = new URLSearchParams(window.location.search);
-    const eventID = query.get("event-id");
+    eventID = query.get("event-id");
     itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
     addNavbar();
     loadName();
-    fetchItem(itemData);
+    fetchItem();
     fetchParticipant(eventID);
     document.body.style.display = "block";
 });
@@ -25,22 +26,22 @@ document.querySelectorAll(".category-edit").forEach((button) => {
 document
     .querySelector("#from-container")
     .addEventListener("submit", async function (e) {
-      const query = new URLSearchParams(window.location.search);
-      const eventID = query.get("event-id");
+        const query = new URLSearchParams(window.location.search);
+        const eventID = query.get("event-id");
         e.preventDefault();
         const form = e.target;
         const typeName = editingType;
         const itemName = form.item_name.value;
         const itemQuantity = form.item_quantity.value;
         const itemPrice = form.item_price.value || null;
-        const itemPIC = form.item_user.value || null;
+        const user_id = form.item_user.value || null;
 
         let formObj = {
             typeName,
             itemName,
             itemQuantity,
             itemPrice,
-            itemPIC,
+            user_id,
         };
 
         let dataPass = true;
@@ -56,45 +57,52 @@ document
 
             const eventsResult = await res.json();
             if (eventsResult.status === true) {
-              const itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
-              fetchEditItem(itemData);
+                const itemData = await (
+                    await fetch(`/items?eventID=${eventID}`)
+                ).json();
+                fetchEditItem(itemData);
             }
         }
+        form.reset();
+        fetchItem();
     });
 
-async function fetchItem(data) {
-    const res = data;
+async function fetchItem() {
+    const res = await (await fetch(`/items?eventID=${eventID}`)).json();
     if (res.status === true) {
         const typeName = ["food", "drink", "decoration", "other"];
-
         for (const tableName of typeName) {
+            let itemsList = "";
             for (const items of res.itemObj[tableName]) {
-                document.querySelector(`#${tableName}-table`).innerHTML += `
-            <tr>
-                <td>${items.name}</td>
-            </tr>
-            `;
+                itemsList += `
+                  <tr>
+                      <td>${items.name}</td>
+                  </tr>
+                `;
             }
+            document.querySelector(`#${tableName}-table`).innerHTML = itemsList;
         }
     }
 }
 
-async function fetchEditItem(data) {
-    const resEditItem = data;
+async function fetchEditItem() {
+    const resEditItem = await (await fetch(`/items?eventID=${eventID}`)).json();
     if (resEditItem.status === true) {
+        let items = "";
         for (const itemsData of resEditItem.itemObj[editingType]) {
-            document.querySelector(`#edit-item-list`).innerHTML += `
+            items += `
             <tr id="item-row-${itemsData.id}">
                 <td>${itemsData.name}</td>
                 <td>${itemsData.quantity}</td>
                 <td>${itemsData.price}</td>
-                <td>${itemsData.user_id}</td>
+                <td>${itemsData.first_name} ${itemsData.last_name}</td>
                 <td><button id="item-${itemsData.id}" itemDelete="button" class="delete-btn"><i
                         class="bi bi-trash"></i></button>
                 </td>
             </tr>
             `;
         }
+        document.querySelector(`#edit-item-list`).innerHTML = items;
         addDeleteEventListener();
     }
 }
@@ -122,10 +130,11 @@ async function fetchParticipant(eventID) {
     ).json();
     if (resParticipant.status === true) {
         for (const participantData of resParticipant.user) {
-            document.querySelector(`#select-participant`).innerHTML = `
-                <option selected>Select</option>
-                <option id="all-participant">${participantData.first_name} ${participantData.last_name}</option>
+            document.querySelector(`#select-participant`).innerHTML += `
+                <option value="${participantData.id}">${participantData.first_name} ${participantData.last_name}</option>
             `;
         }
     }
 }
+
+

@@ -54,7 +54,7 @@ async function main() {
     CREATE TABLE items (
         id SERIAL primary key,
         name varchar not NULL,
-        purchased_on date,
+        purchased boolean not NULL,
         type_name varchar not NULL,
         event_id int not NULL,
         user_id int not NULL,
