@@ -20,20 +20,6 @@ document.querySelectorAll(".category-edit").forEach((button) => {
     });
 });
 
-document.querySelectorAll(".delete-btn").forEach((button) => {
-    button.addEventListener("click", function (e) {
-        async function itemDelete() {
-            const res = await fetch("/items/:id", {
-                method: "DELETE",
-            });
-            if ((await res.json()).status === true) {
-                const deleteResult = document.querySelector("#item-id");
-                deleteResult.remove();
-            }
-        }
-    });
-});
-
 document
     .querySelector("#from-container")
     .addEventListener("submit", async function (e) {
@@ -56,7 +42,7 @@ document
         let dataPass = true;
 
         if (dataPass) {
-            const res = await fetch("/items/eventId/:id", {
+            const res = await fetch("/items/eventId/:${}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,18 +79,34 @@ async function fetchEditItem(data) {
     if (resEditItem.status === true) {
         for (const itemsData of resEditItem.itemObj[editingType]) {
             document.querySelector(`#edit-item-list`).innerHTML = `
-            <tr id="${itemsData.id}">
+            <tr id="item-row-${itemsData.id}">
                 <td>${itemsData.name}</td>
                 <td>${itemsData.quantity}</td>
                 <td>${itemsData.price}</td>
                 <td>${itemsData.user_id}</td>
-                <td><button itemDelete="button" class="delete-btn"><i
+                <td><button id="item-${itemsData.id}" itemDelete="button" class="delete-btn"><i
                         class="bi bi-trash"></i></button>
                 </td>
             </tr>
             `;
         }
+        addDeleteEventListener ();
     }
+}
+
+function addDeleteEventListener() {
+    document.querySelectorAll(".delete-btn").forEach((button) => {
+        button.addEventListener("click", async function (e) {
+          const itemID = e.currentTarget.id.slice(5);
+            const res = await fetch(`/items/${itemID}`, {
+                method: "DELETE",
+            });
+            if ((await res.json()).status === true) {
+                const deleteResult = document.querySelector("#item-row-"+itemID);
+                deleteResult.remove();
+            }
+        });
+    });
 }
 
 async function fetchParticipant() {
@@ -113,7 +115,7 @@ async function fetchParticipant() {
         for (const participantData of resParticipant.user) {
             document.querySelector(`#select-participant`).innerHTML = `
                 <option selected>Select</option>
-                <option id="all-participant">${participantData.first_name} + ${participantData.last_name}</option>
+                <option id="all-participant">${participantData.first_name} ${participantData.last_name}</option>
             `;
         }
     }

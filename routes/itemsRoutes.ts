@@ -8,7 +8,7 @@ itemsRoutes.get("/participated", getParticipateEventList);
 itemsRoutes.get("/events", getEventList);
 itemsRoutes.get("/", getItem);
 itemsRoutes.post("/eventId/:id", postItem);
-itemsRoutes.delete("/items/:id", deleteItem);
+itemsRoutes.delete("/:id", deleteItem);
 
 enum TypeName {
     Food = "food",
@@ -114,7 +114,7 @@ async function deleteItem(req: Request, res: Response) {
 
         await client.query(
             `
-            DELETE FROM items where item.id = $1
+            DELETE FROM items where items.id = $1
             `,
             [req.params.id]
         );
