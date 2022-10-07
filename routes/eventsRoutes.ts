@@ -147,7 +147,7 @@ async function deleteParticipants(req: Request, res: Response) {
 			for (let deletedParticipant of req.body.deletedParticipantsList) {
 				const itemInCharge = (await client.query(`
 					SELECT * FROM items
-					WHERE user_id = $1 AND event_id = $2;
+					WHERE user_id = $1 AND event_id = $2 AND purchased = FALSE;
 				`,
 				[deletedParticipant.id, req.body.eventId]
 				)).rows;

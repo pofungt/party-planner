@@ -194,7 +194,6 @@ export function listenToItemPage() {
 
 export let deletedParticipantsList = [];
 export function listenToDeleteParticipants() {
-	console.log(deletedParticipantsList)
 	const deleteButtonDivList = document.querySelectorAll('#participants-modal .delete-button');
 	for (let deleteButtonDiv of deleteButtonDivList) {
 		deleteButtonDiv.addEventListener('click', (e) => {

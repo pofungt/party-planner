@@ -121,14 +121,19 @@ document.querySelector('#participants-submit').addEventListener('click', async (
   const result = await res.json();
   if (result.status) {
     if (result.notDeletable.length) {
-      
+      let warnText = "";
+      for (let each of result.notDeletable) {
+        
+      }
+      //Warn
     } else {
       deletedParticipantsList.splice(0,deletedParticipantsList.length);
       loadEventDetails();
       alert("Successfully deleted all selected participants!");
     }
+  } else {
+    alert("Unable to delete selected participants!");
   }
-  console.log(result);
 })
 
 
