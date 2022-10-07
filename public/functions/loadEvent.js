@@ -144,6 +144,8 @@ export async function loadParticipateEvents(page) {
   for (let event of events) {
     let status = "";
     let statusClass = "";
+    const today = new Date().getTime();
+    const eventStartDate = new Date(event.start_datetime).getTime();
     if (today > eventStartDate && eventStartDate) {
       status = "Completed";
       statusClass = "completedStatus";
