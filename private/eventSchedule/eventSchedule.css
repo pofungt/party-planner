@@ -20,6 +20,10 @@ header{
     padding-bottom: 30px;
 }
 
+.event-schedule {
+    background-color: #EFEFD0 !important;
+}
+
 @media (max-width: 1000px) {
 
 
@@ -91,9 +95,10 @@ textarea {
 }
 
 .individual-time-block {
-    height: 50px;
+    height: 100%;
     padding: 2px;
     max-width: 100%;
+    overflow: visible;
 }
 
 .time-block {
@@ -101,13 +106,15 @@ textarea {
     background-color: rgba(181, 180, 180, 0.625);
     padding: 10px;
     border-radius: 5px;
+    padding: 1px;
+    font-size: 15px;
     text-align: center;
-    transition: background-color 50ms ease-out 50ms
+    transition: background-color 50ms ease-out 50ms;
 }
 
 .save-time-block {
     height: 100%;
-    background-color: #EFEFD0;
+    background-color: #f2965985 !important;
     padding: 10px;
     border-radius: 5px;
     text-align: center;
@@ -115,7 +122,7 @@ textarea {
 }
 
 .save-time-block:hover {
-    background-color: #EFEFD0 !important;
+    background-color: #f3752185 !important;
     transform: scale(1.01)
 }
 
