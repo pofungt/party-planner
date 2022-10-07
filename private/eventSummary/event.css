@@ -205,6 +205,20 @@ a {
 	cursor: pointer;
 	margin-right: 10px;
 }
+
+.info-button {
+	border-radius: 100px;
+	background-color: #f29559;
+	color: white;
+	width: 22px;
+	height: 22px;
+	font-size: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
 /* ↑↑ Button ↑↑ */
 
 /* Modal */

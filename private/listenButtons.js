@@ -169,7 +169,7 @@ export function listenEditButtons() {
 }
 
 export function listenToSchedulePage() {
-	const toScheduleDiv = document.querySelector('.schedule .edit-button');
+	const toScheduleDiv = document.querySelector('.schedule .info-button');
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const isCreator = params.get('is-creator');
