@@ -325,6 +325,16 @@ export async function loadEventDetails() {
       ${inviteButton}
     `;
 
+    // Load Participants Modal
+    const participantModal = document.querySelector('#participants-modal #current-participants-list');
+    participantModal.innerHTML += `
+      <div class="frame-content-container">
+        ${participantListHTML}
+      </div>
+    `;
+    //////////////
+
+
     // Load Venue into Page
     let venueString = '';
     if (result.detail.venue) {
