@@ -1,6 +1,7 @@
 import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
 import { loadEventDetails } from '../loadEvent.js';
+import { deletedParticipantsList } from '../listenButtons.js';
 
 window.addEventListener('load', () => {
 	addNavbar();
@@ -97,3 +98,37 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 });
 
 // Submit participants form
+
+document.querySelector('#participants-submit').addEventListener('click', async ()=> {
+  const params = new URLSearchParams(window.location.search);
+	const eventId = parseInt(params.get('event-id'));
+    const reqBodyObj = {
+      eventId,
+      deletedParticipantsList
+    }
+  	const res = await fetch(`/events/participants/${eventId}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(reqBodyObj)
+	});
+  if (res.status !== 200) {
+    const data = await res.json();
+    alert(data.msg);
+    return;
+  }
+  const result = await res.json();
+  if (result.status) {
+    if (result.notDeletable.length) {
+      
+    } else {
+      deletedParticipantsList.splice(0,deletedParticipantsList.length);
+      loadEventDetails();
+      alert("Successfully deleted all selected participants!");
+    }
+  }
+  console.log(result);
+})
+
+
