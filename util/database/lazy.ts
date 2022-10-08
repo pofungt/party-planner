@@ -352,6 +352,7 @@ async function main() {
     const userIdList = userIdListRaw.filter((userId) => {
         return !participantsSet.has(userId);
     });
+    const userIdListCopy = [...userIdList];
 
     const p_loopTimes: number = Math.min(
         userIdList.length,
@@ -371,6 +372,26 @@ async function main() {
         );
     }
 
+    // addItems
+    let types = ["food", "drink", "decoration", "other"];
+    for (let type of types) {
+        for (let i = 0; i < parts[type].length; i++) {
+            await client.query(`
+                INSERT INTO items 
+                (name, purchased, type_name,  event_id, user_id, quantity, price, created_at, updated_at)
+                VALUES ($1, $2 ,$3, 1, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+            `,
+            [
+                parts[type][i],
+                Math.random() > 0.5,
+                type,
+                userIdListCopy.splice(0,1)[0],
+                Math.floor(Math.random() * 20),
+                Math.floor(Math.random() * 1000)
+            ]
+            )
+        }    
+    }
 
     await client.end();
 }

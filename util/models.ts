@@ -44,6 +44,10 @@ export interface DataParts {
 	phoneAreaCode: string[];
 	partyReason: string[];
 	streetName: string[];
+	food: string[];
+	drink: string[];
+	decoration: string[];
+	other: string[];
 }
 
 export interface Items {
