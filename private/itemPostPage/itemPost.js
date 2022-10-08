@@ -161,6 +161,7 @@ async function fetchPendingItems() {
     }
 }
 
+//  : (   
 
 
 document.querySelector(`.check-btn`).forEach((button) => {
@@ -168,7 +169,7 @@ document.querySelector(`.check-btn`).forEach((button) => {
 
 
     // remove the item in the shopping list but not in the DB. 
-    
+
   })
 })
 
