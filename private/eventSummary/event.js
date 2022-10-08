@@ -157,18 +157,22 @@ document.querySelector('#participants-reset').addEventListener('click', async ()
 document.querySelector('#invitation-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
 	const form = e.target;
-	const invitation = form.invitation.value;
+	const invitationEmail = form.invitation.value;
 
 	let dataPass = true;
+	const emailRegex = /\S+@\S+\.\S+/;
 
-	if (!invitation) {
+	if (!invitationEmail) {
 		dataPass = false;
 		alert('Please enter an email to invite!');
+	} else if (!emailRegex.test(invitationEmail)) {
+		dataPass = false;
+		alert('Invalid email format!');
 	}
 
 	if (dataPass) {
 		const formObj = {
-			invitation
+			invitationEmail
 		};
 		const params = new URLSearchParams(window.location.search);
 		const eventId = params.get('event-id');
