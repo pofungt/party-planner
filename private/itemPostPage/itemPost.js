@@ -13,6 +13,7 @@ window.addEventListener("load", async () => {
     loadName();
     fetchItem();
     fetchParticipant(eventID);
+    fetchPendingItems();
     document.body.style.display = "block";
 });
 
@@ -97,7 +98,7 @@ async function fetchEditItem() {
                 <td>${itemsData.price}</td>
                 <td>${itemsData.first_name} ${itemsData.last_name}</td>
                 <td><button id="item-${itemsData.id}" itemDelete="button" class="delete-btn"><i
-                        class="bi bi-trash"></i></button>
+                    class="bi bi-trash"></i></button>
                 </td>
             </tr>
             `;
@@ -138,8 +139,21 @@ async function fetchParticipant(eventID) {
 }
 
 async function fetchPendingItems() {
-    const resShopList = await await (
-        await fetch(`/items?eventID=${eventID}`)
-    ).json();
-    
+    const resShopList = await (await fetch(`/items?eventID=${eventID}`)).json();
+    if (res.status === true) {
+        let shoppingList = "";
+        for (const items of res.itemObj) {
+          shoppingList += `
+                <td>
+                   <div class="pending-item">
+                        ${items.name}
+                        <button class="btn-css">
+                        <i class="bi bi-check-circle"></i>
+                        </button>
+                   </div>
+                </td>
+          `;
+        }
+        document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
+    }
 }
