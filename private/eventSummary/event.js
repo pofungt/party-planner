@@ -14,15 +14,19 @@ window.addEventListener('load', async () => {
 document.querySelector('#datetime-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
 	const form = e.target;
-	const startTime = form.datetime - start.value ? new Date(form.datetime - start.value).toISOString() : null;
-	const endTime = form.datetime - end.value ? new Date(form.datetime - end.value).toISOString() : null;
+	const startTime = form.datetime_start.value ? new Date(form.datetime_start.value).toISOString() : null;
+	const endTime = form.datetime_end.value ? new Date(form.datetime_end.value).toISOString() : null;
+	const nowTimeValue = new Date().getTime();
 	const startTimeValue = new Date(startTime).getTime();
 	const endTimeValue = new Date(endTime).getTime();
 
 	let dataPass = true;
 
 	if (startTimeValue && endTimeValue) {
-		if (startTimeValue >= endTimeValue) {
+		if (startTimeValue <= nowTimeValue) {
+			dataPass = false;
+			alert("Start time must be later than time now!");
+		} else if (startTimeValue >= endTimeValue) {
 			dataPass = false;
 			alert('Start time cannot equals or later than end time!');
 		}
