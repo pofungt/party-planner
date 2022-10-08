@@ -158,6 +158,7 @@ async function fetchPendingItems() {
           `;
         }
         document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
+        
     }
 }
 
