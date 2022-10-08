@@ -225,7 +225,10 @@ textarea {
 
 .fa-trash{
 	z-index: 1000;
-    /* position:absolute; */
     right: 20px;
     top: 20px;
+}
+
+.creator-function {
+	z-index: 1000;
 }

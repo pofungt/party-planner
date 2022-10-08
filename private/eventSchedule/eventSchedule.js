@@ -4,13 +4,13 @@ import { loadName } from '/functions/loadName.js';
 window.addEventListener("load", async () => {
     addNavbar();
     loadName();
-    
+
 
     await getEventSchedule();
     setEnvironment();
     deleteTimeBlock()
     hideCreatorDivClass()
-    
+
 
     document.body.style.display = "block";
 });
@@ -32,7 +32,7 @@ function setEnvironment() {
             const endTime = parseInt(e.target.getAttribute("end"))
 
             formStartTime.value = minToTimeString(startTime)
-            formEndTime.value = minToTimeString(endTime) 
+            formEndTime.value = minToTimeString(endTime)
         })
     })
 
@@ -43,12 +43,13 @@ function setEnvironment() {
             let formStartTime = document.querySelector("#start-time")
             formStartTime.value = minToTimeString(startTime)
 
-        blankTimeBlock.addEventListener("mouseup", (e)=>{
-            const endTime = parseInt(e.target.getAttribute("end"))
-            let formEndTime = document.querySelector("#end-time")
-            formEndTime.value = minToTimeString(endTime)
-        })
-   
+            blankTimeBlock.addEventListener("mouseup", (e) => {
+
+                const endTime = parseInt(e.target.getAttribute("end"))
+                let formEndTime = document.querySelector("#end-time")
+                formEndTime.value = minToTimeString(endTime)
+            })
+
         })
     })
 
@@ -93,9 +94,10 @@ async function getEventSchedule() {
     await getPresetTimeBlock(startTimeInMin)
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
-    await getMemo(activitiesArr)
-    
+    getMemo(activitiesArr)
 }
+
+
 
 async function getMemo(activitiesArr) {
     const timeBlocks = document.querySelectorAll('.save-time-block');
@@ -108,6 +110,7 @@ async function getMemo(activitiesArr) {
         block.addEventListener("click", (event) => {
             const activityName = event.target.innerHTML
 
+
             let targetActivity = ""
 
             activitiesArr.forEach((activity) => {
@@ -118,6 +121,7 @@ async function getMemo(activitiesArr) {
 
             const description = targetActivity.description
             const remark = targetActivity.remark
+            const id = targetActivity.id
 
             memoContainer.innerHTML = `
             <label for="memo" id="memo-tag">${startTimeString} to ${endTimeString}</label>
@@ -125,37 +129,40 @@ async function getMemo(activitiesArr) {
                 <div id="memo-item-cluster">
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="activity">ACTIVITY DETAIL:</label>
-                        <a class="btn creator-function" id="edit-activity-detail">
+                        <a value="${id}" class="btn creator-function" id="edit-activities">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
-                        <div name="activity" id="activity-detail">${description}</div>
+                        <div value="${id}" name="activity" id="activity-detail${id}">${description}</div>
                         <div id="submit-user"></div>
                     </div> 
                     
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="item">ITEM DETAIL:</label>
-                        <a class="btn creator-function" id="edit-show-item">
+                        <a value="${id}" class="btn creator-function" id="edit-show-item">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
-                        <div name="item" id="item-detail">here put items detail</div>
+                        <div value="${id}" name="item" id="item-detail${id}">here put items detail</div>
                     </div> 
 
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="remark">REMARKS:</label>
-                        <a class="btn creator-function" id="edit-remarks">
+                        <a value="${id}" class="btn creator-function" id="edit-remarks">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
-                        <div name="remark" id="remark">${remark}</div>
+                        <div value="${id}" name="remark" id="remark-detail${id}">${remark}</div>
                         <div id="submit-user"></div>
                     </div> 
                 </div> 
 
             </div>
             `;
+            editActivity(id, description)
+            editRemarks(id, remark)
         });
+        
     });
 }
 
@@ -492,6 +499,131 @@ async function fixDivHeight(x) {
     }
 }
 
+async function editActivity(id, description) {
+    document.querySelector(`#edit-activities`).addEventListener("click", (e) => {
+        e.preventDefault()
+        // target div becomes a textarea
+        const div = document.querySelector(`#activity-detail${id}`)
+
+        div.innerHTML = `
+                        <form value="${id}" id="edit-description-form">
+                        <textarea id="edit-description" type="input" rows="5">${description}</textarea>
+                        <button form="edit-description-form" type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                        </form>
+                        `
+        submitEditActivity ()
+    });
+    
+}
+
+async function submitEditActivity (){
+    document.querySelector("#edit-description-form").addEventListener("submit", async (e)=>{
+        e.preventDefault();
+    
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        
+        const form = e.target
+        const id = e.target.getAttribute("value")
+        const description = form["edit-description"].value
+        console.log (form, description, id)
+    
+        if (!description || onlySpaces(description)) {
+            if (!window.confirm("Input field seems to be empty, are you sure to proceed?")) {
+                return
+            }
+        }
+    
+        const res = await fetch(`/eventSchedule/description/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({description})
+        });
+    
+        if (res.status !== 200) {
+            const data = await res.json();
+            alert(data.msg);
+            return;
+        }
+    
+        const result = await res.json();
+        if (result.status === true) {
+            alert("Activity successfully edited!")
+            location.reload()
+        }
+    })
+}
+
+
+function editRemarks(id, remark) {
+    document.querySelector(`#edit-remarks`).addEventListener("click", (e) => {
+        e.preventDefault()
+
+        console.log("target ID =" + id)
+
+        // target div becomes a textarea
+        const div = document.querySelector(`#remark-detail${id}`)
+
+        div.innerHTML = `
+                        <form value="${id}" id="edit-remark-form">    
+                        <textarea type="input" id="edit-remark" rows="5">${remark}</textarea>
+                        <button form="edit-remark-form" type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                        <form>
+                        `
+        submitEditRemark()
+
+    });
+}
+
+async function submitEditRemark(){
+    document.querySelector("#edit-remark-form").addEventListener("submit", async (e)=>{
+        e.preventDefault();
+    
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        
+        const form = e.target
+        const id = e.target.getAttribute("value")
+        const remark = form["edit-remark"].value
+        console.log (form, remark, id)
+    
+        if (!remark || onlySpaces(remark)) {
+            if (!window.confirm("Input field seems to be empty, are you sure to proceed?")) {
+                return
+            }
+        }
+    
+        const res = await fetch(`/eventSchedule/remark/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({remark})
+        });
+    
+        if (res.status !== 200) {
+            const data = await res.json();
+            alert(data.msg);
+            return;
+        }
+    
+        const result = await res.json();
+        if (result.status === true) {
+            alert("Activity successfully edited!")
+            location.reload()
+        }
+    })
+}
+
+
 async function deleteTimeBlock() {
     const trashCans = document.querySelectorAll("#trash-can")
     trashCans.forEach((trashcan) => {
@@ -573,10 +705,14 @@ async function creatorCheck() {
     return isCreator
 }
 
-async function setGlobalHeight(input){
+async function setGlobalHeight(input) {
     const allBlocks = document.querySelectorAll(".time-block")
-    allBlocks.forEach((block)=>{
-        const originalHeight = parseInt(block.style.height.slice(0,-2))
+    allBlocks.forEach((block) => {
+        const originalHeight = parseInt(block.style.height.slice(0, -2))
         block.style.height = `${originalHeight * input}px`
     })
+}
+
+function onlySpaces(str) {
+    return str.trim().length === 0;
 }
