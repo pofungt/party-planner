@@ -105,16 +105,12 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 document.querySelector('#participants-submit').addEventListener('click', async ()=> {
   const params = new URLSearchParams(window.location.search);
 	const eventId = parseInt(params.get('event-id'));
-    const reqBodyObj = {
-      eventId,
-      deletedParticipantsList
-    }
   	const res = await fetch(`/events/participants/${eventId}`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify(reqBodyObj)
+		body: JSON.stringify(deletedParticipantsList)
 	});
   if (res.status !== 200) {
     const data = await res.json();
