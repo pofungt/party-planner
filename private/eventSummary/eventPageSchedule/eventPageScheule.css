@@ -204,19 +204,6 @@ textarea {
 	}
 }
 
-.creator-function {
-	border-radius: 100px;
-	background-color: #f2965985;
-	color: white;
-	text-align: center;
-	min-width: 22px !important;
-	min-height: 22px !important;
-	padding: 3px;
-	font-size: 10px;
-	position: absolute;
-	top: 5px;
-	right: 5px;
-}
 
 #event-name {
 	font-size: large;

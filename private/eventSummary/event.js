@@ -3,7 +3,7 @@ import { loadName } from '/functions/loadName.js';
 import { loadEventDetails } from '../loadEvent.js';
 import { deletedParticipantsList } from '../listenButtons.js';
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 	addNavbar();
 	loadName();
 	loadEventDetails();

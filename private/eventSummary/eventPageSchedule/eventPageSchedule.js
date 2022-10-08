@@ -1,58 +1,8 @@
-import { addNavbar } from '/functions/addNavbar.js';
-import { loadName } from '/functions/loadName.js';
-
-window.addEventListener("load", async () => {
-    addNavbar();
-    loadName();
+window.addEventListener('load', async () => {
+	getEventSchedule()
     
-
-    await getEventSchedule();
-    setEnvironment();
-    deleteTimeBlock()
-    hideCreatorDivClass()
-    
-
-    document.body.style.display = "block";
 });
 
-
-
-function setEnvironment() {
-
-    setGlobalHeight(2)
-
-    let formStartTime = document.querySelector("#start-time")
-    let formEndTime = document.querySelector("#end-time")
-
-    const blankTimeBlocks = document.querySelectorAll(".event-schedule")
-    blankTimeBlocks.forEach((blankTimeBlock) => {
-        blankTimeBlock.addEventListener("click", (e) => {
-            e.preventDefault()
-            const startTime = parseInt(e.target.getAttribute("start"))
-            const endTime = parseInt(e.target.getAttribute("end"))
-
-            formStartTime.value = minToTimeString(startTime)
-            formEndTime.value = minToTimeString(endTime) 
-        })
-    })
-
-    blankTimeBlocks.forEach((blankTimeBlock) => {
-        blankTimeBlock.addEventListener("mousedown", (e) => {
-            e.preventDefault()
-            const startTime = parseInt(e.target.getAttribute("start"))
-            let formStartTime = document.querySelector("#start-time")
-            formStartTime.value = minToTimeString(startTime)
-
-        blankTimeBlock.addEventListener("mouseup", (e)=>{
-            const endTime = parseInt(e.target.getAttribute("end"))
-            let formEndTime = document.querySelector("#end-time")
-            formEndTime.value = minToTimeString(endTime)
-        })
-   
-        })
-    })
-
-}
 
 async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
@@ -86,138 +36,12 @@ async function getEventSchedule() {
     const startTimeInMin = toMin(startTime)
     const endTimeInMin = toMin(endTime)
 
-    let pageTitle = document.querySelector('#event-name');
-    pageTitle.innerHTML = eventName + '  ' + `( ${startTime} - ${endTime} )`;
-
     addTimeInput(startHour, startMin, endHour, endMin)
     await getPresetTimeBlock(startTimeInMin)
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
     await getMemo(activitiesArr)
     
-}
-
-async function getMemo(activitiesArr) {
-    const timeBlocks = document.querySelectorAll('.save-time-block');
-    const memoContainer = document.querySelector('#time-block-memo-container');
-
-    timeBlocks.forEach((block) => {
-        const startTimeString = minToTimeString(parseInt(block.getAttribute('start')))
-        const endTimeString = minToTimeString(parseInt(block.getAttribute('end')))
-
-        block.addEventListener("click", (event) => {
-            const activityName = event.target.innerHTML
-
-            let targetActivity = ""
-
-            activitiesArr.forEach((activity) => {
-                if (activity.title === activityName) {
-                    return targetActivity = activity
-                }
-            })
-
-            const description = targetActivity.description
-            const remark = targetActivity.remark
-
-            memoContainer.innerHTML = `
-            <label for="memo" id="memo-tag">${startTimeString} to ${endTimeString}</label>
-            <div name="memo" id="memo" class="time-block-memo">
-                <div id="memo-item-cluster">
-                    <div class="memo-item-container">
-                        <label class="memo-item-label" for="activity">ACTIVITY DETAIL:</label>
-                        <a class="btn creator-function" id="edit-activity-detail">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
-                        <div class="modal-footer" id="separator"></div>
-                        <div name="activity" id="activity-detail">${description}</div>
-                        <div id="submit-user"></div>
-                    </div> 
-                    
-                    <div class="memo-item-container">
-                        <label class="memo-item-label" for="item">ITEM DETAIL:</label>
-                        <a class="btn creator-function" id="edit-show-item">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
-                        <div class="modal-footer" id="separator"></div>
-                        <div name="item" id="item-detail">here put items detail</div>
-                    </div> 
-
-                    <div class="memo-item-container">
-                        <label class="memo-item-label" for="remark">REMARKS:</label>
-                        <a class="btn creator-function" id="edit-remarks">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
-                        <div class="modal-footer" id="separator"></div>
-                        <div name="remark" id="remark">${remark}</div>
-                        <div id="submit-user"></div>
-                    </div> 
-                </div> 
-
-            </div>
-            `;
-        });
-    });
-}
-
-
-
-async function addTimeInput(startHour, startMin, endHour, endMin) {
-
-    //restrict time input according to the event start and end time
-
-    const timeContainer = document.querySelector("#time-container");
-
-    if (startMin === 0 && endMin !== 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-            `
-    }
-
-    if (startMin === 0 && endMin === 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-            `
-    }
-
-    if (startMin !== 0 && endMin !== 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-            `
-    }
-
-    if (startMin !== 0 && endMin === 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-            `
-    }
 }
 
 async function getPresetTimeBlock(startTime) {
@@ -392,73 +216,6 @@ async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
 }
 
 
-document.querySelector("#activity-form").addEventListener("submit", async function formSubmit(e) {
-    e.preventDefault();
-
-
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event-id');
-    const isCreator = params.get('is-creator');
-
-    const form = e.target
-    const title = form["activity-name"].value
-    const description = form.description.value
-    const remark = form.remark.value
-    const startTime = form.start.value
-    const endTime = form.end.value
-    const startHour = parseInt(startTime.slice(0, 2))
-    const startMin = parseInt(startTime.slice(3, 5))
-    const endHour = parseInt(endTime.slice(0, 2))
-    const endMin = parseInt(endTime.slice(3, 5))
-
-    let dataPass = true
-
-    const startTimeInMin = (startHour * 60) + startMin
-    const endTimeInMin = (endHour * 60) + endMin
-
-    if (endTimeInMin <= startTimeInMin) {
-        dataPass = false
-        alert("Activity End Time is Smaller than Start Time")
-        return;
-    }
-
-    if (!title) {
-        dataPass = false
-        alert("Title Field is Mandatory")
-        return;
-    }
-
-    if (dataPass) {
-        let formObj = {
-            title,
-            description,
-            remark,
-            startTime,
-            endTime,
-        };
-
-        const res = await fetch(`/eventSchedule/activity/?event-id=${eventId}&is-creator=${isCreator}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formObj)
-        });
-
-        if (res.status !== 200) {
-            const data = await res.json();
-            alert(data.msg);
-            return;
-        }
-
-        const result = await res.json();
-        if (result.status === true) {
-            alert("Activity successfully added!")
-            location.reload()
-        }
-    }
-})
-
 async function fixDivHeight(x) {
     if (x > 0) {
         const divCluster = document.querySelectorAll(".time-block")
@@ -492,50 +249,6 @@ async function fixDivHeight(x) {
     }
 }
 
-async function deleteTimeBlock() {
-    const trashCans = document.querySelectorAll("#trash-can")
-    trashCans.forEach((trashcan) => {
-        trashcan.addEventListener("click", async (e) => {
-            e.preventDefault()
-
-            if (!window.confirm("Do you really want to delete?")) {
-                return
-            }
-
-            const params = new URLSearchParams(window.location.search);
-            const eventId = params.get('event-id');
-            const isCreator = params.get('is-creator');
-
-            const id = e.target.getAttribute(`value`);
-            console.log("target ID =" + id)
-
-            const res = await fetch(`/eventSchedule/timeBlock/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
-                method: 'DELETE'
-            })
-            if (res.status !== 200) {
-                alert("Unable to delete time block")
-                const data = await res.json();
-                alert(data.msg);
-                return;
-            } else {
-                const result = await res.json();
-                location.reload()
-            }
-        });
-    })
-}
-
-function hideCreatorDivClass() {
-    const params = new URLSearchParams(window.location.search)
-    const isCreator = params.get("is-creator");
-    const creatorDiv = document.querySelectorAll(".creator-function");
-
-    if (!isCreator) {
-        creatorDiv.forEach((div) => {
-            div.style.display = "none";
-        });
-    }
-}
 
 function minToTimeString(timeInMin) {
     if (timeInMin < 10) {
@@ -565,18 +278,4 @@ function toMin(timeInput) {
     const hourInMin = parseInt(timeInput.slice(0, 2)) * 60
     const min = parseInt(timeInput.slice(3, 5))
     return hourInMin + min
-}
-
-async function creatorCheck() {
-    const params = new URLSearchParams(window.location.search);
-    const isCreator = params.get('is-creator');
-    return isCreator
-}
-
-async function setGlobalHeight(input){
-    const allBlocks = document.querySelectorAll(".time-block")
-    allBlocks.forEach((block)=>{
-        const originalHeight = parseInt(block.style.height.slice(0,-2))
-        block.style.height = `${originalHeight * input}px`
-    })
 }
