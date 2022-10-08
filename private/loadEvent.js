@@ -324,7 +324,7 @@ export async function loadEventDetails() {
             Participants
           </div>
           <div id="number-of-participants">
-            ${result.participants.length}
+            ${result.participants.length + 1}
           </div>
         </div>
         ${editParticipantsButton}
