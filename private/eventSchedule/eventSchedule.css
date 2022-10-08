@@ -24,6 +24,10 @@ header {
 	background-color: #efefd0 !important;
 }
 
+.event-schedule:hover{
+	background-color: #e8e892 !important;
+}
+
 @media (max-width: 1000px) {
 	#time-block-page-container {
 		padding-top: 10px;
@@ -218,6 +222,7 @@ textarea {
 }
 
 .fa-trash{
+	z-index: 1000;
     position:absolute;
     right: 20px;
     top: 20px;

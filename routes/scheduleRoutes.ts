@@ -12,40 +12,40 @@ scheduleRoutes.delete("/timeBlock/", isLoggedInAPI, deleteTimeBlock);
 
 
 async function deleteTimeBlock(req: Request, res: Response) {
-    try {
-        logger.debug("Before reading DB");
-        const eventId = req.query["event-id"];
-        const creator = req.query["is-creator"];
-        const timeBlockId = req.query["id"];
+	try {
+		logger.debug("Before reading DB");
+		const eventId = req.query["event-id"];
+		const creator = req.query["is-creator"];
+		const timeBlockId = req.query["id"];
 
-		
-        if (creator) {
-            await client.query(`
+
+		if (creator) {
+			await client.query(`
                 DELETE FROM time_blocks 
                 WHERE id = $1
                 AND event_id = $2`,
-                [
-                    timeBlockId,
-                    eventId
-                ]
-            )
-            res.json({
-                status: true,
-                msg: "Delete success"
-            })
-        } else {
+				[
+					timeBlockId,
+					eventId
+				]
+			)
+			res.json({
+				status: true,
+				msg: "Delete success"
+			})
+		} else {
 			res.json({
 				status: false,
 				msg: "Unauthorized request"
 			})
 		}
 
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({
-            msg: "[TBD001]: Failed to Delete Time Block",
-        });
-    }
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: "[TBD001]: Failed to Delete Time Block",
+		});
+	}
 }
 
 
@@ -64,26 +64,26 @@ async function getEventSchedule(req: Request, res: Response) {
             WHERE events.id = $1
             AND events.creator_id = $2;
             `,
-                [eventId, req.session.user]
-            )
-            ).rows[0];
-        } else {
-            event = (
-                await client.query(
-                    `
+					[eventId, req.session.user]
+				)
+			).rows[0];
+		} else {
+			event = (
+				await client.query(
+					`
             SELECT * FROM events
             INNER JOIN participants ON participants.event_id = events.id
             WHERE events.id = $1
             AND participants.user_id = $2;
             `,
-                    [eventId, req.session.user]
-                )
-            ).rows[0];
-        }
+					[eventId, req.session.user]
+				)
+			).rows[0];
+		}
 
-        const activitiesArr = (
-            await client.query(
-                `
+		const activitiesArr = (
+			await client.query(
+				`
             SELECT * FROM time_blocks
             WHERE event_id = $1
         `,
@@ -91,19 +91,19 @@ async function getEventSchedule(req: Request, res: Response) {
 			)
 		).rows;
 
-        console.log(activitiesArr);
+		console.log(activitiesArr);
 
-        res.json({
-            status: true,
-            detail: event,
-            activities: activitiesArr,
-        });
-    } catch (e) {
-        logger.error(e);
-        res.status(500).json({
-            msg: "[ETS001]: Failed to get Event Schedule",
-        });
-    }
+		res.json({
+			status: true,
+			detail: event,
+			activities: activitiesArr,
+		});
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: "[ETS001]: Failed to get Event Schedule",
+		});
+	}
 }
 
 function toMin(timeInput: String) {
@@ -146,17 +146,14 @@ async function postEventSchedule(req: Request, res: Response) {
 				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin) {
 					reject = true;
 				}
-
-				if (reject) {
-					res.status(400).json({
-						msg: '[EER002]: Activity Start Time or End Time Overlapped with Existing Activity'
-					});
-				}
 			});
 
 			//writing request to DB
-
-			if (!reject) {
+			if (reject) {
+				res.status(400).json({
+					msg: '[EER002]: Activity Start Time or End Time Overlapped with Existing Activity'
+				});
+			} else {
 				await client.query(
 					`
                 INSERT INTO time_blocks 
