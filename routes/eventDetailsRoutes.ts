@@ -26,6 +26,12 @@ async function getCreatedEventDetails(req: Request, res: Response) {
 		).rows;
 
 		if (event) {
+			const [creatorDetail] = (await client.query(`
+				SELECT * FROM users
+				WHERE id = $1;
+			`,
+			[req.session.user]
+			)).rows;
 			const participantList = (
 				await client.query(
 					`
@@ -39,6 +45,7 @@ async function getCreatedEventDetails(req: Request, res: Response) {
 			).rows;
 			res.json({
 				status: true,
+				creator: creatorDetail,
 				detail: event,
 				participants: participantList
 			});
@@ -72,6 +79,13 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 		).rows;
 
 		if (event) {
+			const [creatorDetail] = (await client.query(`
+				SELECT * FROM users
+				INNER JOIN events ON events.creator_id = users.id
+				WHERE events.id = $1;
+			`,
+			[parseInt(eventId)]
+			)).rows;
 			const participantList = (
 				await client.query(
 					`
@@ -86,6 +100,7 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 
 			res.json({
 				status: true,
+				creator: creatorDetail,
 				detail: event,
 				participants: participantList
 			});

@@ -272,9 +272,16 @@ export async function loadEventDetails() {
 
     // Load Participants into Page
     let participantListHTML = '';
+    participantListHTML += '<div>';
+    participantListHTML += `
+      <div class="red_creator creator_${result.creator.id}">
+        <i class="fa-solid fa-user"></i>
+        &nbsp; &nbsp;
+        ${result.creator.first_name} ${result.creator.last_name}
+      </div>
+    `
     if (result.participants.length) {
       const userList = result.participants;
-      participantListHTML += '<div>';
       for (let user of userList) {
         participantListHTML += `
         <div class="user_${user.id}">
@@ -284,8 +291,8 @@ export async function loadEventDetails() {
         </div>
         `;
       }
-      participantListHTML += '</div>';
     }
+    participantListHTML += '</div>';
 
     let editParticipantsButton = '';
     if (isCreator && processing) {
@@ -300,9 +307,9 @@ export async function loadEventDetails() {
     if (isCreator && processing) {
       inviteButton = `
         <div class="invite-button-container">
-          <div class="invite-button">
+          <a class="invite-button" data-bs-toggle="modal" data-bs-target="#invitation-modal">
             +
-          </div>
+          </a>
           <div>
             Invite more friends
           </div>

@@ -158,6 +158,12 @@ a {
 	width: 100%;
 }
 
+.red_creator {
+	color: red;
+	font-weight: bold;
+}
+
+
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
 	display: none;
