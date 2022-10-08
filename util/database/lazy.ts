@@ -47,13 +47,6 @@ async function test() {
     }
 }
 
-function randomDate(start: Date, days: number): Date {
-    const startTime = start.getTime();
-    const minusTime = startTime - days * 86_400_000;
-    const plusTime = startTime + days * 86_400_000;
-    return new Date(minusTime + Math.random() * (plusTime - minusTime));
-}
-
 function randomIntFromInterval(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
@@ -281,7 +274,7 @@ async function main() {
             const budget: number = (Math.floor(Math.random() * 10) + 1) * 1000;
 
             // Date
-            const date: string = format(randomDate(new Date(), 100), 'yyyy/MM/dd');
+            const date: string = format(new Date((new Date()).getTime() + 30 * 86_400_000), 'yyyy/MM/dd');
             const userDetail = (await client.query(`SELECT * FROM users WHERE email = $1;`, [user.email])).rows[0];
             // Time
             const start_time: string = `${randomIntFromInterval(12, 17)}:${Math.random() > 0.5 ? '00' : '30'}`;
