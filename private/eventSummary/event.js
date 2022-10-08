@@ -102,53 +102,89 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 });
 
 // Submit participants form
-document.querySelector('#participants-submit').addEventListener('click', async ()=> {
-  const params = new URLSearchParams(window.location.search);
+document.querySelector('#participants-submit').addEventListener('click', async () => {
+	const params = new URLSearchParams(window.location.search);
 	const eventId = parseInt(params.get('event-id'));
-  	const res = await fetch(`/events/participants/${eventId}`, {
+	const res = await fetch(`/events/participants/${eventId}`, {
 		method: 'DELETE',
 		headers: {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(deletedParticipantsList)
 	});
-  if (res.status !== 200) {
-    const data = await res.json();
-    alert(data.msg);
-    return;
-  }
-  const result = await res.json();
-  if (result.status) {
-    if (result.notDeletable.length) {
-      let warnText = "Unable to remove following participant(s):";
-      for (let each of result.notDeletable) {
-        warnText += `
+	if (res.status !== 200) {
+		const data = await res.json();
+		alert(data.msg);
+		return;
+	}
+	const result = await res.json();
+	if (result.status) {
+		if (result.notDeletable.length) {
+			let warnText = "Unable to remove following participant(s):";
+			for (let each of result.notDeletable) {
+				warnText += `
     # ${each.deletedParticipant.id} ${each.deletedParticipant.first_name} ${each.deletedParticipant.last_name}
     Unsettled Item(s):`;
-        for (let i = 0; i < each.itemInCharge.length; i++) {
-          warnText += `
+				for (let i = 0; i < each.itemInCharge.length; i++) {
+					warnText += `
           [${each.itemInCharge[i].type_name}] ${each.itemInCharge[i].name}`;
-        }
-        warnText += `
+				}
+				warnText += `
 
         `;
-      }
-      alert(warnText);
-      deletedParticipantsList.splice(0,deletedParticipantsList.length);
-      loadEventDetails();
-      //Warn
-    } else {
-      deletedParticipantsList.splice(0,deletedParticipantsList.length);
-      loadEventDetails();
-      alert("Successfully deleted all selected participants!");
-    }
-  } else {
-    alert("Unable to delete selected participants!");
-  }
+			}
+			alert(warnText);
+			deletedParticipantsList.splice(0, deletedParticipantsList.length);
+			loadEventDetails();
+			//Warn
+		} else {
+			deletedParticipantsList.splice(0, deletedParticipantsList.length);
+			loadEventDetails();
+			alert("Successfully deleted all selected participants!");
+		}
+	} else {
+		alert("Unable to delete selected participants!");
+	}
 })
 
 // Reset participants form
-document.querySelector('#participants-reset').addEventListener('click', async ()=> {
-  deletedParticipantsList.splice(0,deletedParticipantsList.length);
-  loadEventDetails();
+document.querySelector('#participants-reset').addEventListener('click', async () => {
+	deletedParticipantsList.splice(0, deletedParticipantsList.length);
+	loadEventDetails();
 })
+
+// Submit Invitation Copy Link Button
+document.querySelector('#invitation-form').addEventListener('submit', async function (e) {
+	e.preventDefault();
+	const form = e.target;
+	const invitation = form.invitation.value;
+
+	let dataPass = true;
+
+	if (!invitation) {
+		dataPass = false;
+		alert('Please enter an email to invite!');
+	}
+
+	if (dataPass) {
+		const formObj = {
+			invitation
+		};
+		const params = new URLSearchParams(window.location.search);
+		const eventId = params.get('event-id');
+		const res = await fetch(`/events/detail/invitation/${eventId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formObj)
+		});
+
+		const invitationResult = await res.json();
+		if (invitationResult.status) {
+			alert('Link Copied!');
+		} else {
+			alert('Unable to copy link.');
+		}
+	}
+});
