@@ -38,7 +38,7 @@
   display: flex;
   justify-content: space-between;
 }
-.btn-css {
+.check-btn {
   border: none;
   border-radius: 20px;
   background-color: #fff;

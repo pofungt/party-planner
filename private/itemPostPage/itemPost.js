@@ -97,8 +97,10 @@ async function fetchEditItem() {
                 <td>${itemsData.quantity}</td>
                 <td>${itemsData.price}</td>
                 <td>${itemsData.first_name} ${itemsData.last_name}</td>
-                <td><button id="item-${itemsData.id}" itemDelete="button" class="delete-btn"><i
-                    class="bi bi-trash"></i></button>
+                <td>
+                   <button id="item-${itemsData.id}" itemDelete="button"                class="delete-btn">
+                        <i>class="bi bi-trash"></i>
+                    </button>
                 </td>
             </tr>
             `;
@@ -132,7 +134,8 @@ async function fetchParticipant(eventID) {
     if (resParticipant.status === true) {
         for (const participantData of resParticipant.user) {
             document.querySelector(`#select-participant`).innerHTML += `
-                <option value="${participantData.id}">${participantData.first_name} ${participantData.last_name}</option>
+                <option value="${participantData.id}">${participantData.first_name} ${participantData.last_name}
+                </option>
             `;
         }
     }
@@ -143,11 +146,11 @@ async function fetchPendingItems() {
     if (res.status === true) {
         let shoppingList = "";
         for (const items of res.itemObj) {
-          shoppingList += `
+            shoppingList += `
                 <td>
                    <div class="pending-item">
                         ${items.name}
-                        <button class="btn-css">
+                        <button class="check-btn">
                         <i class="bi bi-check-circle"></i>
                         </button>
                    </div>
@@ -157,3 +160,17 @@ async function fetchPendingItems() {
         document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
     }
 }
+
+
+
+document.querySelector(`.check-btn`).forEach((button) => {
+  button.addEventListener("click", function (e) {
+
+
+    // remove the item in the shopping list but not in the DB. 
+    
+  })
+})
+
+
+
