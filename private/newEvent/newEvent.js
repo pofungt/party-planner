@@ -58,12 +58,16 @@ document.querySelector('#from-container').addEventListener('submit', async funct
 		}
 	}
 
+	const nowTimeValue = new Date().getTime();
 	const startTimeValue = new Date(startTime).getTime();
 	const endTimeValue = new Date(endTime).getTime();
 
 	// check time validity
 	if (startTimeValue && endTimeValue) {
-		if (startTimeValue >= endTimeValue) {
+		if (startTimeValue <= nowTimeValue) {
+			dataPass = false;
+			alert("Start time must be later than time now!");
+		} else if (startTimeValue >= endTimeValue) {
 			dataPass = false;
 			alert('Start time cannot equals or later than end time!');
 		}

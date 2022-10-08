@@ -92,12 +92,12 @@
             <form id="datetime-form">
               <div class="datetime-start input-panel mb-3">
                 <div class="form-label">Start date and time</div>
-                <input class="clock" type="datetime-local" id="datetime-start" name="datetime-start"
+                <input class="clock" type="datetime-local" id="datetime-start" name="datetime_start"
                   min="2021-06-07T00:00" max="2035-12-30T00:00" step="900" />
               </div>
               <div class="datetime-end input-panel mb-3">
                 <div class="form-label">End date and time</div>
-                <input class="clock" type="datetime-local" id="datetime-end" name="datetime-end" min="2021-06-07T00:00"
+                <input class="clock" type="datetime-local" id="datetime-end" name="datetime_end" min="2021-06-07T00:00"
                   max="2035-12-30T00:00" step="900" />
               </div>
               <div class="input-panel mb-3">
@@ -191,6 +191,34 @@
     </div>
   </div>
 
+  <div class="modal fade" id="invitation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h5 class="modal-title">Invitation</h5>
+          <div class="exit-modal">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <div class="input-title">Please enter your friend's email below for invitation link:</div>
+            <form id="invitation-form">
+              <div class="invitation-start input-panel mb-3">
+                <input type="text" class="form-control" name="invitation" aria-label="invitation"
+                  aria-describedby="basic-addon1" />
+              </div>
+              <div class="modal-footer">
+                <button id="invitation-submit" type="submit" class="modal-submit-button">Copy Link</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"

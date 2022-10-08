@@ -9,6 +9,7 @@ eventDetailsRoutes.get('/created/:id', isLoggedInAPI, getCreatedEventDetails);
 eventDetailsRoutes.get('/participated/:id', isLoggedInAPI, getParticipatedEventDetails);
 eventDetailsRoutes.put('/datetime/:id', isLoggedInAPI, updateDateTime);
 eventDetailsRoutes.put('/venue/:id', isLoggedInAPI, updateVenue);
+eventDetailsRoutes.post('/invitation/:id', isLoggedInAPI, createInvitationLink);
 
 async function getCreatedEventDetails(req: Request, res: Response) {
 	try {
@@ -26,6 +27,12 @@ async function getCreatedEventDetails(req: Request, res: Response) {
 		).rows;
 
 		if (event) {
+			const [creatorDetail] = (await client.query(`
+				SELECT * FROM users
+				WHERE id = $1;
+			`,
+			[req.session.user]
+			)).rows;
 			const participantList = (
 				await client.query(
 					`
@@ -39,6 +46,7 @@ async function getCreatedEventDetails(req: Request, res: Response) {
 			).rows;
 			res.json({
 				status: true,
+				creator: creatorDetail,
 				detail: event,
 				participants: participantList
 			});
@@ -72,6 +80,13 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 		).rows;
 
 		if (event) {
+			const [creatorDetail] = (await client.query(`
+				SELECT * FROM users
+				INNER JOIN events ON events.creator_id = users.id
+				WHERE events.id = $1;
+			`,
+			[parseInt(eventId)]
+			)).rows;
 			const participantList = (
 				await client.query(
 					`
@@ -86,6 +101,7 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 
 			res.json({
 				status: true,
+				creator: creatorDetail,
 				detail: event,
 				participants: participantList
 			});
@@ -170,6 +186,35 @@ async function updateVenue(req: Request, res: Response) {
 		logger.error(e);
 		res.status(500).json({
 			msg: '[ETD004]: Failed to update venue'
+		});
+	}
+}
+
+async function createInvitationLink(req: Request, res: Response) {
+	try {
+		logger.debug('Before reading DB');
+		const eventId = req.params.id;
+		const [event] = (
+			await client.query(
+				`
+            SELECT * FROM events
+            WHERE id = $1
+            AND creator_id = $2;
+        `,
+				[parseInt(eventId), req.session.user]
+			)
+		).rows;
+
+		if (event) {
+			// Do something
+			res.json({ status: true });
+		} else {
+			res.json({ status: false });
+		}
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[ETD005]: Failed to copy invitation link'
 		});
 	}
 }

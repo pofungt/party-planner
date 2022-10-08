@@ -135,21 +135,22 @@ async function postEvent(req: Request, res: Response) {
 async function deleteParticipants(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
+		const eventId = req.params.eventId ? parseInt(req.params.eventId) : 0;
 		const [eventDetail] = (await client.query(`
 			SELECT * FROM events
 			WHERE creator_id = $1
 			AND id = $2;
 		`,
-		[req.session.user, req.body.eventId]
+		[req.session.user, eventId]
 		)).rows;
 		if(eventDetail) {
 			let notDeletable = [];
-			for (let deletedParticipant of req.body.deletedParticipantsList) {
+			for (let deletedParticipant of req.body) {
 				const itemInCharge = (await client.query(`
 					SELECT * FROM items
 					WHERE user_id = $1 AND event_id = $2 AND purchased = FALSE;
 				`,
-				[deletedParticipant.id, req.body.eventId]
+				[deletedParticipant.id, eventId]
 				)).rows;
 				if (itemInCharge.length) {
 					notDeletable.push(
@@ -162,7 +163,7 @@ async function deleteParticipants(req: Request, res: Response) {
 					await client.query(`
 					DELETE FROM participants WHERE user_id = $1 and event_id = $2;
 					`,
-					[deletedParticipant.id, req.body.eventId]
+					[deletedParticipant.id, eventId]
 					);
 				}
 			}
