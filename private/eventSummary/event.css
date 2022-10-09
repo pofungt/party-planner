@@ -173,6 +173,12 @@ a {
 	cursor: pointer;
 }
 
+#invitation-link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
 	display: none;
