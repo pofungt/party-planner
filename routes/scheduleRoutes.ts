@@ -7,8 +7,92 @@ export const scheduleRoutes = express.Router();
 
 scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
 scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
-scheduleRoutes.put("/", isLoggedInAPI,);
+scheduleRoutes.put("/description/edit", isLoggedInAPI, editDescription);
+scheduleRoutes.put("/remark/edit", isLoggedInAPI, editRemark);
+
 scheduleRoutes.delete("/timeBlock/", isLoggedInAPI, deleteTimeBlock);
+
+async function editRemark(req: Request, res: Response) {
+	try {
+		logger.debug("Before reading DB");
+		const eventId = req.query["event-id"];
+		const creator = req.query["is-creator"];
+		const timeBlockId = req.query["id"];
+		const remark = req.body.remark
+		console.log(remark, timeBlockId)
+
+		if (creator) {
+			await client.query(`
+                UPDATE time_blocks
+				SET remark = $1
+				WHERE event_id = $2
+				AND id = $3
+				`,
+				[
+					remark,
+					eventId,
+					timeBlockId,	
+				]
+			)
+			res.json({
+				status: true,
+				msg: "Edit success"
+			})
+		} else {
+			res.json({
+				status: false,
+				msg: "Unauthorized request"
+			})
+		}
+
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: "[TBE001]: Failed to Edit Description",
+		});
+	}
+}
+
+async function editDescription(req: Request, res: Response) {
+	try {
+		logger.debug("Before reading DB");
+		const eventId = req.query["event-id"];
+		const creator = req.query["is-creator"];
+		const timeBlockId = req.query["id"];
+		const description = req.body.description
+		console.log(description, timeBlockId)
+
+		if (creator) {
+			await client.query(`
+                UPDATE time_blocks
+				SET description = $1
+				WHERE event_id = $2
+				AND id = $3
+				`,
+				[
+					description,
+					eventId,
+					timeBlockId,	
+				]
+			)
+			res.json({
+				status: true,
+				msg: "Edit success"
+			})
+		} else {
+			res.json({
+				status: false,
+				msg: "Unauthorized request"
+			})
+		}
+
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: "[TBE001]: Failed to Edit Description",
+		});
+	}
+}
 
 
 async function deleteTimeBlock(req: Request, res: Response) {
@@ -90,8 +174,6 @@ async function getEventSchedule(req: Request, res: Response) {
 				[eventId]
 			)
 		).rows;
-
-		console.log(activitiesArr);
 
 		res.json({
 			status: true,

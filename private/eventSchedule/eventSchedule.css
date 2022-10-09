@@ -1,7 +1,32 @@
+
 body {
 	position: relative;
 	margin-left: 50px;
 	margin-right: 50px;
+	font-family: 'Calibri';
+	font-size: 16px;
+}
+
+header{
+	display: flex;
+	justify-content: center;
+}
+
+.modal-content {
+	align-items: center;
+}
+
+#date-selector-container {
+	display: flex;
+	justify-content: right;
+	padding-bottom: 10px;
+	padding-right: 10px;
+}
+
+textarea {
+	border-radius: 5px;
+	background: none;
+	border-color: #3f3f3f;
 }
 
 header {
@@ -10,13 +35,19 @@ header {
 
 #time-block-memo-container {
 	height: 100%;
+
 }
 
 #time-block-page-container {
 
 	max-height: 800px;
-	padding-top: 30px;
+	height: 550px;
+	padding-top: 0px;
 	padding-bottom: 30px;
+}
+
+#event-time-container{
+	text-align: center;
 }
 
 .event-schedule {
@@ -28,10 +59,6 @@ header {
 }
 
 @media (max-width: 1000px) {
-	#time-block-page-container {
-		padding-top: 10px;
-		padding-bottom: 10px;
-	}
 
 	#line {
 		display: none;
@@ -60,6 +87,7 @@ header {
 #page {
 	display: flex;
 	justify-content: center;
+	height: 90%;
 	width: 100%;
 }
 
@@ -78,13 +106,14 @@ textarea {
 }
 
 #rundown {
-	max-height: 100%;
+	max-height: 80%;
 	max-width: 100%;
 }
 
 #rundown-container {
 	max-height: 100%;
 	position: relative;
+	background-color: ;
 }
 
 .time-stamp-container {
@@ -103,12 +132,15 @@ textarea {
 }
 
 .time-block {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 100%;
 	background-color: rgba(181, 180, 180, 0.625);
 	padding: 10px;
 	border-radius: 5px;
 	padding: 1px;
-	font-size: 15px;
+	font-size: 1.5vw;
 	text-align: center;
 	transition: background-color 50ms ease-out 50ms;
 }
@@ -225,7 +257,10 @@ textarea {
 
 .fa-trash{
 	z-index: 1000;
-    /* position:absolute; */
     right: 20px;
     top: 20px;
+}
+
+.creator-function {
+	z-index: 1000;
 }

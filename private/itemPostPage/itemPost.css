@@ -24,30 +24,36 @@
 }
 
 .pending-item-header {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .bi-filter-circle {
-  color: #495871;
-  width: 20px;
-  height: 20px;
+    color: #495871;
+    width: 20px;
+    height: 20px;
 }
 
-.pending-item{
-  display: flex;
-  justify-content: space-between;
+.pending-item {
+    display: flex;
+    justify-content: space-between;
 }
-.btn-css {
-  border: none;
-  border-radius: 20px;
-  background-color: #fff;
+.check-btn {
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
 }
 
 .bi-check-circle {
     color: #495871;
     width: 20px;
     height: 20px;
+}
+
+.shorting-btn {
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
 }
 
 /* item category */
