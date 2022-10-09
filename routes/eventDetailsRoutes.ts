@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { client } from '../app';
 import { isLoggedInAPI } from '../util/guard';
 import { logger } from '../util/logger';
+import crypto from 'crypto';
 
 export const eventDetailsRoutes = express.Router();
 
@@ -9,7 +10,7 @@ eventDetailsRoutes.get('/created/:id', isLoggedInAPI, getCreatedEventDetails);
 eventDetailsRoutes.get('/participated/:id', isLoggedInAPI, getParticipatedEventDetails);
 eventDetailsRoutes.put('/datetime/:id', isLoggedInAPI, updateDateTime);
 eventDetailsRoutes.put('/venue/:id', isLoggedInAPI, updateVenue);
-eventDetailsRoutes.post('/invitation/:id', isLoggedInAPI, createInvitationLink);
+eventDetailsRoutes.get('/invitation/:id', isLoggedInAPI, getInvitationLink);
 
 async function getCreatedEventDetails(req: Request, res: Response) {
 	try {
@@ -190,7 +191,7 @@ async function updateVenue(req: Request, res: Response) {
 	}
 }
 
-async function createInvitationLink(req: Request, res: Response) {
+async function getInvitationLink(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = req.params.id;
@@ -206,8 +207,16 @@ async function createInvitationLink(req: Request, res: Response) {
 		).rows;
 
 		if (event) {
-			// Do something
-			res.json({ status: true });
+			const invitation_token = crypto.randomBytes(64).toString('hex');
+			await client.query(`
+				UPDATE events SET invitation_token = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2;
+			`,
+			[invitation_token, parseInt(eventId)]
+			);
+			res.json({ 
+				status: true,
+				invitation_token
+			});
 		} else {
 			res.json({ status: false });
 		}

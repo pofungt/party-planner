@@ -156,39 +156,15 @@ document.querySelector('#participants-reset').addEventListener('click', async ()
 // Submit Invitation Copy Link Button
 document.querySelector('#invitation-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
-	const form = e.target;
-	const invitationEmail = form.invitation.value;
 
-	let dataPass = true;
-	const emailRegex = /\S+@\S+\.\S+/;
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/detail/invitation/${eventId}`);
 
-	if (!invitationEmail) {
-		dataPass = false;
-		alert('Please enter an email to invite!');
-	} else if (!emailRegex.test(invitationEmail)) {
-		dataPass = false;
-		alert('Invalid email format!');
-	}
-
-	if (dataPass) {
-		const formObj = {
-			invitationEmail
-		};
-		const params = new URLSearchParams(window.location.search);
-		const eventId = params.get('event-id');
-		const res = await fetch(`/events/detail/invitation/${eventId}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(formObj)
-		});
-
-		const invitationResult = await res.json();
-		if (invitationResult.status) {
-			alert('Link Copied!');
-		} else {
-			alert('Unable to copy link.');
-		}
+	const invitationResult = await res.json();
+	if (invitationResult.status) {
+		alert('Link renewed!');
+	} else {
+		alert('Unable to copy link.');
 	}
 });
