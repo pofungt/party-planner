@@ -1,6 +1,6 @@
 import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
-import { loadEventDetails } from '../loadEvent.js';
+import { loadEventDetails, pasteInvitationLink } from '../loadEvent.js';
 import { deletedParticipantsList } from '../listenButtons.js';
 
 window.addEventListener('load', async () => {
@@ -163,6 +163,7 @@ document.querySelector('#invitation-form').addEventListener('submit', async func
 
 	const invitationResult = await res.json();
 	if (invitationResult.status) {
+		pasteInvitationLink(eventId,invitationResult.invitation_token);
 		alert('Link renewed!');
 	} else {
 		alert('Unable to copy link.');

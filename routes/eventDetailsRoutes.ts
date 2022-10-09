@@ -11,6 +11,7 @@ eventDetailsRoutes.get('/participated/:id', isLoggedInAPI, getParticipatedEventD
 eventDetailsRoutes.put('/datetime/:id', isLoggedInAPI, updateDateTime);
 eventDetailsRoutes.put('/venue/:id', isLoggedInAPI, updateVenue);
 eventDetailsRoutes.get('/invitation/:id', isLoggedInAPI, getInvitationLink);
+eventDetailsRoutes.post('/participation/:eventId/:invitation_token', isLoggedInAPI, joinEvent);
 
 async function getCreatedEventDetails(req: Request, res: Response) {
 	try {
@@ -224,6 +225,17 @@ async function getInvitationLink(req: Request, res: Response) {
 		logger.error(e);
 		res.status(500).json({
 			msg: '[ETD005]: Failed to copy invitation link'
+		});
+	}
+}
+
+async function joinEvent(req: Request, res: Response) {
+	try {
+		// Something here
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[ETD005]: Failed to join event'
 		});
 	}
 }
