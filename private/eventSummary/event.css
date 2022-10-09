@@ -169,6 +169,22 @@ a {
 	font-weight: bold;
 }
 
+.input-group-text {
+	cursor: pointer;
+}
+
+#invitation-link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.copied {
+	background-color: #059862;
+	color: white;
+	font-weight: bold;
+	border: 4px solid #07C982;
+}
 
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
@@ -241,7 +257,7 @@ a {
 	padding: 10px 20px 10px 20px;
 	border-radius: 20px;
 	margin: 18px;
-	width: 110px;
+	min-width: 110px;
 	border: none;
 	box-shadow: 0px 1px 12px #f2d492;
 }
@@ -282,7 +298,8 @@ a {
 	font-family: 'Lato', sans-serif;
 }
 
-.input-group {
+.input-group-container {
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

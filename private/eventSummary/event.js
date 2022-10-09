@@ -1,6 +1,6 @@
 import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
-import { loadEventDetails } from '../loadEvent.js';
+import { loadEventDetails, pasteInvitationLink } from '../loadEvent.js';
 import { deletedParticipantsList } from '../listenButtons.js';
 
 window.addEventListener('load', async () => {
@@ -156,39 +156,39 @@ document.querySelector('#participants-reset').addEventListener('click', async ()
 // Submit Invitation Copy Link Button
 document.querySelector('#invitation-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
-	const form = e.target;
-	const invitationEmail = form.invitation.value;
 
-	let dataPass = true;
-	const emailRegex = /\S+@\S+\.\S+/;
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/detail/invitation/${eventId}`);
 
-	if (!invitationEmail) {
-		dataPass = false;
-		alert('Please enter an email to invite!');
-	} else if (!emailRegex.test(invitationEmail)) {
-		dataPass = false;
-		alert('Invalid email format!');
+	const invitationResult = await res.json();
+	if (invitationResult.status) {
+		pasteInvitationLink(eventId,invitationResult.invitation_token);
+		alert('Link renewed!');
+	} else {
+		alert('Unable to copy link.');
 	}
+});
 
-	if (dataPass) {
-		const formObj = {
-			invitationEmail
-		};
-		const params = new URLSearchParams(window.location.search);
-		const eventId = params.get('event-id');
-		const res = await fetch(`/events/detail/invitation/${eventId}`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(formObj)
-		});
+// Copy Invitation Link Button
+document.querySelector('#invitation-link').addEventListener('click', (e)=>{
+	const linkTextDiv = document.querySelector('#invitation-modal .form-control');
+	// Select the text field
+	linkTextDiv.select();
+	linkTextDiv.setSelectionRange(0, 99999); // For mobile devices
 
-		const invitationResult = await res.json();
-		if (invitationResult.status) {
-			alert('Link Copied!');
-		} else {
-			alert('Unable to copy link.');
-		}
-	}
+	// Copy the text inside the text field
+	navigator.clipboard.writeText(linkTextDiv.value);
+
+	// Change button to copied
+	e.target.classList.add("copied");
+	const currentWidth = e.target.offsetWidth;
+	e.target.style.width = `${currentWidth}px`;
+	e.target.innerHTML = "Copied!";
+
+	// Change back the button to normal
+	setTimeout(()=>{
+		e.target.classList.remove("copied");
+		e.target.innerHTML = "Copy Link";
+	},5000);
 });

@@ -55,20 +55,28 @@ function randomIntFromInterval(min: number, max: number): number {
 async function main() {
     await client.connect();
 
-    // clearDB
-    await client.query(`
-    DROP TABLE event_date_time_votes;
-    DROP TABLE event_date_time;
-    DROP TABLE event_venues_votes;
-    DROP TABLE event_venues;
-    DROP TABLE comments;
-    DROP TABLE time_block_item;
-    DROP TABLE time_blocks;
-    DROP TABLE items;
-    DROP TABLE participants;
-    DROP TABLE events;
-    DROP TABLE users;
-    `);
+    const [tableCount] = (await client.query(`
+        select count(*)
+        from information_schema.tables
+        where table_schema = 'public';
+    `)).rows;
+
+    if (parseInt(tableCount.count)) {
+        // clearDB
+        await client.query(`
+            DROP TABLE event_date_time_votes;
+            DROP TABLE event_date_time;
+            DROP TABLE event_venues_votes;
+            DROP TABLE event_venues;
+            DROP TABLE comments;
+            DROP TABLE time_block_item;
+            DROP TABLE time_blocks;
+            DROP TABLE items;
+            DROP TABLE participants;
+            DROP TABLE events;
+            DROP TABLE users;
+        `);
+    }
 
     // initDB
     await client.query(`CREATE TABLE users (
@@ -300,8 +308,8 @@ async function main() {
             // Creator id
             const creator_id: number = userDetail.id;
 
-			// Invitation Token
-			const invitation_token = crypto.randomBytes(64).toString('hex');
+            // Invitation Token
+            const invitation_token = crypto.randomBytes(64).toString('hex');
 
             await client.query(
                 `INSERT INTO events 
@@ -390,16 +398,16 @@ async function main() {
                 (name, purchased, type_name,  event_id, user_id, quantity, price, created_at, updated_at)
                 VALUES ($1, $2 ,$3, 1, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
             `,
-            [
-                parts[type][i],
-                Math.random() > 0.5,
-                type,
-                userIdListCopy.splice(0,1)[0],
-                Math.floor(Math.random() * 20),
-                Math.floor(Math.random() * 1000)
-            ]
+                [
+                    parts[type][i],
+                    Math.random() > 0.5,
+                    type,
+                    userIdListCopy.splice(0, 1)[0],
+                    Math.floor(Math.random() * 20),
+                    Math.floor(Math.random() * 1000)
+                ]
             )
-        }    
+        }
     }
 
     await client.end();

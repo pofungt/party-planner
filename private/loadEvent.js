@@ -340,6 +340,9 @@ export async function loadEventDetails() {
     currentParticipantsList = structuredClone(result.participants);
     loadParticipantsModal(currentParticipantsList, deletedParticipantsList);
 
+    // Load Invitation Link
+    pasteInvitationLink(result.detail.id,result.detail.invitation_token);
+
     // Load Venue into Page
     let venueString = '';
     if (result.detail.venue) {
@@ -468,4 +471,9 @@ export function loadParticipantsModal(currentList, deletedList) {
       ${deletedParticipantListModalHTML}
     </div>
   `;
+}
+
+export function pasteInvitationLink(eventId, invitation_token) {
+  document.querySelector('#invitation-modal .form-control').value = 
+  `https://${window.location.host}/events/detail/participation/${eventId}/${invitation_token}`;
 }
