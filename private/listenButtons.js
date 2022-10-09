@@ -168,14 +168,15 @@ export function listenEditButtons() {
 	}
 }
 
-export function listenToSchedulePage() {
+export function listenToSchedulePage(datetime) {
+	const date= `${datetime.slice(0,4)}${datetime.slice(5,7)}${datetime.slice(8,10)}`
 	const toScheduleDiv = document.querySelector('.schedule .info-button');
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const isCreator = params.get('is-creator');
 	if (toScheduleDiv) {
 		toScheduleDiv.addEventListener('click', () => {
-			window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}`;
+			window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}&date=${date}`;
 		});
 	}
 }

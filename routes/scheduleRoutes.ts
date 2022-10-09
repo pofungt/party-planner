@@ -138,8 +138,11 @@ async function getEventSchedule(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
-		let event;
+		console.log (req.query.date)
 
+
+
+		let event;
 		if (creator === '1') {
 			event = (
 				await client.query(
@@ -165,13 +168,27 @@ async function getEventSchedule(req: Request, res: Response) {
 			).rows[0];
 		}
 
+		let date
+		if (req.query?.date) {
+			const dateTime = (new Date(event.start_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
+			date = `${dateTime.slice(6,10)}${dateTime.slice(0,2)}${dateTime.slice(3,5)}`
+			console.log ("123",date)
+			
+		} else {
+			date = req.query.date
+			console.log ("435",date)
+		}
+
+
 		const activitiesArr = (
 			await client.query(
 				`
             SELECT * FROM time_blocks
             WHERE event_id = $1
+			AND date = $2
+			
         `,
-				[eventId]
+				[eventId, date]
 			)
 		).rows;
 
@@ -199,6 +216,7 @@ async function postEventSchedule(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
+		const date = req.query.date;
 
 		if (creator) {
 			//check if start time and end time collided with existing activities
@@ -208,9 +226,10 @@ async function postEventSchedule(req: Request, res: Response) {
 					`
                 SELECT start_time, end_time FROM time_blocks
                 WHERE event_id = $1
+				AND date = $2
                 ORDER BY start_time ASC;
                 `,
-					[eventId]
+					[eventId, date]
 				)
 			).rows;
 
@@ -240,8 +259,8 @@ async function postEventSchedule(req: Request, res: Response) {
 					`
                 INSERT INTO time_blocks 
                 (title, description, event_id, user_id, start_time, 
-                end_time, remark, created_at, updated_at)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+                end_time, remark, date, created_at, updated_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
 					[
 						req.body.title,
 						req.body.description,
@@ -250,6 +269,7 @@ async function postEventSchedule(req: Request, res: Response) {
 						req.body.startTime,
 						req.body.endTime,
 						req.body.remark,
+						date,
 						'now()',
 						'now()'
 					]

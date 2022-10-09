@@ -16,7 +16,6 @@ window.addEventListener("load", async () => {
 });
 
 
-
 async function setEnvironment() {
 
     setGlobalHeight(2)
@@ -59,9 +58,10 @@ async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get("event-id");
     const isCreator = params.get("is-creator");
+    const date = params.get("date")
 
     const res = await fetch(
-        `/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}`
+        `/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}&date=${date}`
     );
 
     if (res.status !== 200) {
@@ -419,6 +419,9 @@ document.querySelector("#activity-form").addEventListener("submit", async functi
     const startMin = parseInt(startTime.slice(3, 5))
     const endHour = parseInt(endTime.slice(0, 2))
     const endMin = parseInt(endTime.slice(3, 5))
+    const date = document.querySelector("#date-selector").value
+
+    console.log(form)
 
     let dataPass = true
 
@@ -444,9 +447,10 @@ document.querySelector("#activity-form").addEventListener("submit", async functi
             remark,
             startTime,
             endTime,
+            date
         };
 
-        const res = await fetch(`/eventSchedule/activity/?event-id=${eventId}&is-creator=${isCreator}`, {
+        const res = await fetch(`/eventSchedule/activity/?event-id=${eventId}&is-creator=${isCreator}&date=${date}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -527,6 +531,7 @@ async function submitEditActivity() {
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
+        const date = document.querySelector("#date-selector").value
 
         const form = e.target
         const id = e.target.getAttribute("value")
@@ -539,7 +544,7 @@ async function submitEditActivity() {
             }
         }
 
-        const res = await fetch(`/eventSchedule/description/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+        const res = await fetch(`/eventSchedule/description/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -591,11 +596,12 @@ async function submitEditRemark() {
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
+        const date = document.querySelector("#date-selector").value
 
         const form = e.target
         const id = e.target.getAttribute("value")
         const remark = form["edit-remark"].value
-        console.log(form, remark, id)
+        console.log(form, remark, id, date)
 
         if (!remark || onlySpaces(remark)) {
             if (!window.confirm("Input field seems to be empty, are you sure to proceed?")) {
@@ -603,7 +609,7 @@ async function submitEditRemark() {
             }
         }
 
-        const res = await fetch(`/eventSchedule/remark/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+        const res = await fetch(`/eventSchedule/remark/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -639,11 +645,12 @@ async function deleteTimeBlock() {
             const params = new URLSearchParams(window.location.search);
             const eventId = params.get('event-id');
             const isCreator = params.get('is-creator');
+            const date = document.querySelector("#date-selector").value
 
             const id = e.target.getAttribute(`value`);
             console.log("target ID =" + id)
 
-            const res = await fetch(`/eventSchedule/timeBlock/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
+            const res = await fetch(`/eventSchedule/timeBlock/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`, {
                 method: 'DELETE'
             })
             if (res.status !== 200) {

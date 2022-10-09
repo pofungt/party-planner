@@ -404,7 +404,7 @@ export async function loadEventDetails() {
           </div>
       `;
 
-    listenToSchedulePage();
+    listenToSchedulePage(result.detail.start_datetime);
     listenToItemPage();
     listenToDeleteParticipants();
   } else {
