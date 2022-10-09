@@ -169,3 +169,20 @@ document.querySelector('#invitation-form').addEventListener('submit', async func
 		alert('Unable to copy link.');
 	}
 });
+
+// Copy Invitation Link Button
+document.querySelector('#invitation-link').addEventListener('click', (e)=>{
+	const linkTextDiv = document.querySelector('#invitation-modal .form-control');
+	// Select the text field
+	linkTextDiv.select();
+	linkTextDiv.setSelectionRange(0, 99999); // For mobile devices
+
+	// Copy the text inside the text field
+	navigator.clipboard.writeText(linkTextDiv.value);
+
+	const currentWidth = e.target.style.width;
+	console.log(currentWidth)
+	e.target.style.backgroundColor = "#059862";
+	e.target.style.width = currentWidth;
+	e.target.innerHTML = "Copied";
+});
