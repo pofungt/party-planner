@@ -98,8 +98,8 @@ async function fetchEditItem() {
                 <td>${itemsData.price}</td>
                 <td>${itemsData.first_name} ${itemsData.last_name}</td>
                 <td>
-                   <button id="item-${itemsData.id}" itemDelete="button"                class="delete-btn">
-                        <i>class="bi bi-trash"></i>
+                   <button id="item-${itemsData.id}" itemDelete="button" class="delete-btn">
+                        <i class="bi bi-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -158,7 +158,7 @@ async function fetchPendingItems() {
           `;
         }
         document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
-        
+
     }
 }
 
@@ -166,12 +166,12 @@ async function fetchPendingItems() {
 
 
 document.querySelector(`.check-btn`).forEach((button) => {
-  button.addEventListener("click", function (e) {
+    button.addEventListener("click", function (e) {
 
 
-    // remove the item in the shopping list but not in the DB. 
+        // remove the item in the shopping list but not in the DB. 
 
-  })
+    })
 })
 
 
