@@ -18,6 +18,7 @@ async function editRemark(req: Request, res: Response) {
 		const eventId = req.query["event-id"];
 		const creator = req.query["is-creator"];
 		const timeBlockId = req.query["id"];
+		const date = req.query.date
 		const remark = req.body.remark
 		console.log(remark, timeBlockId)
 
@@ -27,11 +28,13 @@ async function editRemark(req: Request, res: Response) {
 				SET remark = $1
 				WHERE event_id = $2
 				AND id = $3
+				AND date = $4
 				`,
 				[
 					remark,
 					eventId,
-					timeBlockId,	
+					timeBlockId,
+					date	
 				]
 			)
 			res.json({
@@ -48,7 +51,7 @@ async function editRemark(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE001]: Failed to Edit Description",
+			msg: "[TBE001]: Failed to Edit Remark",
 		});
 	}
 }
@@ -59,6 +62,7 @@ async function editDescription(req: Request, res: Response) {
 		const eventId = req.query["event-id"];
 		const creator = req.query["is-creator"];
 		const timeBlockId = req.query["id"];
+		const date = req.query.date
 		const description = req.body.description
 		console.log(description, timeBlockId)
 
@@ -68,11 +72,13 @@ async function editDescription(req: Request, res: Response) {
 				SET description = $1
 				WHERE event_id = $2
 				AND id = $3
+				AND date = $4
 				`,
 				[
 					description,
 					eventId,
-					timeBlockId,	
+					timeBlockId,
+					date	
 				]
 			)
 			res.json({
@@ -101,16 +107,21 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		const eventId = req.query["event-id"];
 		const creator = req.query["is-creator"];
 		const timeBlockId = req.query["id"];
+		const date = req.query.date
 
 
 		if (creator) {
 			await client.query(`
                 DELETE FROM time_blocks 
                 WHERE id = $1
-                AND event_id = $2`,
+                AND event_id = $2
+				AND date = $3
+				`,
+				
 				[
 					timeBlockId,
-					eventId
+					eventId,
+					date
 				]
 			)
 			res.json({
@@ -138,7 +149,7 @@ async function getEventSchedule(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
-		console.log (req.query.date)
+		const date = req.query.date
 
 
 
@@ -149,7 +160,8 @@ async function getEventSchedule(req: Request, res: Response) {
 					`
             SELECT * FROM events
             WHERE events.id = $1
-            AND events.creator_id = $2;
+            AND events.creator_id = $2
+
             `,
 					[eventId, req.session.user]
 				)
@@ -167,18 +179,6 @@ async function getEventSchedule(req: Request, res: Response) {
 				)
 			).rows[0];
 		}
-
-		let date
-		if (req.query?.date) {
-			const dateTime = (new Date(event.start_datetime)).toLocaleString('en-US', { hour12: false, }).replace(', ', ' ').slice(0, -3)
-			date = `${dateTime.slice(6,10)}${dateTime.slice(0,2)}${dateTime.slice(3,5)}`
-			console.log ("123",date)
-			
-		} else {
-			date = req.query.date
-			console.log ("435",date)
-		}
-
 
 		const activitiesArr = (
 			await client.query(
@@ -217,7 +217,6 @@ async function postEventSchedule(req: Request, res: Response) {
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
 		const date = req.query.date;
-
 		if (creator) {
 			//check if start time and end time collided with existing activities
 

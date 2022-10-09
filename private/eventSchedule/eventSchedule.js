@@ -5,12 +5,12 @@ window.addEventListener("load", async () => {
     addNavbar();
     loadName();
 
-
     await getEventSchedule();
     await setEnvironment();
     deleteTimeBlock()
     hideCreatorDivClass()
-
+    listenToSchedulePage()
+    
 
     document.body.style.display = "block";
 });
@@ -111,10 +111,10 @@ async function getEventSchedule() {
     timeContainer.innerHTML = `( ${startTime} on ${startDate} )   to   ( ${endTime} on ${endDate} )`
     dateSelectorContainer.innerHTML = `
                     <input type="date" id="date-selector" name="trip-start"
-                    value="${startYear}-${startMonth}-${startDay}"
+                    value="${date.slice(0,4)}-${date.slice(4,6)}-${date.slice(6,8)}"
                     min="${startYear}-${startMonth}-${startDay}" max="${endYear}-${endMonth}-${endDay}"></input>`
 
-
+    
     addTimeInput(startHour, startMin, endHour, endMin)
     await getPresetTimeBlock(startTimeInMin, dayDifference)
     await getSavedTimeBlocks(activitiesArr)
@@ -408,6 +408,7 @@ document.querySelector("#activity-form").addEventListener("submit", async functi
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event-id');
     const isCreator = params.get('is-creator');
+    const date = params.get('date');
 
     const form = e.target
     const title = form["activity-name"].value
@@ -419,7 +420,7 @@ document.querySelector("#activity-form").addEventListener("submit", async functi
     const startMin = parseInt(startTime.slice(3, 5))
     const endHour = parseInt(endTime.slice(0, 2))
     const endMin = parseInt(endTime.slice(3, 5))
-    const date = document.querySelector("#date-selector").value
+    
 
     console.log(form)
 
@@ -531,7 +532,7 @@ async function submitEditActivity() {
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
-        const date = document.querySelector("#date-selector").value
+        const date = params.get('date');
 
         const form = e.target
         const id = e.target.getAttribute("value")
@@ -596,7 +597,7 @@ async function submitEditRemark() {
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
-        const date = document.querySelector("#date-selector").value
+        const date = params.get('date');
 
         const form = e.target
         const id = e.target.getAttribute("value")
@@ -645,7 +646,7 @@ async function deleteTimeBlock() {
             const params = new URLSearchParams(window.location.search);
             const eventId = params.get('event-id');
             const isCreator = params.get('is-creator');
-            const date = document.querySelector("#date-selector").value
+            const date = params.get('date');
 
             const id = e.target.getAttribute(`value`);
             console.log("target ID =" + id)
@@ -724,4 +725,16 @@ async function setGlobalHeight(input) {
 
 function onlySpaces(str) {
     return str.trim().length === 0;
+}
+
+async function listenToSchedulePage() {
+    document.querySelector("#date-selector").addEventListener('change',(e)=>{
+        e.preventDefault()
+        const rawDate = document.querySelector("#date-selector").value
+        const date= `${rawDate.slice(0,4)}${rawDate.slice(5,7)}${rawDate.slice(8,10)}`
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}&date=${date}`
+    })
 }
