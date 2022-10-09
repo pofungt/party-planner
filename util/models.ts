@@ -11,6 +11,7 @@ export interface Events {
 	lot_number: number | null;
 	remark: string | null;
 	creator_id: number;
+	invitation_token: string;
 	created_at: string;
 	updated_at: string;
 	status?: string;

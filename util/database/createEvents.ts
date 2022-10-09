@@ -4,6 +4,7 @@ import jsonfile from 'jsonfile';
 import path from 'path';
 import { format } from 'date-fns';
 import { Users, DataParts } from '../models';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -73,11 +74,14 @@ async function main() {
 			// Creator id
 			const creator_id: number = userDetail.id;
 
+			// Invitation Token
+			const invitation_token = crypto.randomBytes(64).toString('hex');
+
 			await client.query(
 				`INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-				[name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id]
+                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,invitation_token,created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+				[name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id, invitation_token]
 			);
 		}
 	}

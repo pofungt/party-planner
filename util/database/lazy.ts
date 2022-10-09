@@ -6,6 +6,7 @@ import { newJsonFile } from '../functions/newJsonFile';
 import { hashPassword } from '../functions/hash';
 import { UsersInput, DataParts, Users } from '../models';
 import { format } from 'date-fns';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -94,6 +95,7 @@ async function main() {
         lot_number int,
         remark varchar,
         creator_id int not NULL,
+        invitation_token varchar not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -130,9 +132,13 @@ async function main() {
         description varchar,
         event_id int not NULL,
         user_id int not NULL,
+        date varchar,
         start_time time not NULL,
         end_time time not NULL,
+        color varchar,
         remark varchar,
+        remark_2 varchar,
+        remark_3 varchar,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (event_id) REFERENCES events(id),
@@ -294,11 +300,14 @@ async function main() {
             // Creator id
             const creator_id: number = userDetail.id;
 
+			// Invitation Token
+			const invitation_token = crypto.randomBytes(64).toString('hex');
+
             await client.query(
                 `INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-                [name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id]
+                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,invitation_token,created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+                [name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id, invitation_token]
             );
         }
     }

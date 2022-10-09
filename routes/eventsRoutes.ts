@@ -5,6 +5,7 @@ import { onlyNumbers } from '../util/functions/onlyNumbers';
 import { logger } from '../util/logger';
 import { isLoggedInAPI } from '../util/guard';
 import { eventDetailsRoutes } from './eventDetailsRoutes';
+import crypto from 'crypto';
 
 export const eventsRoutes = express.Router();
 
@@ -103,12 +104,13 @@ async function getParticipateEventList(req: Request, res: Response) {
 async function postEvent(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
+		const invitation_token = crypto.randomBytes(64).toString('hex');
 		await client.query(
 			`INSERT INTO  events 
                 (name, venue, indoor, outdoor, parking_lot, 
                 lot_number, remark, start_datetime, end_datetime, budget, 
-                creator_id, created_at, updated_at) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,
+                creator_id, invitation_token, created_at, updated_at) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
 			[
 				req.body.eventName,
 				req.body.eventVenue,
@@ -121,8 +123,7 @@ async function postEvent(req: Request, res: Response) {
 				req.body.endTime,
 				req.body.eventBudget,
 				req.session.user,
-				'now()',
-				'now()'
+				invitation_token
 			]
 		);
 		res.json({ msg: 'Posted to DB' });
