@@ -179,6 +179,13 @@ a {
 	align-items: center;
 }
 
+.copied {
+	background-color: #059862;
+	color: white;
+	font-weight: bold;
+	border: 4px solid #07C982;
+}
+
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
 	display: none;

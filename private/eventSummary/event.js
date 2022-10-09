@@ -181,20 +181,14 @@ document.querySelector('#invitation-link').addEventListener('click', (e)=>{
 	navigator.clipboard.writeText(linkTextDiv.value);
 
 	// Change button to copied
+	e.target.classList.add("copied");
 	const currentWidth = e.target.offsetWidth;
-	e.target.style.backgroundColor = "#059862";
 	e.target.style.width = `${currentWidth}px`;
-	e.target.style.color = "white";
-	e.target.style.fontWeight = "bold";
-	e.target.style.border = "4px solid #07C982";
 	e.target.innerHTML = "Copied!";
 
 	// Change back the button to normal
 	setTimeout(()=>{
-		e.target.style.backgroundColor = "#e9ecef";
-		e.target.style.color = "#212529";
-		e.target.style.fontWeight = "normal";
-		e.target.style.border = "1px solid #ced4da";
+		e.target.classList.remove("copied");
 		e.target.innerHTML = "Copy Link";
 	},5000);
 });
