@@ -7,7 +7,7 @@ window.addEventListener("load", async () => {
 
 
     await getEventSchedule();
-    setEnvironment();
+    await setEnvironment();
     deleteTimeBlock()
     hideCreatorDivClass()
 
@@ -17,7 +17,7 @@ window.addEventListener("load", async () => {
 
 
 
-function setEnvironment() {
+async function setEnvironment() {
 
     setGlobalHeight(2)
 
@@ -78,8 +78,6 @@ async function getEventSchedule() {
     const activitiesArr = result.activities
     const startTime = startDateTime.slice(-5)
     const endTime = endDateTime.slice(-5)
-    // const startDate = startDateTime.slice(0,10)
-    // const endDate = endDateTime.slice(0,10)
     const startHour = parseInt(startTime.slice(0, 2))
     const endHour = parseInt(endTime.slice(0, 2))
     const startMin = parseInt(startTime.slice(3, 5))
@@ -87,14 +85,41 @@ async function getEventSchedule() {
     const startTimeInMin = toMin(startTime)
     const endTimeInMin = toMin(endTime)
 
+
+    //in case of two or more days of event
+    const startDate = startDateTime.slice(0, 10)
+    const endDate = endDateTime.slice(0, 10)
+    const startYear = parseInt(startDateTime.slice(6, 10))
+    const endYear = parseInt(endDateTime.slice(6, 10))
+    const startMonth = parseInt(startDateTime.slice(0, 3))
+    const endMonth = parseInt(endDateTime.slice(0, 3))
+    const startDay = parseInt(startDateTime.slice(3, 5))
+    const endDay = parseInt(endDateTime.slice(3, 5))
+
+
+
+    const dayDifference = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24
+    const daysOfEventInMin = (new Date(endDateTime).getTime() - new Date(startDateTime).getTime()) / 1000 / 60
+
+    console.log(dayDifference)
+
+    let dateSelectorContainer = document.querySelector('#date-selector-container');
     let pageTitle = document.querySelector('#event-name');
-    pageTitle.innerHTML = eventName + '  ' + `( ${startTime} - ${endTime} )`;
+    let timeContainer = document.querySelector('#event-time-container')
+
+    pageTitle.innerHTML = `${eventName}`
+    timeContainer.innerHTML = `( ${startTime} on ${startDate} )   to   ( ${endTime} on ${endDate} )`
+    dateSelectorContainer.innerHTML = `
+                    <input type="date" id="date-selector" name="trip-start"
+                    value="${startYear}-${startMonth}-${startDay}"
+                    min="${startYear}-${startMonth}-${startDay}" max="${endYear}-${endMonth}-${endDay}"></input>`
+
 
     addTimeInput(startHour, startMin, endHour, endMin)
-    await getPresetTimeBlock(startTimeInMin)
+    await getPresetTimeBlock(startTimeInMin, dayDifference)
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
-    getMemo(activitiesArr)
+    await getMemo(activitiesArr)
 }
 
 
@@ -162,7 +187,7 @@ async function getMemo(activitiesArr) {
             editActivity(id, description)
             editRemarks(id, remark)
         });
-        
+
     });
 }
 
@@ -172,58 +197,35 @@ async function addTimeInput(startHour, startMin, endHour, endMin) {
 
     //restrict time input according to the event start and end time
 
-    const timeContainer = document.querySelector("#time-container");
+    const startTimeRange = document.querySelector("#start-time");
+    const endTimeRange = document.querySelector("#start-time");
 
     if (startMin === 0 && endMin !== 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-            `
+        startTimeRange.setAttribute("min", `${startHour}:0${startMin}`)
+        startTimeRange.setAttribute("max", `${endHour}:${endMin}`)
+        endTimeRange.setAttribute(`min`, `${startHour}:0${startMin}`)
+        endTimeRange.setAttribute(`max`, `${endHour}:${endMin}`)
     }
 
     if (startMin === 0 && endMin === 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:0${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-            `
+        startTimeRange.setAttribute("min", `${startHour}:0${startMin}`)
+        startTimeRange.setAttribute("max", `${endHour}:0${endMin}`)
+        endTimeRange.setAttribute(`min`, `${startHour}:0${startMin}`)
+        endTimeRange.setAttribute(`max`, `${endHour}:0${endMin}`)
     }
 
     if (startMin !== 0 && endMin !== 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:${endMin}" step="900" required>
-        </div>
-            `
+        startTimeRange.setAttribute("min", `${startHour}:${startMin}`)
+        startTimeRange.setAttribute("max", `${endHour}:${endMin}`)
+        endTimeRange.setAttribute(`min`, `${startHour}:${startMin}`)
+        endTimeRange.setAttribute(`max`, `${endHour}:${endMin}`)
     }
 
     if (startMin !== 0 && endMin === 0) {
-        timeContainer.innerHTML = `
-        <div class="input-panel mb-3">
-            <div class="form-header">Start Time *</div>
-            <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-        <div class="input-panel mb-3">
-            <div class="form-header">End Time *</div>
-            <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="${startHour}:${startMin}" max="${endHour}:0${endMin}" step="900" required>
-        </div>
-            `
+        startTimeRange.setAttribute("min", `${startHour}:${startMin}`)
+        startTimeRange.setAttribute("max", `${endHour}:0${endMin}`)
+        endTimeRange.setAttribute(`min`, `${startHour}:${startMin}`)
+        endTimeRange.setAttribute(`max`, `${endHour}:0${endMin}`)
     }
 }
 
@@ -231,20 +233,20 @@ async function getPresetTimeBlock(startTime) {
     let rundown = document.querySelector("#rundown")
 
     //generate time block for 24 hours
-    for (let i = 0; i < 96; i++) {
+    for (let i = 0 ; i < 96; i++) {
         let start = i * 15
         let end = (i + 1) * 15
         const timeString = minToTimeString(start)
         const height = end - start
         rundown.innerHTML +=
             `
-                <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
-                    <span id="time-stamp-box" class="time-stamp-container col-2">
-                        <div id="stamp-${start}" class="time-stamp">${timeString}</div>
-                    </span>
-                    <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-10"></span>
-                </div>    
-            `
+                    <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
+                        <span id="time-stamp-box" class="time-stamp-container col-2">
+                            <div id="stamp-${start}" class="time-stamp">${timeString}</div>
+                        </span>
+                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-10"></span>
+                    </div>    
+                `
         document.querySelector(`#time-block-${start}`).style.height = `${height}px`
     }
 
@@ -513,44 +515,44 @@ async function editActivity(id, description) {
                         </button>
                         </form>
                         `
-        submitEditActivity ()
+        submitEditActivity()
     });
-    
+
 }
 
-async function submitEditActivity (){
-    document.querySelector("#edit-description-form").addEventListener("submit", async (e)=>{
+async function submitEditActivity() {
+    document.querySelector("#edit-description-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-    
+
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
-        
+
         const form = e.target
         const id = e.target.getAttribute("value")
         const description = form["edit-description"].value
-        console.log (form, description, id)
-    
+        console.log(form, description, id)
+
         if (!description || onlySpaces(description)) {
             if (!window.confirm("Input field seems to be empty, are you sure to proceed?")) {
                 return
             }
         }
-    
+
         const res = await fetch(`/eventSchedule/description/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({description})
+            body: JSON.stringify({ description })
         });
-    
+
         if (res.status !== 200) {
             const data = await res.json();
             alert(data.msg);
             return;
         }
-    
+
         const result = await res.json();
         if (result.status === true) {
             alert("Activity successfully edited!")
@@ -582,39 +584,39 @@ function editRemarks(id, remark) {
     });
 }
 
-async function submitEditRemark(){
-    document.querySelector("#edit-remark-form").addEventListener("submit", async (e)=>{
+async function submitEditRemark() {
+    document.querySelector("#edit-remark-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-    
+
         const params = new URLSearchParams(window.location.search);
         const eventId = params.get('event-id');
         const isCreator = params.get('is-creator');
-        
+
         const form = e.target
         const id = e.target.getAttribute("value")
         const remark = form["edit-remark"].value
-        console.log (form, remark, id)
-    
+        console.log(form, remark, id)
+
         if (!remark || onlySpaces(remark)) {
             if (!window.confirm("Input field seems to be empty, are you sure to proceed?")) {
                 return
             }
         }
-    
+
         const res = await fetch(`/eventSchedule/remark/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({remark})
+            body: JSON.stringify({ remark })
         });
-    
+
         if (res.status !== 200) {
             const data = await res.json();
             alert(data.msg);
             return;
         }
-    
+
         const result = await res.json();
         if (result.status === true) {
             alert("Activity successfully edited!")

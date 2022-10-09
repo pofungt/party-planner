@@ -30,15 +30,24 @@
     <button type="button" id="creator-function" class="create-button" data-bs-toggle="modal" data-bs-target="#create-time-block-modal">
         Add Activity
     </button>
+    
 
     <div class="navbar-container container">
       <!-- NAVBAR: to be loaded with js -->
     </div>
 
     <header id="event-name">Schedule</header>
+    <div id="event-time-container">
+      <!-- time and date input here -->
+    </div>
+    
 
     <div class="container container-fluid" id="page">
+      
       <div id="time-block-page-container" class="container row">
+        <div id="date-selector-container" class="col-12">
+          <!-- time selector here -->
+        </div>
         <div id="time-block-memo-container" class="col-sm-5"></div>
         <div id="rundown-container" class="col-sm-7 overflow-auto">
           <div id="rundown" class="rundown" data-current="0">
@@ -77,7 +86,14 @@
                             </div>
 
                             <div id="time-container">
-                                <!-- input by js -->
+                              <div class="input-panel mb-3">
+                                <div class="form-header">Start Time *</div>
+                                <input type="time" name="start" class="form-control" id="start-time" name="start-time" min="00:00" max="24:00" step="900" required>
+                            </div>
+                            <div class="input-panel mb-3">
+                                <div class="form-header">End Time *</div>
+                                <input type="time" name="end" class="form-control" id="end-time" name="end-time" min="00:00" max="24:00" step="900" required>
+                            </div>
                             </div>
 
                             <div class="input-panel mb-3">
