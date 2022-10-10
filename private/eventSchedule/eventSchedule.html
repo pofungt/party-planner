@@ -17,7 +17,7 @@
 
 <body>
 
-  <button type="button" id="creator-function" class="create-button" data-bs-toggle="modal"
+  <button type="button" id="add-activity" class="create-button creator-function" data-bs-toggle="modal"
     data-bs-target="#create-time-block-modal">
     Add Activity
   </button>
@@ -95,6 +95,11 @@
                                 </textarea>
               </div>
 
+              <div class="input-panel mb-3">
+                <div class="form-header">Display Color</div>
+                <input value="#f29659" id="color" class="form-control" name="color" type="color">
+              </div>
+
               <div class="modal-footer">
                 <button id="submit-new-activity" type="submit" class="btn btn-primary">
                   Submit
@@ -144,6 +149,11 @@
                 </div>
               </div>
 
+              <div class="input-panel mb-3">
+                <div class="form-header">Display Color</div>
+                <input value="#f29659" id="edit-color" class="form-control" name="color" type="color">
+              </div>
+
               <div class="modal-footer">
                 <button id="submit-edit-time-name" type="submit" class="btn btn-primary">
                   Submit
@@ -155,6 +165,127 @@
       </div>
     </div>
   </div>
+
+  <!-- Edit Item Modal -->
+  <div class="modal fade" id="edit-item-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h5 class="modal-title">ITEM LIST</h5>
+          <div class="exit-modal">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="item-form-text" class="form-text">
+						Select items you wish to add to this activity
+					</div>
+          <div class="input-group">
+
+            <form id="edit-item-form" class="edit-item-form row">
+              
+              <div class="input-panel mb-3 col-6">
+                <div class="form-header" id="item-form-header">Food</div>
+                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+              </ul>
+              </div>
+
+              <div class="input-panel mb-3 col-6">
+                <div class="form-header" id="item-form-header">Drinks</div>
+                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+              </ul>
+              </div>
+
+              <div class="input-panel mb-3 col-6">
+                <div class="form-header" id="item-form-header">Decoration</div>
+                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" checked>
+                  <label for="scales">Item 1</label>
+                  </li>
+              </ul>
+              </div>
+
+              <div class="input-panel mb-3 col-6">
+                <div class="form-header" id="item-form-header">Others</div>
+                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" unchecked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" unchecked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" unchecked>
+                  <label for="scales">Item 1</label>
+                  </li>
+                  <li>
+                    <input type="checkbox" id="scales" name="scales" unchecked>
+                  <label for="scales">Item 1</label>
+                  </li>
+              </ul>
+              </div>
+
+              <div class="modal-footer">
+                <button id="submit-edit-item" type="submit" class="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
     <script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
