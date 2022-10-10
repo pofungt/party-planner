@@ -38,6 +38,10 @@ async function main() {
         creator_id int not NULL,
         invitation_token varchar not NULL,
         deleted boolean not NULL,
+        date_poll_created boolean not NULL,
+		date_poll_terminated boolean not NULL,
+		venue_poll_created boolean not NULL,
+		venue_poll_terminated boolean not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)

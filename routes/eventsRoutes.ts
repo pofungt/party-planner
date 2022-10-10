@@ -110,8 +110,14 @@ async function postEvent(req: Request, res: Response) {
 			`INSERT INTO  events 
                 (name, venue, indoor, outdoor, parking_lot, 
                 lot_number, remark, start_datetime, end_datetime, budget, 
-                creator_id, invitation_token, deleted, created_at, updated_at) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
+                creator_id, invitation_token, deleted, 
+				date_poll_created,
+				date_poll_terminated,
+				venue_poll_created,
+				venue_poll_terminated,
+				created_at, updated_at) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,FALSE,FALSE,FALSE,FALSE,FALSE,
+				CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
 			[
 				req.body.eventName,
 				req.body.eventVenue,
