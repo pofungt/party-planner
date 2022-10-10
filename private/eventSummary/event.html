@@ -75,6 +75,7 @@
   </div>
 
   <!-- Modal Parts -->
+  <!-- Date/Time Modal -->
   <div class="modal fade" id="datetime-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -120,6 +121,7 @@
     </div>
   </div>
 
+  <!-- Venue Modal -->
   <div class="modal fade" id="venue-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -132,6 +134,12 @@
           </div>
         </div>
         <div class="modal-body">
+          <div class="switch-buttons-container">
+            <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" autocomplete="off" checked>
+            <label class="btn btn-outline-success" for="success-outlined">Editing</label>
+            <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" autocomplete="off">
+            <label class="btn btn-outline-danger" for="danger-outlined">Polling</label>
+          </div>
           <div class="input-group">
             <div class="input-group-container">
               <div class="input-title">Please enter your venue below:</div>
@@ -153,6 +161,7 @@
     </div>
   </div>
 
+  <!-- Delete Participants Modal -->
   <div class="modal fade" id="participants-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -197,6 +206,7 @@
     </div>
   </div>
 
+  <!-- Invitation Link Modal -->
   <div class="modal fade" id="invitation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -231,6 +241,7 @@
     </div>
   </div>
 
+  <!-- Delete Event Confirmation Modal -->
   <div class="modal fade" id="delete-event-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
