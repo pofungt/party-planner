@@ -337,10 +337,18 @@ div[class^="venue_poll_"] label {
 	--bs-btn-border-radius: 0 0.375rem 0.375rem 0;
 }
 
-#venue-add-option {
+.option-button-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#venue-add-option, #venue-remove-option {
 	margin: 10px;
 	box-shadow: none;
 }
+
+
 
 /* ↑↑ Button ↑↑ */
 

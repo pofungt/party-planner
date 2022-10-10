@@ -124,6 +124,16 @@ document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
 	`
 })
 
+// Venue Polling Remove Option Button
+document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
+	e.preventDefault();
+	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
+	const numberOfOptions = venuePollOptionsDivList.length;
+	if (numberOfOptions > 1) {
+		venuePollOptionsDivList[numberOfOptions - 1].remove();
+	}
+})
+
 // Submit participants form
 document.querySelector('#participants-submit').addEventListener('click', async () => {
 	const params = new URLSearchParams(window.location.search);
