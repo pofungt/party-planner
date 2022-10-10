@@ -55,13 +55,13 @@ export async function loadCreateEvents(page) {
         <div>${event.name}</div>
       </th>
       <th scope="col" class="address_${event.id}">
-        <div>${!event.venue ? '' : event.venue}</div>
+        <div>${!event.venue ? 'TBD' : event.venue}</div>
       </th>
       <th scope="col" class="start_datetime_${event.id}">
         <div>
           ${
 				!event.start_datetime
-					? ''
+					? 'TBD'
 					: new Date(event.start_datetime)
 							.toLocaleString('en-US', { hour12: false })
 							.replace(', ', ' ')
@@ -73,7 +73,7 @@ export async function loadCreateEvents(page) {
         <div>
           ${
 				!event.end_datetime
-					? ''
+					? 'TBD'
 					: new Date(event.end_datetime)
 							.toLocaleString('en-US', { hour12: false })
 							.replace(', ', ' ')
@@ -155,13 +155,13 @@ export async function loadParticipateEvents(page) {
               <div>${event.name}</div>
             </th>
             <th scope="col" class="address_${event.id}">
-              <div>${!event.venue ? '' : event.venue}</div>
+              <div>${!event.venue ? 'TBD' : event.venue}</div>
             </th>
             <th scope="col" class="start_datetime_${event.id}">
               <div>
                 ${
 					!event.start_datetime
-						? ''
+						? 'TBD'
 						: new Date(event.start_datetime)
 								.toLocaleString('en-US', { hour12: false })
 								.replace(', ', ' ')
@@ -173,7 +173,7 @@ export async function loadParticipateEvents(page) {
               <div>
                 ${
 					!event.end_datetime
-						? ''
+						? 'TBD'
 						: new Date(event.end_datetime)
 								.toLocaleString('en-US', { hour12: false })
 								.replace(', ', ' ')
@@ -271,7 +271,9 @@ export async function loadEventDetails() {
         <div>Start:</div>
         <div>End:</div>
       `;
-		}
+		} else {
+      startDateTimeString = 'To Be Determined'
+    }
 
 		let editTimeButton = '';
 		if (isCreator && processing && !deleted) {
@@ -379,7 +381,9 @@ export async function loadEventDetails() {
           ${result.detail.venue || ''}
         </a>
       `;
-		}
+		} else {
+      venueString = 'To Be Determined';
+    }
 		let editVenueButton = '';
 		if (isCreator && processing && !deleted) {
 			editVenueButton = `
