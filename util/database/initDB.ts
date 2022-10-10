@@ -113,7 +113,7 @@ async function main() {
     CREATE TABLE event_venues (
         id SERIAL primary key,
         name varchar not NULL,
-        address_link varchar not NULL,
+        address varchar not NULL,
         indoor boolean,
         parking_slots int,
         event_id int not NULL,
