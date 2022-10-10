@@ -1,3 +1,4 @@
+import { doc } from 'prettier';
 import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
 
@@ -139,7 +140,7 @@ async function fetchPendingItems() {
 		let shoppingList = '';
 		for (const items of res.itemObj) {
 			shoppingList += `
-				<tr>
+				<tr id="list-item-id">
 					<td>
 						<div class="pending-item">
 							${items.name}
@@ -162,7 +163,11 @@ function checkShoppingListItem (){
 			const itemID = e.currentTarget.id;
 			const res = await fetch(`/items/${itemID}`, {
 				
-			})
+			});
+			if((await res.json()).status === true) {
+				const removeOnTheList = document.querySelector('#list-item-' + itemID);
+				removeOnTheList.remove();
+			}
 		});
 	});
 
