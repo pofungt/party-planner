@@ -35,21 +35,31 @@
                                 <tr>
                                     <th scope="col" class="pending-item-header">
                                         Pending Items:
-                                        <button class="shorting-btn"><i class="bi bi-filter-circle"></i></button>
+                                        <div>
+                                            <button id="shopping-list-shorting" class="shorting-btn" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bi bi-filter-circle"></i></button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Food</a></li>
+                                                <li><a class="dropdown-item" href="#">Food</a></li>
+                                                <li><a class="dropdown-item" href="#">Food</a></li>
+                                            </ul>
+                                        </div>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody id="shipping-list-update">
-                                <tr>
-                                    <!-- 
+                                <!-- 
+                                    <tr id="list-item-id">
                                         <td>
-                                            <div class="pending-item">item 1
-                                                <button class="check-btn"><i class="bi bi-check-circle"></i>
+                                            <div class="pending-item">
+                                                item 1
+                                                <button id="checking-id" class="check-btn"><i class="bi bi-check-circle"></i>
                                                 </button>
                                             </div>
                                         </td>
-                                     -->
-                                </tr>
+                                    </tr>
+                                -->
                             </tbody>
                         </table>
                     </div>

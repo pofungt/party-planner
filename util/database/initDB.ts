@@ -38,6 +38,10 @@ async function main() {
         creator_id int not NULL,
         invitation_token varchar not NULL,
         deleted boolean not NULL,
+        date_poll_created boolean not NULL,
+		date_poll_terminated boolean not NULL,
+		venue_poll_created boolean not NULL,
+		venue_poll_terminated boolean not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -113,7 +117,7 @@ async function main() {
     CREATE TABLE event_venues (
         id SERIAL primary key,
         name varchar not NULL,
-        address_link varchar not NULL,
+        address varchar not NULL,
         indoor boolean,
         parking_slots int,
         event_id int not NULL,

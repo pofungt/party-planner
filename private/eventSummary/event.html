@@ -75,6 +75,7 @@
   </div>
 
   <!-- Modal Parts -->
+  <!-- Date/Time Modal -->
   <div class="modal fade" id="datetime-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -120,6 +121,7 @@
     </div>
   </div>
 
+  <!-- Venue Modal -->
   <div class="modal fade" id="venue-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -132,7 +134,15 @@
           </div>
         </div>
         <div class="modal-body">
-          <div class="input-group">
+          <div class="switch-buttons-container">
+            <input type="radio" class="btn-check" name="options-outlined" id="edit-venue-switch" autocomplete="off"
+              checked>
+            <label class="btn btn-outline-success" for="edit-venue-switch">Editing</label>
+            <input type="radio" class="btn-check" name="options-outlined" id="poll-venue-switch" autocomplete="off">
+            <label class="btn btn-outline-danger" for="poll-venue-switch">Polling</label>
+          </div>
+          <!-- Edit Venue Form -->
+          <div class="input-group edit-input">
             <div class="input-group-container">
               <div class="input-title">Please enter your venue below:</div>
               <form id="venue-form">
@@ -148,11 +158,44 @@
               </form>
             </div>
           </div>
+
+          <!-- Poll Venue Form -->
+          <div class="input-group poll-input hide">
+            <div class="input-group-container">
+              <div class="input-title">Please enter your polling options below:</div>
+              <form id="venue-poll-form">
+                <div class="venue-poll-options-container input-panel mb-3">
+                  <div class="venue_poll_1">
+                    <label for="venue_poll">Option 1: </label>
+                    <input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <!-- More options added by JS -->
+                </div>
+                <div class="option-button-container">
+                  <button id="venue-add-option" class="modal-submit-button">
+                    <i class="fa-solid fa-plus"></i>&nbsp Option
+                  </button>
+                  <button id="venue-remove-option" class="modal-submit-button">
+                    <i class="fa-solid fa-minus"></i>&nbsp Option
+                  </button>
+                </div>
+
+                <div class="modal-footer">
+                  <button id="venue-poll-submit" type="submit" class="modal-submit-button">
+                    Start Polling
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Delete Participants Modal -->
   <div class="modal fade" id="participants-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -197,6 +240,7 @@
     </div>
   </div>
 
+  <!-- Invitation Link Modal -->
   <div class="modal fade" id="invitation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -231,6 +275,7 @@
     </div>
   </div>
 
+  <!-- Delete Event Confirmation Modal -->
   <div class="modal fade" id="delete-event-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
