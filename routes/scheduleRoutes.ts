@@ -9,8 +9,102 @@ scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
 scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
 scheduleRoutes.put("/description/edit", isLoggedInAPI, editDescription);
 scheduleRoutes.put("/remark/edit", isLoggedInAPI, editRemark);
+scheduleRoutes.put("/timeName/edit", isLoggedInAPI, editTimeName);
 
 scheduleRoutes.delete("/timeBlock/", isLoggedInAPI, deleteTimeBlock);
+
+async function editTimeName (req: Request, res: Response) {
+	try {
+		logger.debug("Before reading DB");
+		const eventId = req.query["event-id"];
+		const creator = req.query["is-creator"];
+		const timeBlockId = req.query["id"];
+		const date = req.query.date
+		const title = req.body.title
+		const startTime = req.body.editStartTime
+		const endTime = req.body.editEndTime
+		console.log(req.body, title, startTime, endTime)
+
+		if (creator) {
+			//check time collision with existing time-blocks
+			
+			const existingActivities = (
+				await client.query(
+					`
+                SELECT start_time, end_time FROM time_blocks
+                WHERE event_id = $1
+				AND date = $2
+                ORDER BY start_time ASC;
+                `,
+					[eventId, date]
+				)
+			).rows;
+
+			let reject = false;
+
+			existingActivities.forEach((activity) => {
+				const startTimeInMin = toMin(activity.start_time);
+				const endTimeInMin = toMin(activity.end_time);
+
+				const newStartTimeInMin = toMin(req.body.editStartTime);
+				const newEndTimeInMin = toMin(req.body.editEndTime);
+
+				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
+					reject = true;
+				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin) {
+					reject = true;
+				}
+			});
+
+			//writing update to DB
+			if (reject) {
+				res.status(400).json({
+					msg: '[EER002]: Activity Start Time or End Time Overlapped with Existing Activity'
+				});
+			} else {
+			await client.query(`
+                UPDATE time_blocks
+				SET title = $1,
+					start_time = $2,
+					end_time = $3,
+					updated_at = $4
+				WHERE event_id = $5
+				AND id = $6
+				AND date = $7
+				`,
+				[
+					title,
+					startTime,
+					endTime,
+					'now()',
+					eventId,
+					timeBlockId,
+					date	
+				]
+			)
+
+			}
+			res.json({
+				status: true,
+				msg: "Edit success"
+			})
+
+		} else {
+
+			res.json({
+				status: false,
+				msg: "Unauthorized request"
+			})
+
+		}
+
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: "[TBE002]: Failed to Edit Time & Name",
+		});
+	}
+}
 
 async function editRemark(req: Request, res: Response) {
 	try {
@@ -25,13 +119,15 @@ async function editRemark(req: Request, res: Response) {
 		if (creator) {
 			await client.query(`
                 UPDATE time_blocks
-				SET remark = $1
-				WHERE event_id = $2
-				AND id = $3
-				AND date = $4
+				SET remark = $1,
+					updated_at = $2
+				WHERE event_id = $3
+				AND id = $4
+				AND date = $5
 				`,
 				[
 					remark,
+					'now()',
 					eventId,
 					timeBlockId,
 					date	
@@ -69,13 +165,15 @@ async function editDescription(req: Request, res: Response) {
 		if (creator) {
 			await client.query(`
                 UPDATE time_blocks
-				SET description = $1
-				WHERE event_id = $2
-				AND id = $3
-				AND date = $4
+				SET description = $1,
+					updated_at = $2
+				WHERE event_id = $3
+				AND id = $4
+				AND date = $5
 				`,
 				[
 					description,
+					'now()',
 					eventId,
 					timeBlockId,
 					date	
@@ -95,7 +193,7 @@ async function editDescription(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE001]: Failed to Edit Description",
+			msg: "[TBE003]: Failed to Edit Description",
 		});
 	}
 }

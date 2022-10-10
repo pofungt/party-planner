@@ -14,6 +14,7 @@ header{
 
 .modal-content {
 	align-items: center;
+	width: fit-content;
 }
 
 #date-selector-container {
@@ -34,8 +35,15 @@ header {
 }
 
 #time-block-memo-container {
+	position: relative;
 	height: 100%;
+}
 
+#close-memo {
+	position: absolute;
+	top: 0px;
+	font-size: 10px;
+	right: 10px;
 }
 
 #time-block-page-container {
@@ -244,10 +252,21 @@ textarea {
 	min-height: 22px !important;
 	padding: 3px;
 	font-size: 10px;
+}
+
+.edit-button {
 	position: absolute;
 	top: 5px;
 	right: 5px;
 }
+
+.modal-dialog{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%
+}
+
 
 #event-name {
 	font-size: large;
