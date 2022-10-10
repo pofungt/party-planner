@@ -90,7 +90,8 @@ document.querySelector('#join-event-button').addEventListener('click', async()=>
 	});
 	const result = await res.json();
 	if (result.status) {
-
+		alert('You have successfully joined the event!');
+		window.location.href = `/eventSummary/event.html?event-id=${eventId}&is-creator=0`;
 	} else {
 		if (result.login) {
 			if (result.isCreator) {
