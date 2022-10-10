@@ -143,7 +143,7 @@ async function fetchPendingItems() {
 					<td>
 						<div class="pending-item">
 							${items.name}
-							<button id="shopping-list-check-btn" class="check-btn">
+							<button id="checking-${items.id}" class="check-btn">
 								<i class="bi bi-check-circle"></i>
 							</button>
 						</div>
@@ -152,13 +152,19 @@ async function fetchPendingItems() {
           `;
 		}
 		document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
+		checkShoppingListItem ();
 	}
 }
 
-
-document.querySelector(`#shopping-list-check-btn`).forEach((button) => {
-	button.addEventListener('click', function (e) {
-		
-
+function checkShoppingListItem (){
+	document.querySelectorAll(`#checking-id`).forEach((button) => {
+		button.addEventListener('click', async function (e) {
+			const itemID = e.currentTarget.id;
+			const res = await fetch(`/items/${itemID}`, {
+				
+			})
+		});
 	});
-});
+
+}
+
