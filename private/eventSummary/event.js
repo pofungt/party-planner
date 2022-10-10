@@ -166,7 +166,7 @@ document.querySelector('#invitation-form').addEventListener('submit', async func
 		pasteInvitationLink(eventId,invitationResult.invitation_token);
 		alert('Link renewed!');
 	} else {
-		alert('Unable to copy link.');
+		alert('Unable to create link.');
 	}
 });
 
