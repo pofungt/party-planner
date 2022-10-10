@@ -398,7 +398,8 @@ a {
 }
 
 #datetime-submit,
-#venue-submit {
+#venue-submit,
+#venue-poll-submit {
 	width: 50%;
 }
 

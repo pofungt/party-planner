@@ -101,6 +101,16 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 	}
 });
 
+// Venue Edit-Poll Toggle
+document.querySelector('#edit-venue-switch').addEventListener('change', ()=>{
+	document.querySelector('.edit-input').classList.toggle("hide");
+	document.querySelector('.poll-input').classList.toggle("hide");
+})
+document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
+	document.querySelector('.edit-input').classList.toggle("hide");
+	document.querySelector('.poll-input').classList.toggle("hide");
+})
+
 // Submit participants form
 document.querySelector('#participants-submit').addEventListener('click', async () => {
 	const params = new URLSearchParams(window.location.search);
