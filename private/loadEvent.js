@@ -404,15 +404,21 @@ export async function loadEventDetails() {
     `;
 
 		// Load schedule into Page
+    let infoButtonHTML = "";
+    if (result.detail.start_datetime && result.detail.end_datetime) {
+      infoButtonHTML = `
+      <a class="info-button">
+        <i class="fa-solid fa-info"></i>
+      </a>
+      `
+    }
 		const schedule = document.querySelector('.schedule .background-frame');
 		schedule.innerHTML = `
           <div class="frame-title-container">
             <div id="frame-content-container" class="frame-title">
               Schedule
             </div>
-            <a class="info-button">
-              <i class="fa-solid fa-info"></i>
-            </a>
+            ${infoButtonHTML}
           </div>
           <div class="frame-content-container">
 
