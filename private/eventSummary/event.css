@@ -223,6 +223,10 @@ a {
 	align-items: center;	
 }
 
+.hide {
+	display: none;
+}
+
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
 	display: none;
@@ -306,6 +310,7 @@ a {
 	--bs-btn-border-color: #6C757D;
 	--bs-btn-active-bg: #6C757D;
 	--bs-btn-active-border-color: #6C757D;
+	font-size: 15px;
 }
 
 .btn-outline-success {
