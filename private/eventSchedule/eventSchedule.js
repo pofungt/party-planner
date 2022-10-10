@@ -5,14 +5,17 @@ window.addEventListener('load', async () => {
 	addNavbar();
 	loadName();
 
-	await getEventSchedule();
-	await setEnvironment();
-	deleteTimeBlock();
-	hideCreatorDivClass();
-	listenToSchedulePage();
+    await getEventSchedule();
+    await setEnvironment();
+    deleteTimeBlock()
+    hideCreatorDivClass()
+    listenToSchedulePage()
 
-	document.body.style.display = 'block';
+
+    document.body.style.display = "block";
 });
+
+
 
 async function setEnvironment() {
 	setGlobalHeight(2);
@@ -64,56 +67,85 @@ async function getEventSchedule() {
 
 	const result = await res.json();
 
-	const eventName = result.detail.name;
-	const startDateTime = new Date(result.detail.start_datetime)
-		.toLocaleString('en-US', { hour12: false })
-		.replace(', ', ' ')
-		.slice(0, -3);
-	const endDateTime = new Date(result.detail.end_datetime)
-		.toLocaleString('en-US', { hour12: false })
-		.replace(', ', ' ')
-		.slice(0, -3);
-	const activitiesArr = result.activities;
-	const startTime = startDateTime.slice(-5);
-	const endTime = endDateTime.slice(-5);
-	const startHour = parseInt(startTime.slice(0, 2));
-	const endHour = parseInt(endTime.slice(0, 2));
-	const startMin = parseInt(startTime.slice(3, 5));
-	const endMin = parseInt(endTime.slice(3, 5));
-	const startTimeInMin = toMin(startTime);
-	const endTimeInMin = toMin(endTime);
+    const option = {
+        hour12: false,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+    }
 
-	//in case of two or more days of event
-	const startDate = startDateTime.slice(0, 10);
-	const endDate = endDateTime.slice(0, 10);
-	const startYear = parseInt(startDateTime.slice(6, 10));
-	const endYear = parseInt(endDateTime.slice(6, 10));
-	const startMonth = parseInt(startDateTime.slice(0, 3));
-	const endMonth = parseInt(endDateTime.slice(0, 3));
-	const startDay = parseInt(startDateTime.slice(3, 5));
-	const endDay = parseInt(endDateTime.slice(3, 5));
+    const eventName = result.detail.name
+    const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
+    const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
+    const activitiesArr = result.activities
+    const startTime = startDateTime.slice(-5)
+    const endTime = endDateTime.slice(-5)
+    const startDate = startDateTime.slice(0, 10)
+    const endDate = endDateTime.slice(0, 10)
+    const startYear = startDateTime.slice(6, 10)
+    const endYear = endDateTime.slice(6, 10)
+    const startMonth = startDateTime.slice(0, 2)
+    const endMonth = endDateTime.slice(0, 2)
+    const startDay = startDateTime.slice(3, 5)
+    const endDay = endDateTime.slice(3, 5)
 
-	const dayDifference = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24;
-	const daysOfEventInMin = (new Date(endDateTime).getTime() - new Date(startDateTime).getTime()) / 1000 / 60;
+    //in case of two or more days of event
+    let startHour = parseInt(startTime.slice(0, 2))
+    let endHour = parseInt(endTime.slice(0, 2))
+    let startMin = parseInt(startTime.slice(3, 5))
+    let endMin = parseInt(endTime.slice(3, 5))
+    let startTimeInMin = toMin(startTime)
+    let endTimeInMin = toMin(endTime)
 
-	console.log(dayDifference);
+    const dayDifference = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24
+    const daysOfEventInMin = (new Date(endDateTime).getTime() - new Date(startDateTime).getTime()) / 1000 / 60
 
-	let dateSelectorContainer = document.querySelector('#date-selector-container');
-	let pageTitle = document.querySelector('#event-name');
-	let timeContainer = document.querySelector('#event-time-container');
+    let dateSelectorContainer = document.querySelector('#date-selector-container');
+    let pageTitle = document.querySelector('#event-name');
+    let timeContainer = document.querySelector('#event-time-container')
 
 	pageTitle.innerHTML = `${eventName}`;
 	timeContainer.innerHTML = `( ${startTime} on ${startDate} )   to   ( ${endTime} on ${endDate} )`;
 	dateSelectorContainer.innerHTML = `
                     <input type="date" id="date-selector" name="trip-start"
                     value="${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(6, 8)}"
-                    min="${startYear}-${startMonth}-${startDay}" max="${endYear}-${endMonth}-${endDay}"></input>`;
+                    min="${startYear}-${startMonth}-${startDay}" max="${endYear}-${endMonth}-${endDay}"></input>`
 
-	addTimeInput(startHour, startMin, endHour, endMin);
-	await getPresetTimeBlock(startTimeInMin, dayDifference);
-	await getSavedTimeBlocks(activitiesArr);
-	await correctDiv(startTimeInMin, endTimeInMin);
-	await getMemo(activitiesArr);
+    if (dayDifference > 0 && date !== `${startYear}${startMonth}${startDay}` && date !== `${endYear}${endMonth}${endDay}`) {
+        startHour = 0
+        endHour = 24
+        startMin = 0
+        endMin = 0
+        startTimeInMin = 0
+        endTimeInMin = 1440
+        console.log("case 1")
+    }
+
+    if (dayDifference > 0 && date === `${startYear}${startMonth}${startDay}`) {
+        endHour = 24
+        endMin = 0
+        endTimeInMin = 1440
+        console.log("case 2")
+
+    }
+
+    if (dayDifference > 0 && date === `${endYear}${endMonth}${endDay}`) {
+        startHour = 0
+        startMin = 0
+        startTimeInMin = 0
+        console.log("case 3")
+    }
+
+    addTimeInput(startHour, startMin, endHour, endMin)
+    await getPresetTimeBlock(startTimeInMin)
+    await getSavedTimeBlocks(activitiesArr)
+    await correctDiv(startTimeInMin, endTimeInMin)
+
+
+    await getMemo(activitiesArr)
 }
 
 async function getMemo(activitiesArr) {
@@ -127,7 +159,7 @@ async function getMemo(activitiesArr) {
 		block.addEventListener('click', (event) => {
 			const activityName = event.target.innerHTML;
 
-			let targetActivity = '';
+            let targetActivity = ""
 
 			activitiesArr.forEach((activity) => {
 				if (activity.title === activityName) {
@@ -141,11 +173,12 @@ async function getMemo(activitiesArr) {
 
 			memoContainer.innerHTML = `
             <label for="memo" id="memo-tag">${startTimeString} to ${endTimeString}</label>
+            <button type="button" class="btn-close" id="close-memo" aria-label="Close"></button>
             <div name="memo" id="memo" class="time-block-memo">
                 <div id="memo-item-cluster">
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="activity">ACTIVITY DETAIL:</label>
-                        <a value="${id}" class="btn creator-function" id="edit-activities">
+                        <a value="${id}" class="btn creator-function edit-button" id="edit-activities">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
@@ -155,7 +188,7 @@ async function getMemo(activitiesArr) {
                     
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="item">ITEM DETAIL:</label>
-                        <a value="${id}" class="btn creator-function" id="edit-show-item">
+                        <a value="${id}" class="btn creator-function edit-button" id="edit-show-item">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
@@ -164,7 +197,7 @@ async function getMemo(activitiesArr) {
 
                     <div class="memo-item-container">
                         <label class="memo-item-label" for="remark">REMARKS:</label>
-                        <a value="${id}" class="btn creator-function" id="edit-remarks">
+                        <a value="${id}" class="btn creator-function edit-button" id="edit-remarks">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
@@ -175,17 +208,24 @@ async function getMemo(activitiesArr) {
 
             </div>
             `;
-			editActivity(id, description);
-			editRemarks(id, remark);
-		});
-	});
+
+            editActivity(id, description)
+            editRemarks(id, remark)
+
+            document.querySelector("#close-memo").addEventListener("click", (e) => {
+                e.preventDefault
+                memoContainer.innerHTML = ""
+            })
+        });
+
+    });
 }
 
 async function addTimeInput(startHour, startMin, endHour, endMin) {
 	//restrict time input according to the event start and end time
 
-	const startTimeRange = document.querySelector('#start-time');
-	const endTimeRange = document.querySelector('#start-time');
+    const startTimeRange = document.querySelector("#start-time");
+    const endTimeRange = document.querySelector("#end-time");
 
 	if (startMin === 0 && endMin !== 0) {
 		startTimeRange.setAttribute('min', `${startHour}:0${startMin}`);
@@ -219,13 +259,14 @@ async function addTimeInput(startHour, startMin, endHour, endMin) {
 async function getPresetTimeBlock(startTime) {
 	let rundown = document.querySelector('#rundown');
 
-	//generate time block for 24 hours
-	for (let i = 0; i < 96; i++) {
-		let start = i * 15;
-		let end = (i + 1) * 15;
-		const timeString = minToTimeString(start);
-		const height = end - start;
-		rundown.innerHTML += `
+    //generate time block for 24 hours
+    for (let i = 0; i < 96; i++) {
+        let start = i * 15
+        let end = (i + 1) * 15
+        const timeString = minToTimeString(start)
+        const height = end - start
+        rundown.innerHTML +=
+            `
                     <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
                         <span id="time-stamp-box" class="time-stamp-container col-2">
                             <div id="stamp-${start}" class="time-stamp">${timeString}</div>
@@ -236,10 +277,11 @@ async function getPresetTimeBlock(startTime) {
 		document.querySelector(`#time-block-${start}`).style.height = `${height}px`;
 	}
 
-	//set scroll bar top
-	document.querySelector(`#time-block-${startTime}`).innerHTML = 'Event Start Time';
-	const scrollBarDiv = document.querySelector('#rundown-container');
-	scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop;
+    //set scroll bar top
+    document.querySelector("#date-selector").value
+    document.querySelector(`#time-block-${startTime}`).innerHTML = "Event Start Time"
+    const scrollBarDiv = document.querySelector("#rundown-container")
+    scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop
 
 	//loop the scroll
 	let rundownContainer = document.querySelector('#rundown-container');
@@ -259,30 +301,32 @@ async function getPresetTimeBlock(startTime) {
 }
 
 async function getSavedTimeBlocks(activitiesArr) {
-	activitiesArr.forEach((activity) => {
-		const start = activity.start_time;
-		const end = activity.end_time;
-		const title = activity.title;
-		const startTimeInMin = toMin(activity.start_time);
-		const endTimeInMin = toMin(activity.end_time);
-		const startId = start.slice(0, 2);
-		const startMin = start.slice(3, 5);
-		const endId = end.slice(0, 2);
-		const endMin = end.slice(3, 5);
-		const divHeight = endTimeInMin - startTimeInMin;
-		const id = activity.id;
+    activitiesArr.forEach(async (activity) => {
+        const start = activity.start_time
+        const end = activity.end_time
+        const title = activity.title
+        const startTimeInMin = toMin(activity.start_time)
+        const endTimeInMin = toMin(activity.end_time)
+        const divHeight = endTimeInMin - startTimeInMin
+        const id = activity.id
 
 		document.querySelector(`#time-block-container-${startTimeInMin}`).innerHTML = `
                 <span id="time-stamp-box" class="time-stamp-container col-2">
                     <i value="${id}" id="trash-can" type="button" class="btn fa-solid fa-trash"></i>
+                    <a value="${id}" class="btn creator-function" id="edit-time-name${id}" data-bs-toggle="modal" data-bs-target="#edit-time-name-modal" >
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
                     <div id="stamp-${startTimeInMin}" class="time-stamp">${start}</div>
                 </span>
                 <span type="button" id="time-block-${startTimeInMin}" start="${startTimeInMin}" end="${endTimeInMin}" class="time-block save-time-block col-10">
                 </span>
-        `;
-		document.querySelector(`#time-block-${startTimeInMin}`).innerHTML = title;
-		document.querySelector(`#time-block-${startTimeInMin}`).style.height = `${divHeight}px`;
-	});
+                
+        `
+        document.querySelector(`#time-block-${startTimeInMin}`).innerHTML = title
+        document.querySelector(`#time-block-${startTimeInMin}`).style.height = `${divHeight}px`
+
+        editTimeName(id, title, activity.start_time, activity.end_time)
+    })
 }
 
 async function fixTimeStamp() {
@@ -396,16 +440,17 @@ document.querySelector('#activity-form').addEventListener('submit', async functi
 	const isCreator = params.get('is-creator');
 	const date = params.get('date');
 
-	const form = e.target;
-	const title = form['activity-name'].value;
-	const description = form.description.value;
-	const remark = form.remark.value;
-	const startTime = form.start.value;
-	const endTime = form.end.value;
-	const startHour = parseInt(startTime.slice(0, 2));
-	const startMin = parseInt(startTime.slice(3, 5));
-	const endHour = parseInt(endTime.slice(0, 2));
-	const endMin = parseInt(endTime.slice(3, 5));
+    const form = e.target
+    const title = form["activity-name"].value
+    const description = form.description.value
+    const remark = form.remark.value
+    const startTime = form.start.value
+    const endTime = form.end.value
+    const startHour = parseInt(startTime.slice(0, 2))
+    const startMin = parseInt(startTime.slice(3, 5))
+    const endHour = parseInt(endTime.slice(0, 2))
+    const endMin = parseInt(endTime.slice(3, 5))
+
 
 	console.log(form);
 
@@ -491,11 +536,71 @@ async function fixDivHeight(x) {
 	}
 }
 
+function editTimeName(id, title, startTime, endTime) {
+    document.querySelector(`#edit-time-name${id}`).addEventListener("click", (e) => {
+        e.preventDefault()
+        console.log("target ID = " + id)
+        
+        document.querySelector("#edit-time-name-form").setAttribute('value', `${id}`)
+        document.querySelector(`#edit-activity-name`).value = title
+        document.querySelector(`#edit-start-time`).value = startTime
+        document.querySelector(`#edit-end-time`).value = endTime
+    })
+}
+submitEditTimeName()
+
+function submitEditTimeName() {
+    document.querySelector("#edit-time-name-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        const date = params.get('date');
+
+        const form = e.target
+        const id = e.target.getAttribute("value")
+        const title = form["edit-activity-name"].value
+        const editStartTime = form["edit-start-time"].value
+        const editEndTime = form["edit-end-time"].value
+
+        const formObj = {
+            title,
+            editStartTime,
+            editEndTime
+        }
+
+        console.log(formObj)
+
+        const res = await fetch(`/eventSchedule/timeName/edit/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify( formObj )
+        });
+
+        if (res.status !== 200) {
+            const data = await res.json();
+            alert(data.msg);
+            return;
+        }
+
+        const result = await res.json();
+        if (result.status === true) {
+            alert("Activity successfully edited!")
+            location.reload()
+        }
+    })
+}
+
+
 async function editActivity(id, description) {
-	document.querySelector(`#edit-activities`).addEventListener('click', (e) => {
-		e.preventDefault();
-		// target div becomes a textarea
-		const div = document.querySelector(`#activity-detail${id}`);
+    document.querySelector(`#edit-activities`).addEventListener("click", (e) => {
+        e.preventDefault()
+        // target div becomes a textarea
+
+        const div = document.querySelector(`#activity-detail${id}`)
 
 		div.innerHTML = `
                         <form value="${id}" id="edit-description-form">
@@ -718,13 +823,13 @@ function onlySpaces(str) {
 }
 
 async function listenToSchedulePage() {
-	document.querySelector('#date-selector').addEventListener('change', (e) => {
-		e.preventDefault();
-		const rawDate = document.querySelector('#date-selector').value;
-		const date = `${rawDate.slice(0, 4)}${rawDate.slice(5, 7)}${rawDate.slice(8, 10)}`;
-		const params = new URLSearchParams(window.location.search);
-		const eventId = params.get('event-id');
-		const isCreator = params.get('is-creator');
-		window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}&date=${date}`;
-	});
+    document.querySelector("#date-selector").addEventListener('change', (e) => {
+        e.preventDefault()
+        const rawDate = document.querySelector("#date-selector").value
+        const date = `${rawDate.slice(0, 4)}${rawDate.slice(5, 7)}${rawDate.slice(8, 10)}`
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}&date=${date}`
+    })
 }
