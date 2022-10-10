@@ -139,24 +139,26 @@ async function fetchPendingItems() {
 		let shoppingList = '';
 		for (const items of res.itemObj) {
 			shoppingList += `
-                <td>
-                   <div class="pending-item">
-                        ${items.name}
-                        <button class="check-btn">
-                        <i class="bi bi-check-circle"></i>
-                        </button>
-                   </div>
-                </td>
+				<tr>
+					<td>
+						<div class="pending-item">
+							${items.name}
+							<button id="shopping-list-check-btn" class="check-btn">
+								<i class="bi bi-check-circle"></i>
+							</button>
+						</div>
+					</td>
+				</tr>
           `;
 		}
 		document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
 	}
 }
 
-//  : (
 
-document.querySelector(`.check-btn`).forEach((button) => {
+document.querySelector(`#shopping-list-check-btn`).forEach((button) => {
 	button.addEventListener('click', function (e) {
-		// remove the item in the shopping list but not in the DB.
+		
+
 	});
 });
