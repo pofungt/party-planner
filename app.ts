@@ -13,7 +13,7 @@ import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
 
 export let dev = false;
-if (process.argv[2]) {
+if (process.argv[2] === "dev") {
 	dev = true;
 }
 
