@@ -1,0 +1,59 @@
+.invitation-container {
+	height: 85vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.invitation-frame {
+	width: 80%;
+	height: 90%;
+	background-color: #f9f9da;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+}
+
+.event-name-container,
+.datetime-container,
+.venue-container,
+.join-button-container {
+	font-size: 20px;
+	font-family: 'Calibri';
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 20px;
+}
+
+.event-name-container {
+	font-size: 50px;
+	font-weight: bold;
+}
+
+.title {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.subtitle {
+	font-weight: bold;
+}
+
+#join-event-button {
+	font-size: 20px;
+	color: #293241;
+	font-family: 'Lato', sans-serif;
+	background-color: #f2d492;
+	padding: 10px 20px 10px 20px;
+	border-radius: 20px;
+	margin: 18px;
+	min-width: 110px;
+	border: none;
+	box-shadow: 0px 1px 12px #f2d492;
+}

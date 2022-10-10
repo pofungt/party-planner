@@ -108,7 +108,9 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button id="datetime-submit" type="submit" class="modal-submit-button">Edit</button>
+                  <button id="datetime-submit" type="submit" class="modal-submit-button">
+                    Edit
+                  </button>
                 </div>
               </form>
             </div>
@@ -139,7 +141,9 @@
                     aria-describedby="basic-addon1" />
                 </div>
                 <div class="modal-footer">
-                  <button id="venue-submit" type="submit" class="modal-submit-button">Edit</button>
+                  <button id="venue-submit" type="submit" class="modal-submit-button">
+                    Edit
+                  </button>
                 </div>
               </form>
             </div>
@@ -169,17 +173,13 @@
                   <div class="row justify-content-center">
                     <div class="col-sm-6">
                       <div class="participants-list" id="current-participants-list">
-                        <div class="participants-list-title">
-                          Current
-                        </div>
+                        <div class="participants-list-title">Current</div>
                         <!-- Current Participants Here -->
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <div class="participants-list" id="deleted-participants-list">
-                        <div class="participants-list-title">
-                          Deleted
-                        </div>
+                        <div class="participants-list-title">Deleted</div>
                         <!-- Participants To Be Removed Here -->
                       </div>
                     </div>
@@ -212,22 +212,52 @@
           <div class="input-title">Please send your friend the invitation link below:</div>
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="invitation" name="invitation"
-              aria-describedby="invitation-link" readonly>
+              aria-describedby="invitation-link" readonly />
             <a class="input-group-text" id="invitation-link">Copy Link</a>
           </div>
           <form id="invitation-form">
             <div class="modal-footer">
               <div class="reminder-text">
-                Note: Previous link will be invalid <br>
+                Note: Previous link will be invalid <br />
                 when new link is created.
               </div>
-              <button id="invitation-submit" type="submit" class="modal-submit-button">Create New Link</button>
+              <button id="invitation-submit" type="submit" class="modal-submit-button">
+                Create New Link
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="delete-event-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h5 class="modal-title">Delete Event</h5>
+          <div class="exit-modal">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="warning-sign">
+            <i class="fa-solid fa-exclamation"></i>
+          </div>
+          <div class="warning">Are you sure?</div>
+          <div class="reminder-text">
+            You will not be able to revert this action!
+          </div>
+          <div class="modal-footer">
+            <button id="delete-event-submit" type="submit" class="modal-submit-button">
+              DELETE EVENT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"

@@ -169,7 +169,7 @@ export function listenEditButtons() {
 }
 
 export function listenToSchedulePage(datetime) {
-	const date= `${datetime.slice(0,4)}${datetime.slice(5,7)}${datetime.slice(8,10)}`
+	const date = datetime ? `${datetime.slice(0, 4)}${datetime.slice(5, 7)}${datetime.slice(8, 10)}` : '';
 	const toScheduleDiv = document.querySelector('.schedule .info-button');
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
@@ -199,7 +199,7 @@ export function listenToDeleteParticipants() {
 	for (let deleteButtonDiv of deleteButtonDivList) {
 		deleteButtonDiv.addEventListener('click', (e) => {
 			e.stopImmediatePropagation();
-			const userId = parseInt(e.path[1].id.replace("delete_button_user_", ""));
+			const userId = parseInt(e.path[1].id.replace('delete_button_user_', ''));
 			for (let i = 0; i < currentParticipantsList.length; i++) {
 				if (currentParticipantsList[i].id === userId) {
 					const [deletedParticipant] = currentParticipantsList.splice(i, 1);
@@ -208,6 +208,6 @@ export function listenToDeleteParticipants() {
 				}
 			}
 			listenToDeleteParticipants();
-		})
+		});
 	}
 }

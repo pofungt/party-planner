@@ -25,7 +25,7 @@ document.querySelector('#datetime-form').addEventListener('submit', async functi
 	if (startTimeValue && endTimeValue) {
 		if (startTimeValue <= nowTimeValue) {
 			dataPass = false;
-			alert("Start time must be later than time now!");
+			alert('Start time must be later than time now!');
 		} else if (startTimeValue >= endTimeValue) {
 			dataPass = false;
 			alert('Start time cannot equals or later than end time!');
@@ -120,7 +120,7 @@ document.querySelector('#participants-submit').addEventListener('click', async (
 	const result = await res.json();
 	if (result.status) {
 		if (result.notDeletable.length) {
-			let warnText = "Unable to remove following participant(s):";
+			let warnText = 'Unable to remove following participant(s):';
 			for (let each of result.notDeletable) {
 				warnText += `
     # ${each.deletedParticipant.id} ${each.deletedParticipant.first_name} ${each.deletedParticipant.last_name}
@@ -140,18 +140,18 @@ document.querySelector('#participants-submit').addEventListener('click', async (
 		} else {
 			deletedParticipantsList.splice(0, deletedParticipantsList.length);
 			loadEventDetails();
-			alert("Successfully deleted all selected participants!");
+			alert('Successfully deleted all selected participants!');
 		}
 	} else {
-		alert("Unable to delete selected participants!");
+		alert('Unable to delete selected participants!');
 	}
-})
+});
 
 // Reset participants form
 document.querySelector('#participants-reset').addEventListener('click', async () => {
 	deletedParticipantsList.splice(0, deletedParticipantsList.length);
 	loadEventDetails();
-})
+});
 
 // Submit Invitation Copy Link Button
 document.querySelector('#invitation-form').addEventListener('submit', async function (e) {
@@ -163,15 +163,15 @@ document.querySelector('#invitation-form').addEventListener('submit', async func
 
 	const invitationResult = await res.json();
 	if (invitationResult.status) {
-		pasteInvitationLink(eventId,invitationResult.invitation_token);
+		pasteInvitationLink(eventId, invitationResult.invitation_token);
 		alert('Link renewed!');
 	} else {
-		alert('Unable to copy link.');
+		alert('Unable to create link.');
 	}
 });
 
 // Copy Invitation Link Button
-document.querySelector('#invitation-link').addEventListener('click', (e)=>{
+document.querySelector('#invitation-link').addEventListener('click', (e) => {
 	const linkTextDiv = document.querySelector('#invitation-modal .form-control');
 	// Select the text field
 	linkTextDiv.select();
@@ -181,14 +181,30 @@ document.querySelector('#invitation-link').addEventListener('click', (e)=>{
 	navigator.clipboard.writeText(linkTextDiv.value);
 
 	// Change button to copied
-	e.target.classList.add("copied");
+	e.target.classList.add('copied');
 	const currentWidth = e.target.offsetWidth;
 	e.target.style.width = `${currentWidth}px`;
-	e.target.innerHTML = "Copied!";
+	e.target.innerHTML = 'Copied!';
 
 	// Change back the button to normal
-	setTimeout(()=>{
-		e.target.classList.remove("copied");
-		e.target.innerHTML = "Copy Link";
-	},5000);
+	setTimeout(() => {
+		e.target.classList.remove('copied');
+		e.target.innerHTML = 'Copy Link';
+	}, 5000);
 });
+
+// Delete Event Button
+document.querySelector('#delete-event-submit').addEventListener('click', async ()=>{
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/${eventId}`, {
+		method: 'DELETE'
+	});
+	const result = await res.json();
+	if (result.status) {
+		alert("Event deleted!");
+		window.location.href = "/index.html";
+	} else {
+		alert("Unable to delete event!");
+	}
+})
