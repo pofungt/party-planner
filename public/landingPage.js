@@ -118,7 +118,7 @@ document.querySelector('.register-form').addEventListener('submit', async functi
 			} else {
 				alert('Successfully registered!');
 				const myModal = bootstrap.Modal.getInstance(document.getElementById('register-modal'));
-				myModal.hide();	
+				myModal.hide();
 			}
 		}
 	}

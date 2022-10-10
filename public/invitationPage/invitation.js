@@ -10,13 +10,13 @@ async function checkInvitationValidity() {
 	const eventId = params.get('event-id');
 	const token = params.get('token');
 	const res = await fetch(`/events/detail/validation/${eventId}/${token}`, {
-		method: "POST"
+		method: 'POST'
 	});
 	const result = await res.json();
 	if (result.status) {
 		addNavbar();
 		await loadName();
-		
+
 		// Load invitation page content
 		document.querySelector('.event-name-container').innerHTML = `
 			<div>
@@ -24,9 +24,9 @@ async function checkInvitationValidity() {
 			</div>
 		`;
 
-		let dateString = "";
+		let dateString = '';
 		if (!result.eventDetail.start_datetime) {
-			dateString += "To Be Confirmed";
+			dateString += 'To Be Confirmed';
 		} else {
 			dateString += `
 				<div class="subtitle">
@@ -36,16 +36,13 @@ async function checkInvitationValidity() {
 					${new Date(result.eventDetail.start_datetime)
 						.toLocaleString('en-US', { hour12: false })
 						.replace(', ', ' ')
-						.slice(0,-3)}
+						.slice(0, -3)}
 				</div>
 				<div class="subtitle">
 					End
 				</div>
 				<div>
-					${new Date(result.eventDetail.end_datetime)
-						.toLocaleString('en-US', { hour12: false })
-						.replace(', ', ' ')
-						.slice(0,-3)}
+					${new Date(result.eventDetail.end_datetime).toLocaleString('en-US', { hour12: false }).replace(', ', ' ').slice(0, -3)}
 				</div>
 			`;
 		}
@@ -63,9 +60,7 @@ async function checkInvitationValidity() {
 				Venue
 			</div>
 			<div>
-				${result.eventDetail.venue 
-					? result.eventDetail.venue
-					: "To Be Confirmed" }
+				${result.eventDetail.venue ? result.eventDetail.venue : 'To Be Confirmed'}
 			</div>
 		`;
 
@@ -81,7 +76,7 @@ async function checkInvitationValidity() {
 	}
 }
 
-document.querySelector('#join-event-button').addEventListener('click', async()=>{
+document.querySelector('#join-event-button').addEventListener('click', async () => {
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const token = params.get('token');
@@ -109,4 +104,4 @@ document.querySelector('#join-event-button').addEventListener('click', async()=>
 			window.location.href = `/?event-id=${eventId}&token=${token}`;
 		}
 	}
-})
+});

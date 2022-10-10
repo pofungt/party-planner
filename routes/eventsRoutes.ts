@@ -137,34 +137,39 @@ async function deleteParticipants(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = req.params.eventId ? parseInt(req.params.eventId) : 0;
-		const [eventDetail] = (await client.query(`
+		const [eventDetail] = (
+			await client.query(
+				`
 			SELECT * FROM events
 			WHERE creator_id = $1
 			AND id = $2;
 		`,
-		[req.session.user, eventId]
-		)).rows;
-		if(eventDetail) {
+				[req.session.user, eventId]
+			)
+		).rows;
+		if (eventDetail) {
 			let notDeletable = [];
 			for (let deletedParticipant of req.body) {
-				const itemInCharge = (await client.query(`
+				const itemInCharge = (
+					await client.query(
+						`
 					SELECT * FROM items
 					WHERE user_id = $1 AND event_id = $2 AND purchased = FALSE;
 				`,
-				[deletedParticipant.id, eventId]
-				)).rows;
+						[deletedParticipant.id, eventId]
+					)
+				).rows;
 				if (itemInCharge.length) {
-					notDeletable.push(
-						{
-							deletedParticipant,
-							itemInCharge
-						}
-					);
+					notDeletable.push({
+						deletedParticipant,
+						itemInCharge
+					});
 				} else {
-					await client.query(`
+					await client.query(
+						`
 					DELETE FROM participants WHERE user_id = $1 and event_id = $2;
 					`,
-					[deletedParticipant.id, eventId]
+						[deletedParticipant.id, eventId]
 					);
 				}
 			}
@@ -173,7 +178,7 @@ async function deleteParticipants(req: Request, res: Response) {
 				notDeletable
 			});
 		} else {
-			res.status(500).json({status: false});
+			res.status(500).json({ status: false });
 		}
 	} catch (e) {
 		logger.error(e);

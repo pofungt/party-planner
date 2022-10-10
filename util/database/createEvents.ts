@@ -81,7 +81,19 @@ async function main() {
 				`INSERT INTO events 
                 (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,invitation_token,created_at,updated_at) 
                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-				[name, venue, budget, start_datetime, end_datetime, indoor, outdoor, parkingLot, lotNumber, creator_id, invitation_token]
+				[
+					name,
+					venue,
+					budget,
+					start_datetime,
+					end_datetime,
+					indoor,
+					outdoor,
+					parkingLot,
+					lotNumber,
+					creator_id,
+					invitation_token
+				]
 			);
 		}
 	}

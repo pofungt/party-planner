@@ -5,153 +5,134 @@ import { logger } from '../util/logger';
 
 export const scheduleRoutes = express.Router();
 
-scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
-scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
-scheduleRoutes.put("/description/edit", isLoggedInAPI, editDescription);
-scheduleRoutes.put("/remark/edit", isLoggedInAPI, editRemark);
+scheduleRoutes.get('/', isLoggedInAPI, getEventSchedule);
+scheduleRoutes.post('/activity', isLoggedInAPI, postEventSchedule);
+scheduleRoutes.put('/description/edit', isLoggedInAPI, editDescription);
+scheduleRoutes.put('/remark/edit', isLoggedInAPI, editRemark);
 
-scheduleRoutes.delete("/timeBlock/", isLoggedInAPI, deleteTimeBlock);
+scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
 
 async function editRemark(req: Request, res: Response) {
 	try {
-		logger.debug("Before reading DB");
-		const eventId = req.query["event-id"];
-		const creator = req.query["is-creator"];
-		const timeBlockId = req.query["id"];
-		const date = req.query.date
-		const remark = req.body.remark
-		console.log(remark, timeBlockId)
+		logger.debug('Before reading DB');
+		const eventId = req.query['event-id'];
+		const creator = req.query['is-creator'];
+		const timeBlockId = req.query['id'];
+		const date = req.query.date;
+		const remark = req.body.remark;
+		console.log(remark, timeBlockId);
 
 		if (creator) {
-			await client.query(`
+			await client.query(
+				`
                 UPDATE time_blocks
 				SET remark = $1
 				WHERE event_id = $2
 				AND id = $3
 				AND date = $4
 				`,
-				[
-					remark,
-					eventId,
-					timeBlockId,
-					date	
-				]
-			)
+				[remark, eventId, timeBlockId, date]
+			);
 			res.json({
 				status: true,
-				msg: "Edit success"
-			})
+				msg: 'Edit success'
+			});
 		} else {
 			res.json({
 				status: false,
-				msg: "Unauthorized request"
-			})
+				msg: 'Unauthorized request'
+			});
 		}
-
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE001]: Failed to Edit Remark",
+			msg: '[TBE001]: Failed to Edit Remark'
 		});
 	}
 }
 
 async function editDescription(req: Request, res: Response) {
 	try {
-		logger.debug("Before reading DB");
-		const eventId = req.query["event-id"];
-		const creator = req.query["is-creator"];
-		const timeBlockId = req.query["id"];
-		const date = req.query.date
-		const description = req.body.description
-		console.log(description, timeBlockId)
+		logger.debug('Before reading DB');
+		const eventId = req.query['event-id'];
+		const creator = req.query['is-creator'];
+		const timeBlockId = req.query['id'];
+		const date = req.query.date;
+		const description = req.body.description;
+		console.log(description, timeBlockId);
 
 		if (creator) {
-			await client.query(`
+			await client.query(
+				`
                 UPDATE time_blocks
 				SET description = $1
 				WHERE event_id = $2
 				AND id = $3
 				AND date = $4
 				`,
-				[
-					description,
-					eventId,
-					timeBlockId,
-					date	
-				]
-			)
+				[description, eventId, timeBlockId, date]
+			);
 			res.json({
 				status: true,
-				msg: "Edit success"
-			})
+				msg: 'Edit success'
+			});
 		} else {
 			res.json({
 				status: false,
-				msg: "Unauthorized request"
-			})
+				msg: 'Unauthorized request'
+			});
 		}
-
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE001]: Failed to Edit Description",
+			msg: '[TBE001]: Failed to Edit Description'
 		});
 	}
 }
 
-
 async function deleteTimeBlock(req: Request, res: Response) {
 	try {
-		logger.debug("Before reading DB");
-		const eventId = req.query["event-id"];
-		const creator = req.query["is-creator"];
-		const timeBlockId = req.query["id"];
-		const date = req.query.date
-
+		logger.debug('Before reading DB');
+		const eventId = req.query['event-id'];
+		const creator = req.query['is-creator'];
+		const timeBlockId = req.query['id'];
+		const date = req.query.date;
 
 		if (creator) {
-			await client.query(`
+			await client.query(
+				`
                 DELETE FROM time_blocks 
                 WHERE id = $1
                 AND event_id = $2
 				AND date = $3
 				`,
-				
-				[
-					timeBlockId,
-					eventId,
-					date
-				]
-			)
+
+				[timeBlockId, eventId, date]
+			);
 			res.json({
 				status: true,
-				msg: "Delete success"
-			})
+				msg: 'Delete success'
+			});
 		} else {
 			res.json({
 				status: false,
-				msg: "Unauthorized request"
-			})
+				msg: 'Unauthorized request'
+			});
 		}
-
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBD001]: Failed to Delete Time Block",
+			msg: '[TBD001]: Failed to Delete Time Block'
 		});
 	}
 }
-
 
 async function getEventSchedule(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
-		const date = req.query.date
-
-
+		const date = req.query.date;
 
 		let event;
 		if (creator === '1') {
@@ -195,12 +176,12 @@ async function getEventSchedule(req: Request, res: Response) {
 		res.json({
 			status: true,
 			detail: event,
-			activities: activitiesArr,
+			activities: activitiesArr
 		});
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[ETS001]: Failed to get Event Schedule",
+			msg: '[ETS001]: Failed to get Event Schedule'
 		});
 	}
 }

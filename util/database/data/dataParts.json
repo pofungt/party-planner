@@ -363,23 +363,8 @@
 		"Stephens",
 		"Gardner"
 	],
-	"emailHost": [
-		"hotmail.com",
-		"gmail.com",
-		"yahoo.com"
-	],
-	"phoneAreaCode": [
-		"905",
-		"807",
-		"705",
-		"647",
-		"613",
-		"519",
-		"416",
-		"343",
-		"289",
-		"226"
-	],
+	"emailHost": ["hotmail.com", "gmail.com", "yahoo.com"],
+	"phoneAreaCode": ["905", "807", "705", "647", "613", "519", "416", "343", "289", "226"],
 	"partyReason": [
 		"Birthday",
 		"Surprise",
@@ -901,32 +886,8 @@
 		"Lapsley Road",
 		"Lane S Bloor W Lothian"
 	],
-	"food": [
-		"apples",
-		"oranges",
-		"bananas",
-		"pineapples",
-		"strawberry"
-	],
-	"drink": [
-		"coke",
-		"milk",
-		"coffee",
-		"tea",
-		"juice"
-	],
-	"decoration": [
-		"flowers",
-		"stickers",
-		"balloons",
-		"pumpkins",
-		"tapes"
-	],
-	"other": [
-		"pens",
-		"table cloth",
-		"straws",
-		"cups",
-		"chopsticks"
-	]
+	"food": ["apples", "oranges", "bananas", "pineapples", "strawberry"],
+	"drink": ["coke", "milk", "coffee", "tea", "juice"],
+	"decoration": ["flowers", "stickers", "balloons", "pumpkins", "tapes"],
+	"other": ["pens", "table cloth", "straws", "cups", "chopsticks"]
 }

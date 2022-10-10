@@ -1,4 +1,3 @@
-
 body {
 	position: relative;
 	margin-left: 50px;
@@ -7,7 +6,7 @@ body {
 	font-size: 16px;
 }
 
-header{
+header {
 	display: flex;
 	justify-content: center;
 }
@@ -35,18 +34,16 @@ header {
 
 #time-block-memo-container {
 	height: 100%;
-
 }
 
 #time-block-page-container {
-
 	max-height: 800px;
 	height: 550px;
 	padding-top: 0px;
 	padding-bottom: 30px;
 }
 
-#event-time-container{
+#event-time-container {
 	text-align: center;
 }
 
@@ -54,12 +51,11 @@ header {
 	background-color: #efefd0 !important;
 }
 
-.event-schedule:hover{
+.event-schedule:hover {
 	background-color: #e8e892 !important;
 }
 
 @media (max-width: 1000px) {
-
 	#line {
 		display: none;
 	}
@@ -254,10 +250,10 @@ textarea {
 	padding-top: 20px;
 }
 
-.fa-trash{
+.fa-trash {
 	z-index: 1000;
-    right: 20px;
-    top: 20px;
+	right: 20px;
+	top: 20px;
 }
 
 .creator-function {

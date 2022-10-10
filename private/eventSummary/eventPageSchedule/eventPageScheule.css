@@ -13,7 +13,6 @@ header {
 }
 
 #time-block-page-container {
-
 	max-height: 800px;
 	padding-top: 30px;
 	padding-bottom: 30px;
@@ -23,7 +22,7 @@ header {
 	background-color: #efefd0 !important;
 }
 
-.event-schedule:hover{
+.event-schedule:hover {
 	background-color: #e8e892 !important;
 }
 
@@ -204,15 +203,14 @@ textarea {
 	}
 }
 
-
 #event-name {
 	font-size: large;
 	padding-top: 20px;
 }
 
-.fa-trash{
+.fa-trash {
 	z-index: 1000;
-    /* position:absolute; */
-    right: 20px;
-    top: 20px;
+	/* position:absolute; */
+	right: 20px;
+	top: 20px;
 }
