@@ -5,8 +5,8 @@ import { deletedParticipantsList } from '../listenButtons.js';
 
 window.addEventListener('load', async () => {
 	addNavbar();
-	loadName();
-	loadEventDetails();
+	await loadName();
+	await loadEventDetails();
 	document.body.style.display = 'block';
 });
 

@@ -475,5 +475,5 @@ export function loadParticipantsModal(currentList, deletedList) {
 
 export function pasteInvitationLink(eventId, invitation_token) {
   document.querySelector('#invitation-modal .form-control').value = 
-  `https://${window.location.host}/events/detail/participation/${eventId}/${invitation_token}`;
+  `http://${window.location.host}/invitationPage/invitation.html?event-id=${eventId}&token=${invitation_token}`;
 }

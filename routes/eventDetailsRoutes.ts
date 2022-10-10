@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { client } from '../app';
-import { isLoggedInAPI } from '../util/guard';
+import { isLoggedInAPI, isLoggedInInvitation } from '../util/guard';
 import { logger } from '../util/logger';
 import crypto from 'crypto';
 
@@ -11,7 +11,7 @@ eventDetailsRoutes.get('/participated/:id', isLoggedInAPI, getParticipatedEventD
 eventDetailsRoutes.put('/datetime/:id', isLoggedInAPI, updateDateTime);
 eventDetailsRoutes.put('/venue/:id', isLoggedInAPI, updateVenue);
 eventDetailsRoutes.get('/invitation/:id', isLoggedInAPI, getInvitationLink);
-eventDetailsRoutes.post('/participation/:eventId/:invitation_token', isLoggedInAPI, joinEvent);
+eventDetailsRoutes.post('/participation/:eventId/:token', isLoggedInInvitation, joinEvent);
 
 async function getCreatedEventDetails(req: Request, res: Response) {
 	try {
@@ -231,7 +231,25 @@ async function getInvitationLink(req: Request, res: Response) {
 
 async function joinEvent(req: Request, res: Response) {
 	try {
-		// Something here
+		const [eventDetail] = (await client.query(`
+			SELECT * FROM events
+			WHERE id = $1 AND invitation_token = $2;
+		`,
+		[req.params.eventId, req.params.token]
+		)).rows;
+
+		if (eventDetail) {
+			res.json({
+				status: true,
+				eventDetail
+			});
+		} else {
+			res.json({
+				status: false,
+				login: true
+			});
+		}
+
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
