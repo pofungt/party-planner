@@ -55,13 +55,13 @@ export async function loadCreateEvents(page) {
         <div>${event.name}</div>
       </th>
       <th scope="col" class="address_${event.id}">
-        <div>${!event.venue ? '' : event.venue}</div>
+        <div>${!event.venue ? 'TBD' : event.venue}</div>
       </th>
       <th scope="col" class="start_datetime_${event.id}">
         <div>
           ${
 				!event.start_datetime
-					? ''
+					? 'TBD'
 					: new Date(event.start_datetime)
 							.toLocaleString('en-US', { hour12: false })
 							.replace(', ', ' ')
@@ -73,7 +73,7 @@ export async function loadCreateEvents(page) {
         <div>
           ${
 				!event.end_datetime
-					? ''
+					? 'TBD'
 					: new Date(event.end_datetime)
 							.toLocaleString('en-US', { hour12: false })
 							.replace(', ', ' ')
@@ -155,13 +155,13 @@ export async function loadParticipateEvents(page) {
               <div>${event.name}</div>
             </th>
             <th scope="col" class="address_${event.id}">
-              <div>${!event.venue ? '' : event.venue}</div>
+              <div>${!event.venue ? 'TBD' : event.venue}</div>
             </th>
             <th scope="col" class="start_datetime_${event.id}">
               <div>
                 ${
 					!event.start_datetime
-						? ''
+						? 'TBD'
 						: new Date(event.start_datetime)
 								.toLocaleString('en-US', { hour12: false })
 								.replace(', ', ' ')
@@ -173,7 +173,7 @@ export async function loadParticipateEvents(page) {
               <div>
                 ${
 					!event.end_datetime
-						? ''
+						? 'TBD'
 						: new Date(event.end_datetime)
 								.toLocaleString('en-US', { hour12: false })
 								.replace(', ', ' ')
@@ -271,7 +271,9 @@ export async function loadEventDetails() {
         <div>Start:</div>
         <div>End:</div>
       `;
-		}
+		} else {
+      startDateTimeString = 'To Be Determined'
+    }
 
 		let editTimeButton = '';
 		if (isCreator && processing && !deleted) {
@@ -379,7 +381,9 @@ export async function loadEventDetails() {
           ${result.detail.venue || ''}
         </a>
       `;
-		}
+		} else {
+      venueString = 'To Be Determined';
+    }
 		let editVenueButton = '';
 		if (isCreator && processing && !deleted) {
 			editVenueButton = `
@@ -404,15 +408,21 @@ export async function loadEventDetails() {
     `;
 
 		// Load schedule into Page
+    let infoButtonHTML = "";
+    if (result.detail.start_datetime && result.detail.end_datetime) {
+      infoButtonHTML = `
+      <a class="info-button">
+        <i class="fa-solid fa-info"></i>
+      </a>
+      `
+    }
 		const schedule = document.querySelector('.schedule .background-frame');
 		schedule.innerHTML = `
           <div class="frame-title-container">
             <div id="frame-content-container" class="frame-title">
               Schedule
             </div>
-            <a class="info-button">
-              <i class="fa-solid fa-info"></i>
-            </a>
+            ${infoButtonHTML}
           </div>
           <div class="frame-content-container">
 

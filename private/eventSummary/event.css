@@ -188,7 +188,7 @@ a {
 
 .name-block {
 	display: flex;
-	margin: 10px;
+	margin: 10px 15px 10px 10px;
 	justify-content: center;
 	align-items: center;
 }
@@ -196,7 +196,8 @@ a {
 .delete_event-button-container {
 	position: absolute;
 	right: 10px;
-	top: 10px;
+	top: 50%;
+	transform: translate(0, -50%);
 }
 
 .warning-sign {

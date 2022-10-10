@@ -204,7 +204,12 @@ async function deleteEvent(req: Request, res: Response) {
 			)
 		).rows;
 		if (eventDetail) {
-			await client.query("UPDATE events SET deleted = TRUE;");
+			await client.query(`
+				UPDATE events SET deleted = TRUE
+				WHERE id = $1;
+			`,
+			[eventId]
+			);
 			res.json({status: true});
 		} else {
 			res.json({status: false});
