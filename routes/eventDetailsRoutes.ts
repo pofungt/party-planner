@@ -108,7 +108,11 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 
 			res.json({
 				status: true,
-				creator: creatorDetail,
+				creator: {
+					id: creatorDetail.id,
+					first_name: creatorDetail. first_name,
+					last_name: creatorDetail.last_name
+				},
 				detail: event,
 				participants: participantList
 			});
