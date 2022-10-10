@@ -1,5 +1,5 @@
-// import { addNavbar } from '/functions/addNavbar.js';
-// import { loadName } from '/functions/loadName.js';
+import { addNavbar } from '/functions/addNavbar.js';
+import { loadName } from '/functions/loadName.js';
 
 window.addEventListener('load', async () => {
 	await checkInvitationValidity();
@@ -14,7 +14,6 @@ async function checkInvitationValidity() {
 	});
 	const result = await res.json();
 	if (result.status) {
-		alert('Successfully joined event!');
 		addNavbar();
 		await loadName();
 		

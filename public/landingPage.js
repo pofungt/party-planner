@@ -32,8 +32,15 @@ document.querySelector('#login-form-submit').addEventListener('click', async fun
 			body: JSON.stringify(formObj)
 		});
 		const loginResult = await res.json();
-		if (loginResult.status === true) {
-			window.location.href = '/index.html';
+		if (loginResult.status) {
+			const params = new URLSearchParams(window.location.search);
+			if (params.has('event-id') && params.has('token')) {
+				const eventId = params.get('event-id');
+				const token = params.get('token');
+				window.location.href = `/invitationPage/invitation.html?event-id=${eventId}&token=${token}`;
+			} else {
+				window.location.href = '/index.html';
+			}
 		} else {
 			alert('Unable to login!');
 		}
@@ -103,8 +110,16 @@ document.querySelector('.register-form').addEventListener('submit', async functi
 		} else if (!registerResult.status) {
 			alert('Unable to Register, please try again!');
 		} else {
-			const myModal = bootstrap.Modal.getInstance(document.getElementById('register-modal'));
-			myModal.hide();
+			const params = new URLSearchParams(window.location.search);
+			if (params.has('event-id') && params.has('token')) {
+				alert('Successfully registered! Please login now to join the event.');
+				const myModal = bootstrap.Modal.getInstance(document.getElementById('register-modal'));
+				myModal.hide();
+			} else {
+				alert('Successfully registered!');
+				const myModal = bootstrap.Modal.getInstance(document.getElementById('register-modal'));
+				myModal.hide();	
+			}
 		}
 	}
 });
