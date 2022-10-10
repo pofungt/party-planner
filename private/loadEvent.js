@@ -34,13 +34,18 @@ export async function loadCreateEvents(page) {
 		let statusClass = '';
 		const today = new Date().getTime();
 		const eventStartDate = new Date(event.start_datetime).getTime();
-		if (today > eventStartDate && eventStartDate) {
-			status = 'Completed';
-			statusClass = 'completedStatus';
-		} else {
-			status = 'Processing';
-			statusClass = 'progressStatus';
-		}
+    if (event.deleted) {
+      status = 'Deleted';
+      statusClass = 'deletedStatus';
+    } else {
+      if (today > eventStartDate && eventStartDate) {
+        status = 'Completed';
+        statusClass = 'completedStatus';
+      } else {
+        status = 'Processing';
+        statusClass = 'progressStatus';
+      }
+    }
 		eventsCreateHTML += `
     <tr class="table-content-row">
       <th scope="col" class="ID_${event.id}">
@@ -129,13 +134,18 @@ export async function loadParticipateEvents(page) {
 		let statusClass = '';
 		const today = new Date().getTime();
 		const eventStartDate = new Date(event.start_datetime).getTime();
-		if (today > eventStartDate && eventStartDate) {
-			status = 'Completed';
-			statusClass = 'completedStatus';
-		} else {
-			status = 'Processing';
-			statusClass = 'progressStatus';
-		}
+    if (event.deleted) {
+      status = 'Deleted';
+      statusClass = 'deletedStatus';
+    } else {
+      if (today > eventStartDate && eventStartDate) {
+        status = 'Completed';
+        statusClass = 'completedStatus';
+      } else {
+        status = 'Processing';
+        statusClass = 'progressStatus';
+      }
+    }
 		eventsParticipateHTML += `
         <tr class="table-content-row">
             <th scope="col" class="ID_${event.id}">
@@ -218,8 +228,19 @@ export async function loadEventDetails() {
 		const today = new Date().getTime();
 		const eventStartDate = new Date(result.detail.start_datetime).getTime();
 		const processing = today <= eventStartDate || !eventStartDate;
+    const deleted = result.detail.deleted;
 
 		// Load Event Name into Page
+    let deleteEventButton = '';
+		if (isCreator && processing && !deleted) {
+			deleteEventButton = `
+        <div class="delete_event-button-container">
+          <a class="delete-button" id="delete_event-button" data-bs-toggle="modal" data-bs-target="#delete-event-modal">
+            <i class="fa-solid fa-trash-can"></i>
+          </a>
+        </div>
+      `;
+		}
 		const eventName = document.querySelector('.eventname .background-frame');
 		eventName.innerHTML = `
       <div class="name-block">
@@ -230,11 +251,7 @@ export async function loadEventDetails() {
           ${result.detail.name}
         </div>
       </div>
-      <div class="delete_event-button-container">
-        <a class="delete-button" id="delete_event-button" data-bs-toggle="modal" data-bs-target="#delete-event-modal">
-          <i class="fa-solid fa-trash-can"></i>
-        </a>
-      </div>
+      ${deleteEventButton}
     `;
 
 		// Load Date Time into Page
@@ -257,7 +274,7 @@ export async function loadEventDetails() {
 		}
 
 		let editTimeButton = '';
-		if (isCreator && processing) {
+		if (isCreator && processing && !deleted) {
 			editTimeButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#datetime-modal">
           <i class="fa-regular fa-pen-to-square"></i>
@@ -306,7 +323,7 @@ export async function loadEventDetails() {
 		participantListHTML += '</div>';
 
 		let editParticipantsButton = '';
-		if (isCreator && processing) {
+		if (isCreator && processing && !deleted) {
 			editParticipantsButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#participants-modal">
           <i class="fa-regular fa-pen-to-square"></i>
@@ -315,7 +332,7 @@ export async function loadEventDetails() {
 		}
 
 		let inviteButton = '';
-		if (isCreator && processing) {
+		if (isCreator && processing && !deleted) {
 			inviteButton = `
         <div class="invite-button-container">
           <a class="invite-button" data-bs-toggle="modal" data-bs-target="#invitation-modal">
@@ -364,7 +381,7 @@ export async function loadEventDetails() {
       `;
 		}
 		let editVenueButton = '';
-		if (isCreator && processing) {
+		if (isCreator && processing && !deleted) {
 			editVenueButton = `
         <a class="edit-button" data-bs-toggle="modal" data-bs-target="#venue-modal">
           <i class="fa-regular fa-pen-to-square"></i>

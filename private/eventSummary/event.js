@@ -192,3 +192,19 @@ document.querySelector('#invitation-link').addEventListener('click', (e) => {
 		e.target.innerHTML = 'Copy Link';
 	}, 5000);
 });
+
+// Delete Event Button
+document.querySelector('#delete-event-submit').addEventListener('click', async ()=>{
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/${eventId}`, {
+		method: 'DELETE'
+	});
+	const result = await res.json();
+	if (result.status) {
+		alert("Event deleted!");
+		window.location.href = "/index.html";
+	} else {
+		alert("Unable to delete event!");
+	}
+})

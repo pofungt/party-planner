@@ -37,6 +37,7 @@ async function main() {
         remark varchar,
         creator_id int not NULL,
         invitation_token varchar not NULL,
+        deleted boolean not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)

@@ -12,6 +12,7 @@ export interface Events {
 	remark: string | null;
 	creator_id: number;
 	invitation_token: string;
+	deleted: boolean;
 	created_at: string;
 	updated_at: string;
 	status?: string;

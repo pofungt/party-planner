@@ -12,6 +12,7 @@ export const eventsRoutes = express.Router();
 eventsRoutes.get('/created', isLoggedInAPI, getCreateEventList);
 eventsRoutes.get('/participated', isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post('/', isLoggedInAPI, postEvent);
+eventsRoutes.delete('/:eventId', isLoggedInAPI, deleteEvent);
 eventsRoutes.delete('/participants/:eventId', isLoggedInAPI, deleteParticipants);
 eventsRoutes.use('/detail', eventDetailsRoutes);
 
@@ -109,8 +110,8 @@ async function postEvent(req: Request, res: Response) {
 			`INSERT INTO  events 
                 (name, venue, indoor, outdoor, parking_lot, 
                 lot_number, remark, start_datetime, end_datetime, budget, 
-                creator_id, invitation_token, created_at, updated_at) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
+                creator_id, invitation_token, deleted, created_at, updated_at) 
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
 			[
 				req.body.eventName,
 				req.body.eventVenue,
@@ -184,6 +185,34 @@ async function deleteParticipants(req: Request, res: Response) {
 		logger.error(e);
 		res.status(500).json({
 			msg: '[EVT004]: Failed to delete Participants'
+		});
+	}
+}
+
+async function deleteEvent(req: Request, res: Response) {
+	try {
+		logger.debug('Before reading DB');
+		const eventId = req.params.eventId ? parseInt(req.params.eventId) : 0;
+		const [eventDetail] = (
+			await client.query(
+				`
+			SELECT * FROM events
+			WHERE creator_id = $1
+			AND id = $2;
+		`,
+				[req.session.user, eventId]
+			)
+		).rows;
+		if (eventDetail) {
+			await client.query("UPDATE events SET deleted = TRUE;");
+			res.json({status: true});
+		} else {
+			res.json({status: false});
+		}
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[EVT005]: Failed to delete Event'
 		});
 	}
 }
