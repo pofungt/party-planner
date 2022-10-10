@@ -25,7 +25,7 @@ async function checkInvitationValidity() {
 		`;
 
 		let dateString = "";
-		if (result.eventDetail.start_datetime === "") {
+		if (!result.eventDetail.start_datetime) {
 			dateString += "To Be Confirmed";
 		} else {
 			dateString += `
@@ -63,9 +63,9 @@ async function checkInvitationValidity() {
 				Venue
 			</div>
 			<div>
-				${result.eventDetail.venue === "" 
-					? "To Be Confirmed" 
-					: result.eventDetail.venue}
+				${result.eventDetail.venue 
+					? result.eventDetail.venue
+					: "To Be Confirmed" }
 			</div>
 		`;
 
