@@ -105,10 +105,23 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 document.querySelector('#edit-venue-switch').addEventListener('change', ()=>{
 	document.querySelector('.edit-input').classList.toggle("hide");
 	document.querySelector('.poll-input').classList.toggle("hide");
-})
+});
 document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
 	document.querySelector('.edit-input').classList.toggle("hide");
 	document.querySelector('.poll-input').classList.toggle("hide");
+});
+
+// Venue Polling Add Option Button
+document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
+	e.preventDefault();
+	const numberOfOptions = document.querySelectorAll('div[class^="venue_poll_"]').length;
+	document.querySelector('.venue-poll-options-container').innerHTML += `
+		<div class="venue_poll_${numberOfOptions+1}">
+			<label for="venue_poll">Option ${numberOfOptions+1}: </label>
+			<input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
+	  			aria-describedby="basic-addon1" />
+  		</div>
+	`
 })
 
 // Submit participants form

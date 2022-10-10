@@ -164,10 +164,18 @@
             <div class="input-group-container">
               <div class="input-title">Please enter your polling options below:</div>
               <form id="venue-poll-form">
-                <div class="venue-start input-panel mb-3">
-                  <input type="text" class="form-control" name="venue" aria-label="venue"
-                    aria-describedby="basic-addon1" />
+                <div class="venue-poll-options-container input-panel mb-3">
+                  <div class="venue_poll_1">
+                    <label for="venue_poll">Option 1: </label>
+                    <input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <!-- More options added by JS -->
                 </div>
+                <button id="venue-add-option" class="modal-submit-button">
+                  <i class="fa-solid fa-plus"></i>
+                  Add Option
+                </button>
                 <div class="modal-footer">
                   <button id="venue-poll-submit" type="submit" class="modal-submit-button">
                     Start Polling

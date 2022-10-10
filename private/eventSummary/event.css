@@ -227,6 +227,22 @@ a {
 	display: none;
 }
 
+div[class^="venue_poll_"] {
+	display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+	margin: 5px 0;
+}
+
+div[class^="venue_poll_"] label {
+	width: 80px;
+}
+
+.venue-poll-options-container  {
+	margin: 10px 20px!important;
+}
+
 /* ↓↓ Scroll bar ↓↓ */
 .frame-content-container::-webkit-scrollbar {
 	display: none;
@@ -319,6 +335,11 @@ a {
 
 .btn-outline-danger {
 	--bs-btn-border-radius: 0 0.375rem 0.375rem 0;
+}
+
+#venue-add-option {
+	margin: 10px;
+	box-shadow: none;
 }
 
 /* ↑↑ Button ↑↑ */
