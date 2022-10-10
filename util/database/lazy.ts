@@ -269,9 +269,7 @@ async function main() {
     }
 
     // Writing into users.json
-    let originalUsersList: UsersInput[] = await jsonfile.readFile(path.join(__dirname, '/data/users.json'));
-    const finalUsersList: UsersInput[] = originalUsersList.concat(usersNewObjList);
-    await jsonfile.writeFile(path.join(__dirname, '/data/users.json'), finalUsersList, { spaces: '\t' });
+    await jsonfile.writeFile(path.join(__dirname, '/data/users.json'), usersNewObjList, { spaces: '\t' });
 
     // createEvents 1
     // Obtain users info for event creation for each user
