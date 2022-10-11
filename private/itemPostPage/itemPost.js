@@ -66,6 +66,7 @@ document
         }
         form.reset();
         fetchItem();
+        fetchPendingItems();
     });
 
 async function fetchItem() {
@@ -122,6 +123,8 @@ function addDeleteEventListener() {
                     "#item-row-" + itemID
                 );
                 deleteResult.remove();
+                fetchItem();
+                fetchPendingItems();
             }
         });
     });
@@ -161,6 +164,7 @@ async function fetchPendingItems() {
 				</tr>
           `;
         }
+
         document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
     }
@@ -185,7 +189,9 @@ function checkShoppingListItem() {
 
 document
     .querySelector(`#back-page`)
-    .addEventListener("click", async function (e) {
-        const res = await fetch(`/eventSummary/event.html?event-id=${eventID}&is-creator=1`, 
-		{ method: "POST" });
+    .addEventListener("click", function () {
+		const params = new URLSearchParams(window.location.search);
+		const eventId = params.get('event-id');
+		const isCreator = params.get('is-creator');
+        window.location= `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`
     });
