@@ -186,6 +186,6 @@ function checkShoppingListItem() {
 document
     .querySelector(`#back-page`)
     .addEventListener("click", async function (e) {
-        const res = await fetch(`/eventSummary/event.html?event-id=${eventID}&is-creator=${}`, 
+        const res = await fetch(`/eventSummary/event.html?event-id=${eventID}&is-creator=1`, 
 		{ method: "POST" });
     });
