@@ -146,6 +146,7 @@ async function getEventSchedule() {
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
     await getMemo(activitiesArr, itemList, savedItemList)
+    submitEditTimeName(startTimeInMin, endTimeInMin)
 }
 
 async function getMemo(activitiesArr, itemList, savedItemList) {
@@ -158,7 +159,6 @@ async function getMemo(activitiesArr, itemList, savedItemList) {
 
         block.addEventListener('click', (event) => {
             const activityName = event.target.innerHTML;
-            const timeBlockId = event.target.getAttribute("value")
 
             let targetActivity = ""
 
@@ -505,7 +505,7 @@ function editTimeName(id, title, startTime, endTime, color) {
 }
 submitEditTimeName()
 
-function submitEditTimeName() {
+function submitEditTimeName(eventStartTimeInMin, eventEndTimeInMin) {
     document.querySelector("#edit-time-name-form").addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -537,6 +537,17 @@ function submitEditTimeName() {
             alert('Activity End Time is Smaller than Start Time');
             return;
         }
+        if (startTimeInMin < eventStartTimeInMin){
+            dataPass = false;
+            alert('Activity Start Time is Smaller than Event Start Time');
+            return;
+        }
+        if (endTimeInMin > eventEndTimeInMin){
+            dataPass = false;
+            alert('Activity End Time is Bigger than Event End Time');
+            return;
+        }
+        
 
         if (!title) {
             dataPass = false;
@@ -608,8 +619,7 @@ async function submitEditActivity() {
         const form = e.target;
         const id = e.target.getAttribute('value');
         const description = form['edit-description'].value;
-        console.log(form, description, id);
-
+       
         if (!description || onlySpaces(description)) {
             if (!window.confirm('Input field seems to be empty, are you sure to proceed?')) {
                 return;
@@ -645,9 +655,7 @@ function editItem(timeBlockId, itemList, savedItemList) {
     
     document.querySelector(`#edit-show-item`).addEventListener('click', (e) => {
         e.preventDefault();
-        console.log(e.target)
-        console.log(timeBlockId)
-
+      
         document.querySelector(`#edit-item-form`).setAttribute("value", `${timeBlockId}`)
 
         
@@ -656,8 +664,6 @@ function editItem(timeBlockId, itemList, savedItemList) {
             if (savedItem.time_block_id === timeBlockId)
             savedItemArr.push(savedItem.item_id)
          })
-
-         console.log(savedItemArr)
 
 
         let foodArr = []
@@ -823,7 +829,6 @@ function submitEditItem() {
         })
 
         let allCheckedItems = checkedFoodList.concat(checkedDrinkList, checkedDecorationList, checkedOtherList)
-        console.log(allCheckedItems)
 
         const res = await fetch(
             `/eventSchedule/item/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`,
@@ -883,7 +888,6 @@ async function submitEditRemark() {
         const form = e.target;
         const id = e.target.getAttribute('value');
         const remark = form['edit-remark'].value;
-        console.log(form, remark, id, date);
 
         if (!remark || onlySpaces(remark)) {
             if (!window.confirm('Input field seems to be empty, are you sure to proceed?')) {

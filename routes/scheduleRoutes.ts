@@ -21,7 +21,6 @@ async function postItem (req: Request, res: Response) {
 		const timeBlockId = req.query["id"];
 		const itemList = req.body
 
-		console.log (itemList)
 		if (creator === "1") {
 			// delete existing list
 			await client.query(`
@@ -69,15 +68,15 @@ async function editTimeName(req: Request, res: Response) {
 		const startTime = req.body.editStartTime
 		const endTime = req.body.editEndTime
 		const color = req.body.editColor
-		console.log(req.body, title, startTime, endTime)
 
 		if (creator === "1") {
 			//check time collision with existing time-blocks
+			//bug: correct end time = 00:00 problem
 
 			const existingActivities = (
 				await client.query(
 					`
-                SELECT start_time, end_time FROM time_blocks
+                SELECT start_time, end_time, id FROM time_blocks
                 WHERE event_id = $1
 				AND date = $2
                 ORDER BY start_time ASC;
@@ -96,9 +95,17 @@ async function editTimeName(req: Request, res: Response) {
 				const newEndTimeInMin = toMin(req.body.editEndTime);
 
 				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
-					reject = true;
-				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin) {
-					reject = true;
+					if(timeBlockId !== activity.id){
+						reject = false
+					} else {
+						reject = true;
+					}
+				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin && timeBlockId !== activity.id) {
+					if(timeBlockId !== activity.id){
+						reject = false
+					} else {
+						reject = true;
+					}
 				}
 			});
 
@@ -162,7 +169,7 @@ async function editRemark(req: Request, res: Response) {
 		const timeBlockId = req.query['id'];
 		const date = req.query.date;
 		const remark = req.body.remark;
-		console.log(remark, timeBlockId);
+
 
 		if (creator === "1") {
 			await client.query(
@@ -254,6 +261,15 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		const date = req.query.date;
 
 		if (creator === '1') {
+			await client.query(
+				`
+                DELETE FROM time_block_item 
+                WHERE time_block_id = $1
+				`,
+
+				[timeBlockId]
+			);
+
 			await client.query(
 				`
                 DELETE FROM time_blocks 
