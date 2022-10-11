@@ -115,16 +115,17 @@ document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
 document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
 	e.preventDefault();
 	const numberOfOptions = document.querySelectorAll('div[class^="venue_poll_"]').length;
-	document.querySelector('.venue-poll-options-container').innerHTML += `
-		<div class="venue_poll_${numberOfOptions+1}">
-			<label for="venue_poll">Option ${numberOfOptions+1}: </label>
-			<input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
-	  			aria-describedby="basic-addon1" />
-  		</div>
-	`
+	let newDiv = document.createElement('div');
+	newDiv.classList = `venue_poll_${numberOfOptions+1}`;
+	newDiv.innerHTML = `
+		<label for="venue_poll">Option ${numberOfOptions+1}: </label>
+		<input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
+			aria-describedby="basic-addon1" />
+	`;
+	document.querySelector('.venue-poll-options-container').appendChild(newDiv);
 })
 
-// Venue polling remove option Bbutton
+// Venue polling remove option button
 document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
 	e.preventDefault();
 	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
@@ -135,16 +136,27 @@ document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
 })
 
 // Submit venue polling
-document.querySelector('#venue-poll-submit').addEventListener('click', async (e)=> {
+document.querySelector('#venue-poll-form').addEventListener('submit', async (e)=> {
 	e.preventDefault();
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
-	const res = await fetch(`/events/poll/${eventId}`, {
-		method: 'POST'
+	let formList = [];
+	const form = e.target;
+	const formInputNodeList = form.venue_poll;
+	formInputNodeList.forEach((each)=>{
+		formList.push(each.value);
+	})
+	const res = await fetch(`/events/poll/venue/${eventId}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(formList)
 	});
 	const result = await res.json();
 	if (result.status) {
-
+		alert('Successfully created a venue poll!');
+		// Load into the polling page
 	} else {
 		if (result.created) {
 			// overwrite modal pop up
