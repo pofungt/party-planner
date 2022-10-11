@@ -9,6 +9,7 @@ itemsRoutes.get('/', getItem);
 itemsRoutes.post('/eventId/:id', postItem);
 itemsRoutes.delete('/:id', deleteItem);
 itemsRoutes.get('/pendingItems',getPendingItem);
+itemsRoutes.put('/pendingItems/:id',updateItemStatus)
 
 enum TypeName {
 	Food = 'food',
@@ -127,14 +128,33 @@ async function getPendingItem (req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const result = await client.query(
 			`
-			SELECT items.name FROM items 
+			SELECT items.name, items.id FROM items 
 			WHERE purchased = 'false' AND event_id = $1
 			`,
 			[req.query.eventID]
 		);
-		res.json({listItem: result, status: true, msg: 'get pending items from DB'})
+		res.json({listItem: result.rows, status: true, msg: 'get pending items from DB'})
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({ msg: '[ITM007]: Failed to post Pending Items'})
+	}
+}
+
+async function updateItemStatus (req: Request, res: Response) {
+	try{
+		logger.debug('Before reading DB');
+
+		const result = await client.query(
+			`
+			UPDATE items SET purchased = 'true'
+			WHERE items.id = $1
+			`,
+			[req.params.id]
+		);
+		res.json({updateItem:result.rows, status: true, msg: 'update pending items from DB'})
+
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({ msg: '[ITM008]: Failed to update Pending Items'})
 	}
 }

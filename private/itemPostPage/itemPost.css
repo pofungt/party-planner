@@ -59,6 +59,7 @@
 	height: 20px;
 }
 
+
 .shorting-btn {
 	border: none;
 	border-radius: 20px;
@@ -83,6 +84,10 @@
 	border: none;
 	background-color: #f29559;
 	color: #fff;
+}
+
+.bi-pencil-square:hover{
+	color: #495871;
 }
 
 .item-category {

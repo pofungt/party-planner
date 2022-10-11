@@ -66,6 +66,7 @@ document
         }
         form.reset();
         fetchItem();
+        fetchPendingItems();
     });
 
 async function fetchItem() {
@@ -122,6 +123,8 @@ function addDeleteEventListener() {
                     "#item-row-" + itemID
                 );
                 deleteResult.remove();
+                fetchItem();
+                fetchPendingItems();
             }
         });
     });
@@ -142,10 +145,12 @@ async function fetchParticipant(eventID) {
 }
 
 async function fetchPendingItems() {
-    const resShopList = await (await fetch(`/items/pendingItems?eventID=${eventID}`)).json();
+    const resShopList = await (
+        await fetch(`/items/pendingItems?eventID=${eventID}`)
+    ).json();
     if (resShopList.status === true) {
         let listItems = "";
-        for (const items of resShopList.itemObj[pendingListItem]) {
+        for (const items of resShopList.listItem) {
             listItems += `
 				<tr id="list-item-${items.id}">
 					<td>
@@ -159,25 +164,34 @@ async function fetchPendingItems() {
 				</tr>
           `;
         }
+
         document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
     }
 }
 
 function checkShoppingListItem() {
-    document.querySelectorAll(`#checking-id`).forEach((button) => {
+    document.querySelectorAll(`.check-btn`).forEach((button) => {
         button.addEventListener("click", async function (e) {
-            const itemID = e.currentTarget.id;
-            const res = await fetch(`/${itemID}`, {
-                // what method
-                method: "",
+            const itemID = e.currentTarget.id.slice(9);
+            const res = await fetch(`/items/pendingItems/${itemID}`, {
+                method: "PUT",
             });
             if ((await res.json()).status === true) {
-                const removeOnTheList = document.querySelector(
+                const updateOnTheList = document.querySelector(
                     "#list-item-" + itemID
                 );
-                removeOnTheList.remove();
+                updateOnTheList.remove();
             }
         });
     });
 }
+
+document
+    .querySelector(`#back-page`)
+    .addEventListener("click", function () {
+		const params = new URLSearchParams(window.location.search);
+		const eventId = params.get('event-id');
+		const isCreator = params.get('is-creator');
+        window.location= `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`
+    });
