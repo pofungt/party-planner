@@ -22,7 +22,6 @@ async function createVenuePoll(req: Request, res: Response) {
 
 		if (eventDetail) {
 			if (!eventDetail.venue_poll_created) {
-				// Do stuff here
 				const inputList = req.body;
 				for (let input of inputList) {
 					await client.query(`
@@ -55,15 +54,41 @@ async function createVenuePoll(req: Request, res: Response) {
 async function overwriteTerminatedPoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
+		const eventId = parseInt(req.params.id);
         const [eventDetail] = (await client.query(`
             SELECT * FROM events
             WHERE id = $1 AND creator_id = $2;
         `,
-        [parseInt(req.params.id), req.session.user]
+        [eventId, req.session.user]
         )).rows;
 
 		if (eventDetail) {
-			// Overwriting
+			// Initialize the polling data
+			await client.query(`
+				DELETE FROM event_venues_votes 
+				WHERE event_venues_id IN (SELECT id FROM event_venues
+											WHERE event_id = $1);
+
+				DELETE FROM event_venues WHERE event_id = $1;
+
+				UPDATE events 
+				SET venue_poll_created = FALSE, 
+					venue_poll_terminated = FALSE
+				WHERE id = $1;
+			`,
+			[eventId]
+			);
+
+			const inputList = req.body;
+			for (let input of inputList) {
+				await client.query(`
+					INSERT INTO event_venues (address, event_id, created_at, updated_at)
+					VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+				`,
+				[input,eventId]
+				);
+			}
+			res.json({status: true});
 		} else {
 			res.json({
 				status: false
@@ -72,7 +97,7 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP001]: Failed to create venue poll'
+			msg: '[ETP002]: Failed to overwrite venue poll'
 		});
 	}
 }
