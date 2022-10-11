@@ -325,3 +325,5 @@ document.querySelector('#delete-event-submit').addEventListener('click', async (
 		alert("Unable to delete event!");
 	}
 })
+
+
