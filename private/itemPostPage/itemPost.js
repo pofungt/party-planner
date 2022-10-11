@@ -191,6 +191,9 @@ function checkShoppingListItem() {
     });
 }
 
+
+
+
 document
     .querySelector(`#back-page`)
     .addEventListener("click", function () {

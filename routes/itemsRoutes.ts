@@ -128,12 +128,25 @@ async function getPendingItem (req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const result = await client.query(
 			`
-			SELECT items.name, items.id FROM items 
+			SELECT items.name, items.id, items.type_name FROM items 
 			WHERE purchased = 'false' AND event_id = $1
 			`,
 			[req.query.eventID]
+
 		);
-		res.json({listItem: result.rows, status: true, msg: 'get pending items from DB'})
+
+		const itemObj = {
+			[TypeName.Food]: [],
+			[TypeName.Drink]: [],
+			[TypeName.Decoration]: [],
+			[TypeName.Other]: []
+		};
+
+		for(const items of result.rows) {
+			itemObj[items.type_name].push(items);
+		}
+		res.json({itemObj, status: true, msg: 'get pending items from DB'})
+		
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({ msg: '[ITM007]: Failed to post Pending Items'})
