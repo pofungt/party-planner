@@ -13,32 +13,17 @@ async function loadOptions() {
     const eventId = params.get('event-id');
     const res = await fetch(`/events/poll/venue/${eventId}`);
     const result = await res.json();
+    console.log(result)
     if (result.status) {
         let pollTitle = "";
         let pollFrameHTML = "";
         let buttonContainerHTML = "";
 
-        // Poll title HTML
-        if (result.pollTerminated) {
-            pollTitle = "Poll Terminated";
-        } else if (result.eventDeleted) {
-            pollTitle = "Deleted Event";
-        } else if (!result.creator) {
-            if (result.choice) {
-                venueChoice = document.querySelector(`#${result.choice} .title`).innerHTML;
-                pollTitle = `Your choice was Venue ${venueChoice}`;
-            } else {
-                pollTitle = "Please click on the venue option to vote:";
-            }
-        } else {
-            pollTitle = "You may click button below to terminate poll.";
-        }
-
         // Poll Options HTML
         const optionsList = result.pollOptions;
         optionsList.forEach((each, index) => {
             pollFrameHTML += `
-                <div class="option-container" id="${each.id}">
+                <div class="option-container" id="option_${each.id}">
                     <div class="title">
                         Venue ${index + 1}
                     </div>
@@ -48,6 +33,24 @@ async function loadOptions() {
                 </div>
             `
         });
+        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
+
+        // Poll title HTML
+        if (result.pollTerminated) {
+            pollTitle = "Poll Terminated";
+        } else if (result.eventDeleted) {
+            pollTitle = "Deleted Event";
+        } else if (!result.creator) {
+            if (result.choice) {
+                // venueChoice = document.querySelector(`#${result.choice} .title`).innerHTML;
+                // pollTitle = `Your choice was Venue ${venueChoice}`;
+            } else {
+                pollTitle = "Please click on the venue option to vote:";
+            }
+        } else {
+            pollTitle = "You may click button below to terminate poll.";
+        }
+        document.querySelector('.poll-title').innerHTML = pollTitle;
 
         // Button HTML
         if (!result.pollTerminated && !result.eventDeleted) {
@@ -59,10 +62,6 @@ async function loadOptions() {
                 }
             }
         }
-
-        // Put HTML into nodes
-        document.querySelector('.poll-title').innerHTML = pollTitle;
-        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
         document.querySelector('.button-container').innerHTML = buttonContainerHTML;
 
         // Check if participant that has not yet voted
@@ -87,7 +86,7 @@ async function loadOptions() {
 
                 // Listen submit button for voting
                 document.querySelector('#poll-submit-button').addEventListener('click', async ()=>{
-                    const optionId = document.querySelector('.selected').id;
+                    const optionId = document.querySelector('.selected').id.replace("option_","");
                     const res = await fetch(`/events/poll/venue/vote/${eventId}/${optionId}`,{
                         method: 'POST'
                     });
