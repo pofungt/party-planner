@@ -71,6 +71,7 @@ async function editTimeName(req: Request, res: Response) {
 
 		if (creator === "1") {
 			//check time collision with existing time-blocks
+			//bug: correct end time = 00:00 problem
 
 			const existingActivities = (
 				await client.query(

@@ -146,6 +146,7 @@ async function getEventSchedule() {
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
     await getMemo(activitiesArr, itemList, savedItemList)
+    submitEditTimeName(startTimeInMin, endTimeInMin)
 }
 
 async function getMemo(activitiesArr, itemList, savedItemList) {
@@ -158,7 +159,6 @@ async function getMemo(activitiesArr, itemList, savedItemList) {
 
         block.addEventListener('click', (event) => {
             const activityName = event.target.innerHTML;
-            const timeBlockId = event.target.getAttribute("value")
 
             let targetActivity = ""
 
@@ -505,7 +505,7 @@ function editTimeName(id, title, startTime, endTime, color) {
 }
 submitEditTimeName()
 
-function submitEditTimeName() {
+function submitEditTimeName(eventStartTimeInMin, eventEndTimeInMin) {
     document.querySelector("#edit-time-name-form").addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -537,6 +537,17 @@ function submitEditTimeName() {
             alert('Activity End Time is Smaller than Start Time');
             return;
         }
+        if (startTimeInMin < eventStartTimeInMin){
+            dataPass = false;
+            alert('Activity Start Time is Smaller than Event Start Time');
+            return;
+        }
+        if (endTimeInMin > eventEndTimeInMin){
+            dataPass = false;
+            alert('Activity End Time is Bigger than Event End Time');
+            return;
+        }
+        
 
         if (!title) {
             dataPass = false;
