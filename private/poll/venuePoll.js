@@ -103,11 +103,29 @@ async function loadOptions() {
                         alert('Unable to submit vote!');
                     }
                 });
+            } else if (result.creator) {
+                // Listen to terminate button
+                document.querySelector('#poll-terminate-button').addEventListener('click', ()=>{
+                    const venueTerminatePoll = new bootstrap.Modal(document.getElementById('delete-poll-modal'));
+                    venueTerminatePoll.show();
+                    document.querySelector('#poll-terminate-confirm-button').addEventListener('click',async ()=>{
+                        const params = new URLSearchParams(window.location.search);
+                        const eventId = params.get('event-id');
+                        const res = await fetch(`/events/poll/venue/${eventId}`,{
+                            method: 'DELETE'
+                        });
+                        const result = await res.json();
+                        if (result.status) {
+                            alert('Successfully terminated poll!');
+                            venueTerminatePoll.hide();
+                            loadOptions();
+                        } else {
+                            alert('Unable to terminate poll!');
+                        }
+                    });
+                });
             }
         }
-
-        // Listen to terminate button
-
 
     } else {
         alert('Unable to load venue poll page!');

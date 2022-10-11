@@ -10,7 +10,8 @@ window.addEventListener('load', async () => {
     deleteTimeBlock()
     listenToSchedulePage()
     hideCreatorDivClass()
-
+    
+    
 
     document.body.style.display = "block";
 });
@@ -120,7 +121,7 @@ async function getEventSchedule() {
         startHour = 0
         endHour = 24
         startMin = 0
-        endMin = 0
+        endMin = 1
         startTimeInMin = 0
         endTimeInMin = 1440
         console.log("case 1")
@@ -128,7 +129,7 @@ async function getEventSchedule() {
 
     if (dayDifference > 0 && date === `${startYear}${startMonth}${startDay}`) {
         endHour = 24
-        endMin = 0
+        endMin = 1
         endTimeInMin = 1440
         console.log("case 2")
 
@@ -330,21 +331,6 @@ async function getPresetTimeBlock(startTime) {
     const scrollBarDiv = document.querySelector("#rundown-container")
     scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop
 
-    //loop the scroll
-    // let rundownContainer = document.querySelector('#rundown-container');
-    // rundownContainer.addEventListener('scroll', function () {
-    //     let max_scroll = this.scrollHeight - this.clientHeight;
-    //     let current_scroll = this.scrollTop;
-    //     let bottom = 100;
-    //     if (current_scroll + bottom >= max_scroll) {
-    //         let outerDiv = document.querySelectorAll('.rundown')[0];
-    //         let current = parseInt(outerDiv.dataset.current, 10);
-    //         let timeBlock = document.querySelectorAll('.individual-time-block')[current];
-    //         let new_div = timeBlock.cloneNode(true);
-    //         outerDiv.appendChild(new_div);
-    //         outerDiv.dataset.current = current + 1;
-    //     }
-    // });
 }
 
 async function getSavedTimeBlocks(activitiesArr) {
@@ -503,7 +489,6 @@ function editTimeName(id, title, startTime, endTime, color) {
         document.querySelector('#edit-color').value = color
     })
 }
-submitEditTimeName()
 
 function submitEditTimeName(eventStartTimeInMin, eventEndTimeInMin) {
     document.querySelector("#edit-time-name-form").addEventListener("submit", async (e) => {
@@ -548,13 +533,11 @@ function submitEditTimeName(eventStartTimeInMin, eventEndTimeInMin) {
             return;
         }
         
-
         if (!title) {
             dataPass = false;
             alert('Title Field is Mandatory');
             return;
         }
-
 
         if (dataPass) {
             const formObj = {
@@ -598,7 +581,7 @@ async function editActivity(id, description) {
         div.innerHTML = `
                         <form value="${id}" id="edit-description-form">
                         <textarea id="edit-description" type="input" rows="5">${description}</textarea>
-                        <button form="edit-description-form" type="submit" class="btn btn-primary">
+                        <button form="edit-description-form" type="submit" class="btn btn-primary button-53">
                             Submit
                         </button>
                         </form>
@@ -664,7 +647,6 @@ function editItem(timeBlockId, itemList, savedItemList) {
             if (savedItem.time_block_id === timeBlockId)
             savedItemArr.push(savedItem.item_id)
          })
-
 
         let foodArr = []
         let drinkArr = []
@@ -867,7 +849,7 @@ function editRemarks(id, remark) {
         div.innerHTML = `
                         <form value="${id}" id="edit-remark-form">    
                         <textarea type="input" id="edit-remark" rows="5">${remark}</textarea>
-                        <button form="edit-remark-form" type="submit" class="btn btn-primary">
+                        <button form="edit-remark-form" type="submit" class="btn btn-primary button-53">
                             Submit
                         </button>
                         <form>
@@ -1131,4 +1113,21 @@ async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
     deleteRedundantDiv(100);
     fixTimeStamp();
     fixDivHeight(10);
+}
+
+function loopScrollBar(){
+    let rundownContainer = document.querySelector('#rundown-container');
+    rundownContainer.addEventListener('scroll', function () {
+        let max_scroll = this.scrollHeight - this.clientHeight;
+        let current_scroll = this.scrollTop;
+        let bottom = 100;
+        if (current_scroll + bottom >= max_scroll) {
+            let outerDiv = document.querySelectorAll('.rundown')[0];
+            let current = parseInt(outerDiv.dataset.current, 10);
+            let timeBlock = document.querySelectorAll('.individual-time-block')[current];
+            let new_div = timeBlock.cloneNode(true);
+            outerDiv.appendChild(new_div);
+            outerDiv.dataset.current = current + 1;
+        }
+    });
 }

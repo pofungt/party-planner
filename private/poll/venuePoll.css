@@ -45,7 +45,8 @@ body {
 }
 
 #poll-submit-button,
-#poll-terminate-button {
+#poll-terminate-button,
+#poll-terminate-confirm-button {
 	font-size: 20px;
 	font-family: 'Lato', sans-serif;
 	padding: 10px 20px 10px 20px;
@@ -61,7 +62,8 @@ body {
 	color: #293241;
 }
 
-#poll-terminate-button {
+#poll-terminate-button,
+#poll-terminate-confirm-button {
     box-shadow: none;
     background-color: #D8684E;
     border: #C7492C 3px solid;
@@ -81,4 +83,51 @@ body {
 
 .vote {
     font-size: 15px;
+}
+
+.warning-sign {
+	font-size: 70px;
+	width: 90px;
+	height: 90px;
+	border-radius: 200px;
+	border: solid 4px black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.warning {
+	font-size: 30px;
+	font-weight: bold;
+}
+
+.reminder-text {
+	text-align: center;
+}
+
+.modal-title {
+	font-size: 25px;
+	font-weight: bold;
+	color: #293241;
+	font-family: 'Lato', sans-serif;
+	transform: translateX(10px);
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.modal-body
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;	
+}
+
+.modal-footer {
+	display: flex;
+	justify-content: center;
+	align-content: center;
 }

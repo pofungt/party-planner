@@ -7,6 +7,7 @@ export const eventPollRoutes = express.Router();
 
 eventPollRoutes.get('/venue/:id', isLoggedInAPI, getVenuePollOptions);
 eventPollRoutes.post('/venue/:id', isLoggedInAPI, createVenuePoll);
+eventPollRoutes.delete('/venue/:id', isLoggedInAPI, deleteVenuePoll);
 eventPollRoutes.post('/venue/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
 eventPollRoutes.post('/venue/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
 
@@ -28,15 +29,26 @@ async function getVenuePollOptions(req: Request, res: Response) {
 				`,
 					[eventId]
 				)).rows;
+				let voteCounts = {};
+				for (let pollOption of pollOptions) {
+					const [voteCount] = (await client.query(`
+						SELECT COUNT(*) FROM event_venues_votes
+						WHERE event_venues_id = $1;
+					`,
+						[pollOption.id]
+					)).rows;
+					voteCounts[pollOption.id] = voteCount;
+				}
 				res.json({
 					status: true,
 					creator: true,
 					pollTerminated: eventDetail.venue_poll_terminated,
 					eventDeleted: eventDetail.deleted,
-					pollOptions
+					pollOptions,
+					voteCounts
 				});
 			} else {
-				res.json({status: false});
+				res.json({ status: false });
 			}
 		} else {
 			const [participant] = (await client.query(`
@@ -64,7 +76,7 @@ async function getVenuePollOptions(req: Request, res: Response) {
 							SELECT COUNT(*) FROM event_venues_votes
 							WHERE event_venues_id = $1;
 						`,
-						[pollOption.id]
+							[pollOption.id]
 						)).rows;
 						voteCounts[pollOption.id] = voteCount;
 					}
@@ -74,7 +86,7 @@ async function getVenuePollOptions(req: Request, res: Response) {
 													WHERE event_id = $1)
 						AND user_id = $2;
 					`,
-					[eventId, userId]
+						[eventId, userId]
 					)).rows;
 					let chosenAddress;
 					if (choiceMade) {
@@ -82,7 +94,7 @@ async function getVenuePollOptions(req: Request, res: Response) {
 							SELECT * FROM event_venues
 							WHERE id = $1;
 						`,
-						[choiceMade.event_venues_id]
+							[choiceMade.event_venues_id]
 						)).rows;
 					}
 					res.json({
@@ -90,17 +102,17 @@ async function getVenuePollOptions(req: Request, res: Response) {
 						creator: false,
 						pollTerminated: eventDetailParticipant.venue_poll_terminated,
 						eventDeleted: eventDetailParticipant.deleted,
-						choice: choiceMade 
-								? {
-									id: `option_${choiceMade.event_venues_id}`,
-									address: `${chosenAddress.address}`
-								}
-								: "",
+						choice: choiceMade
+							? {
+								id: `option_${choiceMade.event_venues_id}`,
+								address: `${chosenAddress.address}`
+							}
+							: "",
 						pollOptions,
 						voteCounts
 					});
 				} else {
-					res.json({status: false});
+					res.json({ status: false });
 				}
 			} else {
 				res.json({ status: false });
@@ -154,6 +166,50 @@ async function createVenuePoll(req: Request, res: Response) {
 			res.json({
 				status: false
 			});
+		}
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[ETP002]: Failed to create venue poll'
+		});
+	}
+}
+
+async function deleteVenuePoll(req: Request, res: Response) {
+	try {
+		logger.debug('Before reading DB');
+		const eventId = parseInt(req.params.id);
+		const [eventDetail] = (await client.query(`
+			SELECT * FROM events
+			WHERE id = $1 AND creator_id = $2;
+		`,
+			[eventId, req.session.user]
+		)).rows;
+
+		if (eventDetail) {
+			if (eventDetail.venue_poll_created) {
+				if (!eventDetail.venue_poll_terminated) {
+					await client.query(`
+					UPDATE events SET venue_poll_terminated = TRUE
+					WHERE id = $1;
+					`,
+						[eventId]
+					);
+					res.json({ status: true });
+				} else {
+					res.json({
+						status: false,
+						terminated: true
+					});
+				}
+			} else {
+				res.json({
+					status: false,
+					noPoll: true
+				});
+			}
+		} else {
+			res.json({ status: false });
 		}
 	} catch (e) {
 		logger.error(e);
@@ -238,7 +294,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 			WHERE participants.user_id = $1
 			AND events.id = $2;
 		`,
-		[userId, eventId]
+			[userId, eventId]
 		)).rows;
 		if (participant) {
 			const [choiceMade] = (await client.query(`
@@ -246,7 +302,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 				WHERE event_venues_id IN (SELECT id FROM event_venues
 											WHERE event_id = $1);
 			`,
-			[eventId]
+				[eventId]
 			)).rows;
 			if (!choiceMade) {
 				await client.query(`
@@ -254,8 +310,8 @@ async function submitVoteChoice(req: Request, res: Response) {
 					(event_venues_id,user_id,created_at,updated_at)
 					VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 				`,
-				[parseInt(req.params.vote_id),userId]);
-				res.json({status: true});
+					[parseInt(req.params.vote_id), userId]);
+				res.json({ status: true });
 			} else {
 				res.json({
 					status: false,
@@ -263,7 +319,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 				})
 			}
 		} else {
-			res.json({status: false});
+			res.json({ status: false });
 		}
 	} catch (e) {
 		logger.error(e);
