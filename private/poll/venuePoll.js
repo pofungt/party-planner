@@ -5,6 +5,7 @@ window.addEventListener('load', async () => {
     addNavbar();
     await loadName();
     await loadOptions();
+
     document.body.style.display = 'block';
 });
 
@@ -127,6 +128,8 @@ async function loadOptions() {
             }
         }
 
+        // Add backward button
+        document.querySelector('#back-page').href = `/eventSummary/event.html?${params}`;
     } else {
         alert('Unable to load venue poll page!');
         window.location.href = '/index.html';

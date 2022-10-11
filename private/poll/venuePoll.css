@@ -3,6 +3,7 @@ body {
 }
 
 .poll-container {
+	position: relative;
 	display: flex;
     flex-direction: column;
 	justify-content: center;
@@ -130,4 +131,20 @@ body {
 	display: flex;
 	justify-content: center;
 	align-content: center;
+}
+
+#back-page {
+	position: absolute;
+	left: 50px;
+	top: 50px;
+    text-decoration: none;
+}
+
+.bi-chevron-left {
+    font-size: 30px;
+    position: fixed;
+    top: 90px;
+    left: 40px;
+    color: #444a58;
+    cursor: pointer;
 }
