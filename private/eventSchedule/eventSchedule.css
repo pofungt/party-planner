@@ -6,9 +6,12 @@ body {
 	font-size: 16px;
 }
 
-#modal-body {
-	height: fit-content
+.modal-body {
+	height: fit-content; 
+}
 
+.input-panel{
+	margin: 0px;
 }
 
 #item-form-text {
@@ -24,12 +27,13 @@ header {
 	text-align: center;
 }
 
-#item-list-box{
+.item-list-box{
 	border-radius: 10px;
 	background-color: #e8e892;
 	height: 100%;
 	padding-top: 10px;
-	padding-bottom: 30px;
+	padding-bottom: 10px;
+	overflow: auto;
 }
 
 .modal-content {
@@ -115,16 +119,15 @@ header {
 		
 		#add-activity {
 			display: none;
-		}
-		
+		}	
 	}
-	
 }
 
 #memo {
 	background-color: #efefd0;
 	height: 90%;
 	border-radius: 10px;
+	overflow: auto;
 }
 
 #page {

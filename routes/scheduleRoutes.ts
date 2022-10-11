@@ -10,8 +10,53 @@ scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
 scheduleRoutes.put("/description/edit", isLoggedInAPI, editDescription);
 scheduleRoutes.put("/remark/edit", isLoggedInAPI, editRemark);
 scheduleRoutes.put("/timeName/edit", isLoggedInAPI, editTimeName);
-
+scheduleRoutes.post("/item", isLoggedInAPI, postItem)
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
+
+
+async function postItem (req: Request, res: Response) {
+	try {
+		logger.debug("Before reading DB");
+		const creator = req.query["is-creator"];
+		const timeBlockId = req.query["id"];
+		const itemList = req.body
+
+		console.log (itemList)
+		if (creator === "1") {
+			// delete existing list
+			await client.query(`
+			DELETE FROM time_block_item
+			WHERE time_block_item.time_block_id = $1
+			`, [timeBlockId]
+			)
+
+			itemList.forEach(async (item: any)=>{
+				await client.query(`
+				INSERT INTO time_block_item (time_block_id, item_id, created_at, updated_at)
+				VALUES ($1, $2, $3, $4)
+				`, [timeBlockId, `${item}`, 'now()', 'now()']
+				)
+			})
+
+			res.json({
+				status: true,
+				msg: "Items Added"
+			})
+			
+		} else {
+			res.status(400).json({
+				msg: "Unauthorized Request"
+			})
+		}
+
+	} catch (e){
+		logger.error(e)
+		res.status(500).json({
+			msg: "[ITM003]: Failed to Add Show Item",
+		});
+	}
+}
+
 
 async function editTimeName(req: Request, res: Response) {
 	try {
@@ -283,11 +328,37 @@ async function getEventSchedule(req: Request, res: Response) {
 			)
 		).rows;
 
+		const itemList = (
+			await client.query(
+				`
+            SELECT * FROM items
+            WHERE items.event_id = $1
+        `,
+				[eventId]
+			)
+		).rows;
+
+		const savedItemList = (
+			await client.query(
+				`
+            SELECT * FROM items
+			JOIN time_block_item ON items.id = time_block_item.item_id
+			JOIN time_blocks ON time_block_item.time_block_id = time_blocks.id
+			WHERE time_blocks.event_id = $1
+			AND time_blocks.date = $2
+        `,
+				[eventId, date]
+			)
+		).rows;
+
 		res.json({
 			status: true,
 			detail: event,
-			activities: activitiesArr
+			activities: activitiesArr,
+			items: itemList,
+			savedItems: savedItemList
 		});
+
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
