@@ -476,6 +476,7 @@ export async function loadEventDetails() {
               </table>
             </div>
             `)
+
             item.innerHTML = `
             <div class="frame-title-container">
               <div class="frame-title">
@@ -496,7 +497,7 @@ export async function loadEventDetails() {
         }
         listenToSchedulePage(result.detail.start_datetime);
         listenToItemPage();
-        listenToDeleteParticipants();Í
+        listenToDeleteParticipants();
     } else {
         const roleName = isCreator ? "creator" : "participant";
         alert(`You are not ${roleName} of the event!`);
