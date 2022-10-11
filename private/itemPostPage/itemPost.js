@@ -10,7 +10,7 @@ window.addEventListener("load", async () => {
     eventID = query.get("event-id");
     itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
     addNavbar();
-    loadName();
+    await loadName();
     fetchItem();
     fetchParticipant(eventID);
     fetchPendingItems();
