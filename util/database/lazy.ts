@@ -164,6 +164,7 @@ async function main() {
         id SERIAL primary key,
         item_id int not NULL,
         time_block_id int not NULL,
+		quantity int,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (item_id) REFERENCES items(id),
@@ -185,10 +186,7 @@ async function main() {
     
     CREATE TABLE event_venues (
         id SERIAL primary key,
-        name varchar not NULL,
         address varchar not NULL,
-        indoor boolean,
-        parking_slots int,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
@@ -207,9 +205,8 @@ async function main() {
     
     CREATE TABLE event_date_time (
         id SERIAL primary key,
-        date date not NULL,
-        start_time time not NULL,
-        end_time time not NULL,
+        start_datetime timestamptz not NULL,
+        end_datetime timestamptz not NULL,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,

@@ -1,4 +1,3 @@
-import { doc } from "prettier";
 import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadName.js";
 
@@ -11,7 +10,7 @@ window.addEventListener("load", async () => {
     eventID = query.get("event-id");
     itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
     addNavbar();
-    loadName();
+    await loadName();
     fetchItem();
     fetchParticipant(eventID);
     fetchPendingItems();
@@ -146,9 +145,9 @@ async function fetchPendingItems() {
     const resShopList = await (await fetch(`/items?eventID=${eventID}`)).json();
     if (resShopList.status === true) {
         let listItems = "";
-        for (const items of res.itemObj) {
+        for (const items of resShopList.itemObj) {
             listItems += `
-				<tr id="list-item-id">
+				<tr id="list-item-${items.id}">
 					<td>
 						<div class="pending-item">
 							${items.name}
@@ -160,7 +159,7 @@ async function fetchPendingItems() {
 				</tr>
           `;
         }
-        document.querySelector(`#shipping-list-update`).innerHTML = itemsList;
+        document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
     }
 }
@@ -171,6 +170,7 @@ function checkShoppingListItem() {
             const itemID = e.currentTarget.id;
             const res = await fetch(`/items/${itemID}`, {
                 // what method
+				method:"",
             });
             if ((await res.json()).status === true) {
                 const removeOnTheList = document.querySelector(
