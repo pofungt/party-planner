@@ -101,7 +101,7 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 	}
 });
 
-// Venue Edit-Poll Toggle
+// Venue edit-poll toggle
 document.querySelector('#edit-venue-switch').addEventListener('change', ()=>{
 	document.querySelector('.edit-input').classList.toggle("hide");
 	document.querySelector('.poll-input').classList.toggle("hide");
@@ -111,7 +111,7 @@ document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
 	document.querySelector('.poll-input').classList.toggle("hide");
 });
 
-// Venue Polling Add Option Button
+// Venue polling add option button
 document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
 	e.preventDefault();
 	const numberOfOptions = document.querySelectorAll('div[class^="venue_poll_"]').length;
@@ -124,13 +124,33 @@ document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
 	`
 })
 
-// Venue Polling Remove Option Button
+// Venue polling remove option Bbutton
 document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
 	e.preventDefault();
 	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
 	const numberOfOptions = venuePollOptionsDivList.length;
 	if (numberOfOptions > 1) {
 		venuePollOptionsDivList[numberOfOptions - 1].remove();
+	}
+})
+
+// Submit venue polling
+document.querySelector('#venue-poll-submit').addEventListener('click', async (e)=> {
+	e.preventDefault();
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/poll/${eventId}`, {
+		method: 'POST'
+	});
+	const result = await res.json();
+	if (result.status) {
+
+	} else {
+		if (result.created) {
+			// overwrite modal pop up
+		} else {
+			alert('Unable to create poll.');
+		}
 	}
 })
 
