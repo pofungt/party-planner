@@ -19,22 +19,6 @@ async function loadOptions() {
         let pollFrameHTML = "";
         let buttonContainerHTML = "";
 
-        // Poll Options HTML
-        const optionsList = result.pollOptions;
-        optionsList.forEach((each, index) => {
-            pollFrameHTML += `
-                <div class="option-container" id="option_${each.id}">
-                    <div class="title">
-                        Venue ${index + 1}
-                    </div>
-                    <div class="address">
-                        ${each.address}
-                    </div>
-                </div>
-            `
-        });
-        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
-
         // Poll title HTML
         if (result.pollTerminated) {
             pollTitle = "Poll Terminated";
@@ -49,7 +33,25 @@ async function loadOptions() {
         } else {
             pollTitle = "You may click button below to terminate poll.";
         }
-        document.querySelector('.poll-title').innerHTML = pollTitle;
+
+        // Poll Options HTML
+        const optionsList = result.pollOptions;
+        optionsList.forEach((each, index) => {
+            const voteCount = result.voteCounts[each.id].count;
+            pollFrameHTML += `
+                <div class="option-container" id="option_${each.id}">
+                    <div class="title">
+                        Venue ${index + 1}
+                    </div>
+                    <div class="address">
+                        ${each.address}
+                    </div>
+                    <div class="vote">
+                        ${voteCount === "1" ? `${voteCount} Vote` : `${voteCount} Votes`}
+                    </div>
+                </div>
+            `
+        });
 
         // Button HTML
         if (!result.pollTerminated && !result.eventDeleted) {
@@ -61,6 +63,10 @@ async function loadOptions() {
                 }
             }
         }
+
+        // Add HTML to the page
+        document.querySelector('.poll-title').innerHTML = pollTitle;
+        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
         document.querySelector('.button-container').innerHTML = buttonContainerHTML;
 
         // Check if participant that has not yet voted
