@@ -392,13 +392,24 @@ export async function loadEventDetails() {
         </a>
       `;
 		}
+    let venuePollButton = "";
+    if (result.detail.venue_poll_created) {
+      venuePollButton =     `
+      <a class="poll-button" href="/poll/venuePoll.html?${params}">
+        <i class="fa-solid fa-check"></i>
+      </a>
+    `;
+    }
 		const venue = document.querySelector('.venue .background-frame');
 		venue.innerHTML = `
         <div class="frame-title-container">
           <div class="frame-title">
             Venue
           </div>
-          ${editVenueButton}
+          <div class="venue-buttons-container">
+            ${venuePollButton}  
+            ${editVenueButton}
+          </div>
         </div>
         <div class="frame-content-container">
           <i class="fa-solid fa-location-dot"></i>
