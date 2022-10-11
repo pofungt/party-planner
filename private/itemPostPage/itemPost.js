@@ -168,7 +168,6 @@ async function fetchPendingItems(selectType) {
 				</tr>
           `;
         }
-
         document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
     }
