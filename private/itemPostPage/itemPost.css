@@ -2,7 +2,7 @@
 	font-size: 30px;
 	position: fixed;
 	top: 90px;
-	left: 50px;
+	left: 40px;
 	color: #444a58;
 	cursor: pointer;
 }
@@ -20,7 +20,8 @@
 	background-color: #fefde2;
 	height: 700px;
 	border-radius: 20px;
-	margin: 5px;
+	margin: 10px 2px 5px 5px;
+	width: 400px;
 }
 
 .shopping-list .item-list {
@@ -67,6 +68,7 @@
 }
 
 /* item category */
+
 .category-text-items {
 	font-size: 20px;
 	font-family: 'Lato', sans-serif;
@@ -95,6 +97,7 @@
 	height: 338px;
 	border-radius: 20px;
 	margin: 15px;
+	width: 390px;
 }
 
 .item-category .item-list {
@@ -143,8 +146,6 @@ tr {
 
 /* modal - footer */
 .format {
-	display: flex;
-	flex-direction: row;
 	justify-content: space-between;
 	font-family: 'Lato', sans-serif;
 	color: #293241;
@@ -169,3 +170,4 @@ tr {
 .save-submit:hover {
 	outline-width: 5px;
 }
+

@@ -25,9 +25,9 @@
     </div>
 
     <div class="container">
-        <a id="back-page"><i class="bi bi-chevron-left"></i></a> 
+        <a id="back-page"><i class="bi bi-chevron-left"></i></a>
         <div class="row">
-            <div class="col-6 col-md-4">
+            <div class="col-xl-4">
                 <div class="shopping-list">
                     <div class="category-text">Shopping list:</div>
                     <div class="item-list border">
@@ -50,24 +50,14 @@
                                 </tr>
                             </thead>
                             <tbody id="shipping-list-update">
-                                <!-- 
-                                    <tr id="list-item-id">
-                                        <td>
-                                            <div class="pending-item">
-                                                item 1
-                                                <button id="checking-id" class="check-btn"><i class="bi bi-check-circle"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                -->
+                                <!--loaded with itemPost.js "shopping list JS"-->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <!-- item category -->
-            <div class="col-6 col-md-4">
+            <div class="col-xl-4">
                 <div class="item-category">
                     <div class="item-category-title">
                         <div class="category-text-items">
@@ -81,7 +71,7 @@
                     <div class="item-list border">
                         <table id="food-table" class="table">
                             <tbody>
-                                <!-- item list is loaded with js -->
+                                <!-- loaded with itemPost.js "category items JS"-->
                             </tbody>
                         </table>
                     </div>
@@ -98,14 +88,14 @@
                         <table id="decoration-table" class="table">
                             <tbody>
                                 <tr>
-                                    <!-- item list is loaded with js -->
+                                    <!-- loaded with itemPost.js "category items JS" -->
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-4">
+            <div class="col-xl-4">
                 <div class="item-category">
                     <div class="category-text-items">
                         Drink:
@@ -118,7 +108,7 @@
                         <table id="drink-table" class="table">
                             <tbody>
                                 <tr>
-                                    <!-- item list is loaded with js -->
+                                    <!-- loaded with itemPost.js "category items JS"-->
                                 </tr>
                             </tbody>
                         </table>
@@ -136,7 +126,7 @@
                         <table id="other-table" class="table">
                             <tbody>
                                 <tr>
-                                    <!-- item list is loaded with js -->
+                                    <!-- loaded with itemPost.js "category items JS"-->
                                 </tr>
                             </tbody>
                         </table>
@@ -170,7 +160,7 @@
                                 </tr>
                             </thead>
                             <tbody id="edit-item-list">
-                                <!-- loaded with js -->
+                                <!-- loaded with itemPost.js "category model list JS" -->
                             </tbody>
                         </table>
                     </div>
@@ -178,36 +168,36 @@
                 <!-- footer modal  -->
                 <div class="modal-footer">
                     <div class="container-fluid">
-                        <div class="row">
-                            <form id="from-container">
-                                <div class="col-12 format">
-                                    <div class="col-5">
-                                        <label for="add-item" class="form-label">Item name</label>
-                                        <input type="text" class="form-control" id="add-item" name="item_name" />
-                                    </div>
-                                    <div class="col-1">
-                                        <label for="add-quantity" class="form-label">Quantity</label>
-                                        <input type="number" class="form-control" id="add-quantity"
-                                            name="item_quantity" min="1"/>
-                                    </div>
-                                    <div class="col-1">
-                                        <label for="add-price" class="form-label">Price</label>
-                                        <input type="number" class="form-control" id="add-price" name="item_price" min="1"/>
-                                    </div>
-                                    <div class="col-2">
-                                        <label for="add-user" class="form-label">
-                                            <i class="bi bi-person-fill"></i>
-                                            PIC
-                                        </label>
-                                        <select id="select-participant" class="form-select" name="item_user">
-                                            <option selected>Select</option>
-                                            <!-- loaded with js -->
-                                        </select>
-                                    </div>
-                                    <button class="save-submit">Add</button>
+                        <form id="from-container">
+                            <div class="row format">
+                                <div class="col-md-5">
+                                    <label for="add-item" class="form-label">Item name</label>
+                                    <input type="text" class="form-control" id="add-item" name="item_name" />
                                 </div>
-                            </form>
-                        </div>
+                                <div class="col-md-1">
+                                    <label for="add-quantity" class="form-label">Quantity</label>
+                                    <input type="number" class="form-control" id="add-quantity" name="item_quantity"
+                                        min="1" />
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="add-price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="add-price" name="item_price"
+                                        min="0.01" />
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="add-user" class="form-label">
+                                        <i class="bi bi-person-fill"></i>
+                                        PIC
+                                    </label>
+                                    <select id="select-participant" class="form-select" name="item_user">
+                                        <option selected>Select</option>
+                                        <!-- loaded with itemPost.js "modal participants select"-->
+                                    </select>
+                                </div>
+                                <button class="save-submit">Add</button>
+
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
