@@ -13,7 +13,7 @@ scheduleRoutes.put("/timeName/edit", isLoggedInAPI, editTimeName);
 
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
 
-async function editTimeName (req: Request, res: Response) {
+async function editTimeName(req: Request, res: Response) {
 	try {
 		logger.debug("Before reading DB");
 		const eventId = req.query["event-id"];
@@ -23,11 +23,12 @@ async function editTimeName (req: Request, res: Response) {
 		const title = req.body.title
 		const startTime = req.body.editStartTime
 		const endTime = req.body.editEndTime
+		const color = req.body.editColor
 		console.log(req.body, title, startTime, endTime)
 
-		if (creator) {
+		if (creator === "1") {
 			//check time collision with existing time-blocks
-			
+
 			const existingActivities = (
 				await client.query(
 					`
@@ -62,33 +63,35 @@ async function editTimeName (req: Request, res: Response) {
 					msg: '[EER002]: Activity Start Time or End Time Overlapped with Existing Activity'
 				});
 			} else {
-			await client.query(`
+				await client.query(`
                 UPDATE time_blocks
 				SET title = $1,
 					start_time = $2,
 					end_time = $3,
-					updated_at = $4
-				WHERE event_id = $5
-				AND id = $6
-				AND date = $7
+					color = $4,
+					updated_at = $5
+				WHERE event_id = $6
+				AND id = $7
+				AND date = $8
 				`,
-				[
-					title,
-					startTime,
-					endTime,
-					'now()',
-					eventId,
-					timeBlockId,
-					date	
-				]
-			)
+					[
+						title,
+						startTime,
+						endTime,
+						color,
+						'now()',
+						eventId,
+						timeBlockId,
+						date
+					]
+				)
 
+				res.json({
+					status: true,
+					msg: "Edit success"
+				})
 			}
-			res.json({
-				status: true,
-				msg: "Edit success"
-			})
-
+			
 		} else {
 
 			res.json({
@@ -116,7 +119,7 @@ async function editRemark(req: Request, res: Response) {
 		const remark = req.body.remark;
 		console.log(remark, timeBlockId);
 
-		if (creator) {
+		if (creator === "1") {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -128,9 +131,10 @@ async function editRemark(req: Request, res: Response) {
 				`,
 				[
 					remark,
+					'now()',
 					eventId,
 					timeBlockId,
-					date	
+					date
 				]
 			)
 			res.json({
@@ -159,9 +163,8 @@ async function editDescription(req: Request, res: Response) {
 		const timeBlockId = req.query['id'];
 		const date = req.query.date;
 		const description = req.body.description;
-		console.log(description, timeBlockId);
 
-		if (creator) {
+		if (creator === "1") {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -176,7 +179,7 @@ async function editDescription(req: Request, res: Response) {
 					'now()',
 					eventId,
 					timeBlockId,
-					date	
+					date
 				]
 			)
 			res.json({
@@ -205,7 +208,7 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		const timeBlockId = req.query['id'];
 		const date = req.query.date;
 
-		if (creator) {
+		if (creator === '1') {
 			await client.query(
 				`
                 DELETE FROM time_blocks 
@@ -221,7 +224,7 @@ async function deleteTimeBlock(req: Request, res: Response) {
 				msg: 'Delete success'
 			});
 		} else {
-			res.json({
+			res.status(400).json({
 				status: false,
 				msg: 'Unauthorized request'
 			});
@@ -305,7 +308,8 @@ async function postEventSchedule(req: Request, res: Response) {
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
 		const date = req.query.date;
-		if (creator) {
+
+		if (creator === "1") {
 			//check if start time and end time collided with existing activities
 
 			const existingActivities = (
@@ -346,8 +350,8 @@ async function postEventSchedule(req: Request, res: Response) {
 					`
                 INSERT INTO time_blocks 
                 (title, description, event_id, user_id, start_time, 
-                end_time, remark, date, created_at, updated_at)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+                end_time, remark, date, color, created_at, updated_at)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
 					[
 						req.body.title,
 						req.body.description,
@@ -357,6 +361,7 @@ async function postEventSchedule(req: Request, res: Response) {
 						req.body.endTime,
 						req.body.remark,
 						date,
+						req.body.color,
 						'now()',
 						'now()'
 					]
