@@ -71,7 +71,7 @@ async function getVenuePollOptions(req: Request, res: Response) {
 						creator: false,
 						pollTerminated: eventDetailParticipant.venue_poll_terminated,
 						eventDeleted: eventDetailParticipant.deleted,
-						choice: choiceMade ? `option_${choiceMade.event_venues_id}` : "0",
+						choice: choiceMade ? `option_${choiceMade.event_venues_id}` : "",
 						pollOptions
 					});
 				} else {

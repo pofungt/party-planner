@@ -42,8 +42,7 @@ async function loadOptions() {
             pollTitle = "Deleted Event";
         } else if (!result.creator) {
             if (result.choice) {
-                // venueChoice = document.querySelector(`#${result.choice} .title`).innerHTML;
-                // pollTitle = `Your choice was Venue ${venueChoice}`;
+                pollTitle = `Your choice was ...`;
             } else {
                 pollTitle = "Please click on the venue option to vote:";
             }
