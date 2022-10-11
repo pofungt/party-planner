@@ -20,7 +20,6 @@ async function postItem (req: Request, res: Response) {
 		const creator = req.query["is-creator"];
 		const timeBlockId = req.query["id"];
 		const itemList = req.body;
-
 		const eventId = req.query["event-id"];
 
 		const event = (await client.query(`
@@ -68,7 +67,7 @@ async function postItem (req: Request, res: Response) {
 			
 		} else {
 			res.status(400).json({
-				msg: "Unauthorized Request"
+				msg: "[EER001]: Unauthorized Request"
 			})
 		}
 
@@ -193,7 +192,7 @@ async function editTimeName(req: Request, res: Response) {
 
 			res.json({
 				status: false,
-				msg: "Unauthorized request"
+				msg: "[EER001]: Unauthorized Request"
 			})
 
 		}
@@ -262,7 +261,7 @@ async function editRemark(req: Request, res: Response) {
 		} else {
 			res.json({
 				status: false,
-				msg: 'Unauthorized request'
+				msg: '[EER001]: Unauthorized Request'
 			});
 		}
 	} catch (e) {
@@ -328,7 +327,7 @@ async function editDescription(req: Request, res: Response) {
 		} else {
 			res.json({
 				status: false,
-				msg: 'Unauthorized request'
+				msg: '[EER001]: Unauthorized Request'
 			});
 		}
 	} catch (e) {
@@ -395,7 +394,7 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		} else {
 			res.status(400).json({
 				status: false,
-				msg: 'Unauthorized request'
+				msg: '[EER001]: Unauthorized Request'
 			});
 		}
 	} catch (e) {
@@ -411,31 +410,11 @@ async function getEventSchedule(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
-		const date = req.query.date;
+		let date = req.query.date;
 
-		const events = (await client.query(`
-			SELECT start_datetime, end_datetime, deleted FROM events
-			WHERE id = $1
-		`, [eventId])).rows[0]
-
-		const isDeleted = events.deleted
-		const eventStartTimeInMin = events.start_datetime.getTime()
-		const eventEndTimeInMin = events.end_datetime.getTime()
-		const now = new Date().getTime()
-
-		let isProcessing = true
-
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
-			isProcessing = false
-			//event is finished
-		}
-		if (isDeleted) {
-			isProcessing = false
-			//event was deleted by creator
-		}
-
+			
 		let event;
-		if (creator === '1' && isProcessing) {
+		if (creator === '1') {
 			event = (
 				await client.query(
 					`
@@ -459,6 +438,19 @@ async function getEventSchedule(req: Request, res: Response) {
 					[eventId, req.session.user]
 				)
 			).rows[0];
+		}
+		
+		if (date === "null") {
+
+			const option = {
+				hour12: false,
+				year: "numeric",
+				month: "2-digit",
+				day: "2-digit",
+			}
+			let placeholder = (event.start_datetime).toLocaleString('en-GB', option).split("/")	
+			date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`
+	
 		}
 
 		const activitiesArr = (
@@ -611,7 +603,7 @@ async function postEventSchedule(req: Request, res: Response) {
 			}
 		} else {
 			res.status(400).json({
-				msg: '[EER001]: Something went wrong, please try re-login-in'
+				msg: '[EER001]: Unauthorized Request'
 			});
 		}
 	} catch (e) {
