@@ -1,4 +1,3 @@
-import { doc } from "prettier";
 import { addNavbar } from "/functions/addNavbar.js";
 import { loadName } from "/functions/loadName.js";
 
