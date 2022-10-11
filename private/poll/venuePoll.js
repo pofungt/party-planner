@@ -42,7 +42,7 @@ async function loadOptions() {
             pollTitle = "Deleted Event";
         } else if (!result.creator) {
             if (result.choice) {
-                pollTitle = `Your choice was ...`;
+                pollTitle = `Your choice was: ${result.choice.address}`;
             } else {
                 pollTitle = "Please click on the venue option to vote:";
             }
