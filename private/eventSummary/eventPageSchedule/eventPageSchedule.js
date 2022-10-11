@@ -2,9 +2,8 @@ export async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event-id');
     const isCreator = params.get('is-creator');
-    const date = params.get('date');
 
-    const res = await fetch(`/events/?event-id=${eventId}&is-creator=${isCreator}&date=${date}`);
+    const res = await fetch(`/events/?event-id=${eventId}&is-creator=${isCreator}`);
 
     if (res.status !== 200) {
         const data = await res.json();
@@ -13,8 +12,6 @@ export async function getEventSchedule() {
     }
 
     const result = await res.json();
-
-    console.log(result)
 
     const option = {
         hour12: false,
@@ -40,6 +37,9 @@ export async function getEventSchedule() {
     const startDay = startDateTime.slice(3, 5)
     const endDay = endDateTime.slice(3, 5)
 
+    const date = `${startYear}${startMonth}${startDay}`
+    console.log (date)
+
 
     let startTimeInMin = toMin(startTime)
     let endTimeInMin = toMin(endTime)
@@ -64,9 +64,9 @@ export async function getEventSchedule() {
         console.log("case 3")
     }
 
-    getPresetTimeBlock(startTimeInMin)
-    getSavedTimeBlocks(activitiesArr)
-    correctDiv(startTimeInMin, endTimeInMin)
+    await getPresetTimeBlock(startTimeInMin)
+    await getSavedTimeBlocks(activitiesArr)
+    await correctDiv(startTimeInMin, endTimeInMin)
     setGlobalHeight(2)
 }
 

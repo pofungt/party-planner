@@ -411,7 +411,7 @@ async function getEventSchedule(req: Request, res: Response) {
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
 		let date = req.query.date;
-
+		console.log(date)
 			
 		let event;
 		if (creator === '1') {
@@ -440,7 +440,7 @@ async function getEventSchedule(req: Request, res: Response) {
 			).rows[0];
 		}
 		
-		if (date === "null") {
+		if (date === "null" || "undefined") {
 
 			const option = {
 				hour12: false,
@@ -450,7 +450,6 @@ async function getEventSchedule(req: Request, res: Response) {
 			}
 			let placeholder = (event.start_datetime).toLocaleString('en-GB', option).split("/")	
 			date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`
-	
 		}
 
 		const activitiesArr = (
