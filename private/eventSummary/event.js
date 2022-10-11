@@ -102,23 +102,23 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 });
 
 // Venue edit-poll toggle
-document.querySelector('#edit-venue-switch').addEventListener('change', ()=>{
+document.querySelector('#edit-venue-switch').addEventListener('change', () => {
 	document.querySelector('.edit-input').classList.toggle("hide");
 	document.querySelector('.poll-input').classList.toggle("hide");
 });
-document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
+document.querySelector('#poll-venue-switch').addEventListener('change', () => {
 	document.querySelector('.edit-input').classList.toggle("hide");
 	document.querySelector('.poll-input').classList.toggle("hide");
 });
 
 // Venue polling add option button
-document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
+document.querySelector('#venue-add-option').addEventListener('click', (e) => {
 	e.preventDefault();
 	const numberOfOptions = document.querySelectorAll('div[class^="venue_poll_"]').length;
 	let newDiv = document.createElement('div');
-	newDiv.classList = `venue_poll_${numberOfOptions+1}`;
+	newDiv.classList = `venue_poll_${numberOfOptions + 1}`;
 	newDiv.innerHTML = `
-		<label for="venue_poll">Option ${numberOfOptions+1}: </label>
+		<label for="venue_poll">Option ${numberOfOptions + 1}: </label>
 		<input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
 			aria-describedby="basic-addon1" />
 	`;
@@ -126,7 +126,7 @@ document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
 })
 
 // Venue polling remove option button
-document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
+document.querySelector('#venue-remove-option').addEventListener('click', (e) => {
 	e.preventDefault();
 	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
 	const numberOfOptions = venuePollOptionsDivList.length;
@@ -136,68 +136,82 @@ document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
 })
 
 // Submit venue polling
-document.querySelector('#venue-poll-form').addEventListener('submit', async (e)=> {
+document.querySelector('#venue-poll-form').addEventListener('submit', async (e) => {
 	e.preventDefault();
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
+	let dataPass = true;
 	let formList = [];
 	const form = e.target;
 	const formInputNodeList = form.venue_poll;
-	formInputNodeList.forEach((each)=>{
+	formInputNodeList.forEach((each) => {
 		if (!!each.value) {
 			formList.push(each.value);
 		}
 	})
-	const res = await fetch(`/events/poll/venue/${eventId}`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(formList)
-	});
-	const result = await res.json();
-	if (result.status) {
-		alert('Successfully created a venue poll!');
-		window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
-	} else {
-		if (result.created) {
-			alert('Poll has been created before!');
-			const venuePollModal = bootstrap.Modal.getInstance(document.getElementById('venue-modal'));
-			venuePollModal.hide();
-			const venuePollOverwriteModal = new bootstrap.Modal(document.getElementById('overwrite-venue-poll-modal'));
-			venuePollOverwriteModal.show();
+	if (formList.length < 2) {
+		dataPass = false;
+		alert('Please enter at least 2 options!');
+	}
+	if (dataPass) {
+		const res = await fetch(`/events/poll/venue/${eventId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formList)
+		});
+		const result = await res.json();
+		if (result.status) {
+			alert('Successfully created a venue poll!');
+			window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
 		} else {
-			alert('Unable to create poll.');
-		}
+			if (result.created) {
+				alert('Poll has been created before!');
+				const venuePollModal = bootstrap.Modal.getInstance(document.getElementById('venue-modal'));
+				venuePollModal.hide();
+				const venuePollOverwriteModal = new bootstrap.Modal(document.getElementById('overwrite-venue-poll-modal'));
+				venuePollOverwriteModal.show();
+			} else {
+				alert('Unable to create poll.');
+			}
+		}	
 	}
 });
 
 // Overwrite venue poll confirmed
-document.querySelector('#overwrite-venue-poll-submit').addEventListener('click', async (e)=> {
+document.querySelector('#overwrite-venue-poll-submit').addEventListener('click', async (e) => {
 	e.preventDefault();
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
+	let dataPass = true;
 	let formList = [];
 	const form = document.querySelector('#venue-poll-form');
 	const formInputNodeList = form.venue_poll;
-	formInputNodeList.forEach((each)=>{
+	formInputNodeList.forEach((each) => {
 		if (!!each.value) {
 			formList.push(each.value);
 		}
 	})
-	const res = await fetch(`/events/poll/venue/overwrite/${eventId}`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify(formList)
-	});
-	const result = await res.json();
-	if (result.status) {
-		alert('Successfully created a venue poll!');
-		window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
-	} else {
-		alert('Unable to create poll.');
+	if (formList.length < 2) {
+		formList = false;
+		alert('Please enter at least 2 options!');
+	}
+	if (dataPass) {
+		const res = await fetch(`/events/poll/venue/overwrite/${eventId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formList)
+		});
+		const result = await res.json();
+		if (result.status) {
+			alert('Successfully created a venue poll!');
+			window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
+		} else {
+			alert('Unable to create poll.');
+		}
 	}
 });
 
@@ -295,7 +309,7 @@ document.querySelector('#invitation-link').addEventListener('click', (e) => {
 });
 
 // Delete Event Button
-document.querySelector('#delete-event-submit').addEventListener('click', async ()=>{
+document.querySelector('#delete-event-submit').addEventListener('click', async () => {
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const res = await fetch(`/events/${eventId}`, {

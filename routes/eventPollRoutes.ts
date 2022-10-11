@@ -28,12 +28,23 @@ async function getVenuePollOptions(req: Request, res: Response) {
 				`,
 					[eventId]
 				)).rows;
+				let voteCounts = {};
+				for (let pollOption of pollOptions) {
+					const [voteCount] = (await client.query(`
+						SELECT COUNT(*) FROM event_venues_votes
+						WHERE event_venues_id = $1;
+					`,
+					[pollOption.id]
+					)).rows;
+					voteCounts[pollOption.id] = voteCount;
+				}
 				res.json({
 					status: true,
 					creator: true,
 					pollTerminated: eventDetail.venue_poll_terminated,
 					eventDeleted: eventDetail.deleted,
-					pollOptions
+					pollOptions,
+					voteCounts
 				});
 			} else {
 				res.json({status: false});
