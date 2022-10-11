@@ -142,10 +142,10 @@ async function fetchParticipant(eventID) {
 }
 
 async function fetchPendingItems() {
-    const resShopList = await (await fetch(`/items?eventID=${eventID}&`)).json();
+    const resShopList = await (await fetch(`/items/pendingItems?eventID=${eventID}`)).json();
     if (resShopList.status === true) {
         let listItems = "";
-        for (const items of resShopList.itemObj) {
+        for (const items of resShopList.itemObj[pendingListItem]) {
             listItems += `
 				<tr id="list-item-${items.id}">
 					<td>
@@ -168,7 +168,7 @@ function checkShoppingListItem() {
     document.querySelectorAll(`#checking-id`).forEach((button) => {
         button.addEventListener("click", async function (e) {
             const itemID = e.currentTarget.id;
-            const res = await fetch(`/items/${itemID}`, {
+            const res = await fetch(`/${itemID}`, {
                 // what method
                 method: "",
             });
