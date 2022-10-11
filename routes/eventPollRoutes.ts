@@ -12,7 +12,42 @@ eventPollRoutes.post('/venue/overwrite/:id', isLoggedInAPI, overwriteTerminatedP
 async function getVenuePollOptions(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-
+		const eventId = parseInt(req.params.id);
+		const userId = req.session.user;
+		const [eventDetail] = (await client.query(`
+			SELECT * FROM events WHERE id = $1 AND creator_id = $2;
+		`,
+		[eventId, userId]
+		)).rows;
+		if (eventDetail) {
+			const pollOptions = (await client.query(`
+				SELECT * FROM event_venues WHERE event_id = $1;
+			`,
+			[eventId]
+			)).rows;
+			res.json({
+				status: true,
+				creator: true,
+				pollOptions
+			});
+		} else {
+			const [participant] = (await client.query(`
+				SELECT * FROM participants
+				INNER JOIN events ON events.id = participants.event_id
+				WHERE events.id = $1 AND participants.id = $2;
+			`,
+			[eventId, userId]
+			)).rows;
+			if (participant) {
+				// Do things here
+				res.json({
+					status: true,
+					creator: false
+				});
+			} else {
+				res.json({status: false});
+			}
+		}
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
