@@ -69,6 +69,7 @@ document
         fetchPendingItems();
     });
 
+// category items JS
 async function fetchItem() {
     const res = await (await fetch(`/items?eventID=${eventID}`)).json();
     if (res.status === true) {
@@ -87,6 +88,7 @@ async function fetchItem() {
     }
 }
 
+// category model list JS
 async function fetchEditItem() {
     const resEditItem = await (await fetch(`/items?eventID=${eventID}`)).json();
     if (resEditItem.status === true) {
@@ -130,6 +132,7 @@ function addDeleteEventListener() {
     });
 }
 
+// modal participants select
 async function fetchParticipant(eventID) {
     const resParticipant = await (
         await fetch(`/items/participated?eventID=${eventID}`)
@@ -144,6 +147,7 @@ async function fetchParticipant(eventID) {
     }
 }
 
+// shopping list JS
 async function fetchPendingItems() {
     const resShopList = await (
         await fetch(`/items/pendingItems?eventID=${eventID}`)
