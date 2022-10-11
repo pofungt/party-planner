@@ -129,7 +129,7 @@ document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
 	e.preventDefault();
 	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
 	const numberOfOptions = venuePollOptionsDivList.length;
-	if (numberOfOptions > 1) {
+	if (numberOfOptions > 2) {
 		venuePollOptionsDivList[numberOfOptions - 1].remove();
 	}
 })
