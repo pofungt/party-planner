@@ -144,7 +144,9 @@ document.querySelector('#venue-poll-form').addEventListener('submit', async (e)=
 	const form = e.target;
 	const formInputNodeList = form.venue_poll;
 	formInputNodeList.forEach((each)=>{
-		formList.push(each.value);
+		if (!!each.value) {
+			formList.push(each.value);
+		}
 	})
 	const res = await fetch(`/events/poll/venue/${eventId}`, {
 		method: 'POST',
@@ -156,7 +158,7 @@ document.querySelector('#venue-poll-form').addEventListener('submit', async (e)=
 	const result = await res.json();
 	if (result.status) {
 		alert('Successfully created a venue poll!');
-		// Load into the polling page
+		window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
 	} else {
 		if (result.created) {
 			alert('Poll has been created before!');
@@ -164,7 +166,6 @@ document.querySelector('#venue-poll-form').addEventListener('submit', async (e)=
 			venuePollModal.hide();
 			const venuePollOverwriteModal = new bootstrap.Modal(document.getElementById('overwrite-venue-poll-modal'));
 			venuePollOverwriteModal.show();
-			// overwrite modal pop up
 		} else {
 			alert('Unable to create poll.');
 		}
@@ -180,7 +181,9 @@ document.querySelector('#overwrite-venue-poll-submit').addEventListener('click',
 	const form = document.querySelector('#venue-poll-form');
 	const formInputNodeList = form.venue_poll;
 	formInputNodeList.forEach((each)=>{
-		formList.push(each.value);
+		if (!!each.value) {
+			formList.push(each.value);
+		}
 	})
 	const res = await fetch(`/events/poll/venue/overwrite/${eventId}`, {
 		method: 'POST',
@@ -192,7 +195,7 @@ document.querySelector('#overwrite-venue-poll-submit').addEventListener('click',
 	const result = await res.json();
 	if (result.status) {
 		alert('Successfully created a venue poll!');
-		// Load into the polling page
+		window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
 	} else {
 		alert('Unable to create poll.');
 	}
