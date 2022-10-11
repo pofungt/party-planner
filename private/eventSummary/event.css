@@ -216,7 +216,9 @@ a {
 	font-weight: bold;
 }
 
-#delete-event-modal .modal-body {
+#delete-event-modal .modal-body,
+#overwrite-venue-poll-modal .modal-body 
+{
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -303,14 +305,16 @@ div[class^="venue_poll_"] label {
 	cursor: pointer;
 }
 
-#delete-event-submit {
+#delete-event-submit, #overwrite-venue-poll-submit {
 	background-color: #D8684E;
 	color: white;
 	font-weight: bold;
 	border: #C7492C 3px solid;
 }
 
-#delete-event-modal .modal-submit-button {
+#delete-event-modal .modal-submit-button,
+#overwrite-venue-poll-modal .modal-submit-button
+ {
 	box-shadow: none;
 }
 

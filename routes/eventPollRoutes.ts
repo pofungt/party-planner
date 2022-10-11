@@ -30,6 +30,13 @@ async function createVenuePoll(req: Request, res: Response) {
 					`,
 					[input,eventId]
 					);
+					await client.query(`
+						UPDATE events 
+						SET venue_poll_created = TRUE
+						WHERE id = $1;
+					`,
+					[eventId]
+					);
 				}
 				res.json({status: true});
 			} else {
@@ -68,9 +75,15 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 				DELETE FROM event_venues_votes 
 				WHERE event_venues_id IN (SELECT id FROM event_venues
 											WHERE event_id = $1);
-
+			`,
+			[eventId]
+			);
+			await client.query(`
 				DELETE FROM event_venues WHERE event_id = $1;
-
+			`,
+			[eventId]
+			);
+			await client.query(`
 				UPDATE events 
 				SET venue_poll_created = FALSE, 
 					venue_poll_terminated = FALSE
@@ -86,6 +99,13 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 					VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 				`,
 				[input,eventId]
+				);
+				await client.query(`
+					UPDATE events 
+					SET venue_poll_created = TRUE
+					WHERE id = $1;
+				`,
+				[eventId]
 				);
 			}
 			res.json({status: true});
