@@ -142,7 +142,9 @@ async function fetchParticipant(eventID) {
 }
 
 async function fetchPendingItems() {
-    const resShopList = await (await fetch(`/items/pendingItems?eventID=${eventID}`)).json();
+    const resShopList = await (
+        await fetch(`/items/pendingItems?eventID=${eventID}`)
+    ).json();
     if (resShopList.status === true) {
         let listItems = "";
         for (const items of resShopList.listItem) {
@@ -180,3 +182,10 @@ function checkShoppingListItem() {
         });
     });
 }
+
+document
+    .querySelector(`#back-page`)
+    .addEventListener("click", async function (e) {
+        const res = await fetch(`/eventSummary/event.html?event-id=${eventID}&is-creator=${}`, 
+		{ method: "POST" });
+    });
