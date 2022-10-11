@@ -5,9 +5,21 @@ import { logger } from '../util/logger';
 
 export const eventPollRoutes = express.Router();
 
+eventPollRoutes.get('/venue/:id', isLoggedInAPI, getVenuePollOptions);
 eventPollRoutes.post('/venue/:id', isLoggedInAPI, createVenuePoll);
-// Passed in by overwrite modal (confirmed by user)
 eventPollRoutes.post('/venue/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
+
+async function getVenuePollOptions(req: Request, res: Response) {
+	try {
+		logger.debug('Before reading DB');
+
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({
+			msg: '[ETP001]: Failed to get venue poll options'
+		});
+	}
+}
 
 async function createVenuePoll(req: Request, res: Response) {
 	try {
@@ -53,7 +65,7 @@ async function createVenuePoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP001]: Failed to create venue poll'
+			msg: '[ETP002]: Failed to create venue poll'
 		});
 	}
 }
@@ -117,7 +129,7 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP002]: Failed to overwrite venue poll'
+			msg: '[ETP003]: Failed to overwrite venue poll'
 		});
 	}
 }
