@@ -6,9 +6,22 @@ body {
 	font-size: 16px;
 }
 
-#modal-body {
-	height: fit-content
+.modal-body {
+	height: fit-content; 
+}
 
+.input-group{
+	display: flex;
+	justify-content: center;
+}
+
+.input-panel{
+	margin: 0px;
+}
+
+.item-list-box{
+	min-height: 150px;
+	min-width: 100px;
 }
 
 #item-form-text {
@@ -24,17 +37,18 @@ header {
 	text-align: center;
 }
 
-#item-list-box{
+.item-list-box{
 	border-radius: 10px;
 	background-color: #e8e892;
 	height: 100%;
 	padding-top: 10px;
-	padding-bottom: 30px;
+	padding-bottom: 10px;
+	overflow: auto;
 }
 
 .modal-content {
 	align-items: center;
-	width: 100%;
+	width: fit-content;
 }
 
 #date-selector-container {
@@ -58,7 +72,7 @@ header {
 
 #time-block-memo-container {
 	position: relative;
-	height: 100%;
+	max-height: 100%;
 }
 
 #close-memo {
@@ -101,7 +115,7 @@ header {
 		}
 	
 		#memo {
-			font-size: small;
+			font-size: large;
 			max-height: 100%;
 			max-width: 100%;
 			overflow: auto;
@@ -112,19 +126,19 @@ header {
 			height: 300px;
 			overflow: auto;
 		}
-		
-		#add-activity {
-			display: none;
+
+		#rundown-container{
+			max-height: 300px;
 		}
-		
+
 	}
-	
 }
 
 #memo {
 	background-color: #efefd0;
 	height: 90%;
 	border-radius: 10px;
+	overflow: auto;
 }
 
 #page {
@@ -329,8 +343,6 @@ textarea {
 #event-name {
 	font-size: 2vw;
 	padding-top: 10px;
-	background-color: rgb(225, 255, 127);
-	
 }
 
 .fa-trash {
@@ -343,11 +355,3 @@ textarea {
 	z-index: 1000;
 }
 
-#add-activity{
-	border-radius: 10px;
-	background-color: #F2D492;
-	border: none;
-	text-shadow: #3f3f3f;
-	width: 200px;
-	height: 50px;
-}

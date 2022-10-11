@@ -17,12 +17,6 @@
 
 <body>
 
-  <button type="button" id="add-activity" class="create-button creator-function" data-bs-toggle="modal"
-    data-bs-target="#create-time-block-modal">
-    Add Activity
-  </button>
-
-
   <div class="navbar-container container">
     <!-- NAVBAR: to be loaded with js -->
   </div>
@@ -39,7 +33,7 @@
       <div id="date-selector-container" class="col-12">
         <!-- time selector here -->
       </div>
-      <div id="time-block-memo-container" class="col-sm-5"></div>
+      <div id="time-block-memo-container" class="col-sm-5 overflow-auto"></div>
       <div id="rundown-container" class="col-sm-7 overflow-auto">
         <div id="rundown" class="rundown" data-current="0">
           <!-- Add Time Block and Time-stamp on window load -->
@@ -139,8 +133,8 @@
               <div id="time-container">
                 <div class="input-panel mb-3">
                   <div class="form-header">Start Time *</div>
-                  <input type="time" name="start" class="form-control" id="edit-start-time" name="edit-start-time" min="00:00"
-                    max="24:00" step="900" required>
+                  <input type="time" name="start" class="form-control" id="edit-start-time" name="edit-start-time"
+                    min="00:00" max="24:00" step="900" required>
                 </div>
                 <div class="input-panel mb-3">
                   <div class="form-header">End Time *</div>
@@ -180,98 +174,46 @@
         </div>
         <div class="modal-body">
           <div id="item-form-text" class="form-text">
-						Select items you wish to add to this activity
-					</div>
+            Select items you wish to add to this activity. Blanketed indicates total quantity of each items assigned to the event.
+          </div>
           <div class="input-group">
 
             <form id="edit-item-form" class="edit-item-form row">
-              
+
               <div class="input-panel mb-3 col-6">
                 <div class="form-header" id="item-form-header">Food</div>
-                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-              </ul>
+                <div class="list-items-container">
+                  <ul id="food-list" class="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                    <!-- to be added by JS -->
+                  </ul>
+                </div>
               </div>
 
               <div class="input-panel mb-3 col-6">
                 <div class="form-header" id="item-form-header">Drinks</div>
-                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-              </ul>
+                <div class="list-items-container">
+                  <ul id="drink-list" class="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                    <!-- to be added by JS -->
+                  </ul>
+                </div>
               </div>
 
               <div class="input-panel mb-3 col-6">
                 <div class="form-header" id="item-form-header">Decoration</div>
-                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" checked>
-                  <label for="scales">Item 1</label>
-                  </li>
-              </ul>
+                <div class="list-items-container">
+                  <ul id="decoration-list" class="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                    <!-- to be added by JS -->
+                  </ul>
+                </div>
               </div>
 
               <div class="input-panel mb-3 col-6">
                 <div class="form-header" id="item-form-header">Others</div>
-                <ul id="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" unchecked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" unchecked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" unchecked>
-                  <label for="scales">Item 1</label>
-                  </li>
-                  <li>
-                    <input type="checkbox" id="scales" name="scales" unchecked>
-                  <label for="scales">Item 1</label>
-                  </li>
-              </ul>
+                <div class="list-items-container">
+                  <ul id="other-list" class="item-list-box" role="listbox" tabindex="0" aria-label="emails list">
+                    <!-- to be added by JS -->
+                  </ul>
+                </div>
               </div>
 
               <div class="modal-footer">
@@ -288,11 +230,11 @@
 
 
 
-    <script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-      crossorigin="anonymous"></script>
-    <script type="module" src="./eventSchedule.js"></script>
+  <script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <script type="module" src="./eventSchedule.js"></script>
 </body>
 
 </html>
