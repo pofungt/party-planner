@@ -1,5 +1,6 @@
 body {
     font-family: 'Calibri';
+	position: relative;
 }
 
 .poll-container {
@@ -136,13 +137,12 @@ body {
 #back-page {
 	position: absolute;
 	left: 50px;
-	top: 50px;
+	top: 15px;
     text-decoration: none;
 }
 
 .bi-chevron-left {
     font-size: 30px;
-    position: fixed;
     top: 90px;
     left: 40px;
     color: #444a58;

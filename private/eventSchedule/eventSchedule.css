@@ -415,3 +415,18 @@ textarea {
 		font-size: 1.25rem;
 	}
 }
+
+#back-page {
+	position: absolute;
+	left: 50px;
+	top: 110px;
+    text-decoration: none;
+}
+
+.bi-chevron-left {
+    font-size: 30px;
+    top: 90px;
+    left: 40px;
+    color: #444a58;
+    cursor: pointer;
+}
