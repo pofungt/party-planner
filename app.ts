@@ -11,6 +11,8 @@ import { isLoggedIn } from './util/guard';
 import { personalInfoRoutes } from './routes/personalInfoRoutes';
 import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
+import { commentRoutes } from './routes/commentRoutes';
+
 
 export let dev = false;
 if (process.argv[2] === "dev") {
@@ -69,6 +71,7 @@ app.use('/events', eventsRoutes, scheduleRoutes);
 app.use('/personalPage', personalInfoRoutes);
 app.use('/items', itemsRoutes);
 app.use('/eventSchedule', scheduleRoutes);
+app.use('/comment', commentRoutes);
 
 app.use(isLoggedIn, express.static('private'));
 

@@ -22,6 +22,7 @@ export function addNavbar() {
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/personalPage/personalPage.html">Edit Profile</a></li>
+                            <li><a class="dropdown-item" href="/comment/comment.html">Comments</a></li>
                             <li><a class="dropdown-item logout">Log out</a></li>
                         </ul>
                     </div>

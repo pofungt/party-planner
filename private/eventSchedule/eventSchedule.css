@@ -356,6 +356,11 @@ textarea {
 	z-index: 1000;
 }
 
+.modal-body{
+	align-items: center;
+	text-align: center;
+}
+
 
 
 /* CSS */
