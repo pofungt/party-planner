@@ -17,7 +17,7 @@ async function main() {
         first_name varchar not NULL,
         last_name varchar not NULL,
         email varchar not NULL,
-        phone varchar,
+        phone varchar not NULL,
         password varchar not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL

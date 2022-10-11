@@ -31,8 +31,8 @@ async function test() {
 		const testPassword = await hashPassword(test);
 		await client.query(
 			`INSERT INTO users 
-      (id,first_name,last_name,email,password,created_at,updated_at) 
-      VALUES (-1,$1,$2,$3,$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+      (id,first_name,last_name,email,phone,password,created_at,updated_at) 
+      VALUES (-1,$1,$2,$3,'647-111-1111',$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 			[test, test, test, testPassword]
 		);
 
@@ -86,7 +86,7 @@ async function main() {
         first_name varchar not NULL,
         last_name varchar not NULL,
         email varchar not NULL,
-        phone varchar,
+        phone varchar not NULL,
         password varchar not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL
