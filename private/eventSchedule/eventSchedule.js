@@ -81,6 +81,8 @@ async function getEventSchedule() {
     const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
     const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
     const activitiesArr = result.activities
+    const itemList = result.items
+    const savedItemList = result.savedItems
     const startTime = startDateTime.slice(-5)
     const endTime = endDateTime.slice(-5)
     const startDate = startDateTime.slice(0, 10)
@@ -143,10 +145,10 @@ async function getEventSchedule() {
     await getPresetTimeBlock(startTimeInMin)
     await getSavedTimeBlocks(activitiesArr)
     await correctDiv(startTimeInMin, endTimeInMin)
-    await getMemo(activitiesArr)
+    await getMemo(activitiesArr, itemList, savedItemList)
 }
 
-async function getMemo(activitiesArr) {
+async function getMemo(activitiesArr, itemList, savedItemList) {
     const timeBlocks = document.querySelectorAll('.save-time-block');
     const memoContainer = document.querySelector('#time-block-memo-container');
 
@@ -156,6 +158,7 @@ async function getMemo(activitiesArr) {
 
         block.addEventListener('click', (event) => {
             const activityName = event.target.innerHTML;
+            const timeBlockId = event.target.getAttribute("value")
 
             let targetActivity = ""
 
@@ -190,7 +193,29 @@ async function getMemo(activitiesArr) {
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <div class="modal-footer" id="separator"></div>
-                        <div value="${id}" name="item" id="item-detail${id}">here put items detail</div>
+                        
+                        <div class="row">
+                            <div class="col-sm-6">
+                            <label class="memo-item-label" for="food-item">Food</label>
+                            <div value="${id}" name="food-item" id="food-detail${id}"></div>
+                            </div>
+                            
+                            <div class="col-sm-6">
+                            <label class="memo-item-label" for="drink-item">Drinks</label>
+                            <div value="${id}" name="drink-item" id="drink-detail${id}"></div>
+                            </div>
+
+                            <div class="col-sm-6">
+                            <label class="memo-item-label" for="decoration-item">Decoration</label>
+                            <div value="${id}" name="decoration-item" id="decoration-detail${id}"></div>
+                            </div>
+
+                            <div class="col-sm-6">
+                            <label class="memo-item-label" for="other-item">Other</label>
+                            <div value="${id}" name="other-item" id="other-detail${id}"></div>
+                            </div>
+                        </div>
+
                     </div> 
 
                     <div class="memo-item-container">
@@ -206,9 +231,33 @@ async function getMemo(activitiesArr) {
 
             </div>
             `;
+            // add saved items
+            savedItemList.forEach((savedItem) => {
+                if (savedItem.time_block_id === id && savedItem.type_name === "food") {
+                    document.querySelector(`#food-detail${id}`).innerHTML += `
+                    <li>${savedItem.name}</li>
+                    `
+                }
+                if (savedItem.time_block_id === id && savedItem.type_name === "drink") {
+                    document.querySelector(`#drink-detail${id}`).innerHTML += `
+                    <li>${savedItem.name}</li>
+                    `
+                }
+                if (savedItem.time_block_id === id && savedItem.type_name === "decoration") {
+                    document.querySelector(`#decoration-detail${id}`).innerHTML += `
+                    <li>${savedItem.name}</li>
+                    `
+                }
+                if (savedItem.time_block_id === id && savedItem.type_name === "other") {
+                    document.querySelector(`#other-detail${id}`).innerHTML += `
+                    <li>${savedItem.name}</li>
+                    `
+                }
+            })
 
             editActivity(id, description)
             editRemarks(id, remark)
+            editItem(id, itemList, savedItemList)
 
             document.querySelector("#close-memo").addEventListener("click", (e) => {
                 e.preventDefault
@@ -322,7 +371,7 @@ async function getSavedTimeBlocks(activitiesArr) {
                     </a>
                     <div id="stamp-${startTimeInMin}" class="time-stamp">${start}</div>
                 </span>
-                <span type="button" id="time-block-${startTimeInMin}" start="${startTimeInMin}" end="${endTimeInMin}" class="time-block save-time-block col-10">
+                <span value="${id}" type="button" id="time-block-${startTimeInMin}" start="${startTimeInMin}" end="${endTimeInMin}" class="time-block save-time-block col-10">
                 </span>
                 
         `
@@ -334,111 +383,7 @@ async function getSavedTimeBlocks(activitiesArr) {
     })
 }
 
-async function fixTimeStamp() {
-    const timeStampDiv = document.querySelectorAll('.time-stamp');
-    timeStampDiv.forEach((stamp) => {
-        let nextTimeBlock;
-        let placeholder = stamp.parentElement.nextElementSibling;
 
-        while (placeholder) {
-            if (placeholder.classList.contains('time-block')) {
-                nextTimeBlock = placeholder;
-                break;
-            }
-            placeholder = placeholder.nextElementSibling;
-        }
-        const time = minToTimeString(parseInt(nextTimeBlock.getAttribute('start')));
-        stamp.innerHTML = time;
-    });
-}
-
-async function deleteRedundantDiv(x) {
-    const divCluster = document.querySelectorAll(`.time-block`);
-    if (x > 0) {
-        for (let i = 0; i < divCluster.length; i++) {
-            if (!!divCluster[i + 1]) {
-                const endTime = parseInt(divCluster[i].getAttribute('end'));
-                const nextStartTime = parseInt(divCluster[i + 1].getAttribute('start'));
-                if (endTime > nextStartTime) {
-                    divCluster[i + 1].parentElement.remove();
-                } else if (endTime < nextStartTime) {
-                    divCluster[i + 1].setAttribute(`start`, `${endTime}`);
-                }
-            }
-        }
-        deleteRedundantDiv(x - 1);
-    }
-    return;
-}
-
-async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
-    const divCluster = document.querySelectorAll(`.time-block`);
-    const params = new URLSearchParams(window.location.search);
-    const isCreator = params.get('is-creator');
-
-    for (let i = 0; i < divCluster.length; i++) {
-        const startTime = parseInt(divCluster[i].getAttribute('start'));
-        const endTime = parseInt(divCluster[i].getAttribute('end'));
-        const height = endTime - startTime;
-        const timeString = minToTimeString(startTime);
-
-        if (!!divCluster[i + 1]) {
-            divCluster[i].style.height = `${height}px`;
-            const nextStartTime = parseInt(divCluster[i + 1].getAttribute('start'));
-            const nextEndTime = parseInt(divCluster[i + 1].getAttribute('end'));
-            const newDivHeight = nextStartTime - endTime;
-            const nextStartTimeFormat = minToTimeString(nextStartTime);
-
-            if (endTime < nextStartTime && startTime >= eventStartTimeInMin && startTime < eventEndTimeInMin) {
-                divCluster[i].parentNode.insertAdjacentHTML(
-                    'afterend',
-                    `
-                <div id="time-block-container-${endTime}" class="individual-time-block row">
-                    <span id="time-stamp-box" class="time-stamp-container col-2">
-                        <div id="stamp-${endTime}" class="time-stamp">${nextStartTimeFormat}</div>
-                    </span>
-                    <span type="button" id="time-block-${endTime}" start="${endTime}" end="${nextStartTime}" class="time-block event-schedule col-10" data-bs-toggle="modal" data-bs-target="#create-time-block-modal"></span>
-                </div>    
-                `
-                );
-                document.querySelector(`#time-block-${endTime}`).style.height = `${newDivHeight}px`;
-            } else if (endTime < nextStartTime) {
-                divCluster[i].parentNode.insertAdjacentHTML(
-                    'afterend',
-                    `
-                <div id="time-block-container-${endTime}" class="individual-time-block row">
-                    <span id="time-stamp-box" class="time-stamp-container col-2">
-                        <div id="stamp-${endTime}" class="time-stamp">${nextStartTimeFormat}</div>
-                    </span>
-                    <span id="time-block-${endTime}" start="${endTime}" end="${nextStartTime}" class="time-block col-10"></span>
-                </div>    
-                `
-                );
-                document.querySelector(`#time-block-${endTime}`).style.height = `${newDivHeight}px`;
-            }
-
-            document.querySelector(`#stamp-${startTime}`).innerHTML = timeString;
-            divCluster[i].style.height = `${height}`;
-        }
-
-        if (
-            startTime >= eventStartTimeInMin &&
-            startTime < eventEndTimeInMin &&
-            !divCluster[i].classList.contains('save-time-block')
-        ) {
-            divCluster[i].classList.add('event-schedule');
-            if (isCreator === '1'){
-                divCluster[i].setAttribute(`data-bs-target`, `#create-time-block-modal`);
-                divCluster[i].setAttribute(`type`, 'button');
-                divCluster[i].setAttribute(`data-bs-toggle`, `modal`);
-            }
-        }
-    }
-
-    deleteRedundantDiv(100);
-    fixTimeStamp();
-    fixDivHeight(10);
-}
 
 document.querySelector('#activity-form').addEventListener('submit', async function formSubmit(e) {
     e.preventDefault();
@@ -600,7 +545,7 @@ function submitEditTimeName() {
         }
 
 
-        if (dataPass){
+        if (dataPass) {
             const formObj = {
                 title,
                 editStartTime,
@@ -621,7 +566,7 @@ function submitEditTimeName() {
                 alert(data.msg);
                 return;
             }
-    
+
             const result = await res.json();
             if (result.status === true) {
                 alert("Activity successfully edited!")
@@ -691,6 +636,215 @@ async function submitEditActivity() {
         const result = await res.json();
         if (result.status === true) {
             alert('Activity successfully edited!');
+            location.reload();
+        }
+    });
+}
+
+function editItem(timeBlockId, itemList, savedItemList) {
+    
+    document.querySelector(`#edit-show-item`).addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log(e.target)
+        console.log(timeBlockId)
+
+        document.querySelector(`#edit-item-form`).setAttribute("value", `${timeBlockId}`)
+
+        
+        let savedItemArr = []
+        savedItemList.forEach((savedItem)=>{
+            if (savedItem.time_block_id === timeBlockId)
+            savedItemArr.push(savedItem.item_id)
+         })
+
+         console.log(savedItemArr)
+
+
+        let foodArr = []
+        let drinkArr = []
+        let decorationArr = []
+        let otherArr = []
+
+        // sort items by types
+        itemList.forEach((item) => {
+            if (item.type_name === "food") {
+                foodArr.push(item)
+            }
+            if (item.type_name === "drink") {
+                drinkArr.push(item)
+            }
+            if (item.type_name === "decoration") {
+                decorationArr.push(item)
+            }
+            if (item.type_name === "other") {
+                otherArr.push(item)
+            }
+        })
+
+        //list items in modal according to type and set preset "checked" if they are already saved
+        let foodListContainer = document.querySelector("#food-list")
+        foodListContainer.innerHTML = ""
+        foodArr.forEach((food) => {
+            if (savedItemArr.includes(food.id)){
+                foodListContainer.innerHTML +=
+                `
+                 <li>
+                    <input value="${food.id}" class="checkbox" type="checkbox" id="${food.name}" name="food" checked>
+                <label for="${food.name}">${food.name} ( ${food.quantity} )</label>
+                </li>
+            `
+            } else {
+                foodListContainer.innerHTML +=
+                `
+                 <li>
+                    <input value="${food.id}" class="checkbox" type="checkbox" id="${food.name}" name="food" unchecked>
+                <label for="${food.name}">${food.name} ( ${food.quantity} )</label>
+                </li>
+            `
+            }
+            
+        })
+
+        let drinkListContainer = document.querySelector("#drink-list")
+        drinkListContainer.innerHTML = ""
+        drinkArr.forEach((drink) => {
+            if (savedItemArr.includes(drink.id)){
+                drinkListContainer.innerHTML +=
+                `
+                 <li>
+                    <input value="${drink.id}" class="checkbox" type="checkbox" id="${drink.name}" name="drink" checked>
+                <label for="${drink.name}">${drink.name} ( ${drink.quantity} )</label>
+                </li>
+            `
+            } else {
+                drinkListContainer.innerHTML +=
+                `
+                 <li>
+                    <input value="${drink.id}" class="checkbox" type="checkbox" id="${drink.name}" name="drink" unchecked>
+                <label for="${drink.name}">${drink.name} ( ${drink.quantity} )</label>
+                </li>
+            `
+            }
+            
+        })
+
+        let otherListContainer = document.querySelector("#other-list")
+        otherListContainer.innerHTML = ""
+        otherArr.forEach((other) => {
+            if (savedItemArr.includes(other.id)){
+                otherListContainer.innerHTML +=
+                    `
+                 <li>
+                    <input value="${other.id}" class="checkbox" type="checkbox" id="${other.name}" name="other" checked>
+                <label for="${other.name}">${other.name} ( ${other.quantity} )</label>
+                </li>
+            `
+            } else {
+                otherListContainer.innerHTML +=
+                    `
+                 <li>
+                    <input value="${other.id}" class="checkbox" type="checkbox" id="${other.name}" name="other" unchecked>
+                <label for="${other.name}">${other.name} ( ${other.quantity} )</label>
+                </li>
+            `
+            }
+
+        })
+
+        let decorationListContainer = document.querySelector("#decoration-list")
+        decorationListContainer.innerHTML = ""
+        decorationArr.forEach((decoration) => {
+            if (savedItemArr.includes(decoration.id)) {
+                decorationListContainer.innerHTML +=
+                    `
+                 <li>
+                    <input value="${decoration.id}" class="checkbox" type="checkbox" id="${decoration.name}" name="decoration" checked>
+                <label for="${decoration.name}">${decoration.name} ( ${decoration.quantity} )</label>
+                </li>
+            `
+            } else {
+                decorationListContainer.innerHTML +=
+                    `
+                <li>
+                    <input value="${decoration.id}" class="checkbox" type="checkbox" id="${decoration.name}" name="decoration" unchecked>
+                <label for="${decoration.name}">${decoration.name} ( ${decoration.quantity} )</label>
+                </li>
+            `
+            }
+        })
+    })
+}
+
+submitEditItem()
+
+function submitEditItem() {
+    document.querySelector('#edit-item-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('event-id');
+        const isCreator = params.get('is-creator');
+        const date = params.get('date');
+
+        const form = e.target;
+        const id = e.target.getAttribute('value');
+
+        const formDecorationList = form["decoration"]
+        const formFoodList = form["food"]
+        const formOtherList = form["other"]
+        const formDrinkList = form["drink"]
+
+        let checkedFoodList = []
+        formFoodList.forEach((food) => {
+            if (food.checked === true) {
+                checkedFoodList.push(food.getAttribute("value"))
+            }
+        })
+
+        let checkedDrinkList = []
+        formDrinkList.forEach((drink) => {
+            if (drink.checked === true) {
+                checkedDrinkList.push(drink.getAttribute("value"))
+            }
+        })
+
+        let checkedDecorationList = []
+        formDecorationList.forEach((decoration) => {
+            if (decoration.checked === true) {
+                checkedDecorationList.push(decoration.getAttribute("value"))
+            }
+        })
+
+        let checkedOtherList = []
+        formOtherList.forEach((other) => {
+            if (other.checked === true) {
+                checkedOtherList.push(other.getAttribute("value"))
+            }
+        })
+
+        let allCheckedItems = checkedFoodList.concat(checkedDrinkList, checkedDecorationList, checkedOtherList)
+        console.log(allCheckedItems)
+
+        const res = await fetch(
+            `/eventSchedule/item/?event-id=${eventId}&is-creator=${isCreator}&id=${id}&date=${date}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(allCheckedItems)
+            }
+        );
+
+        if (res.status !== 200) {
+            const data = await res.json();
+            alert(data.msg);
+            return;
+        }
+
+        const result = await res.json();
+        if (result.status === true) {
+            alert('Items Successfully Added to the Activity!');
             location.reload();
         }
     });
@@ -786,11 +940,11 @@ async function deleteTimeBlock() {
                     method: 'DELETE'
                 }
             );
-            if (res.status === 400){
+            if (res.status === 400) {
                 const data = await res.json();
                 alert(data.msg);
                 return;
-                
+
             } else if (res.status !== 200) {
                 alert('Unable to delete time block');
 
@@ -867,4 +1021,110 @@ async function listenToSchedulePage() {
         const isCreator = params.get('is-creator');
         window.location.href = `/eventSchedule/eventSchedule.html?event-id=${eventId}&is-creator=${isCreator}&date=${date}`
     })
+}
+
+async function fixTimeStamp() {
+    const timeStampDiv = document.querySelectorAll('.time-stamp');
+    timeStampDiv.forEach((stamp) => {
+        let nextTimeBlock;
+        let placeholder = stamp.parentElement.nextElementSibling;
+
+        while (placeholder) {
+            if (placeholder.classList.contains('time-block')) {
+                nextTimeBlock = placeholder;
+                break;
+            }
+            placeholder = placeholder.nextElementSibling;
+        }
+        const time = minToTimeString(parseInt(nextTimeBlock.getAttribute('start')));
+        stamp.innerHTML = time;
+    });
+}
+
+async function deleteRedundantDiv(x) {
+    const divCluster = document.querySelectorAll(`.time-block`);
+    if (x > 0) {
+        for (let i = 0; i < divCluster.length; i++) {
+            if (!!divCluster[i + 1]) {
+                const endTime = parseInt(divCluster[i].getAttribute('end'));
+                const nextStartTime = parseInt(divCluster[i + 1].getAttribute('start'));
+                if (endTime > nextStartTime) {
+                    divCluster[i + 1].parentElement.remove();
+                } else if (endTime < nextStartTime) {
+                    divCluster[i + 1].setAttribute(`start`, `${endTime}`);
+                }
+            }
+        }
+        deleteRedundantDiv(x - 1);
+    }
+    return;
+}
+
+async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
+    const divCluster = document.querySelectorAll(`.time-block`);
+    const params = new URLSearchParams(window.location.search);
+    const isCreator = params.get('is-creator');
+
+    for (let i = 0; i < divCluster.length; i++) {
+        const startTime = parseInt(divCluster[i].getAttribute('start'));
+        const endTime = parseInt(divCluster[i].getAttribute('end'));
+        const height = endTime - startTime;
+        const timeString = minToTimeString(startTime);
+
+        if (!!divCluster[i + 1]) {
+            divCluster[i].style.height = `${height}px`;
+            const nextStartTime = parseInt(divCluster[i + 1].getAttribute('start'));
+            const nextEndTime = parseInt(divCluster[i + 1].getAttribute('end'));
+            const newDivHeight = nextStartTime - endTime;
+            const nextStartTimeFormat = minToTimeString(nextStartTime);
+
+            if (endTime < nextStartTime && startTime >= eventStartTimeInMin && startTime < eventEndTimeInMin) {
+                divCluster[i].parentNode.insertAdjacentHTML(
+                    'afterend',
+                    `
+                <div id="time-block-container-${endTime}" class="individual-time-block row">
+                    <span id="time-stamp-box" class="time-stamp-container col-2">
+                        <div id="stamp-${endTime}" class="time-stamp">${nextStartTimeFormat}</div>
+                    </span>
+                    <span type="button" id="time-block-${endTime}" start="${endTime}" end="${nextStartTime}" class="time-block event-schedule col-10" data-bs-toggle="modal" data-bs-target="#create-time-block-modal"></span>
+                </div>    
+                `
+                );
+                document.querySelector(`#time-block-${endTime}`).style.height = `${newDivHeight}px`;
+            } else if (endTime < nextStartTime) {
+                divCluster[i].parentNode.insertAdjacentHTML(
+                    'afterend',
+                    `
+                <div id="time-block-container-${endTime}" class="individual-time-block row">
+                    <span id="time-stamp-box" class="time-stamp-container col-2">
+                        <div id="stamp-${endTime}" class="time-stamp">${nextStartTimeFormat}</div>
+                    </span>
+                    <span id="time-block-${endTime}" start="${endTime}" end="${nextStartTime}" class="time-block col-10"></span>
+                </div>    
+                `
+                );
+                document.querySelector(`#time-block-${endTime}`).style.height = `${newDivHeight}px`;
+            }
+
+            document.querySelector(`#stamp-${startTime}`).innerHTML = timeString;
+            divCluster[i].style.height = `${height}`;
+        }
+
+        if (
+            startTime >= eventStartTimeInMin &&
+            startTime < eventEndTimeInMin &&
+            !divCluster[i].classList.contains('save-time-block')
+        ) {
+            divCluster[i].classList.add('event-schedule');
+            if (isCreator === '1') {
+                divCluster[i].setAttribute(`data-bs-target`, `#create-time-block-modal`);
+                divCluster[i].setAttribute(`type`, 'button');
+                divCluster[i].setAttribute(`data-bs-toggle`, `modal`);
+            }
+        }
+    }
+
+    deleteRedundantDiv(100);
+    fixTimeStamp();
+    fixDivHeight(10);
 }
