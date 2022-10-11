@@ -13,7 +13,7 @@ window.addEventListener("load", async () => {
     await loadName();
     fetchItem();
     fetchParticipant(eventID);
-    fetchPendingItems();
+    fetchPendingItems('food');
     document.body.style.display = "block";
 });
 
@@ -148,13 +148,13 @@ async function fetchParticipant(eventID) {
 }
 
 // shopping list JS
-async function fetchPendingItems() {
+async function fetchPendingItems(selectType) {
     const resShopList = await (
         await fetch(`/items/pendingItems?eventID=${eventID}`)
     ).json();
     if (resShopList.status === true) {
         let listItems = "";
-        for (const items of resShopList.listItem) {
+        for (const items of resShopList.itemObj[selectType]) {
             listItems += `
 				<tr id="list-item-${items.id}">
 					<td>
@@ -191,9 +191,6 @@ function checkShoppingListItem() {
     });
 }
 
-
-
-
 document
     .querySelector(`#back-page`)
     .addEventListener("click", function () {
@@ -202,3 +199,10 @@ document
 		const isCreator = params.get('is-creator');
         window.location= `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`
     });
+
+document.querySelectorAll(`.dropdown-item`).forEach((dropdown) => {
+    dropdown.addEventListener("click", function(e) {
+        const selectType =  e.currentTarget.innerHTML.toLowerCase();
+        fetchPendingItems(selectType)
+    })
+})
