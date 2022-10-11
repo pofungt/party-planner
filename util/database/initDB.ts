@@ -38,6 +38,10 @@ async function main() {
         creator_id int not NULL,
         invitation_token varchar not NULL,
         deleted boolean not NULL,
+        date_poll_created boolean not NULL,
+		date_poll_terminated boolean not NULL,
+		venue_poll_created boolean not NULL,
+		venue_poll_terminated boolean not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -91,6 +95,7 @@ async function main() {
         id SERIAL primary key,
         item_id int not NULL,
         time_block_id int not NULL,
+        quantity int,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (item_id) REFERENCES items(id),
@@ -112,10 +117,7 @@ async function main() {
     
     CREATE TABLE event_venues (
         id SERIAL primary key,
-        name varchar not NULL,
-        address_link varchar not NULL,
-        indoor boolean,
-        parking_slots int,
+        address varchar not NULL,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
@@ -134,9 +136,8 @@ async function main() {
     
     CREATE TABLE event_date_time (
         id SERIAL primary key,
-        date date not NULL,
-        start_time time not NULL,
-        end_time time not NULL,
+        start_datetime timestamptz not NULL,
+        end_datetime timestamptz not NULL,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,

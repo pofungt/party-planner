@@ -1,5 +1,5 @@
-import { addNavbar } from '/functions/addNavbar.js';
-import { loadName } from '/functions/loadName.js';
+import { addNavbar } from "/functions/addNavbar.js";
+import { loadName } from "/functions/loadName.js";
 
 let editingType = null;
 let itemData = null;
@@ -10,7 +10,7 @@ window.addEventListener("load", async () => {
     eventID = query.get("event-id");
     itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
     addNavbar();
-    loadName();
+    await loadName();
     fetchItem();
     fetchParticipant(eventID);
     fetchPendingItems();

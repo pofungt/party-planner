@@ -108,6 +108,10 @@ async function main() {
         invitation_token varchar not NULL,
 		deleted boolean not NULL,
         created_at timestamp not NULL,
+		date_poll_created boolean not NULL,
+		date_poll_terminated boolean not NULL,
+		venue_poll_created boolean not NULL,
+		venue_poll_terminated boolean not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)
     );
@@ -160,6 +164,7 @@ async function main() {
         id SERIAL primary key,
         item_id int not NULL,
         time_block_id int not NULL,
+		quantity int,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (item_id) REFERENCES items(id),
@@ -181,10 +186,7 @@ async function main() {
     
     CREATE TABLE event_venues (
         id SERIAL primary key,
-        name varchar not NULL,
-        address_link varchar not NULL,
-        indoor boolean,
-        parking_slots int,
+        address varchar not NULL,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
@@ -203,9 +205,8 @@ async function main() {
     
     CREATE TABLE event_date_time (
         id SERIAL primary key,
-        date date not NULL,
-        start_time time not NULL,
-        end_time time not NULL,
+        start_datetime timestamptz not NULL,
+        end_datetime timestamptz not NULL,
         event_id int not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
@@ -315,8 +316,16 @@ async function main() {
 
 			await client.query(
 				`INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,indoor,outdoor,parking_lot,lot_number,remark,creator_id,invitation_token,deleted,created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,FALSE,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+                (name,venue,budget,start_datetime,end_datetime,
+					indoor,outdoor,parking_lot,lot_number,remark,
+					creator_id,invitation_token,deleted,
+					date_poll_created,
+					date_poll_terminated,
+					venue_poll_created,
+					venue_poll_terminated,
+					created_at,updated_at) 
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,FALSE,FALSE,FALSE,FALSE,FALSE,
+					CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 				[
 					name,
 					venue,

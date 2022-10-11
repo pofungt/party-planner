@@ -101,6 +101,59 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 	}
 });
 
+// Venue edit-poll toggle
+document.querySelector('#edit-venue-switch').addEventListener('change', ()=>{
+	document.querySelector('.edit-input').classList.toggle("hide");
+	document.querySelector('.poll-input').classList.toggle("hide");
+});
+document.querySelector('#poll-venue-switch').addEventListener('change', ()=>{
+	document.querySelector('.edit-input').classList.toggle("hide");
+	document.querySelector('.poll-input').classList.toggle("hide");
+});
+
+// Venue polling add option button
+document.querySelector('#venue-add-option').addEventListener('click', (e)=>{
+	e.preventDefault();
+	const numberOfOptions = document.querySelectorAll('div[class^="venue_poll_"]').length;
+	document.querySelector('.venue-poll-options-container').innerHTML += `
+		<div class="venue_poll_${numberOfOptions+1}">
+			<label for="venue_poll">Option ${numberOfOptions+1}: </label>
+			<input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
+	  			aria-describedby="basic-addon1" />
+  		</div>
+	`
+})
+
+// Venue polling remove option Bbutton
+document.querySelector('#venue-remove-option').addEventListener('click', (e)=>{
+	e.preventDefault();
+	const venuePollOptionsDivList = document.querySelectorAll('div[class^="venue_poll_"]');
+	const numberOfOptions = venuePollOptionsDivList.length;
+	if (numberOfOptions > 2) {
+		venuePollOptionsDivList[numberOfOptions - 1].remove();
+	}
+})
+
+// Submit venue polling
+document.querySelector('#venue-poll-submit').addEventListener('click', async (e)=> {
+	e.preventDefault();
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const res = await fetch(`/events/poll/${eventId}`, {
+		method: 'POST'
+	});
+	const result = await res.json();
+	if (result.status) {
+
+	} else {
+		if (result.created) {
+			// overwrite modal pop up
+		} else {
+			alert('Unable to create poll.');
+		}
+	}
+})
+
 // Submit participants form
 document.querySelector('#participants-submit').addEventListener('click', async () => {
 	const params = new URLSearchParams(window.location.search);
