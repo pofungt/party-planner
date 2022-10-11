@@ -425,7 +425,10 @@ export async function loadEventDetails() {
             ${infoButtonHTML}
           </div>
           <div class="frame-content-container">
-
+            <div id="rundown-container" class="overflow-auto" data-current="0">
+              <div id="rundown" class="row"> 
+              </div>
+            </div>
           </div>
       `;
 

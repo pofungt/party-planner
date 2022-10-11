@@ -1,24 +1,10 @@
-window.addEventListener('load', async () => {
-    
-	
-	await getEventSchedule();
-	loopScrollBar()
-});
-
-async function getEventEventFirstDay (){
-	const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('event-id');
-
-	const res = await fetch()
-}
-
-async function getEventSchedule() {
+export async function getEventSchedule() {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event-id');
     const isCreator = params.get('is-creator');
     const date = params.get('date');
 
-    const res = await fetch(`/eventSchedule/?event-id=${eventId}&is-creator=${isCreator}&date=${date}`);
+    const res = await fetch(`/events/?event-id=${eventId}&is-creator=${isCreator}&date=${date}`);
 
     if (res.status !== 200) {
         const data = await res.json();
@@ -27,6 +13,8 @@ async function getEventSchedule() {
     }
 
     const result = await res.json();
+
+    console.log(result)
 
     const option = {
         hour12: false,
@@ -41,8 +29,6 @@ async function getEventSchedule() {
     const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
     const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
     const activitiesArr = result.activities
-    const itemList = result.items
-    const savedItemList = result.savedItems
     const startTime = startDateTime.slice(-5)
     const endTime = endDateTime.slice(-5)
     const startDate = startDateTime.slice(0, 10)
@@ -78,10 +64,10 @@ async function getEventSchedule() {
         console.log("case 3")
     }
 
-    await getPresetTimeBlock(startTimeInMin)
-    await getSavedTimeBlocks(activitiesArr)
-    await correctDiv(startTimeInMin, endTimeInMin)
-    await getMemo(activitiesArr, itemList, savedItemList)
+    getPresetTimeBlock(startTimeInMin)
+    getSavedTimeBlocks(activitiesArr)
+    correctDiv(startTimeInMin, endTimeInMin)
+    setGlobalHeight(2)
 }
 
 async function getPresetTimeBlock(startTime) {
@@ -96,17 +82,16 @@ async function getPresetTimeBlock(startTime) {
         rundown.innerHTML +=
             `
                     <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
-                        <span id="time-stamp-box" class="time-stamp-container col-2">
+                        <span id="time-stamp-box" class="time-stamp-container col-sm-2">
                             <div id="stamp-${start}" class="time-stamp">${timeString}</div>
                         </span>
-                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-10"></span>
+                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-sm-10"></span>
                     </div>    
                 `;
         document.querySelector(`#time-block-${start}`).style.height = `${height}px`;
     }
 
     //set scroll bar top
-    document.querySelector("#date-selector").value
     document.querySelector(`#time-block-${startTime}`).innerHTML = "Event Start Time"
     const scrollBarDiv = document.querySelector("#rundown-container")
     scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop
@@ -140,7 +125,6 @@ async function getSavedTimeBlocks(activitiesArr) {
         document.querySelector(`#time-block-${startTimeInMin}`).style.height = `${divHeight}px`
         document.querySelector(`#time-block-${startTimeInMin}`).style.backgroundColor = `${color}`
 
-        editTimeName(id, title, activity.start_time, activity.end_time, color)
     })
 }
 
@@ -299,19 +283,26 @@ async function correctDiv(eventStartTimeInMin, eventEndTimeInMin) {
     fixDivHeight(10);
 }
 
-function loopScrollBar(){
-    let rundownContainer = document.querySelector('#rundown-container');
-    rundownContainer.addEventListener('scroll', function () {
-        let max_scroll = this.scrollHeight - this.clientHeight;
-        let current_scroll = this.scrollTop;
-        let bottom = 100;
-        if (current_scroll + bottom >= max_scroll) {
-            let outerDiv = document.querySelectorAll('.rundown')[0];
-            let current = parseInt(outerDiv.dataset.current, 10);
-            let timeBlock = document.querySelectorAll('.individual-time-block')[current];
-            let new_div = timeBlock.cloneNode(true);
-            outerDiv.appendChild(new_div);
-            outerDiv.dataset.current = current + 1;
-        }
-    });
+function minToTimeString(timeInMin) {
+    if (timeInMin < 10) {
+        return `00:0${timeInMin}`;
+    } else if (timeInMin < 60) {
+        return `00:${timeInMin}`;
+    } else if (Math.floor(timeInMin / 60) < 10 && timeInMin % 60 < 10) {
+        const hour = Math.floor(timeInMin / 60);
+        const min = timeInMin % 60;
+        return `0${hour}:0${min}`;
+    } else if (Math.floor(timeInMin / 60) >= 10 && timeInMin % 60 < 10) {
+        const hour = Math.floor(timeInMin / 60);
+        const min = timeInMin % 60;
+        return `${hour}:0${min}`;
+    } else if (Math.floor(timeInMin / 60) >= 10 && timeInMin % 60 >= 10) {
+        const hour = Math.floor(timeInMin / 60);
+        const min = timeInMin % 60;
+        return `${hour}:${min}`;
+    } else if (Math.floor(timeInMin / 60) < 10 && timeInMin % 60 >= 10) {
+        const hour = Math.floor(timeInMin / 60);
+        const min = timeInMin % 60;
+        return `0${hour}:${min}`;
+    }
 }

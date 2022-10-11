@@ -11,8 +11,6 @@ window.addEventListener('load', async () => {
     listenToSchedulePage()
     hideCreatorDivClass()
     
-    
-
     document.body.style.display = "block";
 });
 
@@ -316,10 +314,10 @@ async function getPresetTimeBlock(startTime) {
         rundown.innerHTML +=
             `
                     <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
-                        <span id="time-stamp-box" class="time-stamp-container col-2">
+                        <span id="time-stamp-box" class="time-stamp-container col-sm-2">
                             <div id="stamp-${start}" class="time-stamp">${timeString}</div>
                         </span>
-                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-10"></span>
+                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-sm-10"></span>
                     </div>    
                 `;
         document.querySelector(`#time-block-${start}`).style.height = `${height}px`;
