@@ -1,3 +1,12 @@
+.bi-chevron-left {
+	font-size: 30px;
+	position: fixed;
+	top: 90px;
+	left: 50px;
+	color: #444a58;
+	cursor: pointer;
+}
+
 .category-text {
 	font-size: 20px;
 	font-family: 'Lato', sans-serif;

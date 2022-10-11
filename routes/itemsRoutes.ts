@@ -8,6 +8,7 @@ itemsRoutes.get('/participated', getParticipateEventList);
 itemsRoutes.get('/', getItem);
 itemsRoutes.post('/eventId/:id', postItem);
 itemsRoutes.delete('/:id', deleteItem);
+itemsRoutes.get('/',getPendingItem)
 
 enum TypeName {
 	Food = 'food',
@@ -116,5 +117,22 @@ async function deleteItem(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({ msg: '[ITM006]: Failed to post Item' });
+	}
+}
+
+async function getPendingItem (req: Request, res: Response) {
+	try{
+		logger.debug('Before reading DB');
+		const result = await client.query(
+			`
+			SELECT items.name FROM items 
+			WHERE purchased = 'false',
+			`,
+			[req.query.eventID]
+		);
+		res.json({listItem: result, status: true, msg: 'get pending items from DB'})
+	} catch (e) {
+		logger.error(e);
+		res.status(500).json({ msg: '[ITM007]: Failed to post Pending Items'})
 	}
 }

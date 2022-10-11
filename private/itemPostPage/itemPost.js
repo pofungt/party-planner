@@ -142,7 +142,7 @@ async function fetchParticipant(eventID) {
 }
 
 async function fetchPendingItems() {
-    const resShopList = await (await fetch(`/items?eventID=${eventID}`)).json();
+    const resShopList = await (await fetch(`/items?eventID=${eventID}&`)).json();
     if (resShopList.status === true) {
         let listItems = "";
         for (const items of resShopList.itemObj) {
@@ -170,7 +170,7 @@ function checkShoppingListItem() {
             const itemID = e.currentTarget.id;
             const res = await fetch(`/items/${itemID}`, {
                 // what method
-				method:"",
+                method: "",
             });
             if ((await res.json()).status === true) {
                 const removeOnTheList = document.querySelector(
