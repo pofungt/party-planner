@@ -58,6 +58,16 @@ async function getVenuePollOptions(req: Request, res: Response) {
 					`,
 						[eventId]
 					)).rows;
+					let voteCounts = {};
+					for (let pollOption of pollOptions) {
+						const [voteCount] = (await client.query(`
+							SELECT COUNT(*) FROM event_venues_votes
+							WHERE event_venues_id = $1;
+						`,
+						[pollOption.id]
+						)).rows;
+						voteCounts[pollOption.id] = voteCount;
+					}
 					const [choiceMade] = (await client.query(`
 						SELECT * FROM event_venues_votes 
 						WHERE event_venues_id IN (SELECT id FROM event_venues
@@ -66,13 +76,28 @@ async function getVenuePollOptions(req: Request, res: Response) {
 					`,
 					[eventId, userId]
 					)).rows;
+					let chosenAddress;
+					if (choiceMade) {
+						[chosenAddress] = (await client.query(`
+							SELECT * FROM event_venues
+							WHERE id = $1;
+						`,
+						[choiceMade.event_venues_id]
+						)).rows;
+					}
 					res.json({
 						status: true,
 						creator: false,
 						pollTerminated: eventDetailParticipant.venue_poll_terminated,
 						eventDeleted: eventDetailParticipant.deleted,
-						choice: choiceMade ? `option_${choiceMade.event_venues_id}` : "",
-						pollOptions
+						choice: choiceMade 
+								? {
+									id: `option_${choiceMade.event_venues_id}`,
+									address: `${chosenAddress.address}`
+								}
+								: "",
+						pollOptions,
+						voteCounts
 					});
 				} else {
 					res.json({status: false});

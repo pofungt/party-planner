@@ -19,9 +19,25 @@ async function loadOptions() {
         let pollFrameHTML = "";
         let buttonContainerHTML = "";
 
+        // Poll title HTML
+        if (result.pollTerminated) {
+            pollTitle = "Poll Terminated";
+        } else if (result.eventDeleted) {
+            pollTitle = "Deleted Event";
+        } else if (!result.creator) {
+            if (result.choice) {
+                pollTitle = `Your choice was: ${result.choice.address}`;
+            } else {
+                pollTitle = "Please click on the venue option to vote:";
+            }
+        } else {
+            pollTitle = "You may click button below to terminate poll.";
+        }
+
         // Poll Options HTML
         const optionsList = result.pollOptions;
         optionsList.forEach((each, index) => {
+            const voteCount = result.voteCounts[each.id].count;
             pollFrameHTML += `
                 <div class="option-container" id="option_${each.id}">
                     <div class="title">
@@ -30,26 +46,12 @@ async function loadOptions() {
                     <div class="address">
                         ${each.address}
                     </div>
+                    <div class="vote">
+                        ${voteCount === "1" ? `${voteCount} Vote` : `${voteCount} Votes`}
+                    </div>
                 </div>
             `
         });
-        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
-
-        // Poll title HTML
-        if (result.pollTerminated) {
-            pollTitle = "Poll Terminated";
-        } else if (result.eventDeleted) {
-            pollTitle = "Deleted Event";
-        } else if (!result.creator) {
-            if (result.choice) {
-                pollTitle = `Your choice was ...`;
-            } else {
-                pollTitle = "Please click on the venue option to vote:";
-            }
-        } else {
-            pollTitle = "You may click button below to terminate poll.";
-        }
-        document.querySelector('.poll-title').innerHTML = pollTitle;
 
         // Button HTML
         if (!result.pollTerminated && !result.eventDeleted) {
@@ -61,6 +63,10 @@ async function loadOptions() {
                 }
             }
         }
+
+        // Add HTML to the page
+        document.querySelector('.poll-title').innerHTML = pollTitle;
+        document.querySelector('.poll-frame').innerHTML = pollFrameHTML;
         document.querySelector('.button-container').innerHTML = buttonContainerHTML;
 
         // Check if participant that has not yet voted

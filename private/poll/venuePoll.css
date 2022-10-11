@@ -78,3 +78,7 @@ body {
 .selected {
     border: solid black 5px;
 }
+
+.vote {
+    font-size: 15px;
+}
