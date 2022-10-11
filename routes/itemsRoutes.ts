@@ -8,7 +8,7 @@ itemsRoutes.get('/participated', getParticipateEventList);
 itemsRoutes.get('/', getItem);
 itemsRoutes.post('/eventId/:id', postItem);
 itemsRoutes.delete('/:id', deleteItem);
-itemsRoutes.get('/',getPendingItem)
+itemsRoutes.get('/pendingItems',getPendingItem);
 
 enum TypeName {
 	Food = 'food',
@@ -20,22 +20,24 @@ enum TypeName {
 async function getItem(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-		const itemResult = await client.query(
-			`
-            SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name
-            FROM items
-            INNER JOIN users ON users.id = items.user_id
-            WHERE event_id = $1
-            `,
-			[req.query.eventID]
-		);
 
-		const itemObj = {
-			[TypeName.Food]: [],
-			[TypeName.Drink]: [],
-			[TypeName.Decoration]: [],
-			[TypeName.Other]: []
-		};
+			const itemResult = await client.query(
+				`
+				SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name
+				FROM items
+				INNER JOIN users ON users.id = items.user_id
+				WHERE event_id = $1
+				`,
+				[req.query.eventID]
+			);
+	
+			const itemObj = {
+				[TypeName.Food]: [],
+				[TypeName.Drink]: [],
+				[TypeName.Decoration]: [],
+				[TypeName.Other]: []
+			};
+	
 
 		for (const items of itemResult.rows) {
 			itemObj[items.type_name].push(items);
@@ -126,7 +128,7 @@ async function getPendingItem (req: Request, res: Response) {
 		const result = await client.query(
 			`
 			SELECT items.name FROM items 
-			WHERE purchased = 'false',
+			WHERE purchased = 'false' AND event_id = $1
 			`,
 			[req.query.eventID]
 		);
