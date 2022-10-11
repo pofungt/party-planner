@@ -19,9 +19,33 @@ async function postItem (req: Request, res: Response) {
 		logger.debug("Before reading DB");
 		const creator = req.query["is-creator"];
 		const timeBlockId = req.query["id"];
-		const itemList = req.body
+		const itemList = req.body;
 
-		if (creator === "1") {
+		const eventId = req.query["event-id"];
+
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+		
+
+		if (creator === "1" && isProcessing) {
 			// delete existing list
 			await client.query(`
 			DELETE FROM time_block_item
@@ -69,7 +93,28 @@ async function editTimeName(req: Request, res: Response) {
 		const endTime = req.body.editEndTime
 		const color = req.body.editColor
 
-		if (creator === "1") {
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
+		if (creator === "1" && isProcessing) {
 			//check time collision with existing time-blocks
 			//bug: correct end time = 00:00 problem
 
@@ -170,8 +215,29 @@ async function editRemark(req: Request, res: Response) {
 		const date = req.query.date;
 		const remark = req.body.remark;
 
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
 
-		if (creator === "1") {
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
+
+		if (creator === "1" && isProcessing) {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -216,7 +282,28 @@ async function editDescription(req: Request, res: Response) {
 		const date = req.query.date;
 		const description = req.body.description;
 
-		if (creator === "1") {
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
+		if (creator === "1" && isProcessing) {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -260,7 +347,28 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		const timeBlockId = req.query['id'];
 		const date = req.query.date;
 
-		if (creator === '1') {
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
+		if (creator === '1' && isProcessing) {
 			await client.query(
 				`
                 DELETE FROM time_block_item 
@@ -305,8 +413,29 @@ async function getEventSchedule(req: Request, res: Response) {
 		const creator = req.query['is-creator'];
 		const date = req.query.date;
 
+		const events = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = events.deleted
+		const eventStartTimeInMin = events.start_datetime.getTime()
+		const eventEndTimeInMin = events.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
 		let event;
-		if (creator === '1') {
+		if (creator === '1' && isProcessing) {
 			event = (
 				await client.query(
 					`
@@ -396,7 +525,28 @@ async function postEventSchedule(req: Request, res: Response) {
 		const creator = req.query['is-creator'];
 		const date = req.query.date;
 
-		if (creator === "1") {
+		const event = (await client.query(`
+			SELECT start_datetime, end_datetime, deleted FROM events
+			WHERE id = $1
+		`, [eventId])).rows[0]
+
+		const isDeleted = event.deleted
+		const eventStartTimeInMin = event.start_datetime.getTime()
+		const eventEndTimeInMin = event.end_datetime.getTime()
+		const now = new Date().getTime()
+
+		let isProcessing = true
+
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+			isProcessing = false
+			//event is finished
+		}
+		if (isDeleted) {
+			isProcessing = false
+			//event was deleted by creator
+		}
+
+		if (creator === "1" && isProcessing) {
 			//check if start time and end time collided with existing activities
 
 			const existingActivities = (
