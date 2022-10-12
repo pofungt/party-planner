@@ -4,6 +4,14 @@ body {
     font-family: 'Kalam';
 }
 
+#my-events-header{
+	font-size: 2vw;
+}
+
+#participated-events-header{
+	font-size: 2vw;
+}
+
 #page-header{
     font-size: 40px;
     padding-top: 10px;
@@ -23,31 +31,38 @@ header {
 
 #my-events {
     background-color: #EFEFD0;
+	font-size: 1vw;
     min-height: 600px;
+	max-height: 600px;
     width: 100%;
     border-radius: 30px;
     padding: 20px;
+	overflow: auto;
 }
 
+
 #participated-events {
-    min-height: 600px;
+	font-size: 1vw;
+    max-height: 600px;
+	min-height: 600px;
     width: 100%;
     background-color: #EFEFD0;
     border-radius: 30px;
     padding: 20px;
+	overflow: auto;
 }
 
 #my-events-list {
     min-width: 100%;
     min-height: 100%;
-    background-color: #d2d0ef7c;
+    background-color: #f29659;
     border-radius: 30px;
 }
 
 #participated-events-list{
     min-width: 100%;
     min-height: 100%;
-    background-color: #d2d0ef99;
+    background-color: #f29659;
     border-radius: 30px;
 }
 
@@ -56,13 +71,11 @@ header {
 }
 
 #input-list-my-events{
-    width: 600px;
     max-width: 100%;
     text-align: center;
 }
 
 #input-list-participated-events{
-    width: 600px;
     max-width: 100%;
     text-align: center;
 }
@@ -124,4 +137,26 @@ header {
 		padding: .75rem 3rem;
 		font-size: 1.25rem;
 	}
+}
+
+/* Scroll bar */
+
+::-webkit-scrollbar {
+	width: 15px;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 5px;
+	height: 200px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #f29659;
+	border-radius: 5px;
+	min-height: 250px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: white;
 }
