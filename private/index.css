@@ -129,7 +129,7 @@ th>div {
 .parties-list-container .table-header {
 	background-color: white;
 	border: rgba(191, 191, 191, 0.473) solid 1px;
-	font-size: 10px;
+	font-size: 1vw;
 }
 
 .deletedStatus {
