@@ -10,7 +10,7 @@ window.addEventListener('load', async () => {
 	await loadName();
 	await loadEventDetails();
 	getEventSchedule();
-	await fetchPendingItems();
+	await fetchPendingItems("food");
 	document.body.style.display = 'block';
 });
 

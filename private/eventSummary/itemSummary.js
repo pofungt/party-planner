@@ -1,4 +1,4 @@
-export async function fetchPendingItems() {
+export async function fetchPendingItems(selectType) {
     const params = new URLSearchParams(window.location.search);
     const eventId = params.get('event-id');
     const resShopList = await (
@@ -7,7 +7,7 @@ export async function fetchPendingItems() {
     if (resShopList.status) {
         let listItems = "";
 
-        for (const items of resShopList.itemObj["food"]) {
+        for (const items of resShopList.itemObj[selectType]) {
             listItems += `
 				<tr id="list-item-${items.id}">
 					<td>
@@ -23,7 +23,13 @@ export async function fetchPendingItems() {
         }
         document.querySelector(`#shopping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
-        fetchItem();
+
+        document.querySelectorAll(`.dropdown-item`).forEach((dropdown) => {
+            dropdown.addEventListener("click", function (e) {
+                const selectType = e.currentTarget.innerHTML.toLowerCase();
+                fetchPendingItems(selectType);
+            });
+        });
     }
 }
 
@@ -42,22 +48,4 @@ function checkShoppingListItem() {
             }
         });
     });
-}
-
-async function fetchItem() {
-    const res = await (await fetch(`/items?eventID=${eventId}`)).json();
-    if (res.status) {
-        const typeName = ["food", "drink", "decoration", "other"];
-        for (const tableName of typeName) {
-            let itemsList = "";
-            for (const items of res.itemObj[tableName]) {
-                itemsList += `
-                  <tr>
-                      <td>${items.name}</td>
-                  </tr>
-                `;
-            }
-            document.querySelector(`#${tableName}-table`).innerHTML = itemsList;
-        }
-    }
 }
