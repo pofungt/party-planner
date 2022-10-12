@@ -1,105 +1,101 @@
-import { addNavbar } from "/functions/addNavbar.js";
-import { loadName } from "/functions/loadName.js";
+import { addNavbar } from '/functions/addNavbar.js';
+import { loadName } from '/functions/loadName.js';
 
 let editingType = null;
 let itemData = null;
 let eventID = null;
 
-window.addEventListener("load", async () => {
-    const query = new URLSearchParams(window.location.search);
-    eventID = query.get("event-id");
-    itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
-    addNavbar();
-    await loadName();
-    fetchItem();
-    fetchParticipant(eventID);
-    fetchPendingItems("food");
-    document.body.style.display = "block";
+window.addEventListener('load', async () => {
+	const query = new URLSearchParams(window.location.search);
+	eventID = query.get('event-id');
+	itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
+	addNavbar();
+	await loadName();
+	fetchItem();
+	fetchParticipant(eventID);
+	fetchPendingItems('food');
+	document.body.style.display = 'block';
 });
 
-document.querySelectorAll(".category-edit").forEach((button) => {
-    button.addEventListener("click", function (e) {
-        editingType = button.attributes.itemType.value;
-        fetchEditItem(itemData);
-    });
+document.querySelectorAll('.category-edit').forEach((button) => {
+	button.addEventListener('click', function (e) {
+		editingType = button.attributes.itemType.value;
+		fetchEditItem(itemData);
+	});
 });
 
-document
-    .querySelector("#from-container")
-    .addEventListener("submit", async function (e) {
-        const query = new URLSearchParams(window.location.search);
-        const eventID = query.get("event-id");
-        e.preventDefault();
-        const form = e.target;
-        const typeName = editingType;
-        const itemName = form.item_name.value;
-        const itemQuantity = form.item_quantity.value;
-        const itemPrice = form.item_price.value || null;
-        const user_id = form.item_user.value || null;
+document.querySelector('#from-container').addEventListener('submit', async function (e) {
+	const query = new URLSearchParams(window.location.search);
+	const eventID = query.get('event-id');
+	e.preventDefault();
+	const form = e.target;
+	const typeName = editingType;
+	const itemName = form.item_name.value;
+	const itemQuantity = form.item_quantity.value;
+	const itemPrice = form.item_price.value || null;
+	const user_id = form.item_user.value || null;
 
-        let formObj = {
-            typeName,
-            itemName,
-            itemQuantity,
-            itemPrice,
-            user_id,
-        };
+	let formObj = {
+		typeName,
+		itemName,
+		itemQuantity,
+		itemPrice,
+		user_id
+	};
 
-        let dataPass = true;
+	let dataPass = true;
 
-        if(!user_id){
-            alert('Please select PIC');
-            return;
-        }
-        
-        if (dataPass) {
-            const res = await fetch(`/items/eventId/${eventID}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formObj),
-            });
+	if (!user_id) {
+		alert('Please select PIC');
+		return;
+	}
 
-            const eventsResult = await res.json();
-            if (eventsResult.status === true) {
-                const itemData = await (
-                    await fetch(`/items?eventID=${eventID}`)
-                ).json();
-                fetchEditItem(itemData);
-            }
-        }
-        form.reset();
-        fetchItem();
-        fetchPendingItems(typeName);
-    });
+	if (dataPass) {
+		const res = await fetch(`/items/eventId/${eventID}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formObj)
+		});
+
+		const eventsResult = await res.json();
+		if (eventsResult.status === true) {
+			const itemData = await (await fetch(`/items?eventID=${eventID}`)).json();
+			fetchEditItem(itemData);
+		}
+	}
+	form.reset();
+	fetchItem();
+	fetchPendingItems(typeName);
+});
 
 // category items JS
 async function fetchItem() {
-    const res = await (await fetch(`/items?eventID=${eventID}`)).json();
-    if (res.status === true) {
-        const typeName = ["food", "drink", "decoration", "other"];
-        for (const tableName of typeName) {
-            let itemsList = "";
-            for (const items of res.itemObj[tableName]) {
-                itemsList += `
+	const res = await (await fetch(`/items?eventID=${eventID}`)).json();
+	if (res.status === true) {
+		const typeName = ['food', 'drink', 'decoration', 'other'];
+		for (const tableName of typeName) {
+			let itemsList = '';
+			for (const items of res.itemObj[tableName]) {
+				itemsList += `
                   <tr>
                       <td>${items.name}</td>
                   </tr>
                 `;
-            }
-            document.querySelector(`#${tableName}-table`).innerHTML = itemsList;
-        }
-    }
+			}
+			document.querySelector(`#${tableName}-table`).innerHTML = itemsList;
+		}
+	}
 }
 
 // category model list JS
 async function fetchEditItem() {
-    const resEditItem = await (await fetch(`/items?eventID=${eventID}`)).json();
-    if (resEditItem.status === true) {
-        let items = "";
-        for (const itemsData of resEditItem.itemObj[editingType]) {
-            items += `
+	const resEditItem = await (await fetch(`/items?eventID=${eventID}`)).json();
+	if (resEditItem.status === true) {
+		let items = '';
+		for (const itemsData of resEditItem.itemObj[editingType]) {
+			items += `
             <tr id="item-row-${itemsData.id}">
                 <td>${itemsData.name}</td>
                 <td>${itemsData.quantity}</td>
@@ -113,57 +109,51 @@ async function fetchEditItem() {
                 </td>
             </tr>
             `;
-        }
-        document.querySelector(`#edit-item-list`).innerHTML = items;
-        addDeleteEventListener();
-    }
+		}
+		document.querySelector(`#edit-item-list`).innerHTML = items;
+		addDeleteEventListener();
+	}
 }
 
 function addDeleteEventListener() {
-    document.querySelectorAll(".delete-btn").forEach((button) => {
-        button.addEventListener("click", async function (e) {
-            const itemID = e.currentTarget.id.slice(5);
-            const typeName = e.currentTarget.getAttribute('data-type-name')
-            const res = await fetch(`/items/${itemID}`, {
-                method: "DELETE",
-            });
-            if ((await res.json()).status === true) {
-                const deleteResult = document.querySelector(
-                    "#item-row-" + itemID
-                );
-                deleteResult.remove();
-                fetchItem();
-                fetchPendingItems(typeName);
-            }
-        });
-    });
+	document.querySelectorAll('.delete-btn').forEach((button) => {
+		button.addEventListener('click', async function (e) {
+			const itemID = e.currentTarget.id.slice(5);
+			const typeName = e.currentTarget.getAttribute('data-type-name');
+			const res = await fetch(`/items/${itemID}`, {
+				method: 'DELETE'
+			});
+			if ((await res.json()).status === true) {
+				const deleteResult = document.querySelector('#item-row-' + itemID);
+				deleteResult.remove();
+				fetchItem();
+				fetchPendingItems(typeName);
+			}
+		});
+	});
 }
 
 // modal participants select
 async function fetchParticipant(eventID) {
-    const resParticipant = await (
-        await fetch(`/items/participated?eventID=${eventID}`)
-    ).json();
-    if (resParticipant.status === true) {
-        for (const participantData of resParticipant.user) {
-            document.querySelector(`#select-participant`).innerHTML += `
+	const resParticipant = await (await fetch(`/items/participated?eventID=${eventID}`)).json();
+	if (resParticipant.status === true) {
+		for (const participantData of resParticipant.user) {
+			document.querySelector(`#select-participant`).innerHTML += `
                 <option value="${participantData.id}">${participantData.first_name} ${participantData.last_name}
                 </option>
             `;
-        }
-    }
+		}
+	}
 }
 
 // shopping list JS
 async function fetchPendingItems(selectType) {
-    const resShopList = await (
-        await fetch(`/items/pendingItems?eventID=${eventID}`)
-    ).json();
-    if (resShopList.status === true) {
-        let listItems = "";
+	const resShopList = await (await fetch(`/items/pendingItems?eventID=${eventID}`)).json();
+	if (resShopList.status === true) {
+		let listItems = '';
 
-        for (const items of resShopList.itemObj[selectType]) {
-            listItems += `
+		for (const items of resShopList.itemObj[selectType]) {
+			listItems += `
 				<tr id="list-item-${items.id}">
 					<td>
 						<div class="pending-item">
@@ -175,40 +165,38 @@ async function fetchPendingItems(selectType) {
 					</td>
 				</tr>
           `;
-        }
-        document.querySelector(`#shipping-list-update`).innerHTML = listItems;
-        checkShoppingListItem();
-        fetchItem();
-    }
+		}
+		document.querySelector(`#shipping-list-update`).innerHTML = listItems;
+		checkShoppingListItem();
+		fetchItem();
+	}
 }
 
 function checkShoppingListItem() {
-    document.querySelectorAll(`.check-btn`).forEach((button) => {
-        button.addEventListener("click", async function (e) {
-            const itemID = e.currentTarget.id.slice(9);
-            const res = await fetch(`/items/pendingItems/${itemID}`, {
-                method: "PUT",
-            });
-            if ((await res.json()).status === true) {
-                const updateOnTheList = document.querySelector(
-                    "#list-item-" + itemID
-                );
-                updateOnTheList.remove();
-            }
-        });
-    });
+	document.querySelectorAll(`.check-btn`).forEach((button) => {
+		button.addEventListener('click', async function (e) {
+			const itemID = e.currentTarget.id.slice(9);
+			const res = await fetch(`/items/pendingItems/${itemID}`, {
+				method: 'PUT'
+			});
+			if ((await res.json()).status === true) {
+				const updateOnTheList = document.querySelector('#list-item-' + itemID);
+				updateOnTheList.remove();
+			}
+		});
+	});
 }
 
-document.querySelector(`#back-page`).addEventListener("click", function () {
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get("event-id");
-    const isCreator = params.get("is-creator");
-    window.location = `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`;
+document.querySelector(`#back-page`).addEventListener('click', function () {
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	const isCreator = params.get('is-creator');
+	window.location = `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`;
 });
 
 document.querySelectorAll(`.dropdown-item`).forEach((dropdown) => {
-    dropdown.addEventListener("click", function (e) {
-        const selectType = e.currentTarget.innerHTML.toLowerCase();
-        fetchPendingItems(selectType);
-    });
+	dropdown.addEventListener('click', function (e) {
+		const selectType = e.currentTarget.innerHTML.toLowerCase();
+		fetchPendingItems(selectType);
+	});
 });

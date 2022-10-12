@@ -27,20 +27,23 @@ async function test() {
 	const [usersDB] = (await client.query(`SELECT * FROM users;`)).rows;
 	// If empty table
 	if (!usersDB) {
-		const test = 'test';
-		const testPassword = await hashPassword(test);
+		const first_name = 'Gordon';
+		const last_name = 'Lau';
+		const email = 'gordonlau@tecky.io';
+		const phone = '647-111-1111';
+		const testPassword = await hashPassword('test');
 		await client.query(
 			`INSERT INTO users 
       (id,first_name,last_name,email,phone,password,created_at,updated_at) 
-      VALUES (-1,$1,$2,$3,'647-111-1111',$4,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-			[test, test, test, testPassword]
+      VALUES (-1,$1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+			[first_name, last_name, email, phone, testPassword]
 		);
 
 		const userObj: UsersInput = {
-			first_name: 'test',
-			last_name: 'test',
-			email: 'test',
-			phone: null,
+			first_name,
+			last_name,
+			email,
+			phone,
 			password: 'test'
 		};
 		// Push new user object to json for writing in users.json later
