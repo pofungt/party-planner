@@ -291,6 +291,14 @@ export async function loadEventDetails() {
         </a>
       `;
     }
+    let datetimePollButton = "";
+    if (result.detail.venue_poll_created) {
+      datetimePollButton = `
+      <a class="poll-button" href="/poll/datetimePoll.html?${params}">
+        <i class="fa-solid fa-check"></i>
+      </a>
+    `;
+    }
     const dateTime = document.querySelector(".date-time .background-frame");
     dateTime.innerHTML = `
       <div class="frame-title">
@@ -304,7 +312,10 @@ export async function loadEventDetails() {
           <div>${startDateTimeString}</div>
           <div>${endDateTimeString}</div>        
         </div>
-        ${editTimeButton}
+        <div class="datetime-buttons-container">
+          ${datetimePollButton}
+          ${editTimeButton}
+        </div>
       </div>
     `;
 
