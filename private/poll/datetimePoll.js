@@ -26,9 +26,9 @@ async function loadOptions() {
             pollTitle = "Deleted Event";
         } else if (!result.creator) {
             if (result.choice) {
-                pollTitle = `Your choice was: 
-                start: ${result.choice.start_datetime}
-                end: ${result.choice.end_datetime}
+                pollTitle = `Your choice was: <br>
+                start: ${(new Date(result.choice.start)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}<br>
+                end: ${(new Date(result.choice.end)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}
                 `;
             } else {
                 pollTitle = "Please click on the venue option to vote:";
@@ -112,8 +112,8 @@ async function loadOptions() {
             } else if (result.creator) {
                 // Listen to terminate button
                 document.querySelector('#poll-terminate-button').addEventListener('click', ()=>{
-                    const venueTerminatePoll = new bootstrap.Modal(document.getElementById('delete-poll-modal'));
-                    venueTerminatePoll.show();
+                    const dateTimeTerminatePoll = new bootstrap.Modal(document.getElementById('delete-poll-modal'));
+                    dateTimeTerminatePoll.show();
                     document.querySelector('#poll-terminate-confirm-button').addEventListener('click',async ()=>{
                         const params = new URLSearchParams(window.location.search);
                         const eventId = params.get('event-id');
@@ -123,7 +123,7 @@ async function loadOptions() {
                         const result = await res.json();
                         if (result.status) {
                             alert('Successfully terminated poll!');
-                            venueTerminatePoll.hide();
+                            dateTimeTerminatePoll.hide();
                             loadOptions();
                         } else {
                             alert('Unable to terminate poll!');
