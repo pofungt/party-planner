@@ -13,7 +13,7 @@ window.addEventListener("load", async () => {
     await loadName();
     fetchItem();
     fetchParticipant(eventID);
-    fetchPendingItems('food');
+    fetchPendingItems("food");
     document.body.style.display = "block";
 });
 
@@ -47,6 +47,11 @@ document
 
         let dataPass = true;
 
+        if(!user_id){
+            alert('Please select PIC');
+            return;
+        }
+        
         if (dataPass) {
             const res = await fetch(`/items/eventId/${eventID}`, {
                 method: "POST",
@@ -66,7 +71,7 @@ document
         }
         form.reset();
         fetchItem();
-        fetchPendingItems();
+        fetchPendingItems(typeName);
     });
 
 // category items JS
@@ -101,7 +106,8 @@ async function fetchEditItem() {
                 <td>${itemsData.price}</td>
                 <td>${itemsData.first_name} ${itemsData.last_name}</td>
                 <td>
-                   <button id="item-${itemsData.id}" itemDelete="button" class="delete-btn">
+                   <button id="item-${itemsData.id}" data-type-name="${itemsData.type_name}" 
+                        itemDelete="button" class="delete-btn">
                         <i class="bi bi-trash"></i>
                     </button>
                 </td>
@@ -117,6 +123,7 @@ function addDeleteEventListener() {
     document.querySelectorAll(".delete-btn").forEach((button) => {
         button.addEventListener("click", async function (e) {
             const itemID = e.currentTarget.id.slice(5);
+            const typeName = e.currentTarget.getAttribute('data-type-name')
             const res = await fetch(`/items/${itemID}`, {
                 method: "DELETE",
             });
@@ -126,7 +133,7 @@ function addDeleteEventListener() {
                 );
                 deleteResult.remove();
                 fetchItem();
-                fetchPendingItems();
+                fetchPendingItems(typeName);
             }
         });
     });
@@ -154,6 +161,7 @@ async function fetchPendingItems(selectType) {
     ).json();
     if (resShopList.status === true) {
         let listItems = "";
+
         for (const items of resShopList.itemObj[selectType]) {
             listItems += `
 				<tr id="list-item-${items.id}">
@@ -170,6 +178,7 @@ async function fetchPendingItems(selectType) {
         }
         document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
+        fetchItem();
     }
 }
 
@@ -190,18 +199,16 @@ function checkShoppingListItem() {
     });
 }
 
-document
-    .querySelector(`#back-page`)
-    .addEventListener("click", function () {
-		const params = new URLSearchParams(window.location.search);
-		const eventId = params.get('event-id');
-		const isCreator = params.get('is-creator');
-        window.location= `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`
-    });
+document.querySelector(`#back-page`).addEventListener("click", function () {
+    const params = new URLSearchParams(window.location.search);
+    const eventId = params.get("event-id");
+    const isCreator = params.get("is-creator");
+    window.location = `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`;
+});
 
 document.querySelectorAll(`.dropdown-item`).forEach((dropdown) => {
-    dropdown.addEventListener("click", function(e) {
-        const selectType =  e.currentTarget.innerHTML.toLowerCase();
-        fetchPendingItems(selectType)
-    })
-})
+    dropdown.addEventListener("click", function (e) {
+        const selectType = e.currentTarget.innerHTML.toLowerCase();
+        fetchPendingItems(selectType);
+    });
+});

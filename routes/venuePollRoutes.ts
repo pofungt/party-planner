@@ -3,15 +3,15 @@ import { client } from '../app';
 import { isLoggedInAPI } from '../util/guard';
 import { logger } from '../util/logger';
 
-export const eventPollRoutes = express.Router();
+export const venuePollRoutes = express.Router();
 
-eventPollRoutes.get('/venue/:id', isLoggedInAPI, getVenuePollOptions);
-eventPollRoutes.post('/venue/:id', isLoggedInAPI, createVenuePoll);
-eventPollRoutes.delete('/venue/:id', isLoggedInAPI, deleteVenuePoll);
-eventPollRoutes.post('/venue/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
-eventPollRoutes.post('/venue/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
+venuePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);
+venuePollRoutes.post('/:id', isLoggedInAPI, createPoll);
+venuePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);
+venuePollRoutes.post('/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
+venuePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
 
-async function getVenuePollOptions(req: Request, res: Response) {
+async function getPollOptions(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
@@ -121,12 +121,12 @@ async function getVenuePollOptions(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP001]: Failed to get venue poll options'
+			msg: '[VNP001]: Failed to get venue poll options'
 		});
 	}
 }
 
-async function createVenuePoll(req: Request, res: Response) {
+async function createPoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
@@ -170,12 +170,12 @@ async function createVenuePoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP002]: Failed to create venue poll'
+			msg: '[VNP002]: Failed to create venue poll'
 		});
 	}
 }
 
-async function deleteVenuePoll(req: Request, res: Response) {
+async function deletePoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
@@ -214,7 +214,7 @@ async function deleteVenuePoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP002]: Failed to create venue poll'
+			msg: '[VNP003]: Failed to delete venue poll'
 		});
 	}
 }
@@ -278,7 +278,7 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP003]: Failed to overwrite venue poll'
+			msg: '[VNP004]: Failed to overwrite venue poll'
 		});
 	}
 }
@@ -324,7 +324,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: '[ETP003]: Failed to overwrite venue poll'
+			msg: '[VNP005]: Failed to submit vote choice'
 		});
 	}
 }

@@ -5,7 +5,9 @@ import { onlyNumbers } from '../util/functions/onlyNumbers';
 import { logger } from '../util/logger';
 import { isLoggedInAPI } from '../util/guard';
 import { eventDetailsRoutes } from './eventDetailsRoutes';
-import { eventPollRoutes } from './eventPollRoutes';
+import { venuePollRoutes } from './venuePollRoutes';
+import { datetimePollRoutes } from './datetimePollRoutes';
+
 import crypto from 'crypto';
 
 export const eventsRoutes = express.Router();
@@ -16,7 +18,8 @@ eventsRoutes.post('/', isLoggedInAPI, postEvent);
 eventsRoutes.delete('/:eventId', isLoggedInAPI, deleteEvent);
 eventsRoutes.delete('/participants/:eventId', isLoggedInAPI, deleteParticipants);
 eventsRoutes.use('/detail', eventDetailsRoutes);
-eventsRoutes.use('/poll', eventPollRoutes);
+eventsRoutes.use('/poll/venue', venuePollRoutes);
+eventsRoutes.use('/poll/datetime', datetimePollRoutes);
 
 async function getCreateEventList(req: Request, res: Response) {
 	try {
