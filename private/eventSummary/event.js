@@ -108,22 +108,30 @@ document.querySelector('#datetime-poll-form').addEventListener('submit', async (
 	let dataPass = true;
 	let formList = [];
 	const form = e.target;
-	const formStartInputNodeList = form.datetime_poll_start;
-	formStartInputNodeList.forEach((each) => {
-		if (!!each.value) {
-			formList.push({start: each.value});
-		} else {
+	const startList = form.datetime_poll_start;
+	const endList = form.datetime_poll_end;
+
+	for (let i = 0; i < startList.length; i++) {
+		if (!startList[i].value || !endList[i].value) {
 			dataPass = false;
-		}
-	});
-	const formEndInputNodeList = form.datetime_poll_end;
-	formEndInputNodeList.forEach((each,index)=>{
-		if (!!each.value) {
-			formList[index]["end"] = each.value;
-		} else {
+			alert('Please fill in all options!');
+			break;
+		} else if ((new Date(startList[i].value)).getTime() <= (new Date()).getTime()) {
 			dataPass = false;
+			alert('Start time must be later than today!');
+			break;
+		} else if ((new Date(startList[i].value)).getTime() >= (new Date(endList[i].value)).getTime()) {
+			dataPass = false;
+			alert('Start time must be before end time!');
+			break;
+		} else {
+			formList.push({
+				start: new Date(startList[i].value),
+				end: new Date(endList[i].value)
+			});
 		}
-	});
+	}
+
 	if (dataPass) {
 		const res = await fetch(`/events/poll/datetime/${eventId}`, {
 			method: 'POST',
@@ -148,8 +156,6 @@ document.querySelector('#datetime-poll-form').addEventListener('submit', async (
 				alert('Unable to create poll.');
 			}
 		}
-	} else {
-		alert("Please fill in all options!");
 	}
 });
 
