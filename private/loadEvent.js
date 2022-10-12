@@ -48,7 +48,7 @@ export async function loadCreateEvents(page) {
 		}
 		eventsCreateHTML += `
     <tr class="table-content-row">
-      <th scope="col" class="ID_${event.id}">
+      <th scope="col" class="ID_${event.id} hidable-2">
         <div>${event.id}</div>
       </th>
       <th scope="col" class="name_${event.id}">
@@ -69,7 +69,7 @@ export async function loadCreateEvents(page) {
 			}
         </div>
       </th>
-      <th scope="col" class="end_datetime_${event.id}">
+      <th scope="col" class="end_datetime_${event.id} hidable-1">
         <div>
           ${
 				!event.end_datetime
@@ -148,7 +148,7 @@ export async function loadParticipateEvents(page) {
 		}
 		eventsParticipateHTML += `
         <tr class="table-content-row">
-            <th scope="col" class="ID_${event.id}">
+            <th scope="col" class="ID_${event.id} hidable-2">
               <div>${event.id}</div>
             </th>
             <th scope="col" class="name_${event.id}">
@@ -169,7 +169,7 @@ export async function loadParticipateEvents(page) {
 				}
               </div>
             </th>
-			      <th scope="col" class="end_datetime_${event.id}">
+			      <th scope="col" class="end_datetime_${event.id} hidable-1">
               <div>
                 ${
 					!event.end_datetime
