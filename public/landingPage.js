@@ -72,13 +72,13 @@ document.querySelector('.register-form').addEventListener('submit', async functi
 	let dataPass = true;
 
 	// Checking data validity
-	if (!first_name || !last_name || !email || !password || !confirm_password) {
+	if (!first_name || !last_name || !email || !password || !confirm_password || !phone) {
 		dataPass = false;
 		alert('Please fill in all necessary fields!');
 	} else if (!emailRegex.test(email)) {
 		dataPass = false;
 		alert('Invalid email format!');
-	} else if (!phoneRegex.test(phone) && !!phone) {
+	} else if (!phoneRegex.test(phone)) {
 		dataPass = false;
 		alert('Invalid phone format!');
 	} else if (!(password === confirm_password)) {

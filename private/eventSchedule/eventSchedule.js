@@ -146,6 +146,9 @@ async function getEventSchedule() {
     await correctDiv(startTimeInMin, endTimeInMin)
     await getMemo(activitiesArr, itemList, savedItemList)
     submitEditTimeName(startTimeInMin, endTimeInMin)
+
+    // Add backward button
+    document.querySelector('#back-page').href = `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`;
 }
 
 async function getMemo(activitiesArr, itemList, savedItemList) {

@@ -1,8 +1,10 @@
 body {
     font-family: 'Calibri';
+	position: relative;
 }
 
 .poll-container {
+	position: relative;
 	display: flex;
     flex-direction: column;
 	justify-content: center;
@@ -130,4 +132,19 @@ body {
 	display: flex;
 	justify-content: center;
 	align-content: center;
+}
+
+#back-page {
+	position: absolute;
+	left: 50px;
+	top: 15px;
+    text-decoration: none;
+}
+
+.bi-chevron-left {
+    font-size: 30px;
+    top: 90px;
+    left: 40px;
+    color: #444a58;
+    cursor: pointer;
 }

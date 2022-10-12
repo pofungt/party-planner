@@ -17,7 +17,7 @@ async function main() {
         first_name varchar not NULL,
         last_name varchar not NULL,
         email varchar not NULL,
-        phone varchar,
+        phone varchar not NULL,
         password varchar not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL
@@ -109,6 +109,7 @@ async function main() {
         category varchar not NULL,
         content varchar not NULL,
         anonymous boolean not NULL,
+        read boolean not NULL,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (user_id) REFERENCES users(id),
