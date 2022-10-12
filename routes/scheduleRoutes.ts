@@ -89,7 +89,7 @@ async function editTimeName(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
-		const timeBlockId = req.query['id'];
+		const timeBlockId = parseInt(req.query['id'] as string);
 		const date = req.query.date;
 		const title = req.body.title;
 		const startTime = req.body.editStartTime;
@@ -132,32 +132,34 @@ async function editTimeName(req: Request, res: Response) {
                 SELECT start_time, end_time, id FROM time_blocks
                 WHERE event_id = $1
 				AND date = $2
+				AND id != $3
                 ORDER BY start_time ASC;
                 `,
-					[eventId, date]
+					[eventId, date, timeBlockId]
 				)
 			).rows;
 
 			let reject = false;
 
+			const newStartTimeInMin = toMin(req.body.editStartTime);
+			const newEndTimeInMin = toMin(req.body.editEndTime);
+
 			existingActivities.forEach((activity) => {
 				const startTimeInMin = toMin(activity.start_time);
 				const endTimeInMin = toMin(activity.end_time);
 
-				const newStartTimeInMin = toMin(req.body.editStartTime);
-				const newEndTimeInMin = toMin(req.body.editEndTime);
 
-				console.log (timeBlockId, activity.id)
-
-				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
-					if (timeBlockId !== activity.id) {
-						reject = false
-					} 
+				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin ) {
+					reject = true
+					console.log("1")
 				}
-				if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin && timeBlockId !== activity.id) {
-					if (timeBlockId !== activity.id) {
-						reject = false
-					} 
+				if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin ) {
+					reject = true
+					console.log("2")
+				}
+				if (newStartTimeInMin <= startTimeInMin && newEndTimeInMin >= endTimeInMin ) {
+					reject = true
+					console.log("3")
 				}
 			});
 
