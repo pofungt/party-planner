@@ -11,67 +11,74 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
-    <link rel="stylesheet" href="./comment.css" />
+  <link href='https://fonts.googleapis.com/css?family=Kalam' rel='stylesheet'>
+  <link rel="stylesheet" href="./comment.css" />
   <title>Comment Page</title>
 </head>
 
 <body>
-    <div class="navbar-container container">
-        <!-- NAVBAR: to be loaded with js -->
-    </div>
+  <div class="navbar-container container">
+    <!-- NAVBAR: to be loaded with js -->
+  </div>
 
-    <header id="page-header">COMMENT</header>
+  <header id="page-header">COMMENT</header>
 
-    <div id="btn-container">
-        <div class="btn button-53" data-bs-toggle="modal" data-bs-target="#comment-modal">Submit Comment</div>
-    </div>
-    
-    <div id="comment-page" class="row">
-        <div class="col-md-6">
-          <div class="eventname frame line1">
-            <div class="background-frame">
-                <div class="header" id="my-events-header">My Events</div>
-                <div id="my-events">
-                    <div id="my-events-list">
-                        <table id="input-list-my-events">
-                            <tr>
-                                <th>Sender</th>
-                                <th>Message</th>
-                                <th>Received on</th>
-                                <th>Mark as read</th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="date-time frame line1">
-            <div class="background-frame">
-                <div class="header" id="participated-events-header">Participated Events</div>
-                <div id="participated-events">
-                    <div id="participated-events-list">
-                        <table id="input-list-participated-events">
-                            <tr>
-                                <th>Sender</th>
-                                <th>Message</th>
-                                <th>Received on</th>
-                                <th>Mark as read</th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+  <div id="btn-container">
+    <div class="btn button-53" data-bs-toggle="modal" data-bs-target="#comment-modal">Submit Comment</div>
+  </div>
+
+  <div id="comment-page" class="row">
+    <div class="col-md-6">
+      <div class="eventname frame line1">
+        <div class="background-frame">
+          <div class="header" id="my-events-header">My Events</div>
+          <div id="my-events">
+            <div id="my-events-list">
+              <table class="table" id="input-list-my-events">
+                <thead>
+                  <tr>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Event</th>
+                    <th scope="col">Received on</th>
+                    <th scope="col">Mark as read</th>
+                  </tr>
+                </thead>
+
+              </table>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="col-md-6">
+      <div class="date-time frame line1">
+        <div class="background-frame">
+          <div class="header" id="participated-events-header">Participated Events</div>
+          <div id="participated-events">
+            <div id="participated-events-list">
+              <table class="table" id="input-list-participated-events">
+                <thead>
+                  <tr>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Message</th>
+                    <th scope="col">Event</th>
+                    <th scope="col">Received on</th>
+                    <th scope="col">Read by Creator</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
 
-    <!-- Comment Modal -->
+  <!-- Comment Modal -->
 
-    <div class="modal fade" id="comment-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  <div class="modal fade" id="comment-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -88,8 +95,8 @@
               <div class="input-panel mb-3">
                 <div class="form-header">RECEIVER</div>
                 <select name="receiver" id="receiver">
-                    <option value="items">Event Items</option>
-                    <!-- to be input by JS -->
+                  <option value="null">Selector Receiver</option>
+                  <!-- to be input by JS -->
                 </select>
               </div>
 
@@ -100,40 +107,45 @@
               </div>
 
 
-        
+
               <div class="input-panel mb-3">
                 <div class="form-header">Regarding...</div>
                 <select name="category" id="category">
-                    <option value="items">Event Items</option>
-                    <option value="venue">Location</option>
-                    <option value="date-time">Event Date/Time</option>
-                    <option value="budget">Budget</option>
-                    <option value="participant">Participant</option>
-                    <option value="activity">Event Activity</option>
+                  <option value="items">Event Items</option>
+                  <option value="venue">Location</option>
+                  <option value="date-time">Event Date/Time</option>
+                  <option value="budget">Budget</option>
+                  <option value="participant">Participant</option>
+                  <option value="activity">Event Activity</option>
+                  <option value="others">others</option>
                 </select>
               </div>
 
-
-              <div class="modal-footer">
-                <button id="submit-comment" type="submit" class="btn btn-primary button-53">
-                  Submit
-                </button>
-              </div>
-
-            </form>
+              <div class="input-panel mb-3"></div>
+              <input type="checkbox" id="anonymous" name="anonymous" unchecked>
+              <label for="anonymous">Send anonymously?</label><br>
           </div>
+
+          <div class="modal-footer">
+            <button id="submit-comment" type="submit" class="btn btn-primary button-53">
+              Submit
+            </button>
+          </div>
+
+          </form>
         </div>
       </div>
     </div>
   </div>
+  </div>
 
 
 
-<script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-  crossorigin="anonymous"></script>
-<script type="module" src="./comment.js"></script>
+  <script src="https://thibaultjanbeyer.github.io/DragSelect/ds.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
+  <script type="module" src="./comment.js"></script>
 </body>
 
 </html>
