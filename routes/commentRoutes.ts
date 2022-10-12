@@ -26,7 +26,8 @@ async function getComment(req: Request, res: Response) {
         JOIN comments ON events.id = comments.event_id
         JOIN users on participants.user_id = users.id
         WHERE participants.user_id = $1
-        ORDER BY comments.read Asc
+        ORDER BY comments.created_at Desc,
+                 comments.read Asc
         `, [userId])).rows
 
         const creatorComment = (await client.query(`
@@ -34,7 +35,8 @@ async function getComment(req: Request, res: Response) {
         JOIN events ON events.id = comments.event_id
         JOIN users ON comments.user_id =users.id
         WHERE events.creator_id = $1
-        ORDER BY comments.read Asc
+        ORDER BY comments.created_at Desc,
+                 comments.read Asc
         `, [userId])).rows
 
 
