@@ -467,33 +467,16 @@ export async function loadEventDetails() {
           </div>
       `;
 
-    // Load item into Page
+    // Load item into Page 
     const res = await (await fetch(`/items?eventID=${eventId}`)).json();
     const item = document.querySelector(".item .background-frame");
     if (res.status === true) {
       let foodItems = "";
       for (const foodItem of res.itemObj.food) {
         foodItems += `<tr>
-                      <td>${foodItem.name}</td>
-                  </tr>`;
+                        <td>${foodItem.name}</td>
+                      </tr>`;
       }
-      console.log(`
-            <div class="frame-title-container">
-              <div class="frame-title">
-                Item
-              </div>
-              <a class="info-button">
-                <i class="fa-solid fa-info"></i>
-              </a>
-            </div>
-            <div class="frame-content-container">
-              <table id="item-table">
-                <tbody>
-                  ${foodItems}
-                </tbody>
-              </table>
-            </div>
-            `)
 
       item.innerHTML = `
             <div class="frame-title-container">
