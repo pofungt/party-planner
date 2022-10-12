@@ -159,6 +159,57 @@ document.querySelector('#datetime-poll-form').addEventListener('submit', async (
 	}
 });
 
+// Overwrite datetime poll confirmed
+document.querySelector('#overwrite-datetime-poll-submit').addEventListener('click', async (e) => {
+	e.preventDefault();
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	let dataPass = true;
+	let formList = [];
+	const form = document.querySelector('#datetime-poll-form');
+	const startList = form.datetime_poll_start;
+	const endList = form.datetime_poll_end;
+
+	for (let i = 0; i < startList.length; i++) {
+		if (!startList[i].value || !endList[i].value) {
+			dataPass = false;
+			alert('Please fill in all options!');
+			break;
+		} else if ((new Date(startList[i].value)).getTime() <= (new Date()).getTime()) {
+			dataPass = false;
+			alert('Start time must be later than today!');
+			break;
+		} else if ((new Date(startList[i].value)).getTime() >= (new Date(endList[i].value)).getTime()) {
+			dataPass = false;
+			alert('Start time must be before end time!');
+			break;
+		} else {
+			formList.push({
+				start: new Date(startList[i].value),
+				end: new Date(endList[i].value)
+			});
+		}
+	}
+
+	if (dataPass) {
+		const res = await fetch(`/events/poll/datetime/overwrite/${eventId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formList)
+		});
+		const result = await res.json();
+		if (result.status) {
+			alert('Successfully created a datetime poll!');
+			window.location.href = `/poll/datetimePoll.html?event-id=${eventId}`;
+		} else {
+			alert('Unable to create poll.');
+		}
+	}
+});
+
+
 
 // Submit venue form
 document.querySelector('#venue-form').addEventListener('submit', async function (e) {

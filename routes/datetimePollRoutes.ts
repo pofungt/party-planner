@@ -146,7 +146,7 @@ async function createPoll(req: Request, res: Response) {
 						INSERT INTO event_date_time (start_datetime,end_datetime, event_id, created_at, updated_at)
 						VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 					`,
-						[input.start,input.end, eventId]
+						[input.start, input.end, eventId]
 					);
 					await client.query(`
 						UPDATE events 
@@ -257,16 +257,16 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 			const inputList = req.body;
 			for (let input of inputList) {
 				await client.query(`
-					INSERT INTO event_date_time (address, event_id, created_at, updated_at)
-					VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-				`,
-					[input, eventId]
+				INSERT INTO event_date_time (start_datetime,end_datetime, event_id, created_at, updated_at)
+				VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+			`,
+					[input.start, input.end, eventId]
 				);
 				await client.query(`
-					UPDATE events 
-					SET date_poll_created = TRUE
-					WHERE id = $1;
-				`,
+				UPDATE events 
+				SET date_poll_created = TRUE
+				WHERE id = $1;
+			`,
 					[eventId]
 				);
 			}
@@ -297,7 +297,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 		`,
 			[userId, eventId]
 		)).rows;
-		
+
 		if (participant) {
 			const [choiceMade] = (await client.query(`
 				SELECT * FROM event_date_time_votes
