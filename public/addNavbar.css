@@ -8,6 +8,12 @@
 	background-color: #efefd0;
 }
 
+.navbar-brand {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
 .navbar-brand > img {
 	border-radius: 10px;
 }
@@ -45,3 +51,9 @@
 .logout {
 	cursor: pointer;
 }
+
+@media only screen and (max-width: 450px) {
+	.navbar-logo-text {
+	  display: none;
+	}
+  }

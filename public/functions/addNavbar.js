@@ -11,7 +11,9 @@ export function addNavbar() {
                 <nav class="navbar">
                     <a class="navbar-brand" href="/index.html">
                         <img src="/asset/party_icon.jpg" width="54" height="54" class="d-inline-block align-top">
-                        Party Planner
+                        <div class="navbar-logo-text">
+                            Party Planner
+                        </div>
                     </a>
                 </nav>
                 <div class="login-part">
