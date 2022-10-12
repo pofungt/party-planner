@@ -5,115 +5,124 @@ import { logger } from '../util/logger';
 
 export const scheduleRoutes = express.Router();
 
-scheduleRoutes.get("/", isLoggedInAPI, getEventSchedule);
-scheduleRoutes.post("/activity", isLoggedInAPI, postEventSchedule);
-scheduleRoutes.put("/description/edit", isLoggedInAPI, editDescription);
-scheduleRoutes.put("/remark/edit", isLoggedInAPI, editRemark);
-scheduleRoutes.put("/timeName/edit", isLoggedInAPI, editTimeName);
-scheduleRoutes.post("/item", isLoggedInAPI, postItem)
+scheduleRoutes.get('/', isLoggedInAPI, getEventSchedule);
+scheduleRoutes.post('/activity', isLoggedInAPI, postEventSchedule);
+scheduleRoutes.put('/description/edit', isLoggedInAPI, editDescription);
+scheduleRoutes.put('/remark/edit', isLoggedInAPI, editRemark);
+scheduleRoutes.put('/timeName/edit', isLoggedInAPI, editTimeName);
+scheduleRoutes.post('/item', isLoggedInAPI, postItem);
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
-
 
 async function postItem(req: Request, res: Response) {
 	try {
-		logger.debug("Before reading DB");
-		const creator = req.query["is-creator"];
-		const timeBlockId = req.query["id"];
+		logger.debug('Before reading DB');
+		const creator = req.query['is-creator'];
+		const timeBlockId = req.query['id'];
 		const itemList = req.body;
-		const eventId = req.query["event-id"];
+		const eventId = req.query['event-id'];
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
-
-		if (creator === "1" && isProcessing) {
+		if (creator === '1' && isProcessing) {
 			// delete existing list
-			await client.query(`
+			await client.query(
+				`
 			DELETE FROM time_block_item
 			WHERE time_block_item.time_block_id = $1
-			`, [timeBlockId]
-			)
+			`,
+				[timeBlockId]
+			);
 
 			itemList.forEach(async (item: any) => {
-				await client.query(`
+				await client.query(
+					`
 				INSERT INTO time_block_item (time_block_id, item_id, created_at, updated_at)
 				VALUES ($1, $2, $3, $4)
-				`, [timeBlockId, `${item}`, 'now()', 'now()']
-				)
-			})
+				`,
+					[timeBlockId, `${item}`, 'now()', 'now()']
+				);
+			});
 
 			res.json({
 				status: true,
-				msg: "Items Added"
-			})
-
+				msg: 'Items Added'
+			});
 		} else {
 			res.status(400).json({
-				msg: "[EER001]: Unauthorized Request"
-			})
+				msg: '[EER001]: Unauthorized Request'
+			});
 		}
-
 	} catch (e) {
-		logger.error(e)
+		logger.error(e);
 		res.status(500).json({
-			msg: "[ITM003]: Failed to Add Show Item",
+			msg: '[ITM003]: Failed to Add Show Item'
 		});
 	}
 }
 
-
 async function editTimeName(req: Request, res: Response) {
 	try {
-		logger.debug("Before reading DB");
-		const eventId = req.query["event-id"];
-		const creator = req.query["is-creator"];
-		const timeBlockId = req.query["id"];
-		const date = req.query.date
-		const title = req.body.title
-		const startTime = req.body.editStartTime
-		const endTime = req.body.editEndTime
-		const color = req.body.editColor
+		logger.debug('Before reading DB');
+		const eventId = req.query['event-id'];
+		const creator = req.query['is-creator'];
+		const timeBlockId = req.query['id'];
+		const date = req.query.date;
+		const title = req.body.title;
+		const startTime = req.body.editStartTime;
+		const endTime = req.body.editEndTime;
+		const color = req.body.editColor;
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
-		if (creator === "1" && isProcessing) {
+		if (creator === '1' && isProcessing) {
 			//check time collision with existing time-blocks
 			//bug: correct end time = 00:00 problem
 
@@ -158,7 +167,8 @@ async function editTimeName(req: Request, res: Response) {
 					msg: '[EER002]: Activity Start Time or End Time Overlapped with Existing Activity'
 				});
 			} else {
-				await client.query(`
+				await client.query(
+					`
                 UPDATE time_blocks
 				SET title = $1,
 					start_time = $2,
@@ -169,37 +179,24 @@ async function editTimeName(req: Request, res: Response) {
 				AND id = $7
 				AND date = $8
 				`,
-					[
-						title,
-						startTime,
-						endTime,
-						color,
-						'now()',
-						eventId,
-						timeBlockId,
-						date
-					]
-				)
+					[title, startTime, endTime, color, 'now()', eventId, timeBlockId, date]
+				);
 
 				res.json({
 					status: true,
-					msg: "Edit success"
-				})
+					msg: 'Edit success'
+				});
 			}
-
 		} else {
-
 			res.json({
 				status: false,
-				msg: "[EER001]: Unauthorized Request"
-			})
-
+				msg: '[EER001]: Unauthorized Request'
+			});
 		}
-
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE002]: Failed to Edit Time & Name",
+			msg: '[TBE002]: Failed to Edit Time & Name'
 		});
 	}
 }
@@ -213,29 +210,33 @@ async function editRemark(req: Request, res: Response) {
 		const date = req.query.date;
 		const remark = req.body.remark;
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
-
-		if (creator === "1" && isProcessing) {
+		if (creator === '1' && isProcessing) {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -245,14 +246,8 @@ async function editRemark(req: Request, res: Response) {
 				AND id = $4
 				AND date = $5
 				`,
-				[
-					remark,
-					'now()',
-					eventId,
-					timeBlockId,
-					date
-				]
-			)
+				[remark, 'now()', eventId, timeBlockId, date]
+			);
 			res.json({
 				status: true,
 				msg: 'Edit success'
@@ -280,28 +275,33 @@ async function editDescription(req: Request, res: Response) {
 		const date = req.query.date;
 		const description = req.body.description;
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
-		if (creator === "1" && isProcessing) {
+		if (creator === '1' && isProcessing) {
 			await client.query(
 				`
                 UPDATE time_blocks
@@ -311,14 +311,8 @@ async function editDescription(req: Request, res: Response) {
 				AND id = $4
 				AND date = $5
 				`,
-				[
-					description,
-					'now()',
-					eventId,
-					timeBlockId,
-					date
-				]
-			)
+				[description, 'now()', eventId, timeBlockId, date]
+			);
 			res.json({
 				status: true,
 				msg: 'Edit success'
@@ -332,7 +326,7 @@ async function editDescription(req: Request, res: Response) {
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
-			msg: "[TBE003]: Failed to Edit Description",
+			msg: '[TBE003]: Failed to Edit Description'
 		});
 	}
 }
@@ -345,24 +339,29 @@ async function deleteTimeBlock(req: Request, res: Response) {
 		const timeBlockId = req.query['id'];
 		const date = req.query.date;
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
@@ -439,18 +438,17 @@ async function getEventSchedule(req: Request, res: Response) {
 		}
 
 		if (event.start_datetime) {
-			if (date === "null" || "undefined") {
-
+			if (date === 'null' || 'undefined') {
 				const option = {
 					hour12: false,
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}
-				let placeholder = (event.start_datetime).toLocaleString('en-GB', option).split("/")
-				date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit'
+				};
+				let placeholder = event.start_datetime.toLocaleString('en-GB', option).split('/');
+				date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`;
 			}
-	
+
 			const activitiesArr = (
 				await client.query(
 					`
@@ -462,7 +460,7 @@ async function getEventSchedule(req: Request, res: Response) {
 					[eventId, date]
 				)
 			).rows;
-	
+
 			const itemList = (
 				await client.query(
 					`
@@ -472,7 +470,7 @@ async function getEventSchedule(req: Request, res: Response) {
 					[eventId]
 				)
 			).rows;
-	
+
 			const savedItemList = (
 				await client.query(
 					`
@@ -485,7 +483,7 @@ async function getEventSchedule(req: Request, res: Response) {
 					[eventId, date]
 				)
 			).rows;
-	
+
 			res.json({
 				status: true,
 				detail: event,
@@ -493,11 +491,9 @@ async function getEventSchedule(req: Request, res: Response) {
 				items: itemList,
 				savedItems: savedItemList
 			});
-	
 		} else {
-			res.json({status: false});
+			res.json({ status: false });
 		}
-
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
@@ -519,28 +515,33 @@ async function postEventSchedule(req: Request, res: Response) {
 		const creator = req.query['is-creator'];
 		const date = req.query.date;
 
-		const event = (await client.query(`
+		const event = (
+			await client.query(
+				`
 			SELECT start_datetime, end_datetime, deleted FROM events
 			WHERE id = $1
-		`, [eventId])).rows[0]
+		`,
+				[eventId]
+			)
+		).rows[0];
 
-		const isDeleted = event.deleted
-		const eventStartTimeInMin = event.start_datetime.getTime()
-		const eventEndTimeInMin = event.end_datetime.getTime()
-		const now = new Date().getTime()
+		const isDeleted = event.deleted;
+		const eventStartTimeInMin = event.start_datetime.getTime();
+		const eventEndTimeInMin = event.end_datetime.getTime();
+		const now = new Date().getTime();
 
-		let isProcessing = true
+		let isProcessing = true;
 
 		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
-			isProcessing = false
+			isProcessing = false;
 			//event is finished
 		}
 		if (isDeleted) {
-			isProcessing = false
+			isProcessing = false;
 			//event was deleted by creator
 		}
 
-		if (creator === "1" && isProcessing) {
+		if (creator === '1' && isProcessing) {
 			//check if start time and end time collided with existing activities
 
 			const existingActivities = (

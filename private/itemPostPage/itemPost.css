@@ -10,9 +10,7 @@
 .category-text {
 	font-size: 20px;
 	font-family: 'Lato', sans-serif;
-	position: relative;
-	top: 20px;
-	left: 30px;
+	margin-bottom: 10px;
 }
 
 /* shopping list */
@@ -21,15 +19,13 @@
 	height: 700px;
 	border-radius: 20px;
 	margin: 10px 2px 5px 5px;
-	width: 400px;
+	width: 100%;
+	padding: 20px;
 }
 
 .shopping-list .item-list {
-	position: relative;
-	top: 40px;
-	left: 30px;
 	height: 700px;
-	width: 350px;
+	width: 100%;
 	background-color: #fff;
 }
 
@@ -60,7 +56,6 @@
 	height: 20px;
 }
 
-
 .shorting-btn {
 	border: none;
 	border-radius: 20px;
@@ -72,13 +67,11 @@
 .category-text-items {
 	font-size: 20px;
 	font-family: 'Lato', sans-serif;
-	position: relative;
-	top: 20px;
-	left: 30px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	width: 330px;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 .category-edit {
@@ -88,7 +81,7 @@
 	color: #fff;
 }
 
-.bi-pencil-square:hover{
+.bi-pencil-square:hover {
 	color: #495871;
 }
 
@@ -97,15 +90,13 @@
 	height: 338px;
 	border-radius: 20px;
 	margin: 15px;
-	width: 390px;
+	width: 100%;
+	padding: 20px;
 }
 
 .item-category .item-list {
-	position: relative;
-	top: 40px;
-	left: 20px;
 	height: 70%;
-	width: 350px;
+	width: 100%;
 	background-color: #fff;
 }
 
@@ -170,4 +161,3 @@ tr {
 .save-submit:hover {
 	outline-width: 5px;
 }
-

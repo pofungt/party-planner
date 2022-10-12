@@ -16,27 +16,36 @@ async function getPollOptions(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
 		const userId = req.session.user;
-		const [eventDetail] = (await client.query(`
+		const [eventDetail] = (
+			await client.query(
+				`
 			SELECT * FROM events WHERE id = $1 AND creator_id = $2;
 		`,
-			[eventId, userId]
-		)).rows;
+				[eventId, userId]
+			)
+		).rows;
 
 		if (eventDetail) {
 			if (eventDetail.date_poll_created) {
-				const pollOptions = (await client.query(`
+				const pollOptions = (
+					await client.query(
+						`
 					SELECT * FROM event_date_time WHERE event_id = $1;
 				`,
-					[eventId]
-				)).rows;
+						[eventId]
+					)
+				).rows;
 				let voteCounts = {};
 				for (let pollOption of pollOptions) {
-					const [voteCount] = (await client.query(`
+					const [voteCount] = (
+						await client.query(
+							`
 						SELECT COUNT(*) FROM event_date_time_votes
 						WHERE event_date_time_id = $1;
 					`,
-						[pollOption.id]
-					)).rows;
+							[pollOption.id]
+						)
+					).rows;
 					voteCounts[pollOption.id] = voteCount;
 				}
 				res.json({
@@ -51,51 +60,69 @@ async function getPollOptions(req: Request, res: Response) {
 				res.json({ status: false });
 			}
 		} else {
-			const [participant] = (await client.query(`
+			const [participant] = (
+				await client.query(
+					`
 				SELECT * FROM participants
 				INNER JOIN events ON events.id = participants.event_id
 				WHERE events.id = $1 AND participants.user_id = $2;
 			`,
-				[eventId, userId]
-			)).rows;
+					[eventId, userId]
+				)
+			).rows;
 			if (participant) {
-				const [eventDetailParticipant] = (await client.query(`
+				const [eventDetailParticipant] = (
+					await client.query(
+						`
 					SELECT * FROM events WHERE id = $1;
 				`,
-					[eventId]
-				)).rows;
+						[eventId]
+					)
+				).rows;
 				if (eventDetailParticipant.date_poll_created) {
-					const pollOptions = (await client.query(`
+					const pollOptions = (
+						await client.query(
+							`
 						SELECT * FROM event_date_time WHERE event_id = $1;
 					`,
-						[eventId]
-					)).rows;
+							[eventId]
+						)
+					).rows;
 					let voteCounts = {};
 					for (let pollOption of pollOptions) {
-						const [voteCount] = (await client.query(`
+						const [voteCount] = (
+							await client.query(
+								`
 							SELECT COUNT(*) FROM event_date_time_votes
 							WHERE event_date_time_id = $1;
 						`,
-							[pollOption.id]
-						)).rows;
+								[pollOption.id]
+							)
+						).rows;
 						voteCounts[pollOption.id] = voteCount;
 					}
-					const [choiceMade] = (await client.query(`
+					const [choiceMade] = (
+						await client.query(
+							`
 						SELECT * FROM event_date_time_votes 
 						WHERE event_date_time_id IN (SELECT id FROM event_date_time
 													WHERE event_id = $1)
 						AND user_id = $2;
 					`,
-						[eventId, userId]
-					)).rows;
+							[eventId, userId]
+						)
+					).rows;
 					let chosenDateTime;
 					if (choiceMade) {
-						[chosenDateTime] = (await client.query(`
+						[chosenDateTime] = (
+							await client.query(
+								`
 							SELECT * FROM event_date_time
 							WHERE id = $1;
 						`,
-							[choiceMade.event_date_time_id]
-						)).rows;
+								[choiceMade.event_date_time_id]
+							)
+						).rows;
 					}
 					res.json({
 						status: true,
@@ -104,11 +131,11 @@ async function getPollOptions(req: Request, res: Response) {
 						eventDeleted: eventDetailParticipant.deleted,
 						choice: choiceMade
 							? {
-								id: `option_${choiceMade.event_date_time_id}`,
-								start: `${chosenDateTime.start_datetime}`,
-								end: `${chosenDateTime.end_datetime}`
-							}
-							: "",
+									id: `option_${choiceMade.event_date_time_id}`,
+									start: `${chosenDateTime.start_datetime}`,
+									end: `${chosenDateTime.end_datetime}`
+							  }
+							: '',
 						pollOptions,
 						voteCounts
 					});
@@ -131,24 +158,29 @@ async function createPoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
-		const [eventDetail] = (await client.query(`
+		const [eventDetail] = (
+			await client.query(
+				`
 			SELECT * FROM events
 			WHERE id = $1 AND creator_id = $2;
 		`,
-			[eventId, req.session.user]
-		)).rows;
+				[eventId, req.session.user]
+			)
+		).rows;
 
 		if (eventDetail) {
 			if (!eventDetail.date_poll_created) {
 				const inputList = req.body;
 				for (let input of inputList) {
-					await client.query(`
+					await client.query(
+						`
 						INSERT INTO event_date_time (start_datetime,end_datetime, event_id, created_at, updated_at)
 						VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 					`,
 						[input.start, input.end, eventId]
 					);
-					await client.query(`
+					await client.query(
+						`
 						UPDATE events 
 						SET date_poll_created = TRUE
 						WHERE id = $1;
@@ -180,17 +212,21 @@ async function deletePoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
-		const [eventDetail] = (await client.query(`
+		const [eventDetail] = (
+			await client.query(
+				`
 			SELECT * FROM events
 			WHERE id = $1 AND creator_id = $2;
 		`,
-			[eventId, req.session.user]
-		)).rows;
+				[eventId, req.session.user]
+			)
+		).rows;
 
 		if (eventDetail) {
 			if (eventDetail.date_poll_created) {
 				if (!eventDetail.date_poll_terminated) {
-					await client.query(`
+					await client.query(
+						`
 					UPDATE events SET date_poll_terminated = TRUE
 					WHERE id = $1;
 					`,
@@ -224,28 +260,34 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
-		const [eventDetail] = (await client.query(`
+		const [eventDetail] = (
+			await client.query(
+				`
             SELECT * FROM events
             WHERE id = $1 AND creator_id = $2;
         `,
-			[eventId, req.session.user]
-		)).rows;
+				[eventId, req.session.user]
+			)
+		).rows;
 
 		if (eventDetail) {
 			// Initialize the polling data
-			await client.query(`
+			await client.query(
+				`
 				DELETE FROM event_date_time_votes 
 				WHERE event_date_time_id IN (SELECT id FROM event_date_time
 											WHERE event_id = $1);
 			`,
 				[eventId]
 			);
-			await client.query(`
+			await client.query(
+				`
 				DELETE FROM event_date_time WHERE event_id = $1;
 			`,
 				[eventId]
 			);
-			await client.query(`
+			await client.query(
+				`
 				UPDATE events 
 				SET date_poll_created = FALSE, 
                 date_poll_terminated = FALSE
@@ -256,13 +298,15 @@ async function overwriteTerminatedPoll(req: Request, res: Response) {
 
 			const inputList = req.body;
 			for (let input of inputList) {
-				await client.query(`
+				await client.query(
+					`
 				INSERT INTO event_date_time (start_datetime,end_datetime, event_id, created_at, updated_at)
 				VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 			`,
 					[input.start, input.end, eventId]
 				);
-				await client.query(`
+				await client.query(
+					`
 				UPDATE events 
 				SET date_poll_created = TRUE
 				WHERE id = $1;
@@ -289,36 +333,44 @@ async function submitVoteChoice(req: Request, res: Response) {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.event_id);
 		const userId = req.session.user;
-		const [participant] = (await client.query(`
+		const [participant] = (
+			await client.query(
+				`
 			SELECT * FROM participants
 			INNER JOIN events ON events.id = participants.event_id
 			WHERE participants.user_id = $1
 			AND events.id = $2;
 		`,
-			[userId, eventId]
-		)).rows;
+				[userId, eventId]
+			)
+		).rows;
 
 		if (participant) {
-			const [choiceMade] = (await client.query(`
+			const [choiceMade] = (
+				await client.query(
+					`
 				SELECT * FROM event_date_time_votes
 				WHERE event_date_time_id IN (SELECT id FROM event_date_time
 											WHERE event_id = $1);
 			`,
-				[eventId]
-			)).rows;
+					[eventId]
+				)
+			).rows;
 			if (!choiceMade) {
-				await client.query(`
+				await client.query(
+					`
 					INSERT INTO event_date_time_votes
 					(event_date_time_id,user_id,created_at,updated_at)
 					VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 				`,
-					[parseInt(req.params.vote_id), userId]);
+					[parseInt(req.params.vote_id), userId]
+				);
 				res.json({ status: true });
 			} else {
 				res.json({
 					status: false,
 					duplicate: true
-				})
+				});
 			}
 		} else {
 			res.json({ status: false });
