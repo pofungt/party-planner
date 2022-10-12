@@ -87,8 +87,18 @@
           </div>
         </div>
         <div class="modal-body">
+          <form>
+            <div class="switch-buttons-container">
+              <input type="radio" class="btn-check" name="options-outlined" id="edit-datetime-switch" autocomplete="off"
+                checked>
+              <label class="btn btn-outline-success" for="edit-datetime-switch">Editing</label>
+              <input type="radio" class="btn-check" name="options-outlined" id="poll-datetime-switch"
+                autocomplete="off">
+              <label class="btn btn-outline-danger" for="poll-datetime-switch">Polling</label>
+            </div>
+          </form>
           <!-- Edit datetime part -->
-          <div class="input-group">
+          <div class="input-group edit-input">
             <div class="input-group-container">
               <div class="input-title">Please edit your date & time below.</div>
               <form id="datetime-form">
@@ -116,6 +126,54 @@
               </form>
             </div>
           </div>
+
+          <!-- Poll Datetime Form -->
+          <div class="input-group poll-input hide">
+            <div class="input-group-container">
+              <div class="input-title">Please enter your polling options below:</div>
+              <form id="datetime-poll-form">
+                <div class="datetime-poll-options-container input-panel mb-3">
+                  <div class="datetime_title">
+                    <div></div>
+                    <div>
+                      <div>Start</div>
+                      <div>End</div>
+                    </div>
+                  </div>
+                  <div class="datetime_poll_1">
+                    <label for="datetime_poll">Option 1: </label>
+                    <input class="clock" type="datetime-local" id="datetime_poll_start" name="datetime_poll_start"
+                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+                    <input class="clock" type="datetime-local" id="datetime_poll_end" name="datetime_poll_end"
+                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+                  </div>
+                  <div class="datetime_poll_2">
+                    <label for="datetime_poll">Option 2: </label>
+                    <input class="clock" type="datetime-local" id="datetime_poll_start" name="datetime_poll_start"
+                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+                    <input class="clock" type="datetime-local" id="datetime_poll_end" name="datetime_poll_end"
+                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+                  </div>
+                  <!-- More options added by JS -->
+                </div>
+                <div class="option-button-container">
+                  <button id="datetime-add-option" class="modal-submit-button">
+                    <i class="fa-solid fa-plus"></i>&nbsp Option
+                  </button>
+                  <button id="datetime-remove-option" class="modal-submit-button">
+                    <i class="fa-solid fa-minus"></i>&nbsp Option
+                  </button>
+                </div>
+
+                <div class="modal-footer">
+                  <button id="datetime-poll-submit" type="submit" class="modal-submit-button">
+                    Start Polling
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -166,13 +224,15 @@
           </div>
         </div>
         <div class="modal-body">
-          <div class="switch-buttons-container">
-            <input type="radio" class="btn-check" name="options-outlined" id="edit-venue-switch" autocomplete="off"
-              checked>
-            <label class="btn btn-outline-success" for="edit-venue-switch">Editing</label>
-            <input type="radio" class="btn-check" name="options-outlined" id="poll-venue-switch" autocomplete="off">
-            <label class="btn btn-outline-danger" for="poll-venue-switch">Polling</label>
-          </div>
+          <form>
+            <div class="switch-buttons-container">
+              <input type="radio" class="btn-check" name="options-outlined" id="edit-venue-switch" autocomplete="off"
+                checked>
+              <label class="btn btn-outline-success" for="edit-venue-switch">Editing</label>
+              <input type="radio" class="btn-check" name="options-outlined" id="poll-venue-switch" autocomplete="off">
+              <label class="btn btn-outline-danger" for="poll-venue-switch">Polling</label>
+            </div>
+          </form>
           <!-- Edit Venue Form -->
           <div class="input-group edit-input">
             <div class="input-group-container">
