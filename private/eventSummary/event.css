@@ -942,3 +942,26 @@ div[class^="datetime_poll_"] label {
     max-height: 500px;
     overflow-y: scroll;
 }
+
+.pending-item-header, .pending-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.bi-filter-circle {
+    color: #495871;
+    width: 20px;
+    height: 20px;
+}
+
+.shorting-btn {
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.check-btn {
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
+}
