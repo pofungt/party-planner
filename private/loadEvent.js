@@ -292,7 +292,7 @@ export async function loadEventDetails() {
       `;
     }
     let datetimePollButton = "";
-    if (result.detail.venue_poll_created) {
+    if (result.detail.date_poll_created) {
       datetimePollButton = `
       <a class="poll-button" href="/poll/datetimePoll.html?${params}">
         <i class="fa-solid fa-check"></i>
