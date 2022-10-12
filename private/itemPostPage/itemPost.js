@@ -47,6 +47,11 @@ document
 
         let dataPass = true;
 
+        if(!user_id){
+            alert('Please select PIC');
+            return;
+        }
+        
         if (dataPass) {
             const res = await fetch(`/items/eventId/${eventID}`, {
                 method: "POST",
