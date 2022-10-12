@@ -170,6 +170,7 @@ async function fetchPendingItems(selectType) {
         }
         document.querySelector(`#shipping-list-update`).innerHTML = listItems;
         checkShoppingListItem();
+        fetchItem();
     }
 }
 
@@ -202,6 +203,6 @@ document
 document.querySelectorAll(`.dropdown-item`).forEach((dropdown) => {
     dropdown.addEventListener("click", function(e) {
         const selectType =  e.currentTarget.innerHTML.toLowerCase();
-        fetchPendingItems(selectType)
+        fetchPendingItems(selectType);
     })
 })
