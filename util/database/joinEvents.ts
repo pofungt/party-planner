@@ -21,10 +21,12 @@ if (loopTimesString) {
 async function main() {
 	await client.connect();
 
+
+	// 應該將　users join 埋participants join 埋events
 	// Obtain users info for event creation for each user
 	let users: Users[] = (await client.query(`SELECT * FROM users;`)).rows;
 	for (let i = 0; i < loopTimes; i++) {
-		for (let user of users) {
+		for (let user of users) {  // n + 1 query problem 
 			// Obtain events where user is neither creator or participant
 			const eventsList: Events[] = (
 				await client.query(

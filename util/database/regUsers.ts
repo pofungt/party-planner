@@ -76,7 +76,7 @@ async function main() {
 		const phone: string = `${phoneAreaCode}-${Math.random()
 			.toString()
 			.concat('0'.repeat(3))
-			.substr(2, 3)}-${Math.random().toString().concat('0'.repeat(3)).substr(2, 4)}`;
+			.substring(2, 3)}-${Math.random().toString().concat('0'.repeat(3)).substring(2, 4)}`;
 		// Password
 		const password: string = 'test';
 		const hashedPassword = await hashPassword(password);

@@ -77,6 +77,13 @@ async function getParticipatedEventDetails(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = req.params.id;
+
+		/* 
+			events 
+			INNER join users as creator on events.creator_id = users.id
+			INNER JOIN participants on ON participants.event_id = events.id
+			INNER JOIN users ON participants.user_id = users.id
+		*/
 		const [event] = (
 			await client.query(
 				`
@@ -139,6 +146,7 @@ async function updateDateTime(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = req.params.id;
+		// CORRECT
 		const [event] = (
 			await client.query(
 				`
@@ -265,7 +273,7 @@ async function validateInvitationToken(req: Request, res: Response) {
 		} else {
 			res.json({
 				status: false,
-				login: true
+				login: true// 唔洗問client side 的，因為server 本身知
 			});
 		}
 	} catch (e) {
@@ -304,6 +312,9 @@ async function joinEvent(req: Request, res: Response) {
 				`,
 						[req.params.eventId, req.session.user]
 					)
+					// Insert On Conflict
+					// Select -> exists -> update
+					// |-> not exists -> insert
 				).rows;
 				if (participant) {
 					res.json({

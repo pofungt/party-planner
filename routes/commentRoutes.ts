@@ -60,6 +60,7 @@ async function getComment(req: Request, res: Response) {
 			pComment: participantComment,
 			cComment: creatorComment
 		});
+		// 唔好用簡寫
 	} catch (e) {
 		logger.error(e);
 		res.status(500).json({
@@ -81,10 +82,10 @@ async function postComment(req: Request, res: Response) {
 			`
         INSERT INTO comments 
         (user_id, event_id, category, content, anonymous, created_at, updated_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
 
         `,
-			[userId, eventId, category, comment, anonymous, 'now()', 'now()']
+			[userId, eventId, category, comment, anonymous]
 		);
 
 		res.json({

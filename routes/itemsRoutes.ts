@@ -18,10 +18,13 @@ enum TypeName {
 	Other = 'other'
 }
 
+export type ItemType = "food" | "drink" | "decoration" | "other"
+
 async function getItem(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 
+		// Can use group by 
 		const itemResult = await client.query(
 			`
 				SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name
@@ -81,7 +84,7 @@ async function postItem(req: Request, res: Response) {
 			`INSERT INTO items
                 (type_name, name, quantity, price, user_id, event_id, purchased, 
                  created_at, updated_at )
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) 
+            VALUES ($1,$2,$3,$4,$5,$6,FALSE, NOW(), NOW()) 
             RETURNING *
             `,
 			[
@@ -90,10 +93,7 @@ async function postItem(req: Request, res: Response) {
 				req.body.itemQuantity,
 				req.body.itemPrice,
 				req.body.user_id,
-				req.params.id,
-				'false',
-				'now()',
-				'now()'
+				req.params.id
 			]
 		);
 
@@ -128,7 +128,7 @@ async function getPendingItem(req: Request, res: Response) {
 		const result = await client.query(
 			`
 			SELECT items.name, items.id, items.type_name FROM items 
-			WHERE purchased = 'false' AND event_id = $1
+			WHERE purchased = false AND event_id = $1
 			`,
 			[req.query.eventID]
 		);
@@ -156,7 +156,7 @@ async function updateItemStatus(req: Request, res: Response) {
 
 		const result = await client.query(
 			`
-			UPDATE items SET purchased = 'true'
+			UPDATE items SET purchased = true
 			WHERE items.id = $1
 			`,
 			[req.params.id]

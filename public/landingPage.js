@@ -3,10 +3,8 @@ import { loadName } from '/functions/loadName.js';
 import { addLoginNavbar } from '/functions/addLoginNavbar.js';
 
 window.addEventListener('load', async () => {
-	const res = await fetch('/login');
-	const result = await res.json();
-
-	if (result.status) {
+	const res = await fetch('/login/name');
+	if (res.status === 200) {
 		addNavbar();
 		loadName();
 	} else {
