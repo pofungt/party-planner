@@ -100,6 +100,59 @@ document.querySelector('#datetime-remove-option').addEventListener('click', (e) 
 	}
 })
 
+// Submit datetime polling
+document.querySelector('#datetime-poll-form').addEventListener('submit', async (e) => {
+	e.preventDefault();
+	const params = new URLSearchParams(window.location.search);
+	const eventId = params.get('event-id');
+	let dataPass = true;
+	let formList = [];
+	const form = e.target;
+	const formStartInputNodeList = form.datetime_poll_start;
+	formStartInputNodeList.forEach((each) => {
+		if (!!each.value) {
+			formList.push({start: each.value});
+		} else {
+			dataPass = false;
+		}
+	});
+	const formEndInputNodeList = form.datetime_poll_end;
+	formEndInputNodeList.forEach((each,index)=>{
+		if (!!each.value) {
+			formList[index]["end"] = each.value;
+		} else {
+			dataPass = false;
+		}
+	});
+	if (dataPass) {
+		const res = await fetch(`/events/poll/datetime/${eventId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(formList)
+		});
+		const result = await res.json();
+		if (result.status) {
+			alert('Successfully created a datetime poll!');
+			window.location.href = `/poll/datetimePoll.html?event-id=${eventId}`;
+		} else {
+			if (result.created) {
+				// Modal not yet added
+				alert('Poll has been created before!');
+				const datetimePollModal = bootstrap.Modal.getInstance(document.getElementById('datetime-modal'));
+				datetimePollModal.hide();
+				const datetimePollOverwriteModal = new bootstrap.Modal(document.getElementById('overwrite-datetime-poll-modal'));
+				datetimePollOverwriteModal.show();
+			} else {
+				alert('Unable to create poll.');
+			}
+		}
+	} else {
+		alert("Please fill in all options!");
+	}
+});
+
 
 // Submit venue form
 document.querySelector('#venue-form').addEventListener('submit', async function (e) {

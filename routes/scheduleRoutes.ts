@@ -14,7 +14,7 @@ scheduleRoutes.post("/item", isLoggedInAPI, postItem)
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
 
 
-async function postItem (req: Request, res: Response) {
+async function postItem(req: Request, res: Response) {
 	try {
 		logger.debug("Before reading DB");
 		const creator = req.query["is-creator"];
@@ -34,7 +34,7 @@ async function postItem (req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}
@@ -42,7 +42,7 @@ async function postItem (req: Request, res: Response) {
 			isProcessing = false
 			//event was deleted by creator
 		}
-		
+
 
 		if (creator === "1" && isProcessing) {
 			// delete existing list
@@ -52,7 +52,7 @@ async function postItem (req: Request, res: Response) {
 			`, [timeBlockId]
 			)
 
-			itemList.forEach(async (item: any)=>{
+			itemList.forEach(async (item: any) => {
 				await client.query(`
 				INSERT INTO time_block_item (time_block_id, item_id, created_at, updated_at)
 				VALUES ($1, $2, $3, $4)
@@ -64,14 +64,14 @@ async function postItem (req: Request, res: Response) {
 				status: true,
 				msg: "Items Added"
 			})
-			
+
 		} else {
 			res.status(400).json({
 				msg: "[EER001]: Unauthorized Request"
 			})
 		}
 
-	} catch (e){
+	} catch (e) {
 		logger.error(e)
 		res.status(500).json({
 			msg: "[ITM003]: Failed to Add Show Item",
@@ -104,7 +104,7 @@ async function editTimeName(req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}
@@ -139,13 +139,13 @@ async function editTimeName(req: Request, res: Response) {
 				const newEndTimeInMin = toMin(req.body.editEndTime);
 
 				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
-					if(timeBlockId !== activity.id){
+					if (timeBlockId !== activity.id) {
 						reject = false
 					} else {
 						reject = true;
 					}
 				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin && timeBlockId !== activity.id) {
-					if(timeBlockId !== activity.id){
+					if (timeBlockId !== activity.id) {
 						reject = false
 					} else {
 						reject = true;
@@ -187,7 +187,7 @@ async function editTimeName(req: Request, res: Response) {
 					msg: "Edit success"
 				})
 			}
-			
+
 		} else {
 
 			res.json({
@@ -226,7 +226,7 @@ async function editRemark(req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}
@@ -293,7 +293,7 @@ async function editDescription(req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}
@@ -358,7 +358,7 @@ async function deleteTimeBlock(req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}
@@ -411,8 +411,7 @@ async function getEventSchedule(req: Request, res: Response) {
 		const eventId = req.query['event-id'];
 		const creator = req.query['is-creator'];
 		let date = req.query.date;
-		console.log(date)
-			
+
 		let event;
 		if (creator === '1') {
 			event = (
@@ -439,61 +438,66 @@ async function getEventSchedule(req: Request, res: Response) {
 				)
 			).rows[0];
 		}
-		
-		if (date === "null" || "undefined") {
 
-			const option = {
-				hour12: false,
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
+		if (event.start_datetime) {
+			if (date === "null" || "undefined") {
+
+				const option = {
+					hour12: false,
+					year: "numeric",
+					month: "2-digit",
+					day: "2-digit",
+				}
+				let placeholder = (event.start_datetime).toLocaleString('en-GB', option).split("/")
+				date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`
 			}
-			let placeholder = (event.start_datetime).toLocaleString('en-GB', option).split("/")	
-			date = `${placeholder[2]}${placeholder[1]}${placeholder[0]}`
+	
+			const activitiesArr = (
+				await client.query(
+					`
+				SELECT * FROM time_blocks
+				WHERE event_id = $1
+				AND date = $2
+				
+			`,
+					[eventId, date]
+				)
+			).rows;
+	
+			const itemList = (
+				await client.query(
+					`
+				SELECT * FROM items
+				WHERE items.event_id = $1
+			`,
+					[eventId]
+				)
+			).rows;
+	
+			const savedItemList = (
+				await client.query(
+					`
+				SELECT * FROM items
+				JOIN time_block_item ON items.id = time_block_item.item_id
+				JOIN time_blocks ON time_block_item.time_block_id = time_blocks.id
+				WHERE time_blocks.event_id = $1
+				AND time_blocks.date = $2
+			`,
+					[eventId, date]
+				)
+			).rows;
+	
+			res.json({
+				status: true,
+				detail: event,
+				activities: activitiesArr,
+				items: itemList,
+				savedItems: savedItemList
+			});
+	
+		} else {
+			res.json({status: false});
 		}
-
-		const activitiesArr = (
-			await client.query(
-				`
-            SELECT * FROM time_blocks
-            WHERE event_id = $1
-			AND date = $2
-			
-        `,
-				[eventId, date]
-			)
-		).rows;
-
-		const itemList = (
-			await client.query(
-				`
-            SELECT * FROM items
-            WHERE items.event_id = $1
-        `,
-				[eventId]
-			)
-		).rows;
-
-		const savedItemList = (
-			await client.query(
-				`
-            SELECT * FROM items
-			JOIN time_block_item ON items.id = time_block_item.item_id
-			JOIN time_blocks ON time_block_item.time_block_id = time_blocks.id
-			WHERE time_blocks.event_id = $1
-			AND time_blocks.date = $2
-        `,
-				[eventId, date]
-			)
-		).rows;
-
-		res.json({
-			status: true,
-			detail: event,
-			activities: activitiesArr,
-			items: itemList,
-			savedItems: savedItemList
-		});
 
 	} catch (e) {
 		logger.error(e);
@@ -528,7 +532,7 @@ async function postEventSchedule(req: Request, res: Response) {
 
 		let isProcessing = true
 
-		if (eventStartTimeInMin < now && eventEndTimeInMin < now){
+		if (eventStartTimeInMin < now && eventEndTimeInMin < now) {
 			isProcessing = false
 			//event is finished
 		}

@@ -13,61 +13,62 @@ export async function getEventSchedule() {
 
     const result = await res.json();
 
-    const option = {
-        hour12: false,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
+    if (result.status) {
+        const option = {
+            hour12: false,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        }
+
+        const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
+        const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
+        const activitiesArr = result.activities
+        const startTime = startDateTime.slice(-5)
+        const endTime = endDateTime.slice(-5)
+        const startDate = startDateTime.slice(0, 10)
+        const endDate = endDateTime.slice(0, 10)
+        const startYear = startDateTime.slice(6, 10)
+        const endYear = endDateTime.slice(6, 10)
+        const startMonth = startDateTime.slice(0, 2)
+        const endMonth = endDateTime.slice(0, 2)
+        const startDay = startDateTime.slice(3, 5)
+        const endDay = endDateTime.slice(3, 5)
+
+        const date = `${startYear}${startMonth}${startDay}`
+
+        let startTimeInMin = toMin(startTime)
+        let endTimeInMin = toMin(endTime)
+
+        const dayDifference = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24
+
+
+        if (dayDifference > 0 && date !== `${startYear}${startMonth}${startDay}` && date !== `${endYear}${endMonth}${endDay}`) {
+            startTimeInMin = 0
+            endTimeInMin = 1440
+            console.log("case 1")
+        }
+
+        if (dayDifference > 0 && date === `${startYear}${startMonth}${startDay}`) {
+            endTimeInMin = 1440
+            console.log("case 2")
+
+        }
+
+        if (dayDifference > 0 && date === `${endYear}${endMonth}${endDay}`) {
+            startTimeInMin = 0
+            console.log("case 3")
+        }
+
+        await getPresetTimeBlock(startTimeInMin)
+        await getSavedTimeBlocks(activitiesArr)
+        await correctDiv(startTimeInMin, endTimeInMin)
+        setGlobalHeight(2)
+
     }
-
-    const startDateTime = (new Date(result.detail.start_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
-    const endDateTime = (new Date(result.detail.end_datetime)).toLocaleString('en-US', option).replace(', ', ' ').slice(0, -3)
-    const activitiesArr = result.activities
-    const startTime = startDateTime.slice(-5)
-    const endTime = endDateTime.slice(-5)
-    const startDate = startDateTime.slice(0, 10)
-    const endDate = endDateTime.slice(0, 10)
-    const startYear = startDateTime.slice(6, 10)
-    const endYear = endDateTime.slice(6, 10)
-    const startMonth = startDateTime.slice(0, 2)
-    const endMonth = endDateTime.slice(0, 2)
-    const startDay = startDateTime.slice(3, 5)
-    const endDay = endDateTime.slice(3, 5)
-
-    const date = `${startYear}${startMonth}${startDay}`
-    console.log (date)
-
-
-    let startTimeInMin = toMin(startTime)
-    let endTimeInMin = toMin(endTime)
-
-    const dayDifference = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000 / 60 / 60 / 24
-
-
-    if (dayDifference > 0 && date !== `${startYear}${startMonth}${startDay}` && date !== `${endYear}${endMonth}${endDay}`) {
-        startTimeInMin = 0
-        endTimeInMin = 1440
-        console.log("case 1")
-    }
-
-    if (dayDifference > 0 && date === `${startYear}${startMonth}${startDay}`) {
-        endTimeInMin = 1440
-        console.log("case 2")
-
-    }
-
-    if (dayDifference > 0 && date === `${endYear}${endMonth}${endDay}`) {
-        startTimeInMin = 0
-        console.log("case 3")
-    }
-
-    await getPresetTimeBlock(startTimeInMin)
-    await getSavedTimeBlocks(activitiesArr)
-    await correctDiv(startTimeInMin, endTimeInMin)
-    setGlobalHeight(2)
 }
 
 async function getPresetTimeBlock(startTime) {

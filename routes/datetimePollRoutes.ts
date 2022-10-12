@@ -143,10 +143,10 @@ async function createPoll(req: Request, res: Response) {
 				const inputList = req.body;
 				for (let input of inputList) {
 					await client.query(`
-						INSERT INTO event_date_time (address, event_id, created_at, updated_at)
-						VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+						INSERT INTO event_date_time (start_datetime,end_datetime, event_id, created_at, updated_at)
+						VALUES ($1,$2,$3,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 					`,
-						[input, eventId]
+						[input.start,input.end, eventId]
 					);
 					await client.query(`
 						UPDATE events 
