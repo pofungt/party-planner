@@ -237,8 +237,45 @@ div[class^="venue_poll_"] {
 	margin: 5px 0;
 }
 
+div[class^="datetime_poll_"] {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+}
+
+.datetime_title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    margin: 5px 0;
+}
+
 div[class^="venue_poll_"] label {
 	width: 80px;
+}
+
+div[class^="datetime_poll_"] label {
+    width: 80px;
+}
+
+.datetime_title > div:first-child {
+	width: 80px;
+}
+
+.datetime_title > div:nth-child(2){
+	display: flex;
+	width: 100%;
+}
+
+.datetime_title > div:nth-child(2) div{
+	width: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
 }
 
 .venue-poll-options-container  {
@@ -511,6 +548,16 @@ div[class^="venue_poll_"] label {
 	width: 100%;
 }
 
+.datetime-buttons-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-end;
+}
+
+.date-time .poll-button {
+	margin: 0 0 5px 0;
+}
 
 
 

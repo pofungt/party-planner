@@ -135,11 +135,11 @@ async function fixDivHeight(x) {
         const divCluster = document.querySelectorAll('.time-block');
         divCluster.forEach((div) => {
             let nextDiv;
-            if (div.parentElement.nextElementSibling?.childNodes !== null) {
+            if (div.parentElement.nextElementSibling?.childNodes) {
                 nextDiv = div.parentElement.nextElementSibling.childNodes[3];
             }
             const height = parseInt(div.getAttribute('end')) - parseInt(div.getAttribute('start'));
-            if (!!div.parentElement.nextElementSibling.childNodes) {
+            if (!!div.parentElement.nextElementSibling?.childNodes) {
                 if (nextDiv) {
                     if (div.classList === nextDiv.classList && !div.classList.contains('save-time-block')) {
                         div.style.height = newHeight;

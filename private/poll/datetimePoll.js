@@ -14,7 +14,6 @@ async function loadOptions() {
     const eventId = params.get('event-id');
     const res = await fetch(`/events/poll/datetime/${eventId}`);
     const result = await res.json();
-    console.log(result)
     if (result.status) {
         let pollTitle = "";
         let pollFrameHTML = "";
@@ -27,7 +26,10 @@ async function loadOptions() {
             pollTitle = "Deleted Event";
         } else if (!result.creator) {
             if (result.choice) {
-                pollTitle = `Your choice was: ${result.choice.address}`;
+                pollTitle = `Your choice was: <br>
+                start: ${(new Date(result.choice.start)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}<br>
+                end: ${(new Date(result.choice.end)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}
+                `;
             } else {
                 pollTitle = "Please click on the venue option to vote:";
             }
@@ -42,10 +44,13 @@ async function loadOptions() {
             pollFrameHTML += `
                 <div class="option-container" id="option_${each.id}">
                     <div class="title">
-                        Venue ${index + 1}
+                        Datetime ${index + 1}
                     </div>
-                    <div class="address">
-                        ${each.address}
+                    <div class="start">
+                        Start: ${(new Date(each.start_datetime)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}
+                    </div>
+                    <div class="end">
+                        End: ${(new Date(each.end_datetime)).toLocaleString('en-US', { hour12: false }).replace(',',''). slice(0, -3)}
                     </div>
                     <div class="vote">
                         ${voteCount === "1" ? `${voteCount} Vote` : `${voteCount} Votes`}
@@ -107,8 +112,8 @@ async function loadOptions() {
             } else if (result.creator) {
                 // Listen to terminate button
                 document.querySelector('#poll-terminate-button').addEventListener('click', ()=>{
-                    const venueTerminatePoll = new bootstrap.Modal(document.getElementById('delete-poll-modal'));
-                    venueTerminatePoll.show();
+                    const dateTimeTerminatePoll = new bootstrap.Modal(document.getElementById('delete-poll-modal'));
+                    dateTimeTerminatePoll.show();
                     document.querySelector('#poll-terminate-confirm-button').addEventListener('click',async ()=>{
                         const params = new URLSearchParams(window.location.search);
                         const eventId = params.get('event-id');
@@ -118,7 +123,7 @@ async function loadOptions() {
                         const result = await res.json();
                         if (result.status) {
                             alert('Successfully terminated poll!');
-                            venueTerminatePoll.hide();
+                            dateTimeTerminatePoll.hide();
                             loadOptions();
                         } else {
                             alert('Unable to terminate poll!');
@@ -131,7 +136,7 @@ async function loadOptions() {
         // Add backward button
         document.querySelector('#back-page').href = `/eventSummary/event.html?${params}`;
     } else {
-        alert('Unable to load venue poll page!');
+        alert('Unable to load datetime poll page!');
         window.location.href = '/index.html';
     }
 }

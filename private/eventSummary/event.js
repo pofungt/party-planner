@@ -64,6 +64,16 @@ document.querySelector('#datetime-form').addEventListener('submit', async functi
 	}
 });
 
+// Datetime edit-poll toggle
+document.querySelector('#edit-datetime-switch').addEventListener('change', () => {
+	document.querySelector('#datetime-modal .edit-input').classList.toggle("hide");
+	document.querySelector('#datetime-modal .poll-input').classList.toggle("hide");
+});
+document.querySelector('#poll-datetime-switch').addEventListener('change', () => {
+	document.querySelector('#datetime-modal .edit-input').classList.toggle("hide");
+	document.querySelector('#datetime-modal .poll-input').classList.toggle("hide");
+});
+
 // Submit venue form
 document.querySelector('#venue-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
@@ -105,12 +115,12 @@ document.querySelector('#venue-form').addEventListener('submit', async function 
 
 // Venue edit-poll toggle
 document.querySelector('#edit-venue-switch').addEventListener('change', () => {
-	document.querySelector('.edit-input').classList.toggle("hide");
-	document.querySelector('.poll-input').classList.toggle("hide");
+	document.querySelector('#venue-modal .edit-input').classList.toggle("hide");
+	document.querySelector('#venue-modal .poll-input').classList.toggle("hide");
 });
 document.querySelector('#poll-venue-switch').addEventListener('change', () => {
-	document.querySelector('.edit-input').classList.toggle("hide");
-	document.querySelector('.poll-input').classList.toggle("hide");
+	document.querySelector('#venue-modal .edit-input').classList.toggle("hide");
+	document.querySelector('#venue-modal .poll-input').classList.toggle("hide");
 });
 
 // Venue polling add option button

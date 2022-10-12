@@ -14,7 +14,6 @@ async function loadOptions() {
     const eventId = params.get('event-id');
     const res = await fetch(`/events/poll/venue/${eventId}`);
     const result = await res.json();
-    console.log(result)
     if (result.status) {
         let pollTitle = "";
         let pollFrameHTML = "";

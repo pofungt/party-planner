@@ -5,11 +5,11 @@ import { logger } from '../util/logger';
 
 export const datetimePollRoutes = express.Router();
 
-datetimePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);
+datetimePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);//Done
 datetimePollRoutes.post('/:id', isLoggedInAPI, createPoll);
-datetimePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);
+datetimePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);//Done
 datetimePollRoutes.post('/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
-datetimePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
+datetimePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);//Done
 
 async function getPollOptions(req: Request, res: Response) {
 	try {
@@ -88,9 +88,9 @@ async function getPollOptions(req: Request, res: Response) {
 					`,
 						[eventId, userId]
 					)).rows;
-					let chosenAddress;
+					let chosenDateTime;
 					if (choiceMade) {
-						[chosenAddress] = (await client.query(`
+						[chosenDateTime] = (await client.query(`
 							SELECT * FROM event_date_time
 							WHERE id = $1;
 						`,
@@ -105,7 +105,8 @@ async function getPollOptions(req: Request, res: Response) {
 						choice: choiceMade
 							? {
 								id: `option_${choiceMade.event_date_time_id}`,
-								address: `${chosenAddress.address}`
+								start: `${chosenDateTime.start_datetime}`,
+								end: `${chosenDateTime.end_datetime}`
 							}
 							: "",
 						pollOptions,
@@ -296,6 +297,7 @@ async function submitVoteChoice(req: Request, res: Response) {
 		`,
 			[userId, eventId]
 		)).rows;
+		
 		if (participant) {
 			const [choiceMade] = (await client.query(`
 				SELECT * FROM event_date_time_votes
