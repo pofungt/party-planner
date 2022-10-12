@@ -10,16 +10,17 @@ import { dev } from '../app';
 
 export const loginRoutes = express.Router();
 
-loginRoutes.get('/', checkSessionLogin);
+loginRoutes.get('/', checkSessionLogin); // not necessary
 loginRoutes.post('/', login);
 loginRoutes.get('/name', getName);
 loginRoutes.post('/logout', logout);
 loginRoutes.get('/google', loginGoogle);
 
+//not necessary
 async function checkSessionLogin(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-		if (dev) {
+		if (dev) { // 盡量唔好咁做，因為有機會，你唔小心set 咗係 true
 			req.session.user = -1;
 		}
 		if (req.session.user) {
@@ -85,7 +86,7 @@ async function getName(req: Request, res: Response) {
 async function logout(req: Request, res: Response) {
 	try {
 		logger.debug('Before logging out');
-		req.session.user = undefined;
+		delete req.session.user;
 		res.json({ status: true });
 	} catch (e) {
 		logger.error(e);

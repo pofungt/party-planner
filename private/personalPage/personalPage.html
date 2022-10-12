@@ -67,6 +67,10 @@
 						name="new_password"
 						id="new_password"
 						placeholder="Input your new password here"
+
+						minlength="8"
+						maxlength="20"
+						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)"
 					/>
 					<div class="form-text">
 						Password must be 8-20 characters, including: at least one capital letter, at least one small

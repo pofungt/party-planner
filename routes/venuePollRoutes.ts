@@ -27,6 +27,7 @@ async function getPollOptions(req: Request, res: Response) {
 
 		if (eventDetail) {
 			if (eventDetail.venue_poll_created) {
+				// event_venues should join event_venues_votes
 				const pollOptions = (
 					await client.query(
 						`
@@ -36,7 +37,7 @@ async function getPollOptions(req: Request, res: Response) {
 					)
 				).rows;
 				let voteCounts = {};
-				for (let pollOption of pollOptions) {
+				for (let pollOption of pollOptions) { // n + 1 query problem
 					const [voteCount] = (
 						await client.query(
 							`
@@ -60,6 +61,8 @@ async function getPollOptions(req: Request, res: Response) {
 				res.json({ status: false });
 			}
 		} else {
+
+			// Should be participants join events join event_venues join event_venue_votes
 			const [participant] = (
 				await client.query(
 					`
@@ -254,6 +257,8 @@ async function deletePoll(req: Request, res: Response) {
 		});
 	}
 }
+
+// Should not have poll_created as the column , but poll_terminated can retain
 
 async function overwriteTerminatedPoll(req: Request, res: Response) {
 	try {

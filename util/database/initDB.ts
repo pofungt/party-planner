@@ -9,6 +9,8 @@ const client = new pg.Client({
 	password: process.env.DB_PASSWORD
 });
 
+
+// Database Migration 
 async function main() {
 	await client.connect();
 

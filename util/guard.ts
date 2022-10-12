@@ -10,7 +10,7 @@ export const isLoggedIn = (req: express.Request, res: express.Response, next: ex
 			req.session.user = -1;
 			next();
 		} else {
-			res.status(404).redirect('/');
+			res.status(404).redirect('/landingPage.html');
 		}
 	}
 };

@@ -179,6 +179,8 @@ async function createPoll(req: Request, res: Response) {
 					`,
 						[input.start, input.end, eventId]
 					);
+
+					// date_poll_Created is not necessary
 					await client.query(
 						`
 						UPDATE events 

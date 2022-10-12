@@ -7,14 +7,14 @@ import grant from 'grant';
 import { loginRoutes } from './routes/loginRoutes';
 import { registerRoutes } from './routes/registerRoutes';
 import { eventsRoutes } from './routes/eventsRoutes';
-import { isLoggedIn } from './util/guard';
+import { isLoggedIn, isLoggedInAPI } from './util/guard';
 import { personalInfoRoutes } from './routes/personalInfoRoutes';
 import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
 import { commentRoutes } from './routes/commentRoutes';
 
 export let dev = false;
-if (process.argv[2] === 'dev') {
+if (process.argv[2] === 'dev') { // 盡量唔好有DEV嘅漏洞
 	dev = true;
 }
 
@@ -34,7 +34,8 @@ const sessionMiddleware = expressSession({
 	secret: process.env.SESSION_SECRET || '',
 	resave: true,
 	saveUninitialized: true,
-	cookie: { secure: false }
+	cookie: { secure: false, httpOnly: true} 
+	// httpOnly 只容許將個cookie係ＨＴＴＰ　request，唔可以用JavaScript 改
 });
 
 declare module 'express-session' {
@@ -42,6 +43,8 @@ declare module 'express-session' {
 		user?: number;
 	}
 }
+// Better to be like this
+// user:{ id: number}
 
 const grantExpress = grant.express({
 	defaults: {
@@ -60,14 +63,14 @@ const grantExpress = grant.express({
 app.use(
 	express.json(),
 	sessionMiddleware,
-	express.static('public', { index: 'landingPage.html' }),
+	express.static('public'),
 	grantExpress as express.RequestHandler
 );
 
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/events', eventsRoutes, scheduleRoutes);
-app.use('/personalPage', personalInfoRoutes);
+app.use('/personalPage',isLoggedInAPI, personalInfoRoutes);
 app.use('/items', itemsRoutes);
 app.use('/eventSchedule', scheduleRoutes);
 app.use('/comment', commentRoutes);

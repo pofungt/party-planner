@@ -78,14 +78,12 @@ async function loadOptions() {
 				const optionsDiv = document.querySelectorAll('.option-container');
 				optionsDiv.forEach((each) => {
 					each.addEventListener('click', (e) => {
-						if (e.target.classList.contains('option-container')) {
-							e.target.classList.add('selected');
-							optionId = e.target.id;
-							const otherDiv = document.querySelectorAll(`.option-container:not([id*="${optionId}"])`);
-							otherDiv.forEach((each) => {
-								each.classList.remove('selected');
-							});
-						}
+						e.currentTarget.classList.add('selected');
+						optionId = e.currentTarget.id;
+						const otherDiv = document.querySelectorAll(`.option-container:not([id*="${optionId}"])`);
+						otherDiv.forEach((each) => {
+							each.classList.remove('selected');
+						});
 					});
 				});
 

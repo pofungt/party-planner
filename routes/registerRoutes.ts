@@ -14,6 +14,7 @@ async function registerUser(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 
+		// Needs to send email SMS verification if you really want to enforce them to be unique.
 		const loginUser = (
 			await client.query(`SELECT * FROM users WHERE email = $1 OR phone = $2`, [
 				req.body.email,
@@ -27,6 +28,8 @@ async function registerUser(req: Request, res: Response) {
                     VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
 				[req.body.first_name, req.body.last_name, req.body.email, req.body.phone, password]
 			);
+
+			// NOT USEFUL
 
 			// Create users.json file if not exist
 			await newJsonFile();
@@ -46,6 +49,8 @@ async function registerUser(req: Request, res: Response) {
 			await jsonfile.writeFile('./util/database/data/users.json', UsersList, {
 				spaces: '\t'
 			});
+
+			// NOT USEFUL
 
 			res.json({ status: true });
 		} else {

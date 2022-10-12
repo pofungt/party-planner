@@ -310,10 +310,6 @@ async function addTimeInput(startHour, startMin, endHour, endMin) {
 		endTimeRange.setAttribute(`min`, `${startHour}:${startMin}`);
 		endTimeRange.setAttribute(`max`, `${endHour}:0${endMin}`);
 	}
-}
-
-async function getPresetTimeBlock(startTime) {
-	let rundown = document.querySelector('#rundown');
 
 	//generate time block for 24 hours
 	for (let i = 0; i < 96; i++) {

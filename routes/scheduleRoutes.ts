@@ -13,6 +13,14 @@ scheduleRoutes.put('/timeName/edit', isLoggedInAPI, editTimeName);
 scheduleRoutes.post('/item', isLoggedInAPI, postItem);
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
 
+// select * from time_blocks where start_time 
+// between '2022-10-12T10:00:00' and '2022-10-12T12:00:00' 
+// or  end_time between '2022-10-12T10:00:00' and '2022-10-12T12:00:00';
+
+// Date <- Birthday , no need to do comparison , Time is not useful
+// Time <- only if it is not a moment, but a periodic time. "Every day 3pm"
+// Datetime <- everything else
+
 async function postItem(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');

@@ -16,6 +16,8 @@ const client = new pg.Client({
 	password: process.env.DB_PASSWORD
 });
 
+// lazy should call the function the files on the side.
+
 let newUsersNumber: number = 100;
 let usersNewObjList: UsersInput[] = [];
 let counter = 0;

@@ -36,44 +36,40 @@ async function updatePersonalInfo(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 
-		if (!req.body.current_password) {
-			// update DB without new password
+		await client.query(
+			`UPDATE users 
+		SET first_name = $1, last_name = $2, phone = $3, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $4`,
+			[req.body.first_name, req.body.last_name, req.body.phone, req.session.user]
+		);
 
-			await client.query(
-				`UPDATE users 
-            SET first_name = $1, last_name = $2, phone = $3, updated_at = CURRENT_TIMESTAMP
-            WHERE id = $4`,
-				[req.body.first_name, req.body.last_name, req.body.phone, req.session.user]
-			);
+		// update JSON with existing password
 
-			// update JSON with existing password
+		const usersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
 
-			const usersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
+		const currentPassword = usersList.filter((user) => {
+			return user.email === req.body.email;
+		})[0].password;
 
-			const currentPassword = usersList.filter((user) => {
-				return user.email === req.body.email;
-			})[0].password;
+		const newUsersList = usersList.filter((user) => {
+			return user.email !== req.body.email;
+		});
 
-			const newUsersList = usersList.filter((user) => {
-				return user.email !== req.body.email;
-			});
+		const usersUpdateObj: UsersInput = {
+			first_name: req.body.first_name,
+			last_name: req.body.last_name,
+			email: req.body.email,
+			phone: req.body.phone,
+			password: currentPassword
+		};
 
-			const usersUpdateObj: UsersInput = {
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				email: req.body.email,
-				phone: req.body.phone,
-				password: currentPassword
-			};
+		newUsersList.push(usersUpdateObj);
 
-			newUsersList.push(usersUpdateObj);
+		await jsonfile.writeFile('./util/database/data/users.json', newUsersList, {
+			spaces: '\t'
+		});
 
-			await jsonfile.writeFile('./util/database/data/users.json', newUsersList, {
-				spaces: '\t'
-			});
-
-			res.json({ status: true });
-		} else if (req.body.current_password) {
+		if (req.body.current_password) {
 			//check if input password is correct
 
 			const hashedPassword = await client.query(
@@ -92,9 +88,9 @@ async function updatePersonalInfo(req: Request, res: Response) {
 			const password = await hashPassword(req.body.password);
 			await client.query(
 				`UPDATE users 
-            SET first_name = $1, last_name = $2, phone = $3, password = $4, updated_at = CURRENT_TIMESTAMP
-            WHERE id = $5`,
-				[req.body.first_name, req.body.last_name, req.body.phone, password, req.session.user]
+            SET password = $1, updated_at = CURRENT_TIMESTAMP
+            WHERE id = $2`,
+				[password, req.session.user]
 			);
 
 			// update JSON with new password
@@ -119,8 +115,8 @@ async function updatePersonalInfo(req: Request, res: Response) {
 				spaces: '\t'
 			});
 
-			res.json({ status: true });
 		}
+		res.json({ status: true });
 	} catch (e) {
 		logger.error(e);
 		res.status(400).json({
