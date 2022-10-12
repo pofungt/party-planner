@@ -49,18 +49,15 @@ export async function getEventSchedule() {
         if (dayDifference > 0 && date !== `${startYear}${startMonth}${startDay}` && date !== `${endYear}${endMonth}${endDay}`) {
             startTimeInMin = 0
             endTimeInMin = 1440
-            console.log("case 1")
         }
 
         if (dayDifference > 0 && date === `${startYear}${startMonth}${startDay}`) {
             endTimeInMin = 1440
-            console.log("case 2")
 
         }
 
         if (dayDifference > 0 && date === `${endYear}${endMonth}${endDay}`) {
             startTimeInMin = 0
-            console.log("case 3")
         }
 
         await getPresetTimeBlock(startTimeInMin)
@@ -157,10 +154,9 @@ async function fixDivHeight(x) {
                 }
             }
         });
-        console.log(`list has been fixed ${x} times`);
         fixDivHeight(x - 1);
     } else {
-        return console.log('fix finished');
+        return;
     }
 }
 

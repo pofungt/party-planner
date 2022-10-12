@@ -468,17 +468,9 @@ export async function loadEventDetails() {
       `;
 
     // Load item into Page 
-    const res = await (await fetch(`/items?eventID=${eventId}`)).json();
     const item = document.querySelector(".item .background-frame");
-    if (res.status === true) {
-      let foodItems = "";
-      for (const foodItem of res.itemObj.food) {
-        foodItems += `<tr>
-                        <td>${foodItem.name}</td>
-                      </tr>`;
-      }
 
-      item.innerHTML = `
+    item.innerHTML = `
             <div class="frame-title-container">
               <div class="frame-title">
                 Item
@@ -488,14 +480,37 @@ export async function loadEventDetails() {
               </a>
             </div>
             <div class="frame-content-container">
-              <table id="item-table">
-                <tbody>
-                  ${foodItems}
-                </tbody>
-              </table>
+              <div class="shopping-list">
+              <div class="item-list border">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" class="pending-item-header">
+                        Pending Items:
+                        <div>
+                          <button id="shopping-list-shorting" class="shorting-btn" type="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-filter-circle"></i></button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item">Food</a></li>
+                            <li><a class="dropdown-item">Drink</a></li>
+                            <li><a class="dropdown-item">Decoration</a></li>
+                            <li><a class="dropdown-item">Other</a></li>
+                          </ul>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="shopping-list-update">
+                    <!--loaded with itemPost.js "shopping list JS"-->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+
             </div>
             `;
-    }
     listenToSchedulePage(result.detail.start_datetime);
     listenToItemPage();
     listenToDeleteParticipants();

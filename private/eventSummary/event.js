@@ -2,13 +2,15 @@ import { addNavbar } from '/functions/addNavbar.js';
 import { loadName } from '/functions/loadName.js';
 import { loadEventDetails, pasteInvitationLink } from '../loadEvent.js';
 import { deletedParticipantsList } from '../listenButtons.js';
-import { getEventSchedule } from '/eventSummary/eventPageSchedule/eventPageSchedule.js'
+import { getEventSchedule } from './eventPageSchedule/eventPageSchedule.js';
+import { fetchPendingItems } from './itemSummary.js';
 
 window.addEventListener('load', async () => {
 	addNavbar();
 	await loadName();
 	await loadEventDetails();
 	getEventSchedule();
+	await fetchPendingItems();
 	document.body.style.display = 'block';
 });
 
