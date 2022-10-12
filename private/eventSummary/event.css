@@ -217,7 +217,8 @@ a {
 }
 
 #delete-event-modal .modal-body,
-#overwrite-venue-poll-modal .modal-body 
+#overwrite-venue-poll-modal .modal-body,
+#overwrite-datetime-poll-modal .modal-body 
 {
 	display: flex;
 	flex-direction: column;
@@ -351,7 +352,7 @@ div[class^="datetime_poll_"] label {
 	cursor: pointer;
 }
 
-#delete-event-submit, #overwrite-venue-poll-submit {
+#delete-event-submit, #overwrite-venue-poll-submit, #overwrite-datetime-poll-submit {
 	background-color: #D8684E;
 	color: white;
 	font-weight: bold;
@@ -359,7 +360,8 @@ div[class^="datetime_poll_"] label {
 }
 
 #delete-event-modal .modal-submit-button,
-#overwrite-venue-poll-modal .modal-submit-button
+#overwrite-venue-poll-modal .modal-submit-button,
+#overwrite-datetime-poll-modal .modal-submit-button
  {
 	box-shadow: none;
 }

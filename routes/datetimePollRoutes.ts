@@ -5,11 +5,11 @@ import { logger } from '../util/logger';
 
 export const datetimePollRoutes = express.Router();
 
-datetimePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);//Done
-datetimePollRoutes.post('/:id', isLoggedInAPI, createPoll);//Done
-datetimePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);//Done
+datetimePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);
+datetimePollRoutes.post('/:id', isLoggedInAPI, createPoll);
+datetimePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);
 datetimePollRoutes.post('/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
-datetimePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);//Done
+datetimePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
 
 async function getPollOptions(req: Request, res: Response) {
 	try {

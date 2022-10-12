@@ -143,7 +143,7 @@ document.querySelector('#datetime-poll-form').addEventListener('submit', async (
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a datetime poll!');
-			window.location.href = `/poll/datetimePoll.html?event-id=${eventId}`;
+			window.location.href = `/poll/datetimePoll.html?${params}`;
 		} else {
 			if (result.created) {
 				// Modal not yet added
@@ -202,7 +202,7 @@ document.querySelector('#overwrite-datetime-poll-submit').addEventListener('clic
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a datetime poll!');
-			window.location.href = `/poll/datetimePoll.html?event-id=${eventId}`;
+			window.location.href = `/poll/datetimePoll.html?${params}`;
 		} else {
 			alert('Unable to create poll.');
 		}
