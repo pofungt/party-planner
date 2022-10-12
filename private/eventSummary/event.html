@@ -57,9 +57,9 @@
         </div>
         <div class="col-md-4">
           <div class="schedule frame line2">
-              <div  class="background-frame vertical-flex">
+            <div class="background-frame vertical-flex">
               <!-- Schedule: to be added by JS -->
-              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-4">
@@ -87,6 +87,7 @@
           </div>
         </div>
         <div class="modal-body">
+          <!-- Edit datetime part -->
           <div class="input-group">
             <div class="input-group-container">
               <div class="input-title">Please edit your date & time below.</div>
@@ -114,6 +115,72 @@
                 </div>
               </form>
             </div>
+          </div>
+
+          <!-- Poll Datetime Form -->
+          <div class="input-group poll-input hide">
+            <div class="input-group-container">
+              <div class="input-title">Please enter your polling options below:</div>
+              <form id="datetime-poll-form">
+                <div class="datetime-poll-options-container input-panel mb-3">
+                  <div class="datetime_poll_1">
+                    <label for="datetime_poll">Option 1: </label>
+                    <input type="text" class="form-control" name="datetime_poll" aria-label="datetime_poll"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <div class="datetime_poll_2">
+                    <label for="datetime_poll">Option 2: </label>
+                    <input type="text" class="form-control" name="datetime_poll" aria-label="datetime_poll"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <!-- More options added by JS -->
+                </div>
+                <div class="option-button-container">
+                  <button id="datetime-add-option" class="modal-submit-button">
+                    <i class="fa-solid fa-plus"></i>&nbsp Option
+                  </button>
+                  <button id="datetime-remove-option" class="modal-submit-button">
+                    <i class="fa-solid fa-minus"></i>&nbsp Option
+                  </button>
+                </div>
+
+                <div class="modal-footer">
+                  <button id="datetime-poll-submit" type="submit" class="modal-submit-button">
+                    Start Polling
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overwrite datetime Poll Confirmation Modal -->
+  <div class="modal fade" id="overwrite-datetime-poll-modal" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div></div>
+          <h5 class="modal-title">Overwrite Poll</h5>
+          <div class="exit-modal">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="warning-sign">
+            <i class="fa-solid fa-exclamation"></i>
+          </div>
+          <div class="warning">Are you sure?</div>
+          <div class="reminder-text">
+            Overwritten poll cannot be restored!
+          </div>
+          <div class="modal-footer">
+            <button id="overwrite-datetime-poll-submit" type="submit" class="modal-submit-button">
+              OVERWRITE
+            </button>
           </div>
         </div>
       </div>
@@ -199,8 +266,8 @@
   </div>
 
   <!-- Overwrite Venue Poll Confirmation Modal -->
-  <div class="modal fade" id="overwrite-venue-poll-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal fade" id="overwrite-venue-poll-modal" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
