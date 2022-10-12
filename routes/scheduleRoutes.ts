@@ -138,18 +138,17 @@ async function editTimeName(req: Request, res: Response) {
 				const newStartTimeInMin = toMin(req.body.editStartTime);
 				const newEndTimeInMin = toMin(req.body.editEndTime);
 
+				console.log (timeBlockId, activity.id)
+
 				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
 					if (timeBlockId !== activity.id) {
 						reject = false
-					} else {
-						reject = true;
-					}
-				} else if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin && timeBlockId !== activity.id) {
+					} 
+				}
+				if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin && timeBlockId !== activity.id) {
 					if (timeBlockId !== activity.id) {
 						reject = false
-					} else {
-						reject = true;
-					}
+					} 
 				}
 			});
 
