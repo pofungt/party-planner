@@ -74,6 +74,33 @@ document.querySelector('#poll-datetime-switch').addEventListener('change', () =>
 	document.querySelector('#datetime-modal .poll-input').classList.toggle("hide");
 });
 
+// Datetime polling add option button
+document.querySelector('#datetime-add-option').addEventListener('click', (e) => {
+	e.preventDefault();
+	const numberOfOptions = document.querySelectorAll('div[class^="datetime_poll_"]').length;
+	let newDiv = document.createElement('div');
+	newDiv.classList = `datetime_poll_${numberOfOptions + 1}`;
+	newDiv.innerHTML = `
+		<label for="datetime_poll">Option ${numberOfOptions + 1}: </label>
+		<input class="clock" type="datetime-local" id="datetime_poll_start" name="datetime_poll_start"
+			min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+	  	<input class="clock" type="datetime-local" id="datetime_poll_end" name="datetime_poll_end"
+			min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
+	`;
+	document.querySelector('.datetime-poll-options-container').appendChild(newDiv);
+})
+
+// Datetime polling remove option button
+document.querySelector('#datetime-remove-option').addEventListener('click', (e) => {
+	e.preventDefault();
+	const venuePollOptionsDivList = document.querySelectorAll('div[class^="datetime_poll_"]');
+	const numberOfOptions = venuePollOptionsDivList.length;
+	if (numberOfOptions > 2) {
+		venuePollOptionsDivList[numberOfOptions - 1].remove();
+	}
+})
+
+
 // Submit venue form
 document.querySelector('#venue-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
@@ -187,7 +214,7 @@ document.querySelector('#venue-poll-form').addEventListener('submit', async (e) 
 			} else {
 				alert('Unable to create poll.');
 			}
-		}	
+		}
 	}
 });
 
