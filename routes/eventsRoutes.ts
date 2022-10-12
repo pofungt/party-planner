@@ -215,15 +215,16 @@ async function deleteEvent(req: Request, res: Response) {
 			)
 		).rows;
 		if (eventDetail) {
-			await client.query(`
+			await client.query(
+				`
 				UPDATE events SET deleted = TRUE
 				WHERE id = $1;
 			`,
-			[eventId]
+				[eventId]
 			);
-			res.json({status: true});
+			res.json({ status: true });
 		} else {
-			res.json({status: false});
+			res.json({ status: false });
 		}
 	} catch (e) {
 		logger.error(e);

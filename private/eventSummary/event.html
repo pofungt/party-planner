@@ -1,440 +1,579 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+			integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link rel="stylesheet" href="./event.css" />
+		<title>Event Summary</title>
+	</head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="./event.css" />
-  <title>Event Summary</title>
-</head>
+	<body style="display: none">
+		<div class="navbar-container container">
+			<!-- NAVBAR: to be loaded with js -->
+		</div>
 
-<body style="display: none">
-  <div class="navbar-container container">
-    <!-- NAVBAR: to be loaded with js -->
-  </div>
+		<div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="eventname frame line1">
+							<div class="background-frame">
+								<!-- Event Name: to be added by JS -->
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="date-time frame line1">
+							<div class="background-frame">
+								<!-- Event Name: to be added by JS -->
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="participant-venue line2">
+							<div class="participant frame">
+								<div class="background-frame vertical-flex">
+									<!-- Participants: to be added by JS -->
+								</div>
+							</div>
+							<div class="venue frame">
+								<div class="background-frame vertical-flex">
+									<!-- Venue: to be added by JS -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="schedule frame line2">
+							<div class="background-frame vertical-flex">
+								<!-- Schedule: to be added by JS -->
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="item frame line2">
+							<div class="background-frame vertical-flex">
+								<!-- Item: to be added by JS -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <div class="content">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="eventname frame line1">
-            <div class="background-frame">
-              <!-- Event Name: to be added by JS -->
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="date-time frame line1">
-            <div class="background-frame">
-              <!-- Event Name: to be added by JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="participant-venue line2">
-            <div class="participant frame">
-              <div class="background-frame vertical-flex">
-                <!-- Participants: to be added by JS -->
-              </div>
-            </div>
-            <div class="venue frame">
-              <div class="background-frame vertical-flex">
-                <!-- Venue: to be added by JS -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="schedule frame line2">
-            <div class="background-frame vertical-flex">
-              <!-- Schedule: to be added by JS -->
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="item frame line2">
-            <div class="background-frame vertical-flex">
-              <!-- Item: to be added by JS -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+		<!-- Modal Parts -->
+		<!-- Date/Time Modal -->
+		<div
+			class="modal fade"
+			id="datetime-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Date & Time</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="switch-buttons-container">
+								<input
+									type="radio"
+									class="btn-check"
+									name="options-outlined"
+									id="edit-datetime-switch"
+									autocomplete="off"
+									checked
+								/>
+								<label class="btn btn-outline-success" for="edit-datetime-switch">Editing</label>
+								<input
+									type="radio"
+									class="btn-check"
+									name="options-outlined"
+									id="poll-datetime-switch"
+									autocomplete="off"
+								/>
+								<label class="btn btn-outline-danger" for="poll-datetime-switch">Polling</label>
+							</div>
+						</form>
+						<!-- Edit datetime part -->
+						<div class="input-group edit-input">
+							<div class="input-group-container">
+								<div class="input-title">Please edit your date & time below.</div>
+								<form id="datetime-form">
+									<div class="datetime-start input-panel mb-3">
+										<div class="form-label">Start date and time</div>
+										<input
+											class="clock"
+											type="datetime-local"
+											id="datetime-start"
+											name="datetime_start"
+											min="2021-06-07T00:00"
+											max="2035-12-30T00:00"
+											step="900"
+										/>
+									</div>
+									<div class="datetime-end input-panel mb-3">
+										<div class="form-label">End date and time</div>
+										<input
+											class="clock"
+											type="datetime-local"
+											id="datetime-end"
+											name="datetime_end"
+											min="2021-06-07T00:00"
+											max="2035-12-30T00:00"
+											step="900"
+										/>
+									</div>
+									<div class="input-panel mb-3">
+										<div class="reminder-text">
+											Please fill in both start and end date/time. <br />
+											Enter the time in 15 mins interval, e.g. 15:00 or 15:15 or 15:30 or 15:45.
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button id="datetime-submit" type="submit" class="modal-submit-button">
+											Edit
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
 
-  <!-- Modal Parts -->
-  <!-- Date/Time Modal -->
-  <div class="modal fade" id="datetime-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Date & Time</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="switch-buttons-container">
-              <input type="radio" class="btn-check" name="options-outlined" id="edit-datetime-switch" autocomplete="off"
-                checked>
-              <label class="btn btn-outline-success" for="edit-datetime-switch">Editing</label>
-              <input type="radio" class="btn-check" name="options-outlined" id="poll-datetime-switch"
-                autocomplete="off">
-              <label class="btn btn-outline-danger" for="poll-datetime-switch">Polling</label>
-            </div>
-          </form>
-          <!-- Edit datetime part -->
-          <div class="input-group edit-input">
-            <div class="input-group-container">
-              <div class="input-title">Please edit your date & time below.</div>
-              <form id="datetime-form">
-                <div class="datetime-start input-panel mb-3">
-                  <div class="form-label">Start date and time</div>
-                  <input class="clock" type="datetime-local" id="datetime-start" name="datetime_start"
-                    min="2021-06-07T00:00" max="2035-12-30T00:00" step="900" />
-                </div>
-                <div class="datetime-end input-panel mb-3">
-                  <div class="form-label">End date and time</div>
-                  <input class="clock" type="datetime-local" id="datetime-end" name="datetime_end"
-                    min="2021-06-07T00:00" max="2035-12-30T00:00" step="900" />
-                </div>
-                <div class="input-panel mb-3">
-                  <div class="reminder-text">
-                    Please fill in both start and end date/time. <br />
-                    Enter the time in 15 mins interval, e.g. 15:00 or 15:15 or 15:30 or 15:45.
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button id="datetime-submit" type="submit" class="modal-submit-button">
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+						<!-- Poll Datetime Form -->
+						<div class="input-group poll-input hide">
+							<div class="input-group-container">
+								<div class="input-title">Please enter your polling options below:</div>
+								<form id="datetime-poll-form">
+									<div class="datetime-poll-options-container input-panel mb-3">
+										<div class="datetime_title">
+											<div></div>
+											<div>
+												<div>Start</div>
+												<div>End</div>
+											</div>
+										</div>
+										<div class="datetime_poll_1">
+											<label for="datetime_poll">Option 1: </label>
+											<input
+												class="clock"
+												type="datetime-local"
+												id="datetime_poll_start"
+												name="datetime_poll_start"
+												min="2021-06-07T00:00"
+												max="2035-12-30T00:00"
+												step="900"
+											/>
+											<input
+												class="clock"
+												type="datetime-local"
+												id="datetime_poll_end"
+												name="datetime_poll_end"
+												min="2021-06-07T00:00"
+												max="2035-12-30T00:00"
+												step="900"
+											/>
+										</div>
+										<div class="datetime_poll_2">
+											<label for="datetime_poll">Option 2: </label>
+											<input
+												class="clock"
+												type="datetime-local"
+												id="datetime_poll_start"
+												name="datetime_poll_start"
+												min="2021-06-07T00:00"
+												max="2035-12-30T00:00"
+												step="900"
+											/>
+											<input
+												class="clock"
+												type="datetime-local"
+												id="datetime_poll_end"
+												name="datetime_poll_end"
+												min="2021-06-07T00:00"
+												max="2035-12-30T00:00"
+												step="900"
+											/>
+										</div>
+										<!-- More options added by JS -->
+									</div>
+									<div class="input-panel mb-3">
+										<div class="reminder-text">
+											Please fill in both start and end date/time. <br />
+											Enter the time in 15 mins interval, e.g. 15:00 or 15:15 or 15:30 or 15:45.
+										</div>
+									</div>
+									<div class="option-button-container">
+										<button id="datetime-add-option" class="modal-submit-button">
+											<i class="fa-solid fa-plus"></i>&nbsp Option
+										</button>
+										<button id="datetime-remove-option" class="modal-submit-button">
+											<i class="fa-solid fa-minus"></i>&nbsp Option
+										</button>
+									</div>
+									<div class="modal-footer">
+										<button id="datetime-poll-submit" type="submit" class="modal-submit-button">
+											Start Polling
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-          <!-- Poll Datetime Form -->
-          <div class="input-group poll-input hide">
-            <div class="input-group-container">
-              <div class="input-title">Please enter your polling options below:</div>
-              <form id="datetime-poll-form">
-                <div class="datetime-poll-options-container input-panel mb-3">
-                  <div class="datetime_title">
-                    <div></div>
-                    <div>
-                      <div>Start</div>
-                      <div>End</div>
-                    </div>
-                  </div>
-                  <div class="datetime_poll_1">
-                    <label for="datetime_poll">Option 1: </label>
-                    <input class="clock" type="datetime-local" id="datetime_poll_start" name="datetime_poll_start"
-                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
-                    <input class="clock" type="datetime-local" id="datetime_poll_end" name="datetime_poll_end"
-                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
-                  </div>
-                  <div class="datetime_poll_2">
-                    <label for="datetime_poll">Option 2: </label>
-                    <input class="clock" type="datetime-local" id="datetime_poll_start" name="datetime_poll_start"
-                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
-                    <input class="clock" type="datetime-local" id="datetime_poll_end" name="datetime_poll_end"
-                      min="2021-06-07T00:00" max="2035-12-30T00:00" step="900">
-                  </div>
-                  <!-- More options added by JS -->
-                </div>
-                <div class="option-button-container">
-                  <button id="datetime-add-option" class="modal-submit-button">
-                    <i class="fa-solid fa-plus"></i>&nbsp Option
-                  </button>
-                  <button id="datetime-remove-option" class="modal-submit-button">
-                    <i class="fa-solid fa-minus"></i>&nbsp Option
-                  </button>
-                </div>
+		<!-- Overwrite datetime Poll Confirmation Modal -->
+		<div
+			class="modal fade"
+			id="overwrite-datetime-poll-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Overwrite Poll</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="warning-sign">
+							<i class="fa-solid fa-exclamation"></i>
+						</div>
+						<div class="warning">Are you sure?</div>
+						<div class="reminder-text">Overwritten poll cannot be restored!</div>
+						<div class="modal-footer">
+							<button id="overwrite-datetime-poll-submit" type="submit" class="modal-submit-button">
+								OVERWRITE
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="modal-footer">
-                  <button id="datetime-poll-submit" type="submit" class="modal-submit-button">
-                    Start Polling
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+		<!-- Venue Modal -->
+		<div
+			class="modal fade"
+			id="venue-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Venue</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<form>
+							<div class="switch-buttons-container">
+								<input
+									type="radio"
+									class="btn-check"
+									name="options-outlined"
+									id="edit-venue-switch"
+									autocomplete="off"
+									checked
+								/>
+								<label class="btn btn-outline-success" for="edit-venue-switch">Editing</label>
+								<input
+									type="radio"
+									class="btn-check"
+									name="options-outlined"
+									id="poll-venue-switch"
+									autocomplete="off"
+								/>
+								<label class="btn btn-outline-danger" for="poll-venue-switch">Polling</label>
+							</div>
+						</form>
+						<!-- Edit Venue Form -->
+						<div class="input-group edit-input">
+							<div class="input-group-container">
+								<div class="input-title">Please enter your venue below:</div>
+								<form id="venue-form">
+									<div class="venue-start input-panel mb-3">
+										<input
+											type="text"
+											class="form-control"
+											name="venue"
+											aria-label="venue"
+											aria-describedby="basic-addon1"
+										/>
+									</div>
+									<div class="modal-footer">
+										<button id="venue-submit" type="submit" class="modal-submit-button">
+											Edit
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
 
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-  </div>
+						<!-- Poll Venue Form -->
+						<div class="input-group poll-input hide">
+							<div class="input-group-container">
+								<div class="input-title">Please enter your polling options below:</div>
+								<form id="venue-poll-form">
+									<div class="venue-poll-options-container input-panel mb-3">
+										<div class="venue_poll_1">
+											<label for="venue_poll">Option 1: </label>
+											<input
+												type="text"
+												class="form-control"
+												name="venue_poll"
+												aria-label="venue_poll"
+												aria-describedby="basic-addon1"
+											/>
+										</div>
+										<div class="venue_poll_2">
+											<label for="venue_poll">Option 2: </label>
+											<input
+												type="text"
+												class="form-control"
+												name="venue_poll"
+												aria-label="venue_poll"
+												aria-describedby="basic-addon1"
+											/>
+										</div>
+										<!-- More options added by JS -->
+									</div>
+									<div class="option-button-container">
+										<button id="venue-add-option" class="modal-submit-button">
+											<i class="fa-solid fa-plus"></i>&nbsp Option
+										</button>
+										<button id="venue-remove-option" class="modal-submit-button">
+											<i class="fa-solid fa-minus"></i>&nbsp Option
+										</button>
+									</div>
 
-  <!-- Overwrite datetime Poll Confirmation Modal -->
-  <div class="modal fade" id="overwrite-datetime-poll-modal" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Overwrite Poll</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div class="warning-sign">
-            <i class="fa-solid fa-exclamation"></i>
-          </div>
-          <div class="warning">Are you sure?</div>
-          <div class="reminder-text">
-            Overwritten poll cannot be restored!
-          </div>
-          <div class="modal-footer">
-            <button id="overwrite-datetime-poll-submit" type="submit" class="modal-submit-button">
-              OVERWRITE
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+									<div class="modal-footer">
+										<button id="venue-poll-submit" type="submit" class="modal-submit-button">
+											Start Polling
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <!-- Venue Modal -->
-  <div class="modal fade" id="venue-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Venue</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="switch-buttons-container">
-              <input type="radio" class="btn-check" name="options-outlined" id="edit-venue-switch" autocomplete="off"
-                checked>
-              <label class="btn btn-outline-success" for="edit-venue-switch">Editing</label>
-              <input type="radio" class="btn-check" name="options-outlined" id="poll-venue-switch" autocomplete="off">
-              <label class="btn btn-outline-danger" for="poll-venue-switch">Polling</label>
-            </div>
-          </form>
-          <!-- Edit Venue Form -->
-          <div class="input-group edit-input">
-            <div class="input-group-container">
-              <div class="input-title">Please enter your venue below:</div>
-              <form id="venue-form">
-                <div class="venue-start input-panel mb-3">
-                  <input type="text" class="form-control" name="venue" aria-label="venue"
-                    aria-describedby="basic-addon1" />
-                </div>
-                <div class="modal-footer">
-                  <button id="venue-submit" type="submit" class="modal-submit-button">
-                    Edit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+		<!-- Overwrite Venue Poll Confirmation Modal -->
+		<div
+			class="modal fade"
+			id="overwrite-venue-poll-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Overwrite Poll</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="warning-sign">
+							<i class="fa-solid fa-exclamation"></i>
+						</div>
+						<div class="warning">Are you sure?</div>
+						<div class="reminder-text">Overwritten poll cannot be restored!</div>
+						<div class="modal-footer">
+							<button id="overwrite-venue-poll-submit" type="submit" class="modal-submit-button">
+								OVERWRITE
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-          <!-- Poll Venue Form -->
-          <div class="input-group poll-input hide">
-            <div class="input-group-container">
-              <div class="input-title">Please enter your polling options below:</div>
-              <form id="venue-poll-form">
-                <div class="venue-poll-options-container input-panel mb-3">
-                  <div class="venue_poll_1">
-                    <label for="venue_poll">Option 1: </label>
-                    <input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
-                      aria-describedby="basic-addon1" />
-                  </div>
-                  <div class="venue_poll_2">
-                    <label for="venue_poll">Option 2: </label>
-                    <input type="text" class="form-control" name="venue_poll" aria-label="venue_poll"
-                      aria-describedby="basic-addon1" />
-                  </div>
-                  <!-- More options added by JS -->
-                </div>
-                <div class="option-button-container">
-                  <button id="venue-add-option" class="modal-submit-button">
-                    <i class="fa-solid fa-plus"></i>&nbsp Option
-                  </button>
-                  <button id="venue-remove-option" class="modal-submit-button">
-                    <i class="fa-solid fa-minus"></i>&nbsp Option
-                  </button>
-                </div>
+		<!-- Delete Participants Modal -->
+		<div
+			class="modal fade"
+			id="participants-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Participants</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="input-group">
+							<div class="input-group-container">
+								<div class="input-title">Please edit your participants below:</div>
+								<div id="participants-list-container">
+									<div class="container">
+										<div class="row justify-content-center">
+											<div class="col-sm-6">
+												<div class="participants-list" id="current-participants-list">
+													<div class="participants-list-title">Current</div>
+													<!-- Current Participants Here -->
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="participants-list" id="deleted-participants-list">
+													<div class="participants-list-title">Deleted</div>
+													<!-- Participants To Be Removed Here -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="participants-submit" type="submit" class="modal-submit-button">Submit</button>
+						<button id="participants-reset" type="reset" class="modal-submit-button">Reset</button>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                <div class="modal-footer">
-                  <button id="venue-poll-submit" type="submit" class="modal-submit-button">
-                    Start Polling
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+		<!-- Invitation Link Modal -->
+		<div
+			class="modal fade"
+			id="invitation-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Invitation</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="input-title">Please send your friend the invitation link below:</div>
+						<div class="input-group mb-3">
+							<input
+								type="text"
+								class="form-control"
+								aria-label="invitation"
+								name="invitation"
+								aria-describedby="invitation-link"
+								readonly
+							/>
+							<a class="input-group-text" id="invitation-link">Copy Link</a>
+						</div>
+						<form id="invitation-form">
+							<div class="modal-footer">
+								<div class="reminder-text">
+									Note: Previous link will be invalid <br />
+									when new link is created.
+								</div>
+								<button id="invitation-submit" type="submit" class="modal-submit-button">
+									Create New Link
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <!-- Overwrite Venue Poll Confirmation Modal -->
-  <div class="modal fade" id="overwrite-venue-poll-modal" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Overwrite Poll</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div class="warning-sign">
-            <i class="fa-solid fa-exclamation"></i>
-          </div>
-          <div class="warning">Are you sure?</div>
-          <div class="reminder-text">
-            Overwritten poll cannot be restored!
-          </div>
-          <div class="modal-footer">
-            <button id="overwrite-venue-poll-submit" type="submit" class="modal-submit-button">
-              OVERWRITE
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+		<!-- Delete Event Confirmation Modal -->
+		<div
+			class="modal fade"
+			id="delete-event-modal"
+			data-bs-backdrop="static"
+			data-bs-keyboard="false"
+			tabindex="-1"
+			aria-labelledby="staticBackdropLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div></div>
+						<h5 class="modal-title">Delete Event</h5>
+						<div class="exit-modal">
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="warning-sign">
+							<i class="fa-solid fa-exclamation"></i>
+						</div>
+						<div class="warning">Are you sure?</div>
+						<div class="reminder-text">You will not be able to revert this action!</div>
+						<div class="modal-footer">
+							<button id="delete-event-submit" type="submit" class="modal-submit-button">
+								DELETE EVENT
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-  <!-- Delete Participants Modal -->
-  <div class="modal fade" id="participants-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Participants</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div class="input-group">
-            <div class="input-group-container">
-              <div class="input-title">Please edit your participants below:</div>
-              <div id="participants-list-container">
-                <div class="container">
-                  <div class="row justify-content-center">
-                    <div class="col-sm-6">
-                      <div class="participants-list" id="current-participants-list">
-                        <div class="participants-list-title">Current</div>
-                        <!-- Current Participants Here -->
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="participants-list" id="deleted-participants-list">
-                        <div class="participants-list-title">Deleted</div>
-                        <!-- Participants To Be Removed Here -->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button id="participants-submit" type="submit" class="modal-submit-button">Submit</button>
-          <button id="participants-reset" type="reset" class="modal-submit-button">Reset</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Invitation Link Modal -->
-  <div class="modal fade" id="invitation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Invitation</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div class="input-title">Please send your friend the invitation link below:</div>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="invitation" name="invitation"
-              aria-describedby="invitation-link" readonly />
-            <a class="input-group-text" id="invitation-link">Copy Link</a>
-          </div>
-          <form id="invitation-form">
-            <div class="modal-footer">
-              <div class="reminder-text">
-                Note: Previous link will be invalid <br />
-                when new link is created.
-              </div>
-              <button id="invitation-submit" type="submit" class="modal-submit-button">
-                Create New Link
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Delete Event Confirmation Modal -->
-  <div class="modal fade" id="delete-event-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <div></div>
-          <h5 class="modal-title">Delete Event</h5>
-          <div class="exit-modal">
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-        </div>
-        <div class="modal-body">
-          <div class="warning-sign">
-            <i class="fa-solid fa-exclamation"></i>
-          </div>
-          <div class="warning">Are you sure?</div>
-          <div class="reminder-text">
-            You will not be able to revert this action!
-          </div>
-          <div class="modal-footer">
-            <button id="delete-event-submit" type="submit" class="modal-submit-button">
-              DELETE EVENT
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
-    crossorigin="anonymous"></script>
-  <script type="module" src="./event.js"></script>
-</body>
-
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+			crossorigin="anonymous"
+		></script>
+		<script type="module" src="./event.js"></script>
+	</body>
 </html>

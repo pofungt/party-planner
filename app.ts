@@ -13,9 +13,8 @@ import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
 import { commentRoutes } from './routes/commentRoutes';
 
-
 export let dev = false;
-if (process.argv[2] === "dev") {
+if (process.argv[2] === 'dev') {
 	dev = true;
 }
 

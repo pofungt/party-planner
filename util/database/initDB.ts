@@ -109,7 +109,7 @@ async function main() {
         category varchar not NULL,
         content varchar not NULL,
         anonymous boolean not NULL,
-        read boolean not NULL,
+		read boolean not NULL DEFAULT 'false',
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (user_id) REFERENCES users(id),
