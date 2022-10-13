@@ -1,3 +1,3 @@
-import { truncateDB } from "../dbSetupFunctions";
+import { truncateDB } from '../dbSetupFunctions';
 
 truncateDB();

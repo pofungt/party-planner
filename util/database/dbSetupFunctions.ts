@@ -20,17 +20,17 @@ function randomIntFromInterval(min: number, max: number): number {
 }
 
 export async function clearDB() {
-    dotenv.config();
+	dotenv.config();
 
-    const client = new pg.Client({
-        database: process.env.DB_NAME,
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD
-    });
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
 
-    await client.connect();
+	await client.connect();
 
-    await client.query(`
+	await client.query(`
     DROP TABLE event_date_time_votes;
     DROP TABLE event_date_time;
     DROP TABLE event_venues_votes;
@@ -44,17 +44,17 @@ export async function clearDB() {
     DROP TABLE users;
     `);
 
-    await client.end();
+	await client.end();
 }
 
 export async function initDB() {
-    dotenv.config();
+	dotenv.config();
 
-    const client = new pg.Client({
-        database: process.env.DB_NAME,
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD
-    });
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
 
 	await client.connect();
 
@@ -230,7 +230,7 @@ export async function regUsers(newUsersAmount: number) {
 			[first_name, last_name, email, phone, testPassword]
 		);
 	}
-	
+
 	// Read random data parts for data assembling
 	let parts: DataParts = await jsonfile.readFile(path.join(__dirname, '/data/dataParts.json'));
 
@@ -290,8 +290,9 @@ export async function createEvents(eventNumbers: number) {
 			const partyReason: string = parts['partyReason'][Math.floor(Math.random() * parts['partyReason'].length)];
 			const name: string = `${user.first_name}'s ${partyReason} Party`;
 			// Party venue
-			const venue: string = `${Math.floor(Math.random() * 999) + 1} ${parts['streetName'][Math.floor(Math.random() * parts['streetName'].length)]
-				}`;
+			const venue: string = `${Math.floor(Math.random() * 999) + 1} ${
+				parts['streetName'][Math.floor(Math.random() * parts['streetName'].length)]
+			}`;
 			// Budget
 			const budget: number = (Math.floor(Math.random() * 10) + 1) * 1000;
 
@@ -361,7 +362,7 @@ export async function joinEvents(eventsJoinedPerUser: number) {
 	});
 
 	await client.connect();
-	
+
 	const eventsParticipantsRelations = (
 		await client.query(
 			`SELECT DISTINCT events.id as event_id, 
@@ -370,44 +371,49 @@ export async function joinEvents(eventsJoinedPerUser: number) {
             FROM events
 		    LEFT JOIN participants ON events.id = participants.event_id
             ORDER BY events.id, participants.user_id;
-		`)).rows;
-    let usersOfEventsList:{
-        (keys: number): {
-            creator_id: number,
-            participants_id: number[] | null[]
-        }
-    } | {} = {};
-    for (let relation of eventsParticipantsRelations) {
-        if (!(relation.event_id in usersOfEventsList)) {
-            usersOfEventsList[relation.event_id] = {
-                creator_id: relation.creator_id,
-                participants_id: relation.participants_id ? [relation.participants_id ] : []
-            }
-        } else {
-            usersOfEventsList[relation.event_id]["participants_id"].push(relation.participants_id);
-        }
-    }
+		`
+		)
+	).rows;
+	let usersOfEventsList:
+		| {
+				(keys: number): {
+					creator_id: number;
+					participants_id: number[] | null[];
+				};
+		  }
+		| {} = {};
+	for (let relation of eventsParticipantsRelations) {
+		if (!(relation.event_id in usersOfEventsList)) {
+			usersOfEventsList[relation.event_id] = {
+				creator_id: relation.creator_id,
+				participants_id: relation.participants_id ? [relation.participants_id] : []
+			};
+		} else {
+			usersOfEventsList[relation.event_id]['participants_id'].push(relation.participants_id);
+		}
+	}
 
-    let usersIdList = (await client.query(`SELECT id FROM users;`)).rows;
-    for (let userId of usersIdList) {
-        let eventsJoined = 0;
-        for (const eventId in usersOfEventsList) {
-            const usersInfoInEvent = usersOfEventsList[eventId];
-            if (usersInfoInEvent.creator_id !== userId.id && !usersInfoInEvent.participants_id.includes(userId.id)) {
-                await client.query(`
+	let usersIdList = (await client.query(`SELECT id FROM users;`)).rows;
+	for (let userId of usersIdList) {
+		let eventsJoined = 0;
+		for (const eventId in usersOfEventsList) {
+			const usersInfoInEvent = usersOfEventsList[eventId];
+			if (usersInfoInEvent.creator_id !== userId.id && !usersInfoInEvent.participants_id.includes(userId.id)) {
+				await client.query(
+					`
                     INSERT INTO participants (event_id, user_id, created_at, updated_at)
                     VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
                 `,
-                [eventId, userId.id]
-                );
-                eventsJoined++;
-            }
+					[eventId, userId.id]
+				);
+				eventsJoined++;
+			}
 
-            if (eventsJoined === eventsJoinedPerUser) {
-                break;
-            }
-        }
-    }
+			if (eventsJoined === eventsJoinedPerUser) {
+				break;
+			}
+		}
+	}
 	client.end();
 }
 
@@ -546,17 +552,17 @@ export async function addItems(eventId: number) {
 }
 
 export async function truncateDB() {
-    dotenv.config();
+	dotenv.config();
 
-    const client = new pg.Client({
-        database: process.env.DB_NAME,
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD
-    });
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
 
-    await client.connect();
+	await client.connect();
 
-    await client.query(`
+	await client.query(`
     DELETE FROM event_date_time_votes;
     DELETE FROM event_date_time;
     DELETE FROM event_venues_votes;
@@ -570,6 +576,6 @@ export async function truncateDB() {
     DELETE FROM users;
     `);
 
-    client.end();
-    jsonfile.writeFile(path.join(__dirname, '/data/users.json'), []);
+	client.end();
+	jsonfile.writeFile(path.join(__dirname, '/data/users.json'), []);
 }

@@ -18,13 +18,13 @@ enum TypeName {
 	Other = 'other'
 }
 
-export type ItemType = "food" | "drink" | "decoration" | "other"
+export type ItemType = 'food' | 'drink' | 'decoration' | 'other';
 
 async function getItem(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 
-		// Can use group by 
+		// Can use group by
 		const itemResult = await client.query(
 			`
 				SELECT items.type_name, items.name, items.quantity, items.price, items.id, users.first_name, users.last_name

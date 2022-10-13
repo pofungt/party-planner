@@ -27,7 +27,7 @@ async function validateInvitationToken(req: Request, res: Response) {
 		} else {
 			res.json({
 				status: false,
-				login: true// 唔洗問client side 的，因為server 本身知
+				login: true // 唔洗問client side 的，因為server 本身知
 			});
 		}
 	} catch (e) {
@@ -58,18 +58,19 @@ async function joinEvent(req: Request, res: Response) {
 					isCreator: true
 				});
 			} else {
-				const [participant] = (
-					await client.query(
-						`
-					SELECT * FROM participants
-					WHERE event_id = $1 AND user_id = $2;
-				`,
-						[req.params.eventId, req.session.user]
-					)
+				const [participant] =
 					// Insert On Conflict
 					// Select -> exists -> update
 					// |-> not exists -> insert
-				).rows;
+					(
+						await client.query(
+							`
+					SELECT * FROM participants
+					WHERE event_id = $1 AND user_id = $2;
+				`,
+							[req.params.eventId, req.session.user]
+						)
+					).rows;
 				if (participant) {
 					res.json({
 						status: false,

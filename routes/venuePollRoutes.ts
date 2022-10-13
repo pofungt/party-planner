@@ -36,7 +36,8 @@ async function getPollOptions(req: Request, res: Response) {
 					)
 				).rows;
 				let voteCounts = {};
-				for (let pollOption of pollOptions) { // n + 1 query problem
+				for (let pollOption of pollOptions) {
+					// n + 1 query problem
 					const [voteCount] = (
 						await client.query(
 							`
@@ -60,7 +61,6 @@ async function getPollOptions(req: Request, res: Response) {
 				res.json({ status: false });
 			}
 		} else {
-
 			// Should be participants join events join event_venues join event_venue_votes
 			const [participant] = (
 				await client.query(

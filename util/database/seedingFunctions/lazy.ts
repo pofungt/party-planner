@@ -37,6 +37,6 @@ async function lazy() {
 	await initDB();
 	await regUsers(newUsersNumber);
 	await createEvents(createEventsAmountPerUser);
-	await addParticipants(eventId,participantAmount);
+	await addParticipants(eventId, participantAmount);
 	await addItems(eventId);
 }

@@ -1,4 +1,9 @@
-import { loadCreateEvents, loadParticipateEvents, currentParticipantsList, loadParticipantsModal } from './loadEvent.js';
+import {
+	loadCreateEvents,
+	loadParticipateEvents,
+	currentParticipantsList,
+	loadParticipantsModal
+} from './loadEvent.js';
 
 function onlyNumbers(str) {
 	return /^[0-9]+$/.test(str);

@@ -538,7 +538,7 @@ function submitEditTimeName(eventStartTimeInMin, eventEndTimeInMin) {
 			return;
 		}
 
-		console.log(startTimeInMin, endTimeInMin)
+		console.log(startTimeInMin, endTimeInMin);
 
 		if (dataPass) {
 			const formObj = {

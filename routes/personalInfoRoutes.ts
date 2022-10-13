@@ -65,7 +65,6 @@ async function updatePersonalInfo(req: Request, res: Response) {
             WHERE id = $2`,
 				[password, req.session.user]
 			);
-
 		}
 		res.json({ status: true });
 	} catch (e) {

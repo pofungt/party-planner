@@ -1,3 +1,3 @@
-import { clearDB } from "../dbSetupFunctions";
+import { clearDB } from '../dbSetupFunctions';
 
 clearDB();

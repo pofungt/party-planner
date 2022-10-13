@@ -13,8 +13,8 @@ scheduleRoutes.put('/timeName/edit', isLoggedInAPI, editTimeName);
 scheduleRoutes.post('/item', isLoggedInAPI, postItem);
 scheduleRoutes.delete('/timeBlock/', isLoggedInAPI, deleteTimeBlock);
 
-// select * from time_blocks where start_time 
-// between '2022-10-12T10:00:00' and '2022-10-12T12:00:00' 
+// select * from time_blocks where start_time
+// between '2022-10-12T10:00:00' and '2022-10-12T12:00:00'
 // or  end_time between '2022-10-12T10:00:00' and '2022-10-12T12:00:00';
 
 // Date <- Birthday , no need to do comparison , Time is not useful
@@ -156,18 +156,17 @@ async function editTimeName(req: Request, res: Response) {
 				const startTimeInMin = toMin(activity.start_time);
 				const endTimeInMin = toMin(activity.end_time);
 
-
-				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin ) {
-					reject = true
-					console.log("1")
+				if (newStartTimeInMin > startTimeInMin && newStartTimeInMin < endTimeInMin) {
+					reject = true;
+					console.log('1');
 				}
-				if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin ) {
-					reject = true
-					console.log("2")
+				if (newEndTimeInMin > startTimeInMin && newEndTimeInMin < endTimeInMin) {
+					reject = true;
+					console.log('2');
 				}
-				if (newStartTimeInMin <= startTimeInMin && newEndTimeInMin >= endTimeInMin ) {
-					reject = true
-					console.log("3")
+				if (newStartTimeInMin <= startTimeInMin && newEndTimeInMin >= endTimeInMin) {
+					reject = true;
+					console.log('3');
 				}
 			});
 

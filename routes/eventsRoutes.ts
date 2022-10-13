@@ -31,7 +31,7 @@ async function getCreateEventList(req: Request, res: Response) {
 			await client.query(`SELECT COUNT(*) FROM events WHERE creator_id = $1 `, [req.session.user || 0])
 		).rows;
 		const columnCount = parseInt(columnCountObject.count);
-		let currentPage = req.query.page + "";
+		let currentPage = req.query.page + '';
 		let offset: number = onlyNumbers(currentPage) ? (parseInt(currentPage) - 1) * 10 : 0;
 		if (!columnCount) {
 			currentPage = '1';
@@ -114,7 +114,7 @@ async function postEvent(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		// uuid also possible
-		// validation logic 
+		// validation logic
 		const invitation_token = crypto.randomBytes(64).toString('hex');
 		await client.query(
 			`INSERT INTO  events 
@@ -163,20 +163,23 @@ async function deleteParticipants(req: Request, res: Response) {
 		`,
 				[req.session.user, eventId]
 			)
-
 		).rows;
-		const deletedParticipants:{id:number}[]  = req.body.deletedParticipants
+		const deletedParticipants: { id: number }[] = req.body.deletedParticipants;
 		if (eventDetail) {
-			const participantsWithItemAssigned =  await client.query(`
+			const participantsWithItemAssigned = await client.query(
+				`
 				SELECT user_id FROM items
 				WHERE user_id = ANY($1::int[])
-			`, [deletedParticipants.map(p=>p.id)])
-			console.log(participantsWithItemAssigned)
+			`,
+				[deletedParticipants.map((p) => p.id)]
+			);
+			console.log(participantsWithItemAssigned);
 			// Removed all of the ids from participantsWithItemAssigned
 			// Then run delete
 
 			let notDeletable = [];
-			for (let deletedParticipant of req.body) { // n + 1 problem
+			for (let deletedParticipant of req.body) {
+				// n + 1 problem
 				const itemInCharge = (
 					await client.query(
 						`
@@ -215,7 +218,6 @@ async function deleteParticipants(req: Request, res: Response) {
 	}
 }
 
-
 // Archived
 async function deleteEvent(req: Request, res: Response) {
 	try {
@@ -232,7 +234,7 @@ async function deleteEvent(req: Request, res: Response) {
 			)
 		).rows;
 		if (eventDetail) {
-			// Marked Delete 
+			// Marked Delete
 			await client.query(
 				`
 				UPDATE events SET deleted = TRUE

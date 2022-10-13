@@ -1,6 +1,5 @@
 export function addNavbar() {
-
-    // innerHTML only works for link and img and text, not Script tag
+	// innerHTML only works for link and img and text, not Script tag
 	document.querySelector('head').innerHTML += `
         <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Pacifico&display=swap"
         rel="stylesheet" />

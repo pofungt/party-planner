@@ -31,7 +31,7 @@ export interface Users {
 
 export type UsersInput = Omit<Users, 'id' | 'created_at' | 'updated_at'>;
 
-export type UserPickedInput = Pick<Users, 'id' | 'created_at' | 'updated_at'> 
+export type UserPickedInput = Pick<Users, 'id' | 'created_at' | 'updated_at'>;
 
 export interface Participants {
 	id: number;
