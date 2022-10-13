@@ -49,9 +49,6 @@ document.querySelector('.register-form').addEventListener('submit', async functi
 	e.preventDefault();
 
 	const form = e.target;
-	const emailRegex = /\S+@\S+\.\S+/;
-	const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
-	const phoneRegex = /^\d{3}\-\d{3}\-\d{4}$/;
 
 	const first_name = form.first_name.value;
 	const last_name = form.last_name.value;
@@ -70,24 +67,9 @@ document.querySelector('.register-form').addEventListener('submit', async functi
 	let dataPass = true;
 
 	// Checking data validity
-	if (!first_name || !last_name || !email || !password || !confirm_password || !phone) {
-		dataPass = false;
-		alert('Please fill in all necessary fields!');
-	} else if (!emailRegex.test(email)) {
-		dataPass = false;
-		alert('Invalid email format!');
-	} else if (!phoneRegex.test(phone)) {
-		dataPass = false;
-		alert('Invalid phone format!');
-	} else if (!(password === confirm_password)) {
+	if (!(password === confirm_password)) {
 		dataPass = false;
 		alert('Password and confirm password do not match!');
-	} else if (password.length < 8 || password.length > 20) {
-		dataPass = false;
-		alert('Password length must be 8-20 characters!');
-	} else if (!passwordRegex.test(password)) {
-		dataPass = false;
-		alert('Invalid password format!');
 	}
 
 	if (dataPass) {
