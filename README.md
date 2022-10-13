@@ -1,14 +1,14 @@
 # All database seeding script files are stored in '/util/database/seedingFunctions'
 # Parameters can be altered in the files
 
-# set up DB with data lazily
+# set up DB with data with just one script
 Run the following
 
 ```bash
 npm run lazy
 ```
 
-# initiate DB tables
+# initiate tables to an empty DB
 Run the following
 
 ```bash
