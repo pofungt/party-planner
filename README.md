@@ -1,5 +1,6 @@
 # Database Guide
 All database seeding script files are stored in '/util/database/seedingFunctions'
+
 Parameters can be altered in the files
 
 # set up DB with data with just one script
