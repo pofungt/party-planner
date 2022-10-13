@@ -196,7 +196,7 @@ document.querySelector('#overwrite-datetime-poll-submit').addEventListener('clic
 	}
 
 	if (dataPass) {
-		const res = await fetch(`/events/poll/datetime/overwrite/${eventId}`, {
+		const res = await fetch(`/events/poll/datetime/replacement/${eventId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -351,7 +351,7 @@ document.querySelector('#overwrite-venue-poll-submit').addEventListener('click',
 		alert('Please enter at least 2 options!');
 	}
 	if (dataPass) {
-		const res = await fetch(`/events/poll/venue/overwrite/${eventId}`, {
+		const res = await fetch(`/events/poll/venue/replacement/${eventId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

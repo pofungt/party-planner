@@ -7,7 +7,7 @@ export const datetimePollRoutes = express.Router();
 datetimePollRoutes.get('/:id', getPollOptions);
 datetimePollRoutes.post('/:id', createPoll);
 datetimePollRoutes.delete('/:id', deletePoll);
-datetimePollRoutes.post('/overwrite/:id', overwriteTerminatedPoll);
+datetimePollRoutes.post('/replacement/:id', overwriteTerminatedPoll);
 datetimePollRoutes.post('/vote/:event_id/:vote_id', submitVoteChoice);
 
 async function getPollOptions(req: Request, res: Response) {

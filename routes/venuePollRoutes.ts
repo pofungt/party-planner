@@ -7,7 +7,7 @@ export const venuePollRoutes = express.Router();
 venuePollRoutes.get('/:id', getPollOptions);
 venuePollRoutes.post('/:id', createPoll);
 venuePollRoutes.delete('/:id', deletePoll);
-venuePollRoutes.post('/overwrite/:id', overwriteTerminatedPoll);
+venuePollRoutes.post('/replacement/:id', replaceTerminatedPoll);
 venuePollRoutes.post('/vote/:event_id/:vote_id', submitVoteChoice);
 
 async function getPollOptions(req: Request, res: Response) {
@@ -259,7 +259,7 @@ async function deletePoll(req: Request, res: Response) {
 
 // Should not have poll_created as the column , but poll_terminated can retain
 
-async function overwriteTerminatedPoll(req: Request, res: Response) {
+async function replaceTerminatedPoll(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		const eventId = parseInt(req.params.id);
