@@ -1,6 +1,6 @@
 import pg from 'pg';
 import dotenv from 'dotenv';
-import { addItems, addParticipants, clearDB, createEvents, initDB, regUsers } from './dbSetupFunctions';
+import { addItems, addParticipants, clearDB, createEvents, initDB, regUsers } from '../dbSetupFunctions';
 
 const newUsersNumber: number = 100;
 const createEventsAmountPerUser: number = 1;

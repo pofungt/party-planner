@@ -1,4 +1,4 @@
-import { createEvents } from './dbSetupFunctions';
+import { createEvents } from '../dbSetupFunctions';
 
 const eventNumbers = 50;
 createEvents(eventNumbers);

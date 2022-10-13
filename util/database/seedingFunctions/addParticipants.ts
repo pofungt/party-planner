@@ -1,4 +1,4 @@
-import { addParticipants } from './dbSetupFunctions';
+import { addParticipants } from '../dbSetupFunctions';
 
 
 const eventId = 1;
