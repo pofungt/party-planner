@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { addItems, addParticipants, clearDB, createEvents, initDB, regUsers } from './dbSetupFunctions';
 
 const newUsersNumber: number = 100;
-const loopTimes: number = 1;
+const createEventsAmountPerUser: number = 1;
 const eventId: number = 1;
 const participantAmount: number = 100;
 
@@ -36,7 +36,7 @@ async function lazy() {
 
 	await initDB();
 	await regUsers(newUsersNumber);
-	await createEvents(loopTimes);
+	await createEvents(createEventsAmountPerUser);
 	await addParticipants(eventId,participantAmount);
 	await addItems(eventId);
 }

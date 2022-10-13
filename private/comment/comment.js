@@ -100,7 +100,6 @@ async function getComment() {
             `;
 		}
 	});
-	console.log(result);
 	postComment(result);
 }
 

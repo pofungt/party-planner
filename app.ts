@@ -13,11 +13,6 @@ import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
 import { commentRoutes } from './routes/commentRoutes';
 
-export let dev = false;
-if (process.argv[2] === 'dev') { // 盡量唔好有DEV嘅漏洞
-	dev = true;
-}
-
 dontenv.config();
 
 export const client = new pg.Client({

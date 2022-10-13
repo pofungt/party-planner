@@ -5,7 +5,6 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "ts-node-dev app.ts",
-		"start dev": "ts-node-dev app.ts dev",
 		"format": "prettier --config ./prettierrc.json --write .",
 		"lazy": "ts-node ./util/database/lazy.ts",
 		"initDB": "ts-node ./util/database/initDB.ts",

@@ -3,12 +3,13 @@ import { client } from '../app';
 import { Events } from '../util/models';
 import { onlyNumbers } from '../util/functions/onlyNumbers';
 import { logger } from '../util/logger';
-import { isLoggedInAPI } from '../util/guard';
+import { isLoggedInAPI, isLoggedInInvitation } from '../util/guard';
 import { eventDetailsRoutes } from './eventDetailsRoutes';
 import { venuePollRoutes } from './venuePollRoutes';
 import { datetimePollRoutes } from './datetimePollRoutes';
 
 import crypto from 'crypto';
+import { eventInvitationRoutes } from './eventInvitationRoutes';
 
 export const eventsRoutes = express.Router();
 
@@ -17,9 +18,10 @@ eventsRoutes.get('/participated', isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post('/', isLoggedInAPI, postEvent);
 eventsRoutes.delete('/:eventId', isLoggedInAPI, deleteEvent);
 eventsRoutes.delete('/participants/:eventId', isLoggedInAPI, deleteParticipants);
-eventsRoutes.use('/detail', eventDetailsRoutes);
-eventsRoutes.use('/poll/venue', venuePollRoutes);
-eventsRoutes.use('/poll/datetime', datetimePollRoutes);
+eventsRoutes.use('/detail', isLoggedInAPI, eventDetailsRoutes);
+eventsRoutes.use('/invitation', isLoggedInInvitation, eventInvitationRoutes);
+eventsRoutes.use('/poll/venue', isLoggedInAPI, venuePollRoutes);
+eventsRoutes.use('/poll/datetime', isLoggedInAPI, datetimePollRoutes);
 
 // getCreatedEvents
 async function getCreateEventList(req: Request, res: Response) {

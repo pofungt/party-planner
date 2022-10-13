@@ -1,15 +1,14 @@
 import express, { Request, Response } from 'express';
 import { client } from '../app';
-import { isLoggedInAPI } from '../util/guard';
 import { logger } from '../util/logger';
 
 export const venuePollRoutes = express.Router();
 
-venuePollRoutes.get('/:id', isLoggedInAPI, getPollOptions);
-venuePollRoutes.post('/:id', isLoggedInAPI, createPoll);
-venuePollRoutes.delete('/:id', isLoggedInAPI, deletePoll);
-venuePollRoutes.post('/overwrite/:id', isLoggedInAPI, overwriteTerminatedPoll);
-venuePollRoutes.post('/vote/:event_id/:vote_id', isLoggedInAPI, submitVoteChoice);
+venuePollRoutes.get('/:id', getPollOptions);
+venuePollRoutes.post('/:id', createPoll);
+venuePollRoutes.delete('/:id', deletePoll);
+venuePollRoutes.post('/overwrite/:id', overwriteTerminatedPoll);
+venuePollRoutes.post('/vote/:event_id/:vote_id', submitVoteChoice);
 
 async function getPollOptions(req: Request, res: Response) {
 	try {
