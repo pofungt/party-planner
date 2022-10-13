@@ -1,10 +1,7 @@
 import express, { Request, Response } from 'express';
-import jsonfile from 'jsonfile';
 import { logger } from '../util/logger';
 import { client } from '../app';
 import { hashPassword } from '../util/functions/hash';
-import { UsersInput } from '../util/models';
-import { newJsonFile } from '../util/functions/newJsonFile';
 
 export const registerRoutes = express.Router();
 
@@ -28,29 +25,6 @@ async function registerUser(req: Request, res: Response) {
                     VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);`,
 				[req.body.first_name, req.body.last_name, req.body.email, req.body.phone, password]
 			);
-
-			// NOT USEFUL
-
-			// Create users.json file if not exist
-			await newJsonFile();
-
-			// Writing into users.json
-			const usersNewObj: UsersInput = {
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				email: req.body.email,
-				phone: req.body.phone,
-				password: req.body.password
-			};
-
-			// Writing into users.json
-			let UsersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
-			UsersList.push(usersNewObj);
-			await jsonfile.writeFile('./util/database/data/users.json', UsersList, {
-				spaces: '\t'
-			});
-
-			// NOT USEFUL
 
 			res.json({ status: true });
 		} else {

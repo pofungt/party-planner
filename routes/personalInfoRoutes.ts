@@ -2,8 +2,7 @@ import express, { Request, Response } from 'express';
 import { client } from '../app';
 import { checkPassword, hashPassword } from '../util/functions/hash';
 import { logger } from '../util/logger';
-import { Users, UsersInput } from '../util/models';
-import jsonfile from 'jsonfile';
+import { Users } from '../util/models';
 import { isLoggedInAPI } from '../util/guard';
 
 export const personalInfoRoutes = express.Router();
@@ -43,32 +42,6 @@ async function updatePersonalInfo(req: Request, res: Response) {
 			[req.body.first_name, req.body.last_name, req.body.phone, req.session.user]
 		);
 
-		// update JSON with existing password
-
-		const usersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
-
-		const currentPassword = usersList.filter((user) => {
-			return user.email === req.body.email;
-		})[0].password;
-
-		const newUsersList = usersList.filter((user) => {
-			return user.email !== req.body.email;
-		});
-
-		const usersUpdateObj: UsersInput = {
-			first_name: req.body.first_name,
-			last_name: req.body.last_name,
-			email: req.body.email,
-			phone: req.body.phone,
-			password: currentPassword
-		};
-
-		newUsersList.push(usersUpdateObj);
-
-		await jsonfile.writeFile('./util/database/data/users.json', newUsersList, {
-			spaces: '\t'
-		});
-
 		if (req.body.current_password) {
 			//check if input password is correct
 
@@ -92,28 +65,6 @@ async function updatePersonalInfo(req: Request, res: Response) {
             WHERE id = $2`,
 				[password, req.session.user]
 			);
-
-			// update JSON with new password
-
-			let UsersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
-
-			const newUsersList = UsersList.filter((user) => {
-				return user.email !== req.body.email;
-			});
-
-			const usersUpdateObj: UsersInput = {
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				email: req.body.email,
-				phone: req.body.phone,
-				password: req.body.password
-			};
-
-			newUsersList.push(usersUpdateObj);
-
-			await jsonfile.writeFile('./util/database/data/users.json', newUsersList, {
-				spaces: '\t'
-			});
 
 		}
 		res.json({ status: true });

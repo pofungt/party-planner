@@ -2,9 +2,8 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import jsonfile from 'jsonfile';
 import path from 'path';
-import { newJsonFile } from '../functions/newJsonFile';
 import { hashPassword } from '../functions/hash';
-import { UsersInput, DataParts, Users } from '../models';
+import { DataParts, Users } from '../models';
 import { format } from 'date-fns';
 import crypto from 'crypto';
 
@@ -19,7 +18,6 @@ const client = new pg.Client({
 // lazy should call the function the files on the side.
 
 let newUsersNumber: number = 100;
-let usersNewObjList: UsersInput[] = [];
 let counter = 0;
 let loopTimes: number = 1;
 let eventId: number = 1;
@@ -40,16 +38,6 @@ async function test() {
       VALUES (-1,$1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 			[first_name, last_name, email, phone, testPassword]
 		);
-
-		const userObj: UsersInput = {
-			first_name,
-			last_name,
-			email,
-			phone,
-			password: 'test'
-		};
-		// Push new user object to json for writing in users.json later
-		usersNewObjList.push(userObj);
 	}
 }
 
@@ -230,8 +218,6 @@ async function main() {
     );`);
 
 	// regUsers 100
-	// Create users.json file if not exist
-	await newJsonFile();
 
 	// Insert test user when DB is empty
 	await test();
@@ -265,21 +251,9 @@ async function main() {
         VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 				[first_name, last_name, email, phone, hashedPassword]
 			);
-			const userObj: UsersInput = {
-				first_name,
-				last_name,
-				email,
-				phone,
-				password
-			};
-			// Push new user object to json for writing in users.json later
-			usersNewObjList.push(userObj);
 			counter++;
 		}
 	}
-
-	// Writing into users.json
-	await jsonfile.writeFile(path.join(__dirname, '/data/users.json'), usersNewObjList, { spaces: '\t' });
 
 	// createEvents 1
 	// Obtain users info for event creation for each user

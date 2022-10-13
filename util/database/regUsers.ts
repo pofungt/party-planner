@@ -2,9 +2,8 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import jsonfile from 'jsonfile';
 import path from 'path';
-import { newJsonFile } from '../functions/newJsonFile';
 import { hashPassword } from '../functions/hash';
-import { UsersInput, DataParts } from '../models';
+import { DataParts } from '../models';
 
 dotenv.config();
 
@@ -21,7 +20,6 @@ if (newUsersString) {
 		newUsersNumber = parseInt(newUsersString);
 	}
 }
-let usersNewObjList: UsersInput[] = [];
 let counter = 0;
 
 async function test() {
@@ -39,24 +37,11 @@ async function test() {
       VALUES (-1,$1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 			[first_name, last_name, email, phone, testPassword]
 		);
-
-		const userObj: UsersInput = {
-			first_name,
-			last_name,
-			email,
-			phone,
-			password: 'test'
-		};
-		// Push new user object to json for writing in users.json later
-		usersNewObjList.push(userObj);
 	}
 }
 
 async function main() {
 	await client.connect();
-
-	// Create users.json file if not exist
-	await newJsonFile();
 
 	// Insert test user when DB is empty
 	await test();
@@ -90,23 +75,9 @@ async function main() {
         VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 				[first_name, last_name, email, phone, hashedPassword]
 			);
-			const userObj: UsersInput = {
-				first_name,
-				last_name,
-				email,
-				phone,
-				password
-			};
-			// Push new user object to json for writing in users.json later
-			usersNewObjList.push(userObj);
 			counter++;
 		}
 	}
-
-	// Writing into users.json
-	let originalUsersList: UsersInput[] = await jsonfile.readFile(path.join(__dirname, '/data/users.json'));
-	const finalUsersList: UsersInput[] = originalUsersList.concat(usersNewObjList);
-	await jsonfile.writeFile(path.join(__dirname, '/data/users.json'), finalUsersList, { spaces: '\t' });
 
 	client.end();
 }
