@@ -32,6 +32,7 @@
 							id="first_name"
 							placeholder="Input Your First Name"
 							value=""
+							required
 						/>
 					</span>
 					<span>
@@ -42,6 +43,7 @@
 							name="last_name"
 							id="last_name"
 							placeholder="Input Your Last Name"
+							required
 						/>
 					</span>
 				</div>
@@ -51,7 +53,15 @@
 				</div>
 				<div class="mb-3">
 					<label for="phone" class="form-label">Phone</label>
-					<input type="text" class="form-control" name="phone" id="phone" placeholder="Input Phone" />
+					<input
+						type="text"
+						class="form-control"
+						name="phone"
+						id="phone"
+						placeholder="Input Phone"
+						pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+						required
+					/>
 					<div class="form-text">Phone number must be in the following format: e.g. 647-111-1111</div>
 				</div>
 				<div class="mb-3 google-user">
@@ -67,15 +77,9 @@
 						name="new_password"
 						id="new_password"
 						placeholder="Input your new password here"
-
 						minlength="8"
-						maxlength="20"
-						pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)"
 					/>
-					<div class="form-text">
-						Password must be 8-20 characters, including: at least one capital letter, at least one small
-						letter, one number and one special character
-					</div>
+					<div class="form-text">Password must be 8 characters long</div>
 				</div>
 				<div class="mb-3 google-user">
 					<label for="new_confirmed_password" class="form-label">Confirm Password</label>
@@ -85,6 +89,7 @@
 						name="new_confirmed_password"
 						id="new_confirmed_password"
 						placeholder="Type the new password again"
+						minlength="8"
 					/>
 				</div>
 				<div class="button-container mb-3">

@@ -59,8 +59,6 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
 	event.preventDefault();
 
 	const form = event.target;
-	const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/;
-	const phoneRegex = /^\d{3}\-\d{3}\-\d{4}$/;
 
 	const lastName = form.last_name.value;
 	const firstName = form.first_name.value;
@@ -73,13 +71,7 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
 	let dataPass = true;
 
 	if (newPassword || newConfirmedPassword) {
-		if (newPassword.length < 8 || newPassword.length > 20) {
-			dataPass = false;
-			alert('Password length must be 8-20 characters!');
-		} else if (!passwordRegex.test(newPassword)) {
-			dataPass = false;
-			alert('Invalid password format!');
-		} else if (!(newPassword === newConfirmedPassword)) {
+		if (!(newPassword === newConfirmedPassword)) {
 			dataPass = false;
 			alert('Password and confirm password do not match!');
 		} else if (newPassword === currentPassword) {
@@ -89,14 +81,6 @@ document.querySelector('#personal-page-form').addEventListener('submit', async f
 			dataPass = false;
 			alert('Please input your current password if you wish to update your password');
 		}
-	}
-
-	if (!lastName || !firstName || !phone) {
-		dataPass = false;
-		alert('Please check if fields are inputted correctly!');
-	} else if (!phoneRegex.test(phone) && !!phone) {
-		dataPass = false;
-		alert('Invalid phone format!');
 	}
 
 	if (dataPass) {

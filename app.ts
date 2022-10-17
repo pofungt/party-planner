@@ -13,11 +13,6 @@ import { itemsRoutes } from './routes/itemsRoutes';
 import { scheduleRoutes } from './routes/scheduleRoutes';
 import { commentRoutes } from './routes/commentRoutes';
 
-export let dev = false;
-if (process.argv[2] === 'dev') { // 盡量唔好有DEV嘅漏洞
-	dev = true;
-}
-
 dontenv.config();
 
 export const client = new pg.Client({
@@ -34,7 +29,7 @@ const sessionMiddleware = expressSession({
 	secret: process.env.SESSION_SECRET || '',
 	resave: true,
 	saveUninitialized: true,
-	cookie: { secure: false, httpOnly: true} 
+	cookie: { secure: false, httpOnly: true }
 	// httpOnly 只容許將個cookie係ＨＴＴＰ　request，唔可以用JavaScript 改
 });
 
@@ -60,17 +55,12 @@ const grantExpress = grant.express({
 	}
 });
 
-app.use(
-	express.json(),
-	sessionMiddleware,
-	express.static('public'),
-	grantExpress as express.RequestHandler
-);
+app.use(express.json(), sessionMiddleware, express.static('public'), grantExpress as express.RequestHandler);
 
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
 app.use('/events', eventsRoutes, scheduleRoutes);
-app.use('/personalPage',isLoggedInAPI, personalInfoRoutes);
+app.use('/personalPage', isLoggedInAPI, personalInfoRoutes);
 app.use('/items', itemsRoutes);
 app.use('/eventSchedule', scheduleRoutes);
 app.use('/comment', commentRoutes);

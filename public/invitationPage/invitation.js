@@ -9,7 +9,7 @@ async function checkInvitationValidity() {
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const token = params.get('token');
-	const res = await fetch(`/events/detail/validation/${eventId}/${token}`, {
+	const res = await fetch(`/events/invitation/validation/${eventId}/${token}`, {
 		method: 'POST'
 	});
 	const result = await res.json();
@@ -80,7 +80,7 @@ document.querySelector('#join-event-button').addEventListener('click', async () 
 	const params = new URLSearchParams(window.location.search);
 	const eventId = params.get('event-id');
 	const token = params.get('token');
-	const res = await fetch(`/events/detail/participation/${eventId}/${token}`, {
+	const res = await fetch(`/events/invitation/participation/${eventId}/${token}`, {
 		method: 'POST'
 	});
 	const result = await res.json();

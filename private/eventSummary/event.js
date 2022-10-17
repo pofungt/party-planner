@@ -145,7 +145,7 @@ document.querySelector('#datetime-poll-form').addEventListener('submit', async (
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a datetime poll!');
-			window.location.href = `/poll/datetimePoll.html?${params}`;
+			window.location.href = `/poll/datetimePoll.html?${params}&is-creator=1`;
 		} else {
 			if (result.created) {
 				// Modal not yet added
@@ -196,7 +196,7 @@ document.querySelector('#overwrite-datetime-poll-submit').addEventListener('clic
 	}
 
 	if (dataPass) {
-		const res = await fetch(`/events/poll/datetime/overwrite/${eventId}`, {
+		const res = await fetch(`/events/poll/datetime/replacement/${eventId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -206,7 +206,7 @@ document.querySelector('#overwrite-datetime-poll-submit').addEventListener('clic
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a datetime poll!');
-			window.location.href = `/poll/datetimePoll.html?${params}`;
+			window.location.href = `/poll/datetimePoll.html?${params}&is-creator=1`;
 		} else {
 			alert('Unable to create poll.');
 		}
@@ -315,7 +315,7 @@ document.querySelector('#venue-poll-form').addEventListener('submit', async (e) 
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a venue poll!');
-			window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
+			window.location.href = `/poll/venuePoll.html?event-id=${eventId}&is-creator=1`;
 		} else {
 			if (result.created) {
 				alert('Poll has been created before!');
@@ -351,7 +351,7 @@ document.querySelector('#overwrite-venue-poll-submit').addEventListener('click',
 		alert('Please enter at least 2 options!');
 	}
 	if (dataPass) {
-		const res = await fetch(`/events/poll/venue/overwrite/${eventId}`, {
+		const res = await fetch(`/events/poll/venue/replacement/${eventId}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -361,7 +361,7 @@ document.querySelector('#overwrite-venue-poll-submit').addEventListener('click',
 		const result = await res.json();
 		if (result.status) {
 			alert('Successfully created a venue poll!');
-			window.location.href = `/poll/venuePoll.html?event-id=${eventId}`;
+			window.location.href = `/poll/venuePoll.html?event-id=${eventId}&is-creator=1`;
 		} else {
 			alert('Unable to create poll.');
 		}

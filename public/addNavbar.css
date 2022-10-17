@@ -54,6 +54,6 @@
 
 @media only screen and (max-width: 450px) {
 	.navbar-logo-text {
-	  display: none;
+		display: none;
 	}
-  }
+}

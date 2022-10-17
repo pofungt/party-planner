@@ -3,10 +3,10 @@ import { loadName } from '/functions/loadName.js';
 
 window.addEventListener('load', async () => {
 	addNavbar();
-	loadName();
+	await loadName();
 	await getComment();
 
-	checkedComment();
+	await checkedComment();
 
 	document.body.style.display = 'block';
 });
@@ -100,7 +100,6 @@ async function getComment() {
             `;
 		}
 	});
-	console.log(result);
 	postComment(result);
 }
 

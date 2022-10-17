@@ -6,7 +6,6 @@ import fetch from 'cross-fetch';
 import { UsersInput } from '../util/models';
 import jsonfile from 'jsonfile';
 import crypto from 'crypto';
-import { dev } from '../app';
 
 export const loginRoutes = express.Router();
 
@@ -20,9 +19,6 @@ loginRoutes.get('/google', loginGoogle);
 async function checkSessionLogin(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-		if (dev) { // 盡量唔好咁做，因為有機會，你唔小心set 咗係 true
-			req.session.user = -1;
-		}
 		if (req.session.user) {
 			const loginUser = (await client.query(`SELECT * FROM users WHERE id = $1`, [req.session.user])).rows[0];
 			if (loginUser) {

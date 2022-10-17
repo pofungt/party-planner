@@ -1,74 +1,81 @@
-import { loadCreateEvents, loadParticipateEvents, currentParticipantsList, loadParticipantsModal } from '/loadEvent.js';
+import {
+	loadCreateEvents,
+	loadParticipateEvents,
+	currentParticipantsList,
+	loadParticipantsModal
+} from './loadEvent.js';
 
 function onlyNumbers(str) {
 	return /^[0-9]+$/.test(str);
 }
 
 export function listenCreateButtons() {
-	document.querySelector('.create .next-round').addEventListener('click', async () => {
+	document.querySelector('.create .next-round').addEventListener('click', async (e) => {
+		e.stopImmediatePropagation();
 		const params = new URLSearchParams(window.location.search);
 		let page = '2';
 
-		if (!params.has('createPage')) {
-			await loadCreateEvents(page);
+		if (!params.has('create-page')) {
+			page = await loadCreateEvents(page);
 		} else {
-			if (onlyNumbers(params.get('createPage'))) {
-				if (parseInt(params.get('createPage')) >= 1) {
-					page = (parseInt(params.get('createPage')) + 1).toString();
+			if (onlyNumbers(params.get('create-page'))) {
+				if (parseInt(params.get('create-page')) >= 1) {
+					page = (parseInt(params.get('create-page')) + 1).toString();
 					page = await loadCreateEvents(page);
 				} else {
 					page = '1';
-					await loadCreateEvents(page);
+					page = await loadCreateEvents(page);
 				}
 			} else {
 				page = '1';
-				await loadCreateEvents(page);
+				page = await loadCreateEvents(page);
 			}
 		}
 
-		if (!params.has('participatePage')) {
-			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?createPage=${page}`);
+		if (!params.has('participate-page')) {
+			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?create-page=${page}`);
 		} else {
-			const participatePage = params.get('participatePage');
+			const participatePage = params.get('participate-page');
 			history.pushState(
 				{},
 				'Dashboard',
-				`http://localhost:8080/index.html?createPage=${page}&participatePage=${participatePage}`
+				`http://localhost:8080/index.html?create-page=${page}&participate-page=${participatePage}`
 			);
 		}
 
 		listenCreateButtons();
 	});
 
-	document.querySelector('.create .previous-round').addEventListener('click', async () => {
+	document.querySelector('.create .previous-round').addEventListener('click', async (e) => {
+		e.stopImmediatePropagation();
 		const params = new URLSearchParams(window.location.search);
 		let page = '1';
 
-		if (!params.has('createPage')) {
-			await loadCreateEvents(page);
+		if (!params.has('create-page')) {
+			page = await loadCreateEvents(page);
 		} else {
-			if (onlyNumbers(params.get('createPage'))) {
-				if (parseInt(params.get('createPage')) >= 2) {
-					page = (parseInt(params.get('createPage')) - 1).toString();
+			if (onlyNumbers(params.get('create-page'))) {
+				if (parseInt(params.get('create-page')) >= 2) {
+					page = (parseInt(params.get('create-page')) - 1).toString();
 					page = await loadCreateEvents(page);
 				} else {
 					page = '1';
-					await loadCreateEvents(page);
+					page = await loadCreateEvents(page);
 				}
 			} else {
 				page = '1';
-				await loadCreateEvents(page);
+				page = await loadCreateEvents(page);
 			}
 		}
 
-		if (!params.has('participatePage')) {
-			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?createPage=${page}`);
+		if (!params.has('participate-page')) {
+			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?create-page=${page}`);
 		} else {
-			const participatePage = params.get('participatePage');
+			const participatePage = params.get('participate-page');
 			history.pushState(
 				{},
 				'Dashboard',
-				`http://localhost:8080/index.html?createPage=${page}&participatePage=${participatePage}`
+				`http://localhost:8080/index.html?create-page=${page}&participate-page=${participatePage}`
 			);
 		}
 
@@ -77,70 +84,72 @@ export function listenCreateButtons() {
 }
 
 export function listenParticipateButtons() {
-	document.querySelector('.participate .next-round').addEventListener('click', async () => {
+	document.querySelector('.participate .next-round').addEventListener('click', async (e) => {
+		e.stopImmediatePropagation();
 		const params = new URLSearchParams(window.location.search);
 		let page = '2';
 
-		if (!params.has('participatePage')) {
-			await loadParticipateEvents(page);
+		if (!params.has('participate-page')) {
+			page = await loadParticipateEvents(page);
 		} else {
-			if (onlyNumbers(params.get('participatePage'))) {
-				if (parseInt(params.get('participatePage')) >= 1) {
-					page = (parseInt(params.get('participatePage')) + 1).toString();
+			if (onlyNumbers(params.get('participate-page'))) {
+				if (parseInt(params.get('participate-page')) >= 1) {
+					page = (parseInt(params.get('participate-page')) + 1).toString();
 					page = await loadParticipateEvents(page);
 				} else {
 					page = '1';
-					await loadParticipateEvents(page);
+					page = await loadParticipateEvents(page);
 				}
 			} else {
 				page = '1';
-				await loadParticipateEvents(page);
+				page = await loadParticipateEvents(page);
 			}
 		}
 
-		if (!params.has('createPage')) {
-			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?participatePage=${page}`);
+		if (!params.has('create-page')) {
+			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?participate-page=${page}`);
 		} else {
-			const createPage = params.get('createPage');
+			const createPage = params.get('create-page');
 			history.pushState(
 				{},
 				'Dashboard',
-				`http://localhost:8080/index.html?createPage=${createPage}&participatePage=${page}`
+				`http://localhost:8080/index.html?create-page=${createPage}&participate-page=${page}`
 			);
 		}
 
 		listenParticipateButtons();
 	});
 
-	document.querySelector('.participate .previous-round').addEventListener('click', async () => {
+	document.querySelector('.participate .previous-round').addEventListener('click', async (e) => {
+		e.stopImmediatePropagation();
 		const params = new URLSearchParams(window.location.search);
 		let page = '1';
 
-		if (!params.has('participatePage')) {
-			await loadParticipateEvents(page);
+		if (!params.has('participate-page')) {
+			page = await loadParticipateEvents(page);
 		} else {
-			if (onlyNumbers(params.get('participatePage'))) {
-				if (parseInt(params.get('participatePage')) >= 2) {
-					page = (parseInt(params.get('participatePage')) - 1).toString();
+			if (onlyNumbers(params.get('participate-page'))) {
+				if (parseInt(params.get('participate-page')) >= 2) {
+					page = (parseInt(params.get('participate-page')) - 1).toString();
 					page = await loadParticipateEvents(page);
 				} else {
 					page = '1';
-					await loadParticipateEvents(page);
+					page = await loadParticipateEvents(page);
 				}
 			} else {
 				page = '1';
-				await loadParticipateEvents(page);
+				page = await loadParticipateEvents(page);
 			}
 		}
 
-		if (!params.has('createPage')) {
-			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?participatePage=${page}`);
+		if (!params.has('create-page')) {
+			history.pushState({}, 'Dashboard', `http://localhost:8080/index.html?participate-page=${page}`);
 		} else {
-			const createPage = params.get('createPage');
+			const createPage = params.get('create-page');
 			history.pushState(
 				{},
 				'Dashboard',
-				`http://localhost:8080/index.html?createPage=${createPage}&participatePage=${page}`
+				`http://localhost:8080/index.html?create-page=${createPage}&participate-page=${page}`
 			);
 		}
 

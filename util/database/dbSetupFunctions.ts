@@ -2,90 +2,62 @@ import pg from 'pg';
 import dotenv from 'dotenv';
 import jsonfile from 'jsonfile';
 import path from 'path';
-import { newJsonFile } from '../functions/newJsonFile';
-import { hashPassword } from '../functions/hash';
-import { UsersInput, DataParts, Users } from '../models';
-import { format } from 'date-fns';
 import crypto from 'crypto';
+import { hashPassword } from '../functions/hash';
+import { DataParts, Users } from '../models';
+import { format } from 'date-fns';
+import { logger } from '../logger';
 
-dotenv.config();
-
-const client = new pg.Client({
-	database: process.env.DB_NAME,
-	user: process.env.DB_USERNAME,
-	password: process.env.DB_PASSWORD
-});
-
-// lazy should call the function the files on the side.
-
-let newUsersNumber: number = 100;
-let usersNewObjList: UsersInput[] = [];
-let counter = 0;
-let loopTimes: number = 1;
-let eventId: number = 1;
-let participantAmount: number = 100;
-
-async function test() {
-	const [usersDB] = (await client.query(`SELECT * FROM users;`)).rows;
-	// If empty table
-	if (!usersDB) {
-		const first_name = 'Gordon';
-		const last_name = 'Lau';
-		const email = 'gordonlau@tecky.io';
-		const phone = '647-111-1111';
-		const testPassword = await hashPassword('test');
-		await client.query(
-			`INSERT INTO users 
-      (id,first_name,last_name,email,phone,password,created_at,updated_at) 
-      VALUES (-1,$1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-			[first_name, last_name, email, phone, testPassword]
-		);
-
-		const userObj: UsersInput = {
-			first_name,
-			last_name,
-			email,
-			phone,
-			password: 'test'
-		};
-		// Push new user object to json for writing in users.json later
-		usersNewObjList.push(userObj);
-	}
+function randomDate(start: Date, days: number): Date {
+	const startTime = start.getTime();
+	const minusTime = startTime - days * 86_400_000;
+	const plusTime = startTime + days * 86_400_000;
+	return new Date(minusTime + Math.random() * (plusTime - minusTime));
 }
 
 function randomIntFromInterval(min: number, max: number): number {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-async function main() {
+export async function clearDB() {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
 	await client.connect();
 
-	const [tableCount] = (
-		await client.query(`
-        select count(*)
-        from information_schema.tables
-        where table_schema = 'public';
-    `)
-	).rows;
+	await client.query(`
+    DROP TABLE event_date_time_votes;
+    DROP TABLE event_date_time;
+    DROP TABLE event_venues_votes;
+    DROP TABLE event_venues;
+    DROP TABLE comments;
+    DROP TABLE time_block_item;
+    DROP TABLE time_blocks;
+    DROP TABLE items;
+    DROP TABLE participants;
+    DROP TABLE events;
+    DROP TABLE users;
+    `);
 
-	if (parseInt(tableCount.count)) {
-		// clearDB
-		await client.query(`
-            DROP TABLE event_date_time_votes;
-            DROP TABLE event_date_time;
-            DROP TABLE event_venues_votes;
-            DROP TABLE event_venues;
-            DROP TABLE comments;
-            DROP TABLE time_block_item;
-            DROP TABLE time_blocks;
-            DROP TABLE items;
-            DROP TABLE participants;
-            DROP TABLE events;
-            DROP TABLE users;
-        `);
-	}
+	await client.end();
+}
 
-	// initDB
+export async function initDB() {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
+
 	await client.query(`CREATE TABLE users (
         id SERIAL primary key,
         first_name varchar not NULL,
@@ -111,12 +83,12 @@ async function main() {
         remark varchar,
         creator_id int not NULL,
         invitation_token varchar not NULL,
-		deleted boolean not NULL,
-        created_at timestamp not NULL,
-		date_poll_created boolean not NULL,
+        deleted boolean not NULL,
+        date_poll_created boolean not NULL,
 		date_poll_terminated boolean not NULL,
 		venue_poll_created boolean not NULL,
 		venue_poll_terminated boolean not NULL,
+        created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (creator_id) REFERENCES users(id)
     );
@@ -169,7 +141,7 @@ async function main() {
         id SERIAL primary key,
         item_id int not NULL,
         time_block_id int not NULL,
-		quantity int,
+        quantity int,
         created_at timestamp not NULL,
         updated_at timestamp not NULL,
         FOREIGN KEY (item_id) REFERENCES items(id),
@@ -229,17 +201,41 @@ async function main() {
         FOREIGN KEY (user_id) REFERENCES users(id)
     );`);
 
-	// regUsers 100
-	// Create users.json file if not exist
-	await newJsonFile();
+	client.end();
+}
+
+export async function regUsers(newUsersAmount: number) {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
 
 	// Insert test user when DB is empty
-	await test();
+	const [usersDB] = (await client.query(`SELECT * FROM users WHERE id = -1;`)).rows;
+	if (!usersDB) {
+		const first_name = 'Gordon';
+		const last_name = 'Lau';
+		const email = 'gordonlau@tecky.io';
+		const phone = '647-111-1111';
+		const testPassword = await hashPassword('test');
+		await client.query(
+			`INSERT INTO users 
+			(id,first_name,last_name,email,phone,password,created_at,updated_at) 
+			VALUES (-1,$1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+			[first_name, last_name, email, phone, testPassword]
+		);
+	}
 
 	// Read random data parts for data assembling
 	let parts: DataParts = await jsonfile.readFile(path.join(__dirname, '/data/dataParts.json'));
 
-	while (counter < newUsersNumber) {
+	let counter = 0;
+	while (counter < newUsersAmount) {
 		// Names
 		const first_name: string = parts['firstName'][Math.floor(Math.random() * parts['firstName'].length)];
 		const last_name: string = parts['lastName'][Math.floor(Math.random() * parts['lastName'].length)];
@@ -251,7 +247,7 @@ async function main() {
 		const phone: string = `${phoneAreaCode}-${Math.random()
 			.toString()
 			.concat('0'.repeat(3))
-			.substr(2, 3)}-${Math.random().toString().concat('0'.repeat(3)).substr(2, 4)}`;
+			.substring(2, 3)}-${Math.random().toString().concat('0'.repeat(3)).substring(2, 4)}`;
 		// Password
 		const password: string = 'test';
 		const hashedPassword = await hashPassword(password);
@@ -265,26 +261,30 @@ async function main() {
         VALUES ($1,$2,$3,$4,$5,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 				[first_name, last_name, email, phone, hashedPassword]
 			);
-			const userObj: UsersInput = {
-				first_name,
-				last_name,
-				email,
-				phone,
-				password
-			};
-			// Push new user object to json for writing in users.json later
-			usersNewObjList.push(userObj);
 			counter++;
 		}
 	}
 
-	// Writing into users.json
-	await jsonfile.writeFile(path.join(__dirname, '/data/users.json'), usersNewObjList, { spaces: '\t' });
+	client.end();
+}
 
-	// createEvents 1
+export async function createEvents(eventNumbers: number) {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
+
+	// Read random data parts for data assembling
+	let parts: DataParts = await jsonfile.readFile(path.join(__dirname, '/data/dataParts.json'));
+
 	// Obtain users info for event creation for each user
 	let users: Users[] = (await client.query(`SELECT * FROM users;`)).rows;
-	for (let i = 0; i < loopTimes; i++) {
+	for (let i = 0; i < eventNumbers; i++) {
 		for (const user of users) {
 			// Party name
 			const partyReason: string = parts['partyReason'][Math.floor(Math.random() * parts['partyReason'].length)];
@@ -297,7 +297,7 @@ async function main() {
 			const budget: number = (Math.floor(Math.random() * 10) + 1) * 1000;
 
 			// Date
-			const date: string = format(new Date(new Date().getTime() + 30 * 86_400_000), 'yyyy/MM/dd');
+			const date: string = format(randomDate(new Date(), 100), 'yyyy/MM/dd');
 			const userDetail = (await client.query(`SELECT * FROM users WHERE email = $1;`, [user.email])).rows[0];
 			// Time
 			const start_time: string = `${randomIntFromInterval(12, 17)}:${Math.random() > 0.5 ? '00' : '30'}`;
@@ -349,93 +349,233 @@ async function main() {
 		}
 	}
 
-	// addparticipants 1 100
-	// Get creator ID of the event (need to exclude)
-	const [creatorUserObj] = (
-		await client.query(
-			`
-        SELECT creator_id FROM events WHERE id = $1;
-    `,
-			[eventId]
-		)
-	).rows;
+	client.end();
+}
 
-	if (!creatorUserObj) {
-		throw new Error(`No such event (event id: ${eventId})!`);
-	}
+export async function joinEvents(eventsJoinedPerUser: number) {
+	dotenv.config();
 
-	const creatorUser: number = creatorUserObj.creator_id;
-
-	// Get participant ID of the event (need to exclude)
-	const participantsObj: { [key: string]: number }[] = (
-		await client.query(
-			`
-        SELECT user_id FROM participants
-        WHERE event_id = $1;
-    `,
-			[eventId]
-		)
-	).rows;
-	const participants = participantsObj.map((each) => {
-		return each.user_id;
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
 	});
 
-	// Obtain users info for event creation for each user (excluding creator)
-	const userIdListRawObj: { [key: string]: number }[] = (
+	await client.connect();
+
+	const eventsParticipantsRelations = (
 		await client.query(
-			`
-        SELECT id FROM users 
-        WHERE id != $1;
-    `,
-			[creatorUser]
+			`SELECT DISTINCT events.id as event_id, 
+                            events.creator_id, 
+                            participants.user_id as participants_id 
+            FROM events
+		    LEFT JOIN participants ON events.id = participants.event_id
+            ORDER BY events.id, participants.user_id;
+		`
 		)
 	).rows;
-
-	const userIdListRaw: number[] = userIdListRawObj.map((each) => {
-		return each.id;
-	});
-	const participantsSet = new Set(participants);
-	const userIdList = userIdListRaw.filter((userId) => {
-		return !participantsSet.has(userId);
-	});
-	const userIdListCopy = [...userIdList];
-
-	const p_loopTimes: number = Math.min(userIdList.length, participantAmount);
-
-	for (let i = 0; i < p_loopTimes; i++) {
-		const usersIndex: number = Math.floor(Math.random() * userIdList.length);
-		const [userId] = userIdList.splice(usersIndex, 1);
-		await client.query(
-			`INSERT INTO participants 
-                  (event_id,user_id,created_at,updated_at) 
-                  VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
-			[eventId, userId]
-		);
-	}
-
-	// addItems
-	let types = ['food', 'drink', 'decoration', 'other'];
-	for (let type of types) {
-		for (let i = 0; i < parts[type].length; i++) {
-			await client.query(
-				`
-                INSERT INTO items 
-                (name, purchased, type_name,  event_id, user_id, quantity, price, created_at, updated_at)
-                VALUES ($1, $2 ,$3, 1, $4, $5, $6, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-            `,
-				[
-					parts[type][i],
-					Math.random() > 0.5,
-					type,
-					userIdListCopy.splice(0, 1)[0],
-					Math.floor(Math.random() * 20),
-					Math.floor(Math.random() * 1000)
-				]
-			);
+	let usersOfEventsList:
+		| {
+				(keys: number): {
+					creator_id: number;
+					participants_id: number[] | null[];
+				};
+		  }
+		| {} = {};
+	for (let relation of eventsParticipantsRelations) {
+		if (!(relation.event_id in usersOfEventsList)) {
+			usersOfEventsList[relation.event_id] = {
+				creator_id: relation.creator_id,
+				participants_id: relation.participants_id ? [relation.participants_id] : []
+			};
+		} else {
+			usersOfEventsList[relation.event_id]['participants_id'].push(relation.participants_id);
 		}
 	}
 
-	await client.end();
+	let usersIdList = (await client.query(`SELECT id FROM users;`)).rows;
+	for (let userId of usersIdList) {
+		let eventsJoined = 0;
+		for (const eventId in usersOfEventsList) {
+			const usersInfoInEvent = usersOfEventsList[eventId];
+			if (usersInfoInEvent.creator_id !== userId.id && !usersInfoInEvent.participants_id.includes(userId.id)) {
+				await client.query(
+					`
+                    INSERT INTO participants (event_id, user_id, created_at, updated_at)
+                    VALUES ($1, $2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+                `,
+					[eventId, userId.id]
+				);
+				eventsJoined++;
+			}
+
+			if (eventsJoined === eventsJoinedPerUser) {
+				break;
+			}
+		}
+	}
+	client.end();
 }
 
-main();
+export async function addParticipants(eventId: number, participantsAmount: number) {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
+	try {
+		// Get creator ID of the event (need to exclude)
+		const [creatorUserObj] = (
+			await client.query(
+				`
+        SELECT creator_id FROM events WHERE id = $1;
+    `,
+				[eventId]
+			)
+		).rows;
+
+		if (!creatorUserObj) {
+			throw new Error(`No such event (event id: ${eventId})!`);
+		}
+
+		const creatorUser: number = creatorUserObj.creator_id;
+
+		// Get participant ID of the event (need to exclude)
+		const participantsObj: { [key: string]: number }[] = (
+			await client.query(
+				`
+        SELECT user_id FROM participants
+        WHERE event_id = $1;
+    `,
+				[eventId]
+			)
+		).rows;
+		const participants = participantsObj.map((each) => {
+			return each.user_id;
+		});
+
+		// Obtain users info for event creation for each user (excluding creator)
+		const userIdListRawObj: { [key: string]: number }[] = (
+			await client.query(
+				`
+        SELECT id FROM users 
+        WHERE id != $1;
+    `,
+				[creatorUser]
+			)
+		).rows;
+
+		const userIdListRaw: number[] = userIdListRawObj.map((each) => {
+			return each.id;
+		});
+		const participantsSet = new Set(participants);
+		const userIdList = userIdListRaw.filter((userId) => {
+			return !participantsSet.has(userId);
+		});
+
+		const loopTimes: number = Math.min(userIdList.length, participantsAmount);
+
+		for (let i = 0; i < loopTimes; i++) {
+			const usersIndex: number = Math.floor(Math.random() * userIdList.length);
+			const [userId] = userIdList.splice(usersIndex, 1);
+			await client.query(
+				`INSERT INTO participants 
+                  (event_id,user_id,created_at,updated_at) 
+                  VALUES ($1,$2,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
+				[eventId, userId]
+			);
+		}
+	} catch (e) {
+		logger.error(e);
+	}
+	client.end();
+}
+
+export async function addItems(eventId: number) {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
+	try {
+		// Read random data parts for data assembling
+		let parts: DataParts = await jsonfile.readFile(path.join(__dirname, '/data/dataParts.json'));
+
+		// Get participant ID of the event (need to exclude)
+		const participantsObj: { [key: string]: number }[] = (
+			await client.query(
+				`
+            SELECT user_id FROM participants
+            WHERE event_id = $1;
+        `,
+				[eventId]
+			)
+		).rows;
+		const participants = participantsObj.map((each) => {
+			return each.user_id;
+		});
+
+		// addItems
+		let types = ['food', 'drink', 'decoration', 'other'];
+		for (let type of types) {
+			for (let i = 0; i < parts[type].length; i++) {
+				await client.query(
+					`
+                    INSERT INTO items 
+                    (name, purchased, type_name,  event_id, user_id, quantity, price, created_at, updated_at)
+                    VALUES ($1, $2 ,$3, $4, $5, $6, $7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+                `,
+					[
+						parts[type][i],
+						Math.random() > 0.5,
+						type,
+						eventId,
+						participants.splice(0, 1)[0],
+						Math.floor(Math.random() * 20),
+						Math.floor(Math.random() * 1000)
+					]
+				);
+			}
+		}
+	} catch (e) {
+		logger.error(e);
+	}
+	client.end();
+}
+
+export async function truncateDB() {
+	dotenv.config();
+
+	const client = new pg.Client({
+		database: process.env.DB_NAME,
+		user: process.env.DB_USERNAME,
+		password: process.env.DB_PASSWORD
+	});
+
+	await client.connect();
+
+	await client.query(`
+    DELETE FROM event_date_time_votes;
+    DELETE FROM event_date_time;
+    DELETE FROM event_venues_votes;
+    DELETE FROM event_venues;
+    DELETE FROM comments;
+    DELETE FROM time_block_item;
+    DELETE FROM time_blocks;
+    DELETE FROM items;
+    DELETE FROM participants;
+    DELETE FROM events;
+    DELETE FROM users;
+    `);
+
+	client.end();
+	jsonfile.writeFile(path.join(__dirname, '/data/users.json'), []);
+}

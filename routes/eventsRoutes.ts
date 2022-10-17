@@ -3,12 +3,13 @@ import { client } from '../app';
 import { Events } from '../util/models';
 import { onlyNumbers } from '../util/functions/onlyNumbers';
 import { logger } from '../util/logger';
-import { isLoggedInAPI } from '../util/guard';
+import { isLoggedInAPI, isLoggedInInvitation } from '../util/guard';
 import { eventDetailsRoutes } from './eventDetailsRoutes';
 import { venuePollRoutes } from './venuePollRoutes';
 import { datetimePollRoutes } from './datetimePollRoutes';
 
 import crypto from 'crypto';
+import { eventInvitationRoutes } from './eventInvitationRoutes';
 
 export const eventsRoutes = express.Router();
 
@@ -17,9 +18,10 @@ eventsRoutes.get('/participated', isLoggedInAPI, getParticipateEventList);
 eventsRoutes.post('/', isLoggedInAPI, postEvent);
 eventsRoutes.delete('/:eventId', isLoggedInAPI, deleteEvent);
 eventsRoutes.delete('/participants/:eventId', isLoggedInAPI, deleteParticipants);
-eventsRoutes.use('/detail', eventDetailsRoutes);
-eventsRoutes.use('/poll/venue', venuePollRoutes);
-eventsRoutes.use('/poll/datetime', datetimePollRoutes);
+eventsRoutes.use('/detail', isLoggedInAPI, eventDetailsRoutes);
+eventsRoutes.use('/invitation', isLoggedInInvitation, eventInvitationRoutes);
+eventsRoutes.use('/poll/venue', isLoggedInAPI, venuePollRoutes);
+eventsRoutes.use('/poll/datetime', isLoggedInAPI, datetimePollRoutes);
 
 // getCreatedEvents
 async function getCreateEventList(req: Request, res: Response) {
@@ -29,7 +31,7 @@ async function getCreateEventList(req: Request, res: Response) {
 			await client.query(`SELECT COUNT(*) FROM events WHERE creator_id = $1 `, [req.session.user || 0])
 		).rows;
 		const columnCount = parseInt(columnCountObject.count);
-		let currentPage = req.query.page + "";
+		let currentPage = req.query.page + '';
 		let offset: number = onlyNumbers(currentPage) ? (parseInt(currentPage) - 1) * 10 : 0;
 		if (!columnCount) {
 			currentPage = '1';
@@ -112,7 +114,7 @@ async function postEvent(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
 		// uuid also possible
-		// validation logic 
+		// validation logic
 		const invitation_token = crypto.randomBytes(64).toString('hex');
 		await client.query(
 			`INSERT INTO  events 
@@ -161,20 +163,23 @@ async function deleteParticipants(req: Request, res: Response) {
 		`,
 				[req.session.user, eventId]
 			)
-
 		).rows;
-		const deletedParticipants:{id:number}[]  = req.body.deletedParticipants
+		const deletedParticipants: { id: number }[] = req.body.deletedParticipants;
 		if (eventDetail) {
-			const participantsWithItemAssigned =  await client.query(`
+			const participantsWithItemAssigned = await client.query(
+				`
 				SELECT user_id FROM items
 				WHERE user_id = ANY($1::int[])
-			`, [deletedParticipants.map(p=>p.id)])
-			console.log(participantsWithItemAssigned)
+			`,
+				[deletedParticipants.map((p) => p.id)]
+			);
+			console.log(participantsWithItemAssigned);
 			// Removed all of the ids from participantsWithItemAssigned
 			// Then run delete
 
 			let notDeletable = [];
-			for (let deletedParticipant of req.body) { // n + 1 problem
+			for (let deletedParticipant of req.body) {
+				// n + 1 problem
 				const itemInCharge = (
 					await client.query(
 						`
@@ -213,7 +218,6 @@ async function deleteParticipants(req: Request, res: Response) {
 	}
 }
 
-
 // Archived
 async function deleteEvent(req: Request, res: Response) {
 	try {
@@ -230,7 +234,7 @@ async function deleteEvent(req: Request, res: Response) {
 			)
 		).rows;
 		if (eventDetail) {
-			// Marked Delete 
+			// Marked Delete
 			await client.query(
 				`
 				UPDATE events SET deleted = TRUE
