@@ -148,15 +148,43 @@ async function getEventSchedule() {
 	}
 
 	addTimeInput(startHour, startMin, endHour, endMin);
-	await getPresetTimeBlock(startTimeInMin);
-	await getSavedTimeBlocks(activitiesArr);
-	await correctDiv(startTimeInMin, endTimeInMin);
+	getPresetTimeBlock(startTimeInMin);
+	getSavedTimeBlocks(activitiesArr);
+	correctDiv(startTimeInMin, endTimeInMin);
 	await getMemo(activitiesArr, itemList, savedItemList);
 	submitEditTimeName(startTimeInMin, endTimeInMin);
 
 	// Add backward button
 	document.querySelector('#back-page').href = `/eventSummary/event.html?event-id=${eventId}&is-creator=${isCreator}`;
 }
+
+async function getPresetTimeBlock(startTime) {
+	let rundown = document.querySelector('#rundown');
+
+	//generate time block for 24 hours
+	for (let i = 0; i < 96; i++) {
+		let start = i * 15;
+		let end = (i + 1) * 15;
+		const timeString = minToTimeString(start);
+		const height = end - start;
+		rundown.innerHTML += `
+                    <div id="time-block-container-${start}" start="${start}" end="${end}" class="individual-time-block row">
+                        <span id="time-stamp-box" class="time-stamp-container col-sm-2">
+                            <div id="stamp-${start}" class="time-stamp">${timeString}</div>
+                        </span>
+                        <span id="time-block-${start}" start="${start}" end="${end}" class="time-block col-sm-10"></span>
+                    </div>    
+                `;
+		document.querySelector(`#time-block-${start}`).style.height = `${height}px`;
+	}
+
+	//set scroll bar top
+	document.querySelector('#date-selector').value;
+	document.querySelector(`#time-block-${startTime}`).innerHTML = 'Event Start Time';
+	const scrollBarDiv = document.querySelector('#rundown-container');
+	scrollBarDiv.scrollTop = document.querySelector(`#time-block-${startTime}`).offsetTop;
+}
+
 
 async function getMemo(activitiesArr, itemList, savedItemList) {
 	const timeBlocks = document.querySelectorAll('.save-time-block');
@@ -771,12 +799,17 @@ function submitEditItem() {
 		const formOtherList = form['other'];
 		const formDrinkList = form['drink'];
 
+		console.log(formFoodList)
+
 		let checkedFoodList = [];
 		formFoodList.forEach((food) => {
 			if (food.checked === true) {
 				checkedFoodList.push(food.getAttribute('value'));
 			}
 		});
+
+		console.log(checkedFoodList)
+
 
 		let checkedDrinkList = [];
 		formDrinkList.forEach((drink) => {
