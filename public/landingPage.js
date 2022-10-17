@@ -14,7 +14,7 @@ window.addEventListener('load', async () => {
 	document.body.style.display = 'block';
 });
 
-document.querySelector('#login-form-submit').addEventListener('click', async function (event) {
+async function loginFormSubmission() {
 	const userEmail = document.querySelector('#user-email').value;
 	const userPassword = document.querySelector('#user-password').value;
 	if (userEmail !== '' && userPassword !== '') {
@@ -43,7 +43,15 @@ document.querySelector('#login-form-submit').addEventListener('click', async fun
 			alert('Unable to login!');
 		}
 	}
-});
+}
+
+document.querySelector('#login-form-submit').addEventListener('click', ()=>{loginFormSubmission()});
+document.querySelector("#user-password").addEventListener("keypress", (event)=> {
+    if (event.key === "Enter") {
+      event.preventDefault();
+	  loginFormSubmission();
+    }
+  });
 
 document.querySelector('.register-form').addEventListener('submit', async function (e) {
 	e.preventDefault();
