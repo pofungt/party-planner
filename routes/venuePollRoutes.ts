@@ -26,28 +26,36 @@ async function getPollOptions(req: Request, res: Response) {
 
 		if (eventDetail) {
 			if (eventDetail.venue_poll_created) {
-				// event_venues should join event_venues_votes
-				const pollOptions = (
-					await client.query(
-						`
-					SELECT * FROM event_venues WHERE event_id = $1;
+				const pollNew = (await client.query(`
+				SELECT event_venues.id as option_id, 
+						event_venues.address as address,
+						event_venues_votes.id as votes_id
+						FROM event_venues
+				LEFT JOIN event_venues_votes ON event_venues_votes.event_venues_id = event_venues.id
+				WHERE event_venues.event_id = $1;
 				`,
-						[eventId]
-					)
-				).rows;
-				let voteCounts = {};
-				for (let pollOption of pollOptions) {
-					// n + 1 query problem
-					const [voteCount] = (
-						await client.query(
-							`
-						SELECT COUNT(*) FROM event_venues_votes
-						WHERE event_venues_id = $1;
-					`,
-							[pollOption.id]
-						)
-					).rows;
-					voteCounts[pollOption.id] = voteCount;
+				[eventId]
+				)).rows;
+				let pollOptions: {
+					id: number,
+					address: string
+				}[] = [];
+				let voteCounts:{
+					[keys in number]: {
+						count: number
+					}
+				} = {};
+				for (let eachVote of pollNew) {
+					if (!pollOptions.find((obj)=>obj.id === eachVote.option_id)) {
+						pollOptions.push({
+							id: eachVote.option_id,
+							address: eachVote.address
+						});
+						voteCounts[eachVote.option_id] = {count: 0};
+					}
+					if (eachVote.votes_id) {
+						voteCounts[eachVote.option_id].count ++;
+					}
 				}
 				res.json({
 					status: true,
