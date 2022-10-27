@@ -43,11 +43,5 @@ window.addEventListener('load', async () => {
 		}
 	}
 
-	history.pushState(
-		{},
-		'Dashboard',
-		`http://localhost:8080/index.html?create-page=${createPage}&participate-page=${participatePage}`
-	);
-
 	document.body.style.display = 'block';
 });
