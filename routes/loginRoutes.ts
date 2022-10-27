@@ -3,8 +3,6 @@ import { logger } from '../util/logger';
 import { client } from '../app';
 import { checkPassword } from '../util/functions/hash';
 import fetch from 'cross-fetch';
-import { UsersInput } from '../util/models';
-import jsonfile from 'jsonfile';
 import crypto from 'crypto';
 
 export const loginRoutes = express.Router();
@@ -115,17 +113,6 @@ async function loginGoogle(req: express.Request, res: express.Response) {
 
 		console.log(`User with id ${user.id} is created`);
 
-		let UsersList: UsersInput[] = await jsonfile.readFile('./util/database/data/users.json');
-
-		const newUsersList = UsersList.filter((old) => {
-			return old.email !== user.email;
-		});
-
-		newUsersList.push(user);
-
-		await jsonfile.writeFile('./util/database/data/users.json', newUsersList, {
-			spaces: '\t'
-		});
 	}
 
 	if (req.session) {
