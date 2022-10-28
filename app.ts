@@ -43,7 +43,7 @@ declare module 'express-session' {
 
 const grantExpress = grant.express({
 	defaults: {
-		origin: 'https://frankieyip.world',
+		origin: 'http://localhost:8080',
 		transport: 'session',
 		state: true
 	},
