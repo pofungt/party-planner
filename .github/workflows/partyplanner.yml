@@ -28,7 +28,8 @@ jobs:
       with:
         command: |
           cd party-planner
-          git pull frankie frankie
+          git checkout frankie
+          git pull
           npm install
           forever restart -c 'npm start' .
         host: partyplanner.frankieyip.world
