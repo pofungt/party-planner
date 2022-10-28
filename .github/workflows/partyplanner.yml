@@ -35,6 +35,7 @@ jobs:
       uses: fifsky/ssh-action@master
       with:
         command: |
+          cd party-planner
           git pull frankie
           npm install
           forever restart -c 'npm start' .
