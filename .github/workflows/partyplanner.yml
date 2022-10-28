@@ -11,17 +11,9 @@ env:
   DB_PASSWORD: PartyPlanner!!
 
 jobs:
-  testing:
+  build:
     runs-on: ubuntu-latest
     container: node:latest
-    services:
-      postgres:
-        image: postgres
-        env: 
-          DB_NAME: ${{env.DB_NAME}}
-          DB_PASSWORD: ${{env.DB_PASSWORD}}
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -29,7 +21,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: testing
+    needs: build
     steps:
     - name: ssh to pull latest version
       uses: fifsky/ssh-action@master
