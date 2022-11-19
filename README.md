@@ -1,3 +1,8 @@
+# Party Planner
+
+A planner app that helps party organizers to manage party details and members.
+Users can create event, start polls on date/venue, invite participants, manage event timetable, organize item list and assign participants to prepare the items.
+
 # Database Guide
 
 All database seeding script files are stored in '/util/database/seedingFunctions'
