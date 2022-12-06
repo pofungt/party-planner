@@ -118,27 +118,20 @@ async function postEvent(req: Request, res: Response) {
 		const invitation_token = crypto.randomBytes(64).toString('hex');
 		await client.query(
 			`INSERT INTO  events 
-                (name, venue, indoor, outdoor, parking_lot, 
-                lot_number, remark, start_datetime, end_datetime, budget, 
+                (name, venue, start_datetime, end_datetime, 
                 creator_id, invitation_token, deleted, 
 				date_poll_created,
 				date_poll_terminated,
 				venue_poll_created,
 				venue_poll_terminated,
 				created_at, updated_at) 
-            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,FALSE,FALSE,FALSE,FALSE,FALSE,
+            VALUES ($1,$2,$3,$4,$5,$6,FALSE,FALSE,FALSE,FALSE,FALSE,
 				CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`,
 			[
 				req.body.eventName,
 				req.body.eventVenue,
-				req.body.indoor === true, // Guarantee the value is boolean
-				req.body.outdoor,
-				req.body.parkingLot,
-				req.body.lotNumber,
-				req.body.eventRemark,
-				req.body.startTime, // They are actually string here.
+				req.body.startTime,
 				req.body.endTime,
-				req.body.eventBudget,
 				req.session.user,
 				invitation_token
 			]
