@@ -113,11 +113,9 @@ async function getParticipateEventList(req: Request, res: Response) {
 async function postEvent(req: Request, res: Response) {
 	try {
 		logger.debug('Before reading DB');
-		// uuid also possible
-		// validation logic
 		const invitation_token = crypto.randomBytes(64).toString('hex');
 		await client.query(
-			`INSERT INTO  events 
+			`INSERT INTO events 
                 (name, venue, start_datetime, end_datetime, 
                 creator_id, invitation_token, deleted, 
 				date_poll_created,

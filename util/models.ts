@@ -2,14 +2,8 @@ export interface Events {
 	id: number;
 	name: string;
 	venue: string | null;
-	budget: number | null;
 	start_datetime: string | null;
 	end_datetime: string | null;
-	indoor: boolean;
-	outdoor: boolean;
-	parking_lot: boolean;
-	lot_number: number | null;
-	remark: string | null;
 	creator_id: number;
 	invitation_token: string;
 	deleted: boolean;
