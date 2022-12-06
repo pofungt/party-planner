@@ -73,14 +73,8 @@ export async function initDB() {
         id SERIAL primary key,
         name varchar not NULL,
         venue varchar,
-        budget int,
         start_datetime timestamptz,
         end_datetime timestamptz,
-        indoor boolean not NULL,
-        outdoor boolean not NULL,
-        parking_lot boolean not NULL,
-        lot_number int,
-        remark varchar,
         creator_id int not NULL,
         invitation_token varchar not NULL,
         deleted boolean not NULL,
@@ -293,8 +287,6 @@ export async function createEvents(eventNumbers: number) {
 			const venue: string = `${Math.floor(Math.random() * 999) + 1} ${
 				parts['streetName'][Math.floor(Math.random() * parts['streetName'].length)]
 			}`;
-			// Budget
-			const budget: number = (Math.floor(Math.random() * 10) + 1) * 1000;
 
 			// Date
 			const date: string = format(randomDate(new Date(), 100), 'yyyy/MM/dd');
@@ -306,14 +298,6 @@ export async function createEvents(eventNumbers: number) {
 			const start_datetime: string = new Date(`${date} ${start_time}`).toISOString();
 			const end_datetime: string = new Date(`${date} ${end_time}`).toISOString();
 
-			// indoor or outdoor
-			const indoor: boolean = Math.random() > 0.5 ? true : false;
-			const outdoor: boolean = Math.random() > 0.5 ? true : false;
-
-			// parking lot
-			const parkingLot: boolean = Math.random() > 0.5 ? true : false;
-			const lotNumber: number = parkingLot ? Math.floor(Math.random() * 10) : 0;
-
 			// Creator id
 			const creator_id: number = userDetail.id;
 
@@ -322,26 +306,20 @@ export async function createEvents(eventNumbers: number) {
 
 			await client.query(
 				`INSERT INTO events 
-                (name,venue,budget,start_datetime,end_datetime,
-					indoor,outdoor,parking_lot,lot_number,remark,
+                (name,venue,start_datetime,end_datetime,
 					creator_id,invitation_token,deleted,
 					date_poll_created,
 					date_poll_terminated,
 					venue_poll_created,
 					venue_poll_terminated,
 					created_at,updated_at) 
-                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,null,$10,$11,FALSE,FALSE,FALSE,FALSE,FALSE,
+                VALUES ($1,$2,$3,$4,$5,$6,FALSE,FALSE,FALSE,FALSE,FALSE,
 					CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);`,
 				[
 					name,
 					venue,
-					budget,
 					start_datetime,
 					end_datetime,
-					indoor,
-					outdoor,
-					parkingLot,
-					lotNumber,
 					creator_id,
 					invitation_token
 				]
