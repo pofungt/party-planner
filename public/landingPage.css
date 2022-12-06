@@ -200,7 +200,7 @@
 	align-content: center;
 }
 
-.modal-login {
+.modal-login, .modal-login:hover {
 	font-size: 14px;
 	color: #293241;
 	font-family: 'Lato', sans-serif;
@@ -211,6 +211,11 @@
 	width: 110px;
 	border: none;
 	box-shadow: 0px 1px 12px #f2d492;
+	text-decoration: none;
+}
+
+.modal-login:hover {
+	text-decoration: none;
 }
 
 .modal-header {
@@ -284,16 +289,6 @@
 
 .user-password .form-label {
 	color: #ee6c4d;
-}
-
-.google-login {
-	background: url('./asset/btn_google_signin_light_normal_web.png');
-	border: none;
-	background-repeat: no-repeat;
-	background-size: 100% 100%;
-	min-width: 200px;
-	min-height: 55px;
-	padding-bottom: 2px;
 }
 
 #or-separator {
