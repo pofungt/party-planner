@@ -30,7 +30,6 @@ const sessionMiddleware = expressSession({
 	resave: true,
 	saveUninitialized: true,
 	cookie: { secure: false, httpOnly: true }
-	// httpOnly 只容許將個cookie係ＨＴＴＰ　request，唔可以用JavaScript 改
 });
 
 declare module 'express-session' {
@@ -38,12 +37,10 @@ declare module 'express-session' {
 		user?: number;
 	}
 }
-// Better to be like this
-// user:{ id: number}
 
 const grantExpress = grant.express({
 	defaults: {
-		origin: 'https://partyplanner.frankieyip.world',
+		origin: 'https://partyplanner.duncantang.dev',
 		transport: 'session',
 		state: true
 	},
