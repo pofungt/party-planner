@@ -38,7 +38,7 @@ declare module 'express-session' {
 	}
 }
 
-const grantExpress = grant.express({
+const grantExpress: express.RequestHandler = grant.express({
 	defaults: {
 		origin: 'https://partyplanner.duncantang.dev',
 		transport: 'session',
@@ -48,11 +48,11 @@ const grantExpress = grant.express({
 		key: process.env.GOOGLE_CLIENT_ID || '',
 		secret: process.env.GOOGLE_CLIENT_SECRET || '',
 		scope: ['profile', 'email'],
-		callback: '/login/google' //3
+		callback: '/login/google'
 	}
 });
 
-app.use(express.json(), sessionMiddleware, express.static('public'), grantExpress as express.RequestHandler);
+app.use(express.json(), sessionMiddleware, express.static('public'), grantExpress);
 
 app.use('/login', loginRoutes);
 app.use('/register', registerRoutes);
